@@ -72,16 +72,6 @@
         android:layout_toRightOf="@+id/lbl_distancia"
         android:layout_toEndOf="@+id/lbl_distancia"
         android:layout_marginLeft="15dp" />
-    <fragment
-        android:id="@+id/map"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        class="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_below="@+id/txt_direccion"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="20dp" />
 
     <TextView
         android:layout_width="wrap_content"

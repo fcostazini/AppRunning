@@ -1,9 +1,11 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item
-        android:id="@+id/mnu_informacion"
-        android:orderInCategory="102"
-        android:icon="@drawable/ic_acerca_de"
-        android:title="@string/lbl_acerca_de"
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- Settings, should always be in the overflow -->
+    <item android:id="@+id/mnu_mis_datos"
+        android:title="@string/mis_datos"
+        android:icon="@drawable/ic_mis_datos"
+        android:showAsAction="ifRoom" />
+    <item android:id="@+id/mnu_filtros"
+        android:title="@string/action_settings"
+        android:icon="@drawable/ic_filtros"
         android:showAsAction="ifRoom" />
 </menu>

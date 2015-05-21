@@ -13,4 +13,14 @@
     <string name="comenzar">Comenzar</string>
     <string name="frenar">Frenar</string>
     <string name="editar">Editar</string>
+    <string name="mis_datos">Mis Datos</string>
+    <string name="filtros">Filtros</string>
+    <string name="title_activity_filtros">Filtros</string>
+    <string name="title_activity_carreras">Carreras</string>
+    <string name="title_activity_buscar">Buscar Carrera</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_detalle_carrera">Detalle</string>
+    <string name="title_activity_mis_datos">Mis Datos</string>
 </resources>

@@ -62,9 +62,10 @@ public class LoginActivity extends Activity implements View.OnClickListener,
         mPlusClient = new GoogleApiClient.Builder(this, this, this).addApi(Plus.API).
                 addScope(Plus.SCOPE_PLUS_LOGIN).addScope(Plus.SCOPE_PLUS_PROFILE).build();
         findViewById(R.id.sign_in_button).setOnClickListener(this);
-        // Se tiene que mostrar esta barra de progreso si no se resuelve el fallo de conexión.
+        // Se tiene que mostrar esta barra de progreso si no se resuelve el fallo de conexiï¿½n.
         mConnectionProgressDialog = new ProgressDialog(this);
         mConnectionProgressDialog.setMessage("Signing in...");
+
     }
 
     @Override
@@ -99,9 +100,9 @@ public class LoginActivity extends Activity implements View.OnClickListener,
     @Override
     public void onConnectionFailed(ConnectionResult result) {
         if (mConnectionProgressDialog.isShowing()) {
-            // El usuario ya ha hecho clic en el botón de inicio de sesión. Empezar a resolver
-            // errores de conexión. Esperar hasta onConnected() para ignorar el
-            // diálogo de conexión.
+            // El usuario ya ha hecho clic en el botï¿½n de inicio de sesiï¿½n. Empezar a resolver
+            // errores de conexiï¿½n. Esperar hasta onConnected() para ignorar el
+            // diï¿½logo de conexiï¿½n.
             mConnectionProgressDialog.dismiss();
             if (result.hasResolution()) {
                 try {
@@ -113,7 +114,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,
         }
 
         // Guarda el intento para que podamos empezar una actividad cuando el usuario haga clic
-        // en el botón de inicio de sesión.
+        // en el botï¿½n de inicio de sesiï¿½n.
         mConnectionResult = result;
     }
 
@@ -127,7 +128,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,
                 try {
                     mConnectionResult.startResolutionForResult(this, REQUEST_CODE_RESOLVE_ERR);
                 } catch (IntentSender.SendIntentException e) {
-                    // Intenta la conexión de nuevo.
+                    // Intenta la conexiï¿½n de nuevo.
                     mConnectionResult = null;
                     mPlusClient.connect();
                 }
