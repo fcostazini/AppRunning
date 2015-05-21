@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/btn_carrera_item">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView5"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/txt_fecha"
+        android:src="@drawable/common_ic_googleplayservices" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Nombre de Carrera"
+        android:id="@+id/txt_nombre_carrera"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imageView5"
+        android:layout_toEndOf="@+id/imageView5"
+        android:layout_toLeftOf="@+id/img_estado_carrera"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="50 Km"
+        android:id="@+id/txt_distancia"
+        android:layout_below="@+id/txt_nombre_carrera"
+        android:layout_toRightOf="@+id/imageView5"
+        android:layout_toEndOf="@+id/imageView5"
+        android:textSize="@dimen/carrera_datos_size"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="28/06/2015"
+        android:id="@+id/txt_fecha"
+        android:textSize="@dimen/carrera_datos_size"
+        android:layout_below="@+id/txt_distancia"
+        android:layout_alignLeft="@+id/txt_distancia"
+        android:layout_alignStart="@+id/txt_distancia"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Una carrera para que los fans de Starwars también corran y hagan un poco de ejercicio."
+        android:id="@+id/txt_descripcion"
+        android:layout_below="@+id/txt_fecha"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:padding="@dimen/categoria_item_padding"
+        android:ellipsize="end"
+        android:maxLines="3" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/img_estado_carrera"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:src="@android:drawable/btn_star_big_off" />
+</RelativeLayout>

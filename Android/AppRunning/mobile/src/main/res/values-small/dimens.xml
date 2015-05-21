@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="categoria_item_padding">10dp</dimen>
+    <dimen name="cabecera_carrera_size">16sp</dimen>
+    <dimen name="carrera_datos_size">14sp</dimen>
+</resources>
