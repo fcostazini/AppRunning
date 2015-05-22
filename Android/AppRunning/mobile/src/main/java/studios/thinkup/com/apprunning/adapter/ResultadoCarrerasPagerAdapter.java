@@ -5,15 +5,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import studios.thinkup.com.apprunning.fragment.CarrerasResultadoFragment;
-import studios.thinkup.com.apprunning.fragment.DetalleCarreraFragment;
-import studios.thinkup.com.apprunning.fragment.TemporizadorFragment;
+import studios.thinkup.com.apprunning.model.Filtro;
 
 /**
  * Created by fcostazini on 21/05/2015.
  */
 public class ResultadoCarrerasPagerAdapter extends FragmentPagerAdapter {
-    public ResultadoCarrerasPagerAdapter(FragmentManager fm) {
+
+    private Filtro filtro;
+    public ResultadoCarrerasPagerAdapter(FragmentManager fm, Filtro filtro) {
         super(fm);
+        this.filtro = filtro;
     }
 
     @Override
@@ -36,7 +38,7 @@ public class ResultadoCarrerasPagerAdapter extends FragmentPagerAdapter {
         Fragment fragment;
         // Crear un FoodFragment con el nombre como argumento
 
-            fragment = new CarrerasResultadoFragment();
+            fragment = CarrerasResultadoFragment.newInstance(this.filtro);
 
         return fragment;
 

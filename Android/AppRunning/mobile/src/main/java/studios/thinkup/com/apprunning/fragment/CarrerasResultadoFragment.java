@@ -8,14 +8,21 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.util.List;
 
 import studios.thinkup.com.apprunning.DetalleCarreraActivity;
 import studios.thinkup.com.apprunning.FiltrosActivity;
 import studios.thinkup.com.apprunning.R;
 
+import studios.thinkup.com.apprunning.adapter.CarreraListAdapter;
 import studios.thinkup.com.apprunning.fragment.dummy.DummyContent;
+import studios.thinkup.com.apprunning.model.CarreraCabecera;
+import studios.thinkup.com.apprunning.model.Filtro;
+import studios.thinkup.com.apprunning.provider.CarrerasProvider;
 
 /**
  * A fragment representing a list of Items.
@@ -25,21 +32,16 @@ import studios.thinkup.com.apprunning.fragment.dummy.DummyContent;
  */
 public class CarrerasResultadoFragment extends ListFragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+
+    private Filtro filtro;
+    private CarrerasProvider carrerasProvider;
+
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    // TODO: Rename and change types of parameters
-    public static CarrerasResultadoFragment newInstance(String param1, String param2) {
+    public static CarrerasResultadoFragment newInstance(Filtro filtro) {
         CarrerasResultadoFragment fragment = new CarrerasResultadoFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(Filtro.class.getSimpleName(), filtro);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,15 +57,16 @@ public class CarrerasResultadoFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.carrerasProvider = new CarrerasProvider();
 
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            filtro =(Filtro)getArguments().getSerializable(Filtro.class.getSimpleName());
         }
-
+    List<CarreraCabecera> resultados = carrerasProvider.getCarreras(this.filtro);
         // TODO: Change Adapter to display your content
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS));
+        setListAdapter(new CarreraListAdapter(this.getActivity(),
+                android.R.layout.simple_list_item_1,resultados));
+
 
     }
 

@@ -12,21 +12,35 @@ import android.widget.ListView;
 
 import java.util.List;
 
+import studios.thinkup.com.apprunning.adapter.CategoriaListAdapter;
+import studios.thinkup.com.apprunning.model.Categoria;
+import studios.thinkup.com.apprunning.model.Filtro;
+import studios.thinkup.com.apprunning.model.Subcategoria;
+import studios.thinkup.com.apprunning.provider.CategoriaProvider;
+
 
 public class SubcategoriaActivity extends Activity implements AdapterView.OnItemClickListener{
-    String[] categorias = {"Categoria1","Categoria2"};
-
+    private CategoriaProvider categoriaProvider;
+    private Filtro filtro;
+    private Subcategoria categoriaOrigen;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_subcategoria_busqueda);
+        if(categoriaProvider == null){
+            categoriaProvider = new CategoriaProvider();
+        }
+        this.filtro = null;
+       if( getIntent().getExtras() != null && getIntent().getSerializableExtra(Filtro.class.getSimpleName()) != null){
+           this.filtro = (Filtro)getIntent().getExtras().getSerializable(Filtro.class.getSimpleName());
+           this.categoriaOrigen = this.filtro.getSubcategoria();
+           setContentView(R.layout.fragment_subcategoria_busqueda);
+           CategoriaListAdapter adapter = new CategoriaListAdapter(this,
+                   android.R.layout.simple_list_item_1, categoriaProvider.getCategorias(this.filtro));
+           ListView list = (ListView)findViewById(R.id.list_subcategoria);
+           list.setAdapter(adapter);
+           list.setOnItemClickListener(this);
+       }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, categorias);
-
-        ListView list = (ListView)findViewById(R.id.list_subcategoria);
-        list.setAdapter(adapter);
-        list.setOnItemClickListener(this);
     }
 
     @Override
@@ -54,13 +68,19 @@ public class SubcategoriaActivity extends Activity implements AdapterView.OnItem
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-    if(adapterView.getItemAtPosition(i).equals("Categoria2")){
-        Intent intent = new Intent(this, CarrerasActivity.class);
+        Categoria c = (Categoria)adapterView.getItemAtPosition(i);
+
+        Intent intent;
+        if(c.getCantidad()> 10) {
+            intent = new Intent(this, SubcategoriaActivity.class);
+            this.filtro.setSubcategoria(this.filtro.nextCategoria());
+            intent.putExtra(Filtro.class.getSimpleName(), this.filtro);
+        }else{
+            intent = new Intent(this, CarrerasActivity.class);
+            this.filtro.setSubcategoria(this.filtro.nextCategoria());
+            intent.putExtra(Filtro.class.getSimpleName(), this.filtro);
+        }
         startActivity(intent);
 
-    }else{
-        Intent intent = new Intent(this, SubcategoriaActivity.class);
-        startActivity(intent);
-    }
     }
 }

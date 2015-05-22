@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import studios.thinkup.com.apprunning.model.Filtro;
+import studios.thinkup.com.apprunning.model.Subcategoria;
+
 
 public class BuscarCarreraActivity extends Activity implements View.OnClickListener{
 
@@ -56,24 +59,28 @@ public class BuscarCarreraActivity extends Activity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.btn_zona:{
+        Intent i = new Intent(this, SubcategoriaActivity.class);
+        Filtro filtro = new Filtro();
 
+        switch (view.getId()){
+
+            case R.id.btn_zona:{
+                filtro.setSubcategoria(Subcategoria.ZONA);
                 break;
 
             }
             case R.id.btn_distancia:{
-
+                filtro.setSubcategoria(Subcategoria.DISTANCIA);
                 break;
 
             }
-            case R.id.btn_genero:{
 
+            default:{
+                filtro.setSubcategoria(Subcategoria.GENERO);
                 break;
-
             }
         }
-        Intent intent = new Intent(this, SubcategoriaActivity.class);
-        startActivity(intent);
+        i.putExtra(Filtro.class.getSimpleName(),filtro);
+        startActivity(i);
     }
 }
