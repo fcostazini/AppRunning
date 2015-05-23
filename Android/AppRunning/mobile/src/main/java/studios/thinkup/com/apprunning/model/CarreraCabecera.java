@@ -13,6 +13,16 @@ public class CarreraCabecera implements Serializable{
     private String distancia;
     private String descripcion;
     private String urlImage;
+    private EstadoCarrera estadoCarrera;
+
+    public CarreraCabecera(String nombre, Date fechaInicio, String distancia, String descripcion, String urlImage, EstadoCarrera estado) {
+        this.nombre = nombre;
+        this.fechaInicio = fechaInicio;
+        this.distancia = distancia;
+        this.descripcion = descripcion;
+        this.urlImage = urlImage;
+        this.estadoCarrera = estado;
+    }
 
     public CarreraCabecera(String nombre, Date fechaInicio, String distancia, String descripcion, String urlImage) {
         this.nombre = nombre;
@@ -20,6 +30,15 @@ public class CarreraCabecera implements Serializable{
         this.distancia = distancia;
         this.descripcion = descripcion;
         this.urlImage = urlImage;
+        this.estadoCarrera = null;
+    }
+
+    public EstadoCarrera getEstadoCarrera() {
+        return estadoCarrera;
+    }
+
+    public void setEstadoCarrera(EstadoCarrera estadoCarrera) {
+        this.estadoCarrera = estadoCarrera;
     }
 
     public String getNombre() {

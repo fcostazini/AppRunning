@@ -2,7 +2,9 @@ package studios.thinkup.com.apprunning.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.koushikdutta.ion.Ion;
+
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,7 +22,6 @@ import java.util.List;
 
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.model.CarreraCabecera;
-import studios.thinkup.com.apprunning.model.Categoria;
 
 /**
  * Created by fcostazini on 22/05/2015.
@@ -100,15 +104,30 @@ public class CarreraListAdapter extends BaseAdapter {
                 distancia.setText(p.getDistancia());
             }
             if(p.getFechaInicio()!=null){
+
                 SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
                 fecha.setText(sf.format(p.getFechaInicio()));
             }
-            /*
-            if(p.getEstado()!=null){
+
+            if(p.getEstadoCarrera()!=null){
+                switch (p.getEstadoCarrera()){
+                    case CORRIDA:
+                        estado.setImageResource(android.R.drawable.btn_star_big_on);
+                        break;
+                    case INSCRIPTO:
+                        estado.setImageResource(android.R.drawable.btn_star_big_off);
+                        break;
+                    case ME_GUSTA:
+                        estado.setImageResource(android.R.drawable.btn_plus);
+                        break;
+                }
             }
-             */
+
             if(p.getUrlImage()!=null){
-                logo.setImageURI(Uri.parse(p.getUrlImage()));
+                Ion.with(logo)
+                        .placeholder(R.drawable.common_ic_googleplayservices)
+                        .error(R.drawable.common_ic_googleplayservices)
+                        .load(p.getUrlImage());
             }
 
             //nombre.setText(p.getNombre() + " (" + p.getCantidad().toString() + ")");
@@ -116,4 +135,5 @@ public class CarreraListAdapter extends BaseAdapter {
 
         return v;
     }
+
 }
