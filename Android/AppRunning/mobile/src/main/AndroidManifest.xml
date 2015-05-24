@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
+        android:name="studios.thinkup.com.apprunning.model.RunningApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,7 +22,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".BuscarCarreraActivity"
+            android:name=".BusquedaCarreraActivity"
 
             android:label="@string/title_activity_buscar">
         </activity>
@@ -38,42 +39,42 @@
         <activity
             android:name=".FiltrosActivity"
             android:label="@string/title_activity_filtros"
-            android:parentActivityName=".BuscarCarreraActivity" >
+            android:parentActivityName=".BusquedaCarreraActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="studios.thinkup.com.apprunning.BuscarCarreraActivity" />
+                android:value="studios.thinkup.com.apprunning.BusquedaCarreraActivity" />
         </activity>
         <activity
             android:name=".CarrerasActivity"
             android:label="@string/title_activity_carreras"
-            android:parentActivityName=".BuscarCarreraActivity" >
+            android:parentActivityName=".BusquedaCarreraActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="studios.thinkup.com.apprunning.BuscarCarreraActivity" />
+                android:value="studios.thinkup.com.apprunning.BusquedaCarreraActivity" />
         </activity>
         <activity
             android:name=".SubcategoriaActivity"
             android:label="@string/title_activity_buscar"
-            android:parentActivityName=".BuscarCarreraActivity" >
+            android:parentActivityName=".BusquedaCarreraActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="studios.thinkup.com.apprunning.BuscarCarreraActivity" />
+                android:value="studios.thinkup.com.apprunning.BusquedaCarreraActivity" />
         </activity>
         <activity
             android:name=".DetalleCarreraActivity"
             android:label="@string/title_activity_detalle_carrera"
-            android:parentActivityName=".BuscarCarreraActivity" >
+            android:parentActivityName=".BusquedaCarreraActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="studios.thinkup.com.apprunning.BuscarCarreraActivity" />
+                android:value="studios.thinkup.com.apprunning.BusquedaCarreraActivity" />
         </activity>
         <activity
             android:name=".MisDatosActivity"
             android:label="@string/title_activity_mis_datos"
-            android:parentActivityName=".BuscarCarreraActivity" >
+            android:parentActivityName=".BusquedaCarreraActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="studios.thinkup.com.apprunning.BuscarCarreraActivity" />
+                android:value="studios.thinkup.com.apprunning.BusquedaCarreraActivity" />
         </activity>
         <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="your API key"/>
     </application>

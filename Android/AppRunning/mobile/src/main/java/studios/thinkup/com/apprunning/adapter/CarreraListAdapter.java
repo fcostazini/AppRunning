@@ -2,9 +2,6 @@ package studios.thinkup.com.apprunning.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +11,6 @@ import android.widget.TextView;
 
 import com.koushikdutta.ion.Ion;
 
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;

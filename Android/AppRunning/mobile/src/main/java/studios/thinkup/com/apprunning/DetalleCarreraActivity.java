@@ -1,6 +1,5 @@
 package studios.thinkup.com.apprunning;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;

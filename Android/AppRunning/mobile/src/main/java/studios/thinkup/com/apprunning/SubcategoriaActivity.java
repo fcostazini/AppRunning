@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.List;
@@ -33,12 +32,17 @@ public class SubcategoriaActivity extends Activity implements AdapterView.OnItem
        if( getIntent().getExtras() != null && getIntent().getSerializableExtra(Filtro.class.getSimpleName()) != null){
            this.filtro = (Filtro)getIntent().getExtras().getSerializable(Filtro.class.getSimpleName());
            this.categoriaOrigen = this.filtro.getSubcategoria();
-           setContentView(R.layout.fragment_subcategoria_busqueda);
-           CategoriaListAdapter adapter = new CategoriaListAdapter(this,
-                   android.R.layout.simple_list_item_1, categoriaProvider.getCategorias(this.filtro));
-           ListView list = (ListView)findViewById(R.id.list_subcategoria);
-           list.setAdapter(adapter);
-           list.setOnItemClickListener(this);
+           List<Categoria> resultados = categoriaProvider.getCategorias(this.filtro);
+           if(resultados.size()>=1) {
+               setContentView(R.layout.fragment_subcategoria_busqueda);
+               CategoriaListAdapter adapter = new CategoriaListAdapter(this,
+                       android.R.layout.simple_list_item_1, categoriaProvider.getCategorias(this.filtro));
+               ListView list = (ListView) findViewById(R.id.list_subcategoria);
+               list.setAdapter(adapter);
+               list.setOnItemClickListener(this);
+           }else{
+               setContentView(R.layout.sin_resultados);
+           }
        }
 
     }
@@ -52,13 +56,16 @@ public class SubcategoriaActivity extends Activity implements AdapterView.OnItem
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent i;
         switch (item.getItemId()){
             case R.id.mnu_filtros:
-                Intent i = new Intent(this, FiltrosActivity.class);
+                i = new Intent(this, FiltrosActivity.class);
                 startActivity(i);
                 return true;
 
             case R.id.mnu_mis_datos:
+                i = new Intent(this,MisDatosActivity.class);
+                startActivity(i);
                 return true;
 
             default:

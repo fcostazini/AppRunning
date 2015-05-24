@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id="@+id/form_busqueda"
+    android:padding="20dp">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView2">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Nombre Carrera"
+                android:id="@+id/lbl_nombre_carrera"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignBottom="@+id/txt_nombre"
+                android:gravity="center_vertical" />
+
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sp_genero"
+                android:spinnerMode="dropdown"
+                android:contentDescription="@string/genero"
+                android:layout_below="@+id/lbl_nombre_carrera"
+                android:layout_toRightOf="@+id/lbl_nombre_carrera"
+                android:layout_toEndOf="@+id/lbl_nombre_carrera" />
+
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sp_zona"
+                android:spinnerMode="dropdown"
+                android:contentDescription="@string/genero"
+                android:layout_below="@+id/sp_genero"
+                android:layout_alignLeft="@+id/sp_genero"
+                android:layout_alignStart="@+id/sp_genero" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sp_zona"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/ll_rango_dias"
+                android:padding="10dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Intervalo de Fecha"
+                    android:id="@+id/textView2" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/linearLayout2"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/desde"
+                        android:id="@+id/textView3"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="center_vertical|center"
+                        android:layout_gravity="center_vertical" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:inputType="date"
+                        android:ems="10"
+                        android:id="@+id/txt_fecha_desde"
+                        android:layout_weight="0.5"
+                        android:editable="false"
+                        android:layout_marginLeft="10dp"
+                        android:background="#1d1b5687"
+                        android:layout_gravity="center"
+                        android:gravity="center" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/img_fecha_desde"
+                        android:src="@drawable/ic_calendar"
+                        android:layout_gravity="center"
+                        android:scaleType="center" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/img_close_desde"
+                        android:src="@drawable/ic_delete" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/ll_fechas">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/hasta"
+                        android:id="@+id/textView4"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="center_vertical|center"
+                        android:layout_gravity="center_vertical" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:inputType="date"
+                        android:ems="10"
+                        android:id="@+id/txt_fecha_hasta"
+                        android:layout_weight="0.5"
+                        android:layout_marginLeft="10dp"
+                        android:background="#1d1b5687"
+                        android:layout_gravity="center"
+                        android:gravity="center" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/img_fecha_hasta"
+                        android:src="@drawable/ic_calendar"
+                        android:layout_gravity="center"
+                        android:scaleType="center" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/img_close_hasta"
+                        android:src="@drawable/ic_delete" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/ll_distancia"
+                android:layout_below="@+id/ll_rango_dias"
+                android:layout_marginTop="10dp"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Distancia en KM"
+                    android:id="@+id/lbl_distancia" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/desde"
+                        android:id="@+id/textView8"
+                        android:layout_weight=".3" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="1"
+                        android:id="@+id/lbl_dist_desde"
+                        android:layout_weight=".3"
+                        android:layout_marginLeft="20dp"
+                        android:minWidth="20dp" />
+
+                    <SeekBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/sb_min_distancia"
+                        android:layout_weight="5"
+                        android:max="100"
+                        android:indeterminate="false"
+                        android:progress="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:gravity="center" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/hasta"
+                        android:id="@+id/textView9"
+                        android:layout_weight=".3" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="100"
+                        android:id="@+id/lbl_dist_hasta"
+                        android:layout_weight=".3"
+                        android:layout_marginLeft="20dp"
+                        android:minWidth="20dp" />
+
+                    <SeekBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/sb_max_distancia"
+                        android:layout_weight="5"
+                        android:max="100"
+                        android:indeterminate="false"
+                        android:progress="100" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_buscar"
+                android:id="@+id/btn_buscar"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="20dp"
+                android:layout_below="@+id/ll_distancia" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Género"
+                android:id="@+id/textView6"
+                android:layout_alignTop="@+id/sp_genero"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Zona"
+                android:id="@+id/textView7"
+                android:layout_alignTop="@+id/sp_zona"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_nombre"
+                android:layout_toRightOf="@+id/lbl_nombre_carrera" />
+        </RelativeLayout>
+    </ScrollView>
+
+
+
+</RelativeLayout>

@@ -14,6 +14,7 @@ import com.astuetz.PagerSlidingTabStrip;
 
 import studios.thinkup.com.apprunning.adapter.ResultadoCarrerasPagerAdapter;
 import studios.thinkup.com.apprunning.model.Filtro;
+import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.provider.CarrerasProvider;
 
 
@@ -31,7 +32,7 @@ public class CarrerasActivity extends FragmentActivity implements AdapterView.On
         if( getIntent().getExtras() != null && getIntent().getSerializableExtra(Filtro.class.getSimpleName()) != null) {
             this.filtro = (Filtro) getIntent().getExtras().getSerializable(Filtro.class.getSimpleName());
         }else{
-            this.filtro = new Filtro();
+            this.filtro = new Filtro(((RunningApplication)this.getApplication()).getDefaultSettings());
         }
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new ResultadoCarrerasPagerAdapter(getSupportFragmentManager(),this.filtro));

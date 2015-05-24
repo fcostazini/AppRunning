@@ -1,7 +1,8 @@
 package studios.thinkup.com.apprunning.provider;
 
+import android.util.Log;
+
 import java.util.List;
-import java.util.Vector;
 
 import studios.thinkup.com.apprunning.model.Categoria;
 import studios.thinkup.com.apprunning.model.Filtro;
@@ -19,17 +20,23 @@ public class CategoriaProvider {
     }
 
     public List<Categoria> getCategorias(Filtro filtro) {
-        switch (filtro.getSubcategoria()) {
-            case ZONA:
-                return this.dummyProvider.getAllZona();
+        Log.println(0,Filtro.class.getSimpleName(),filtro.toString());
+        if(filtro.getSubcategoria()!= null) {
+            switch (filtro.getSubcategoria()) {
+                case ZONA:
+                    return this.dummyProvider.getAllZona();
 
-            case DISTANCIA:
-                return this.dummyProvider.getAllDistancia();
+                case DISTANCIA:
+                    return this.dummyProvider.getAllDistancia();
 
-            case GENERO:
-                return this.dummyProvider.getAllGenero();
-
+                case GENERO:
+                    return this.dummyProvider.getAllGenero();
+                default:
+                    return this.dummyProvider.getAllZona();
+            }
         }
-        return null;
+
+        return this.dummyProvider.getAllZona();
+
     }
 }

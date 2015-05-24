@@ -3,7 +3,6 @@ package studios.thinkup.com.apprunning.provider;
 import java.util.List;
 
 import studios.thinkup.com.apprunning.model.CarreraCabecera;
-import studios.thinkup.com.apprunning.model.Categoria;
 import studios.thinkup.com.apprunning.model.Filtro;
 
 /**

@@ -4,15 +4,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import studios.thinkup.com.apprunning.fragment.DetalleCarreraFragment;
-import studios.thinkup.com.apprunning.fragment.TemporizadorFragment;
+import studios.thinkup.com.apprunning.fragment.BusquedaCategoria;
+import studios.thinkup.com.apprunning.fragment.BusquedaFormulario;
 
 /**
  * Created by fcostazini on 21/05/2015.
+ * Adapter de Fragmentos para Busqueda
  */
-public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter{
-
-    public DetalleCarreraPagerAdapter(FragmentManager fm) {
+public class BusquedaPagerAdapter extends FragmentPagerAdapter {
+    public BusquedaPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -24,8 +24,8 @@ public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter{
     @Override
     public CharSequence getPageTitle(int position) {
         switch(position){
-            case 0: return "DETALLE";
-            case 1: return "TEMPORIZADOR";
+            case 0: return "CATEGORIA";
+            case 1: return "FORMULARIO";
             default: return "";
         }
     }
@@ -35,12 +35,12 @@ public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter{
         Fragment fragment;
         // Crear un FoodFragment con el nombre como argumento
         if(i==0){
-            fragment = new DetalleCarreraFragment();
-            //Bundle args = new Bundle();
-
+            fragment = BusquedaCategoria.newInstance();
         }else{
-            fragment = new TemporizadorFragment();
+            fragment = BusquedaFormulario.newInstance();
         }
+
+
         return fragment;
 
 
