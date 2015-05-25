@@ -20,15 +20,14 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.SubcategoriaActivity;
 import studios.thinkup.com.apprunning.dialogs.DatePicker;
-import studios.thinkup.com.apprunning.model.DefaultSettings;
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.Genero;
 import studios.thinkup.com.apprunning.model.RunningApplication;
-import studios.thinkup.com.apprunning.model.Subcategoria;
 import studios.thinkup.com.apprunning.provider.ZonaProvider;
 
 /**
@@ -36,21 +35,19 @@ import studios.thinkup.com.apprunning.provider.ZonaProvider;
  * Formulario de Busqueda de Carreras
  */
 public class BusquedaFormulario extends Fragment implements View.OnClickListener, TextWatcher {
-    private ZonaProvider zonaProvider;
     private Filtro filtro;
 
     public static BusquedaFormulario newInstance() {
-        BusquedaFormulario fragment = new BusquedaFormulario();
-        return fragment;
+        return new BusquedaFormulario();
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        this.zonaProvider = new ZonaProvider();
+        ZonaProvider zonaProvider = new ZonaProvider();
         this.filtro = new Filtro(((RunningApplication) this.getActivity().getApplication()).getDefaultSettings());
-
+        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
 
         View rootView = inflater.inflate(R.layout.fragment_formulario_busqueda, container, false);
 
@@ -66,6 +63,7 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
         adapterGenero.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spGenero.setAdapter(adapterGenero);
         spGenero.setOnItemSelectedListener(new GeneroSpinnerItemSelectedListener(this.filtro));
+        spGenero.setSelection(adapterGenero.getPosition(filtro.getGenero()));
 
         Spinner spZona = (Spinner) rootView.findViewById(R.id.sp_zona);
         ArrayAdapter<String> adapterZona = new ArrayAdapter<>(this.getActivity(),
@@ -73,24 +71,33 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
         adapterZona.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spZona.setAdapter(adapterZona);
         spZona.setOnItemSelectedListener(new ZonaSpinnerItemSelectedListener(this.filtro));
+        spZona.setSelection(adapterZona.getPosition(filtro.getZona()));
 
         TextView txtDesde = (TextView) rootView.findViewById(R.id.txt_fecha_desde);
         txtDesde.setOnClickListener(new DatePickerListener(txtDesde));
-        rootView.findViewById(R.id.txt_fecha_hasta).setOnClickListener(new DatePickerListener(txtDesde));
+        if(filtro.getFechaDesde()!= null)
+            txtDesde.setText(sf.format(filtro.getFechaDesde()));
+        rootView.findViewById(R.id.img_fecha_desde).setOnClickListener(new DatePickerListener(txtDesde));
         rootView.findViewById(R.id.img_close_desde).setOnClickListener(new Cleaner(txtDesde, this.filtro));
 
         TextView txtHasta = (TextView) rootView.findViewById(R.id.txt_fecha_hasta);
         txtHasta.setOnClickListener(new DatePickerListener(txtHasta));
+        if(filtro.getFechaHasta()!=null)
+            txtHasta.setText(sf.format(filtro.getFechaHasta()));
         rootView.findViewById(R.id.img_fecha_hasta).setOnClickListener(new DatePickerListener(txtHasta));
         rootView.findViewById(R.id.img_close_hasta).setOnClickListener(new Cleaner(txtHasta, this.filtro));
 
 
         SeekBar sbMinDistancia = (SeekBar) rootView.findViewById(R.id.sb_min_distancia);
         TextView txtMinDistancia = (TextView) rootView.findViewById(R.id.lbl_dist_desde);
+        txtMinDistancia.setText(filtro.getDistanciaMin().toString());
+        sbMinDistancia.setProgress(filtro.getDistanciaMin());
         sbMinDistancia.setOnSeekBarChangeListener(new DistanciaSeekBarChangeListener(filtro, txtMinDistancia));
 
         SeekBar sbMaxDistancia = (SeekBar) rootView.findViewById(R.id.sb_max_distancia);
         TextView txtMaxDistancia = (TextView) rootView.findViewById(R.id.lbl_dist_hasta);
+        txtMaxDistancia.setText(filtro.getDistanciaMax().toString());
+        sbMaxDistancia.setProgress(filtro.getDistanciaMax());
         sbMaxDistancia.setOnSeekBarChangeListener(new DistanciaSeekBarChangeListener(filtro, txtMaxDistancia));
 
         return rootView;
@@ -165,25 +172,7 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
         }
     }
 
-    private class DiasSeekBarChangeListener implements SeekBar.OnSeekBarChangeListener {
-        int progress = 0;
 
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            this.progress = progress;
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
-
-        }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-            DefaultSettings settings = ((RunningApplication) BusquedaFormulario.this.getActivity().getApplication()).getDefaultSettings();
-            settings.setMaxDias(progress);
-        }
-    }
 
     private class DistanciaSeekBarChangeListener implements SeekBar.OnSeekBarChangeListener {
         int progress = 0;
@@ -258,7 +247,7 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
             c.set(Calendar.YEAR, year);
             c.set(Calendar.MONTH, monthOfYear);
             c.set(Calendar.DATE, dayOfMonth);
-            SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             this.text.setText(sf.format(c.getTime()));
             this.filtro.setFechaDesde(c.getTime());
         }
@@ -280,7 +269,7 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
             c.set(Calendar.YEAR, year);
             c.set(Calendar.MONTH, monthOfYear);
             c.set(Calendar.DATE, dayOfMonth);
-            SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             this.text.setText(sf.format(c.getTime()));
             this.filtro.setFechaHasta(c.getTime());
 

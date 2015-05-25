@@ -15,7 +15,7 @@
     <string name="editar">Editar</string>
     <string name="mis_datos">Mis Datos</string>
     <string name="filtros">Filtros</string>
-    <string name="title_activity_filtros">Filtros</string>
+    <string name="title_activity_filtros">Preferencias</string>
     <string name="title_activity_carreras">Carreras</string>
     <string name="title_activity_buscar">Buscar Carrera</string>
 

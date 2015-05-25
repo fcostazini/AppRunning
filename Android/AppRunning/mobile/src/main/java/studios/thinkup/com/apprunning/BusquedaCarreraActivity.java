@@ -7,13 +7,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 
 import com.astuetz.PagerSlidingTabStrip;
 
 import studios.thinkup.com.apprunning.adapter.BusquedaPagerAdapter;
-import studios.thinkup.com.apprunning.adapter.MisDatosPagerAdapter;
 
 
 public class BusquedaCarreraActivity extends FragmentActivity{
@@ -47,7 +44,7 @@ public class BusquedaCarreraActivity extends FragmentActivity{
 
         switch (item.getItemId()){
             case R.id.mnu_filtros:
-                Intent intentFiltros = new Intent(this, FiltrosActivity.class);
+                Intent intentFiltros = new Intent(this, FiltrosPorDefectoActivity.class);
                 startActivity(intentFiltros);
                 return true;
 

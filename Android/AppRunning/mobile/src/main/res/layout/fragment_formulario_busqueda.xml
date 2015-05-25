@@ -1,29 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:id="@+id/form_busqueda"
     android:padding="20dp">
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView2">
+        android:id="@+id/scrollView2"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/btn_buscar"
+        android:layout_marginBottom="10dp">
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Nombre Carrera"
-                android:id="@+id/lbl_nombre_carrera"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignBottom="@+id/txt_nombre"
-                android:gravity="center_vertical" />
 
             <Spinner
                 android:layout_width="fill_parent"
@@ -31,9 +23,11 @@
                 android:id="@+id/sp_genero"
                 android:spinnerMode="dropdown"
                 android:contentDescription="@string/genero"
-                android:layout_below="@+id/lbl_nombre_carrera"
-                android:layout_toRightOf="@+id/lbl_nombre_carrera"
-                android:layout_toEndOf="@+id/lbl_nombre_carrera" />
+                android:layout_below="@+id/txt_nombre"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:prompt="@id/txt_genero" />
 
             <Spinner
                 android:layout_width="fill_parent"
@@ -43,7 +37,11 @@
                 android:contentDescription="@string/genero"
                 android:layout_below="@+id/sp_genero"
                 android:layout_alignLeft="@+id/sp_genero"
-                android:layout_alignStart="@+id/sp_genero" />
+                android:layout_alignStart="@+id/sp_genero"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                 />
 
             <LinearLayout
                 android:orientation="vertical"
@@ -154,6 +152,7 @@
                 </LinearLayout>
 
             </LinearLayout>
+
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
@@ -213,7 +212,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:gravity="center" >
+                    android:gravity="center">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -244,42 +243,22 @@
                 </LinearLayout>
 
             </LinearLayout>
-            <Button
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_buscar"
-                android:id="@+id/btn_buscar"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="20dp"
-                android:layout_below="@+id/ll_distancia" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Género"
-                android:id="@+id/textView6"
-                android:layout_alignTop="@+id/sp_genero"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Zona"
-                android:id="@+id/textView7"
-                android:layout_alignTop="@+id/sp_zona"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/txt_nombre"
-                android:layout_toRightOf="@+id/lbl_nombre_carrera" />
+                android:hint="Nombre Carrera" />
         </RelativeLayout>
     </ScrollView>
 
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_buscar"
+        android:id="@+id/btn_buscar"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true" />
 
 
 </RelativeLayout>

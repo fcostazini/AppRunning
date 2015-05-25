@@ -45,7 +45,7 @@ public class MisDatosActivity extends FragmentActivity implements AdapterView.On
 
         switch (item.getItemId()){
             case R.id.mnu_filtros:
-                Intent i = new Intent(this, FiltrosActivity.class);
+                Intent i = new Intent(this, FiltrosPorDefectoActivity.class);
                 startActivity(i);
                 return true;
 

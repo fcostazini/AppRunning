@@ -8,17 +8,36 @@ import java.io.Serializable;
  * Filtros preconfigurados
  */
 public class DefaultSettings implements Serializable {
-    private String zona;
-    private Genero genero = Genero.TODOS;
-    private Integer maxDias = 365;
-    private Integer maxDistancia = 1000;
 
-    public String getZona() {
-        return zona;
+    private Integer distanciaMin = 0;
+    private Integer distanciaMax = 100;
+    private Genero genero = Genero.TODOS;
+    private String zona = "Buenos Aires";
+    private Integer diasBusqueda = 15;
+
+
+    public Integer getDiasBusqueda() {
+        return diasBusqueda;
     }
 
-    public void setZona(String zona) {
-        this.zona = zona;
+    public void setDiasBusqueda(Integer diasBusqueda) {
+        this.diasBusqueda = diasBusqueda;
+    }
+
+    public Integer getDistanciaMin() {
+        return distanciaMin;
+    }
+
+    public void setDistanciaMin(Integer distanciaMin) {
+        this.distanciaMin = distanciaMin;
+    }
+
+    public Integer getDistanciaMax() {
+        return distanciaMax;
+    }
+
+    public void setDistanciaMax(Integer distanciaMax) {
+        this.distanciaMax = distanciaMax;
     }
 
     public Genero getGenero() {
@@ -29,19 +48,11 @@ public class DefaultSettings implements Serializable {
         this.genero = genero;
     }
 
-    public Integer getMaxDias() {
-        return maxDias;
+    public String getZona() {
+        return zona;
     }
 
-    public void setMaxDias(Integer maxDias) {
-        this.maxDias = maxDias;
-    }
-
-    public Integer getMaxDistancia() {
-        return maxDistancia;
-    }
-
-    public void setMaxDistancia(Integer maxDistancia) {
-        this.maxDistancia = maxDistancia;
+    public void setZona(String zona) {
+        this.zona = zona;
     }
 }

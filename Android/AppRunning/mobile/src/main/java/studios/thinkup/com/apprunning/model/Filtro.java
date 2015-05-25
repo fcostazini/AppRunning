@@ -31,6 +31,7 @@ public class Filtro implements Serializable {
     }
 
     public Filtro(DefaultSettings defaultSettings) {
+        this.fechaDesde = new Date();
         this.defaultSettings = defaultSettings;
     }
 
@@ -38,22 +39,21 @@ public class Filtro implements Serializable {
         return defaultSettings;
     }
 
-    public void setDefaultSettings(DefaultSettings defaultSettings) {
-        this.defaultSettings = defaultSettings;
-    }
-
     public Subcategoria nextCategoria() {
-        switch (this.getSubcategoria()) {
-            case ZONA:
-                return Subcategoria.DISTANCIA;
-            case DISTANCIA:
-                return Subcategoria.GENERO;
-            case GENERO:
-                return Subcategoria.ZONA;
-            default:
-                return Subcategoria.ZONA;
+        if(this.getSubcategoria()!=null) {
+            switch (this.getSubcategoria()) {
+                case ZONA:
+                    return Subcategoria.DISTANCIA;
+                case DISTANCIA:
+                    return Subcategoria.GENERO;
+                case GENERO:
+                    return Subcategoria.ZONA;
+                default:
+                    return Subcategoria.ZONA;
+            }
+        }else{
+            return Subcategoria.ZONA;
         }
-
 
     }
 
@@ -66,6 +66,7 @@ public class Filtro implements Serializable {
     }
 
     public Date getFechaDesde() {
+
         return fechaDesde;
     }
 
@@ -77,10 +78,9 @@ public class Filtro implements Serializable {
         if (this.fechaHasta != null) {
             return this.fechaHasta;
         } else {
-
             Calendar c = Calendar.getInstance();
-            c.setTime(new Date());
-            c.add(Calendar.DATE, this.getDefaultSettings().getMaxDias());
+            c.setTime(this.getFechaDesde());
+            c.add(Calendar.DATE,defaultSettings.getDiasBusqueda());
             return c.getTime();
         }
     }
@@ -133,7 +133,6 @@ public class Filtro implements Serializable {
             s += "desde = '" + sf.format(this.getFechaDesde()) + "'; \n";
         }
 
-
         if (this.getFechaHasta() != null) {
             s += "hasta = '" + sf.format(this.getFechaHasta()) + "'; \n";
         }
@@ -149,7 +148,12 @@ public class Filtro implements Serializable {
     }
 
     public Integer getDistanciaMin() {
-        return distanciaMin;
+        if(this.distanciaMin!= null){
+            return distanciaMin;
+        }else{
+            return this.defaultSettings.getDistanciaMin();
+        }
+
     }
 
     public void setDistanciaMin(Integer distanciaMin) {
@@ -157,7 +161,11 @@ public class Filtro implements Serializable {
     }
 
     public Integer getDistanciaMax() {
-        return distanciaMax;
+        if(this.distanciaMax!= null){
+            return distanciaMax;
+        }else{
+            return this.defaultSettings.getDistanciaMax();
+        }
     }
 
     public void setDistanciaMax(Integer distanciaMax) {

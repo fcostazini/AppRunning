@@ -59,7 +59,7 @@ public class SubcategoriaActivity extends Activity implements AdapterView.OnItem
         Intent i;
         switch (item.getItemId()){
             case R.id.mnu_filtros:
-                i = new Intent(this, FiltrosActivity.class);
+                i = new Intent(this, FiltrosPorDefectoActivity.class);
                 startActivity(i);
                 return true;
 

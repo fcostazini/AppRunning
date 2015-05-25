@@ -1,114 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="studios.thinkup.com.apprunning.FiltrosActivity"
-    android:id="@+id/rl_settings"
-    android:padding="20dp">
+    android:id="@+id/h"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="10dp">
 
-
-    <Spinner
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/sp_zona"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:spinnerMode="dropdown" />
+        android:id="@+id/scrollView2"
+        android:layout_alignParentTop="true">
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/sp_genero"
-        android:layout_below="@+id/sp_zona"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:spinnerMode="dropdown" />
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sp_genero"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/id2">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Días a Futuro"
-            android:id="@+id/lbl_dias" />
-
-        <LinearLayout
-            android:orientation="horizontal"
+        <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:gravity="center">
+            android:layout_height="fill_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <Spinner
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="0"
-                android:id="@+id/lbl_dias_min"
-                android:layout_weight=".3" />
+                android:id="@+id/sp_genero"
+                android:spinnerMode="dropdown"
+                android:contentDescription="@string/genero"
+                android:layout_below="@+id/txt_nombre"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"/>
 
-            <SeekBar
-                android:layout_width="wrap_content"
+            <Spinner
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/sb_dias_max"
-                android:layout_weight="5"
-                android:max="365"
-                android:indeterminate="false"
-                android:progress="5" />
+                android:id="@+id/sp_zona"
+                android:spinnerMode="dropdown"
+                android:contentDescription="@string/genero"
+                android:layout_below="@+id/sp_genero"
+                android:layout_alignLeft="@+id/sp_genero"
+                android:layout_alignStart="@+id/sp_genero"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                />
 
-        </LinearLayout>
-
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_rango_dias"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/ll_distancia_maxima">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Distancia Máxima en Km"
-            android:id="@+id/lbl_distancia_max" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="5"
-                android:id="@+id/textView2"
-                android:layout_weight=".3" />
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/linearLayout3"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:layout_below="@+id/ll_distancia" >
 
-            <SeekBar
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Días de Búsqueda"
+                    android:id="@+id/textView5" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:gravity="center" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/hasta"
+                        android:id="@+id/textView6"
+                        android:layout_weight=".3" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="1"
+                        android:id="@+id/txt_dias"
+                        android:layout_weight=".3"
+                        android:layout_marginLeft="20dp"
+                        android:minWidth="20dp" />
+
+                    <SeekBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/sb_dias"
+                        android:layout_weight="5"
+                        android:max="100"
+                        android:indeterminate="false"
+                        android:progress="1" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/sb_distancia_maxima"
-                android:layout_weight="5"
-                android:max="50"
-                android:indeterminate="false"
-                android:progress="1" />
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/ll_distancia"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:layout_below="@+id/sp_zona">
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Distancia en KM"
+                    android:id="@+id/lbl_distancia" />
 
-    </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/desde"
+                        android:id="@+id/textView8"
+                        android:layout_weight=".3" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="1"
+                        android:id="@+id/lbl_dist_desde"
+                        android:layout_weight=".3"
+                        android:layout_marginLeft="20dp"
+                        android:minWidth="20dp" />
+
+                    <SeekBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/sb_min_distancia"
+                        android:layout_weight="5"
+                        android:max="100"
+                        android:indeterminate="false"
+                        android:progress="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/hasta"
+                        android:id="@+id/textView9"
+                        android:layout_weight=".3" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="100"
+                        android:id="@+id/lbl_dist_hasta"
+                        android:layout_weight=".3"
+                        android:layout_marginLeft="20dp"
+                        android:minWidth="20dp" />
+
+                    <SeekBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/sb_max_distancia"
+                        android:layout_weight="5"
+                        android:max="100"
+                        android:indeterminate="false"
+                        android:progress="100" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+
 
 </RelativeLayout>
