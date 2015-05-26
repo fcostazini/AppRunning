@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import studios.thinkup.com.apprunning.model.Categoria;
+import studios.thinkup.com.apprunning.model.Subcategoria;
 
 /**
  * Created by fcostazini on 22/05/2015..
@@ -14,48 +15,48 @@ public class DummyCategoriaProvider {
 
 
     private Categoria[] zonas =
-            {new Categoria("Buenos Aires",6),
-                    new Categoria("Catamarca",24),
-                    new Categoria("Ciudad Autónoma de Buenos Aires",35),
-                    new Categoria("Chaco",44),
-                    new Categoria("Chubut",43),
-                    new Categoria("Córdoba",18),
-                    new Categoria("Corrientes",13),
-                    new Categoria("Entre Ríos",32),
-                    new Categoria("Formosa",44),
-                    new Categoria("Jujuy",5),
-                    new Categoria("La Pampa",11),
-                    new Categoria("La Rioja",37),
-                    new Categoria("Mendoza",5),
-                    new Categoria("Misiones",15),
-                    new Categoria("Neuquén",14),
-                    new Categoria("Río Negro",6),
-                    new Categoria("Salta",39),
-                    new Categoria("San Juan",39),
-                    new Categoria("San Luis",26),
-                    new Categoria("Santa Cruz",45),
-                    new Categoria("Santa Fe",15),
-                    new Categoria("Santiago del Estero",35),
-                    new Categoria("Tierra del Fuego, Antártida e Islas del Atlántico Sur",14),
-                    new Categoria("Tucumán",43)};
+            {new Categoria("Buenos Aires",6,Subcategoria.ZONA),
+                    new Categoria("Catamarca",24, Subcategoria.ZONA),
+                    new Categoria("Ciudad Autónoma de Buenos Aires",35, Subcategoria.ZONA),
+                    new Categoria("Chaco",44, Subcategoria.ZONA),
+                    new Categoria("Chubut",43, Subcategoria.ZONA),
+                    new Categoria("Córdoba",18, Subcategoria.ZONA),
+                    new Categoria("Corrientes",13, Subcategoria.ZONA),
+                    new Categoria("Entre Ríos",32, Subcategoria.ZONA),
+                    new Categoria("Formosa",44, Subcategoria.ZONA),
+                    new Categoria("Jujuy",5, Subcategoria.ZONA),
+                    new Categoria("La Pampa",11, Subcategoria.ZONA),
+                    new Categoria("La Rioja",37, Subcategoria.ZONA),
+                    new Categoria("Mendoza",5, Subcategoria.ZONA),
+                    new Categoria("Misiones",15, Subcategoria.ZONA),
+                    new Categoria("Neuquén",14, Subcategoria.ZONA),
+                    new Categoria("Río Negro",6, Subcategoria.ZONA),
+                    new Categoria("Salta",39, Subcategoria.ZONA),
+                    new Categoria("San Juan",39, Subcategoria.ZONA),
+                    new Categoria("San Luis",26, Subcategoria.ZONA),
+                    new Categoria("Santa Cruz",45, Subcategoria.ZONA),
+                    new Categoria("Santa Fe",15, Subcategoria.ZONA),
+                    new Categoria("Santiago del Estero",35, Subcategoria.ZONA),
+                    new Categoria("Tierra del Fuego, Antártida e Islas del Atlántico Sur",14, Subcategoria.ZONA),
+                    new Categoria("Tucumán",43, Subcategoria.ZONA)};
 
     private Categoria[] generos ={
-            new Categoria("Solo Mujer",50),
-            new Categoria("Solo Hombre",20),
-            new Categoria("Todos",80)
+            new Categoria("Solo Mujer",50,Subcategoria.GENERO),
+            new Categoria("Solo Hombre",20,Subcategoria.GENERO),
+            new Categoria("Todos",80,Subcategoria.GENERO)
     };
 
     private Categoria[] distancias = {
-            new Categoria("5 Km", 37),
-            new Categoria("10 Km", 4),
-            new Categoria("15 Km", 10),
-            new Categoria("20 Km", 36),
-            new Categoria("25 Km", 18),
-            new Categoria("30 Km", 26),
-            new Categoria("35 Km", 23),
-            new Categoria("40 Km", 23),
-            new Categoria("45 Km", 42),
-            new Categoria("50 Km", 8)
+            new Categoria("5 Km", 37, Subcategoria.DISTANCIA),
+            new Categoria("10 Km", 4, Subcategoria.DISTANCIA),
+            new Categoria("15 Km", 10, Subcategoria.DISTANCIA),
+            new Categoria("20 Km", 36, Subcategoria.DISTANCIA),
+            new Categoria("25 Km", 18, Subcategoria.DISTANCIA),
+            new Categoria("30 Km", 26, Subcategoria.DISTANCIA),
+            new Categoria("35 Km", 23, Subcategoria.DISTANCIA),
+            new Categoria("40 Km", 23, Subcategoria.DISTANCIA),
+            new Categoria("45 Km", 42, Subcategoria.DISTANCIA),
+            new Categoria("50 Km", 8, Subcategoria.DISTANCIA)
     };
 
     public Categoria getRandomCategoriaZona() {

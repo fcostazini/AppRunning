@@ -23,6 +23,9 @@ public class Filtro implements Serializable {
     private Subcategoria subcategoria;
 
     public Subcategoria getSubcategoria() {
+        if(this.subcategoria == null){
+            return Subcategoria.ZONA;
+        }
         return subcategoria;
     }
 
@@ -33,15 +36,16 @@ public class Filtro implements Serializable {
     public Filtro(DefaultSettings defaultSettings) {
         this.fechaDesde = new Date();
         this.defaultSettings = defaultSettings;
+        this.nombreCarrera ="";
     }
 
     public DefaultSettings getDefaultSettings() {
         return defaultSettings;
     }
 
-    public Subcategoria nextCategoria() {
+    public Subcategoria nextCategoria(Subcategoria tipo) {
         if(this.getSubcategoria()!=null) {
-            switch (this.getSubcategoria()) {
+            switch (tipo) {
                 case ZONA:
                     return Subcategoria.DISTANCIA;
                 case DISTANCIA:

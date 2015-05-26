@@ -2,6 +2,7 @@ package studios.thinkup.com.apprunning.model;
 
 /**
  * Created by FaQ on 23/05/2015.
+ * Generos
  */
 public enum Genero {
     TODOS("Todos"), HOMBRE("Hombre"), MUJER("Mujer");
@@ -17,6 +18,15 @@ public enum Genero {
 
     @Override
     public String toString() {
-        return  nombre;
+        return nombre;
+    }
+
+    public static Genero getByName(String nombre) {
+        for (Genero g : Genero.values()) {
+            if (g.getNombre().equals(nombre)){
+                return g;
+            }
+        }
+        return null;
     }
 }

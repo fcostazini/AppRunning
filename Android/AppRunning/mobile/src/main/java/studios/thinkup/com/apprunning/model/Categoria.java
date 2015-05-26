@@ -7,15 +7,18 @@ public class Categoria implements Comparable<Categoria>{
 
     private String nombre;
     private Integer cantidad;
+    private Subcategoria tipo;
 
-    public Categoria( String nombre, Integer cantidad) {
+    public Categoria( String nombre, Integer cantidad, Subcategoria tipo) {
         this.cantidad = cantidad;
         this.nombre = nombre;
+        this.tipo = tipo;
     }
 
-    public Categoria( String nombre) {
+    public Categoria( String nombre, Subcategoria tipo) {
         this.nombre = nombre;
         this.cantidad = 0;
+        this.tipo = tipo;
     }
 
     public String getNombre() {
@@ -43,6 +46,14 @@ public class Categoria implements Comparable<Categoria>{
 
         return nombre.equals(categoria.nombre);
 
+    }
+
+    public Subcategoria getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Subcategoria tipo) {
+        this.tipo = tipo;
     }
 
     @Override
