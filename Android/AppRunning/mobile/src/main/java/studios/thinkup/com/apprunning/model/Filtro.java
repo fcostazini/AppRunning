@@ -7,7 +7,7 @@ import java.util.Date;
 
 /**
  * Created by fcostazini on 22/05/2015.
- *
+ * <p/>
  * Filtros de busqueda para carreras
  */
 public class Filtro implements Serializable {
@@ -23,7 +23,7 @@ public class Filtro implements Serializable {
     private Subcategoria subcategoria;
 
     public Subcategoria getSubcategoria() {
-        if(this.subcategoria == null){
+        if (this.subcategoria == null) {
             return Subcategoria.ZONA;
         }
         return subcategoria;
@@ -34,9 +34,10 @@ public class Filtro implements Serializable {
     }
 
     public Filtro(DefaultSettings defaultSettings) {
+        this.nombreCarrera = "";
         this.fechaDesde = new Date();
         this.defaultSettings = defaultSettings;
-        this.nombreCarrera ="";
+        this.nombreCarrera = "";
     }
 
     public DefaultSettings getDefaultSettings() {
@@ -44,7 +45,7 @@ public class Filtro implements Serializable {
     }
 
     public Subcategoria nextCategoria(Subcategoria tipo) {
-        if(this.getSubcategoria()!=null) {
+        if (this.getSubcategoria() != null) {
             switch (tipo) {
                 case ZONA:
                     return Subcategoria.DISTANCIA;
@@ -55,7 +56,7 @@ public class Filtro implements Serializable {
                 default:
                     return Subcategoria.ZONA;
             }
-        }else{
+        } else {
             return Subcategoria.ZONA;
         }
 
@@ -84,7 +85,7 @@ public class Filtro implements Serializable {
         } else {
             Calendar c = Calendar.getInstance();
             c.setTime(this.getFechaDesde());
-            c.add(Calendar.DATE,defaultSettings.getDiasBusqueda());
+            c.add(Calendar.DATE, defaultSettings.getDiasBusqueda());
             return c.getTime();
         }
     }
@@ -131,7 +132,7 @@ public class Filtro implements Serializable {
         SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
         if (!this.getZona().isEmpty()) s += "zona = '" + this.getZona() + "'; \n";
 
-        if (this.getNombreCarrera()!= null && !this.getNombreCarrera().isEmpty())
+        if (this.getNombreCarrera() != null && !this.getNombreCarrera().isEmpty())
             s += "nombre = '" + this.getNombreCarrera() + "'; \n";
         if (this.getFechaDesde() != null) {
             s += "desde = '" + sf.format(this.getFechaDesde()) + "'; \n";
@@ -140,10 +141,10 @@ public class Filtro implements Serializable {
         if (this.getFechaHasta() != null) {
             s += "hasta = '" + sf.format(this.getFechaHasta()) + "'; \n";
         }
-        if(this.getDistanciaMin()!=null){
+        if (this.getDistanciaMin() != null) {
             s += "Km desde = '" + this.getDistanciaMin() + "'; \n";
         }
-        if(this.getDistanciaMax()!=null){
+        if (this.getDistanciaMax() != null) {
             s += "Km hasta = '" + this.getDistanciaMax() + "'; \n";
         }
         if (this.getGenero() != null) s += "genero = '" + this.getGenero() + "'; \n";
@@ -152,9 +153,9 @@ public class Filtro implements Serializable {
     }
 
     public Integer getDistanciaMin() {
-        if(this.distanciaMin!= null){
+        if (this.distanciaMin != null) {
             return distanciaMin;
-        }else{
+        } else {
             return this.defaultSettings.getDistanciaMin();
         }
 
@@ -165,9 +166,9 @@ public class Filtro implements Serializable {
     }
 
     public Integer getDistanciaMax() {
-        if(this.distanciaMax!= null){
+        if (this.distanciaMax != null) {
             return distanciaMax;
-        }else{
+        } else {
             return this.defaultSettings.getDistanciaMax();
         }
     }

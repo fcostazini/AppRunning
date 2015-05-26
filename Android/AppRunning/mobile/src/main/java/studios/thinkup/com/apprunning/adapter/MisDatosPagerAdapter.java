@@ -5,10 +5,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import studios.thinkup.com.apprunning.fragment.CarrerasResultadoFragment;
+
 import studios.thinkup.com.apprunning.fragment.EstadisticasFragment;
 
 /**
  * Created by fcostazini on 21/05/2015.
+ *
+ * Datos Propios Pager
  */
 public class MisDatosPagerAdapter extends FragmentPagerAdapter {
     public MisDatosPagerAdapter(FragmentManager fm) {
@@ -32,17 +35,18 @@ public class MisDatosPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int i) {
         Fragment fragment;
-        // Crear un FoodFragment con el nombre como argumento
-if(i==0){
-    fragment = new CarrerasResultadoFragment();
-}else{
-    fragment = new EstadisticasFragment();
-}
-
-
+        switch (i){
+            case 0:
+                fragment = new CarrerasResultadoFragment();
+                break;
+            case 1:
+                fragment = new EstadisticasFragment();
+                break;
+            default:
+                fragment = new EstadisticasFragment();
+                break;
+        }
         return fragment;
-
-
 
     }
 }

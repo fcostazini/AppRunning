@@ -4,8 +4,4 @@
         android:title="@string/mis_datos"
         android:icon="@drawable/ic_mis_datos"
         android:showAsAction="ifRoom" />
-    <item android:id="@+id/mnu_filtros"
-        android:title="@string/action_settings"
-        android:icon="@drawable/ic_filtros"
-        android:showAsAction="ifRoom" />
 </menu>

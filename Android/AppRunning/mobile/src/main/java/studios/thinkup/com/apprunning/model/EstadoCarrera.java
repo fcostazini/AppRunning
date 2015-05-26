@@ -14,4 +14,13 @@ public enum EstadoCarrera {
     public String toString() {
         return this.nombre;
     }
+
+    public static EstadoCarrera getByName(String nombre) {
+        for(EstadoCarrera e : EstadoCarrera.values()){
+            if(e.nombre.equals(nombre)){
+                return e;
+            }
+        }
+        return null;
+    }
 }

@@ -3,6 +3,5 @@
 
     <item android:id="@+id/mnu_filtros"
         android:title="@string/action_settings"
-        android:icon="@drawable/ic_filtros"
-        android:showAsAction="ifRoom" />
+        android:showAsAction="never" />
 </menu>

@@ -22,8 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import studios.thinkup.com.apprunning.CarrerasActivity;
 import studios.thinkup.com.apprunning.R;
-import studios.thinkup.com.apprunning.SubcategoriaActivity;
 import studios.thinkup.com.apprunning.dialogs.DatePicker;
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.Genero;
@@ -108,7 +108,7 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
     public void onClick(View v) {
 
         if(v != null && v.getId() == R.id.btn_buscar){
-            Intent i = new Intent(this.getActivity(), SubcategoriaActivity.class);
+            Intent i = new Intent(this.getActivity(), CarrerasActivity.class);
             i.putExtra(Filtro.class.getSimpleName(),this.filtro);
             this.getActivity().startActivity(i);
         }

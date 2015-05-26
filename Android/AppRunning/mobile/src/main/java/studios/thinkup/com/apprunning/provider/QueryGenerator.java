@@ -20,7 +20,7 @@ public class QueryGenerator {
     public String getWhereCondition() {
         String query = "WHERE 1 = 1 \n";
         if (!filtro.getNombreCarrera().isEmpty()) {
-            query += " AND " + Carrera.NOMBRE_FIELD + "% LIKE '" + filtro.getNombreCarrera() + "'\n";
+            query += " AND " + Carrera.NOMBRE_FIELD + " LIKE '" + filtro.getNombreCarrera() + "%' \n";
         }
         if (!filtro.getZona().isEmpty()) {
             query += " AND " + Carrera.ZONA_FIELD + " = '" + filtro.getZona() + "'\n";
@@ -60,16 +60,16 @@ public class QueryGenerator {
 
         if (min != null && max != null) {
             if (min.equals(max)) {
-                resultado += field + " = '" + min + "'\n";
+                resultado += field + " = " + min.getTime() + "\n";
             } else {
-                resultado += field + " BETWEEN '" + min + "' AND '" + max + "' \n";
+                resultado += field + " BETWEEN " + min.getTime() + " AND " + max.getTime() + " \n";
             }
         } else {
 
             if (min != null)
-                resultado += field + " >= '" + min + "' \n";
+                resultado += field + " >= " + min.getTime() + " \n";
             if (max != null)
-                resultado += field + " <= '" + max + "' \n";
+                resultado += field + " <= " + max.getTime() + " \n";
         }
 
          return resultado;

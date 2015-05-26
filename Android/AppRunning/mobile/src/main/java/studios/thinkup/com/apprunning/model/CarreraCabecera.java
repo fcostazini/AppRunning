@@ -1,5 +1,7 @@
 package studios.thinkup.com.apprunning.model;
 
+import android.content.Intent;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -8,6 +10,8 @@ import java.util.Date;
  * Cabecera de de carrera
  */
 public class CarreraCabecera implements Serializable{
+
+    private Integer codigoCarrera;
     private String nombre;
     private Date fechaInicio;
     private String distancia;
@@ -15,7 +19,8 @@ public class CarreraCabecera implements Serializable{
     private String urlImage;
     private EstadoCarrera estadoCarrera;
 
-    public CarreraCabecera(String nombre, Date fechaInicio, String distancia, String descripcion, String urlImage, EstadoCarrera estado) {
+    public CarreraCabecera(Integer codigo, String nombre, Date fechaInicio, String distancia, String descripcion, String urlImage, EstadoCarrera estado) {
+        this. codigoCarrera = codigo;
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
         this.distancia = distancia;
@@ -24,7 +29,8 @@ public class CarreraCabecera implements Serializable{
         this.estadoCarrera = estado;
     }
 
-    public CarreraCabecera(String nombre, Date fechaInicio, String distancia, String descripcion, String urlImage) {
+    public CarreraCabecera(Integer codigo,String nombre, Date fechaInicio, String distancia, String descripcion, String urlImage) {
+        this. codigoCarrera = codigo;
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
         this.distancia = distancia;
@@ -80,4 +86,6 @@ public class CarreraCabecera implements Serializable{
     public void setUrlImage(String urlImage) {
         this.urlImage = urlImage;
     }
+
+    public Integer getCodigoCarrera(){return this.codigoCarrera;}
 }

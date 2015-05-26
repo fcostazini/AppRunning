@@ -1,8 +1,8 @@
 package studios.thinkup.com.apprunning.fragment;
 
+
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
@@ -10,7 +10,6 @@ import android.widget.ListView;
 import java.util.List;
 
 import studios.thinkup.com.apprunning.DetalleCarreraActivity;
-
 import studios.thinkup.com.apprunning.adapter.CarreraListAdapter;
 import studios.thinkup.com.apprunning.model.CarreraCabecera;
 import studios.thinkup.com.apprunning.model.Filtro;
@@ -18,23 +17,21 @@ import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.provider.CarrerasProvider;
 
 /**
- * A fragment representing a list of Items.
- * <p/>
- * <p/>
- * interface.
+ * Created by fcostazini on 26/05/2015.
+ * Fragmento Recomendados
  */
-public class CarrerasResultadoFragment extends ListFragment {
+public class RecomendadosFragment extends ListFragment {
 
-
-    private Filtro filtro;
     private CarrerasProvider carrerasProvider;
 
 
     // TODO: Rename and change types of parameters
-    public static CarrerasResultadoFragment newInstance(Filtro filtro) {
-        CarrerasResultadoFragment fragment = new CarrerasResultadoFragment();
+    public static RecomendadosFragment newInstance() {
+
+        RecomendadosFragment fragment = new RecomendadosFragment();
+
         Bundle args = new Bundle();
-        args.putSerializable(Filtro.class.getSimpleName(), filtro);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -44,20 +41,15 @@ public class CarrerasResultadoFragment extends ListFragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public CarrerasResultadoFragment() {
+    public RecomendadosFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.carrerasProvider = new CarrerasProvider(this.getActivity());
-
-        if (getArguments() != null) {
-            filtro =(Filtro)getArguments().getSerializable(Filtro.class.getSimpleName());
-        }else{
-            filtro = new Filtro(((RunningApplication) this.getActivity().getApplication()).getDefaultSettings());
-        }
-    List<CarreraCabecera> resultados = carrerasProvider.getCarreras(this.filtro);
+        Filtro filtro = new Filtro(((RunningApplication)this.getActivity().getApplication()).getDefaultSettings());
+        List<CarreraCabecera> resultados = carrerasProvider.getCarreras(filtro);
         // TODO: Change Adapter to display your content
         setListAdapter(new CarreraListAdapter(this.getActivity(),
                 android.R.layout.simple_list_item_1,resultados));
