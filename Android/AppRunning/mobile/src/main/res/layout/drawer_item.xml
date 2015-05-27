@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#ff0100f0"
+        android:textColor="@color/drawer_text_color"
         android:text="Item"
         android:layout_toRightOf="@+id/icon"
         android:layout_centerVertical="true" />

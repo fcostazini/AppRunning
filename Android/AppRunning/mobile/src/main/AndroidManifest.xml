@@ -23,6 +23,7 @@
 
         <activity
             android:name=".BusquedaCarreraActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/title_activity_buscar" >
         </activity>
         <activity
@@ -63,10 +64,10 @@
         <activity
             android:name=".DetalleCarreraActivity"
             android:label="@string/title_activity_detalle_carrera"
-            android:parentActivityName=".BusquedaCarreraActivity" >
+            android:parentActivityName=".CarrerasActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="studios.thinkup.com.apprunning.BusquedaCarreraActivity" />
+                android:value="studios.thinkup.com.apprunning.CarrerasActivity" />
         </activity>
         <activity
             android:name=".MisDatosActivity"
@@ -81,10 +82,6 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="your API key" />
 
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main" >
-        </activity>
     </application>
 
 </manifest>
