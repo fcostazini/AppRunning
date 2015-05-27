@@ -53,11 +53,12 @@ public class CarrerasResultadoFragment extends ListFragment {
         this.carrerasProvider = new CarrerasProvider(this.getActivity());
 
         if (getArguments() != null) {
-            filtro =(Filtro)getArguments().getSerializable(Filtro.class.getSimpleName());
-        }else{
+            filtro = (Filtro) getArguments().getSerializable(Filtro.class.getSimpleName());
+        }
+        if(this.filtro == null){
             filtro = new Filtro(((RunningApplication) this.getActivity().getApplication()).getDefaultSettings());
         }
-    List<CarreraCabecera> resultados = carrerasProvider.getCarreras(this.filtro);
+        List<CarreraCabecera> resultados = carrerasProvider.getCarreras(this.filtro);
         // TODO: Change Adapter to display your content
         setListAdapter(new CarreraListAdapter(this.getActivity(),
                 android.R.layout.simple_list_item_1,resultados));

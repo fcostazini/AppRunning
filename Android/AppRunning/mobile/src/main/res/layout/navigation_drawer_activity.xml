@@ -2,12 +2,12 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/main_content">
 
-    <fragment
-        android:id="@+id/content_fragment"
-        android:name="studios.thinkup.com.apprunning.fragment.BusquedaFormulario"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+</RelativeLayout>
 
     <ListView
         android:id="@+id/left_drawer"

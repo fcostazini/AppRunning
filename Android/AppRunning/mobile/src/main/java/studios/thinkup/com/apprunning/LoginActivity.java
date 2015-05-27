@@ -43,7 +43,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,
     @Override
     public void onConnected(Bundle bundle) {
         mConnectionProgressDialog.dismiss();
-        Intent i = new Intent(this, BusquedaCarreraActivity.class);
+        Intent i = new Intent(this, RecomendadosActivity.class);
         startActivity(i);
     }
 

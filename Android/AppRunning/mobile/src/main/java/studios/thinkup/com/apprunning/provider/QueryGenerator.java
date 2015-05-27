@@ -19,7 +19,7 @@ public class QueryGenerator {
 
     public String getWhereCondition() {
         String query = "WHERE 1 = 1 \n";
-        if (!filtro.getNombreCarrera().isEmpty()) {
+        if (filtro != null && filtro.getNombreCarrera().isEmpty()) {
             query += " AND " + Carrera.NOMBRE_FIELD + " LIKE '" + filtro.getNombreCarrera() + "%' \n";
         }
         if (!filtro.getZona().isEmpty()) {

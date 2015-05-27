@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/content_fragment"
-        android:name="studios.thinkup.com.apprunning.fragment.BusquedaFormulario"
+        android:name="studios.thinkup.com.apprunning.fragment.Preferencias"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 

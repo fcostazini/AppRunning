@@ -52,6 +52,15 @@
                 android:value="studios.thinkup.com.apprunning.BusquedaCarreraActivity" />
         </activity>
         <activity
+            android:name=".RecomendadosActivity"
+            android:label="@string/title_activity_carreras"
+            android:parentActivityName=".BusquedaCarreraActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="studios.thinkup.com.apprunning.BusquedaCarreraActivity" />
+        </activity>
+
+        <activity
             android:name=".DetalleCarreraActivity"
             android:label="@string/title_activity_detalle_carrera"
             android:parentActivityName=".BusquedaCarreraActivity" >
@@ -62,10 +71,10 @@
         <activity
             android:name=".MisDatosActivity"
             android:label="@string/title_activity_mis_datos"
-            android:parentActivityName=".BusquedaCarreraActivity" >
+            android:parentActivityName=".CarrerasActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="studios.thinkup.com.apprunning.BusquedaCarreraActivity" />
+                android:value="studios.thinkup.com.apprunning.CarrerasActivity" />
         </activity>
 
         <meta-data

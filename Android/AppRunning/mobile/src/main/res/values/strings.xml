@@ -31,11 +31,14 @@
     <string name="desde">Desde</string>
     <string name="hasta">Hasta</string>
     <string name="title_activity_main">MainActivity</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
+    <string name="drawer_open">Abrir Menu</string>
+    <string name="drawer_close">Cerrar Menu</string>
     <string name="action_example">Example action</string>
+    <string name="nav_menu_mis_datos">Mis Datos</string>
+    <string name="nav_menu_mis_carreras">Mis Carreras</string>
+    <string name="nav_menu_buscar">Buscar Carreras</string>
+    <string name="nav_menu_recomendados">Recomendadas</string>
+    <string name="nav_menu_preferencias">Preferencias</string>
 
 
 </resources>
