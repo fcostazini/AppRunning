@@ -9,12 +9,14 @@ import android.widget.AdapterView;
 import com.astuetz.PagerSlidingTabStrip;
 
 import studios.thinkup.com.apprunning.adapter.ResultadoCarrerasPagerAdapter;
+import studios.thinkup.com.apprunning.model.Carrera;
+import studios.thinkup.com.apprunning.model.CarreraCabecera;
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.provider.CarrerasProvider;
 
 
-public class CarrerasActivity extends DrawerPagerActivity implements AdapterView.OnItemClickListener {
+public class CarrerasActivity extends DrawerPagerActivity {
 
     private Filtro filtro;
 
@@ -28,6 +30,7 @@ public class CarrerasActivity extends DrawerPagerActivity implements AdapterView
         }else{
             this.filtro = new Filtro(((RunningApplication)this.getApplication()).getDefaultSettings());
         }
+
     }
 
     @Override
@@ -38,11 +41,7 @@ public class CarrerasActivity extends DrawerPagerActivity implements AdapterView
     }
 
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent intent = new Intent(this, DetalleCarreraActivity.class);
-        startActivity(intent);
-    }
+
 
 
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import android.support.v4.app.ListFragment;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 import studios.thinkup.com.apprunning.DetalleCarreraActivity;
 
 import studios.thinkup.com.apprunning.adapter.CarreraListAdapter;
+import studios.thinkup.com.apprunning.model.Carrera;
 import studios.thinkup.com.apprunning.model.CarreraCabecera;
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.RunningApplication;
@@ -69,9 +71,13 @@ public class CarrerasResultadoFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-
-        Intent i = new Intent(this.getActivity(), DetalleCarreraActivity.class);
-        startActivity(i);
+        CarreraCabecera c = (CarreraCabecera)l.getSelectedItem();
+        Intent intent = new Intent(this.getActivity(), DetalleCarreraActivity.class);
+        Bundle b = new Bundle();
+        b.putInt(Carrera.ID, c.getCodigoCarrera()); //Your id
+        intent.putExtras(b); //Put your id to your next Intent
+        startActivity(intent);
 
     }
+
 }

@@ -6,14 +6,16 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import studios.thinkup.com.apprunning.fragment.DetalleCarreraFragment;
 import studios.thinkup.com.apprunning.fragment.TemporizadorFragment;
+import studios.thinkup.com.apprunning.model.Carrera;
 
 /**
  * Created by fcostazini on 21/05/2015.
  */
 public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter{
-
-    public DetalleCarreraPagerAdapter(FragmentManager fm) {
+private Carrera carrera;
+    public DetalleCarreraPagerAdapter(FragmentManager fm, Carrera carrera) {
         super(fm);
+        this.carrera = carrera;
     }
 
     @Override
@@ -35,7 +37,7 @@ public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter{
         Fragment fragment;
         // Crear un FoodFragment con el nombre como argumento
         if(i==0){
-            fragment = new DetalleCarreraFragment();
+            fragment = DetalleCarreraFragment.newInstance(this.carrera);
             //Bundle args = new Bundle();
 
         }else{

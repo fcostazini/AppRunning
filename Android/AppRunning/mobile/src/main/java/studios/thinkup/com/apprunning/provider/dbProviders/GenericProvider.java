@@ -73,4 +73,10 @@ public class GenericProvider {
         return sinCarEs;
     }
 
+    public Cursor executeQuery(String query){
+        if(query!= null && !query.isEmpty()){
+            return helper.getReadableDatabase().rawQuery(query, null);
+        }
+        return null;
+    }
 }
