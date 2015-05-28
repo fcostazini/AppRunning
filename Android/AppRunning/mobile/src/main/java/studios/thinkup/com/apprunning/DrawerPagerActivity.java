@@ -11,24 +11,11 @@ import com.astuetz.PagerSlidingTabStrip;
  */
 public abstract class DrawerPagerActivity extends MainNavigationActivity {
 
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-       ViewPager v =  this.setPagerAdapter();
-        // Give the PagerSlidingTabStrip the ViewPager
-        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        // Attach the view pager to the tab strip
-        tabsStrip.setViewPager(v);
-    }
-
     @Override
     protected void defineContentView() {
         setContentView(R.layout.fragment_pager_drawer);
     }
 
-    protected abstract ViewPager setPagerAdapter();
+
 }
 

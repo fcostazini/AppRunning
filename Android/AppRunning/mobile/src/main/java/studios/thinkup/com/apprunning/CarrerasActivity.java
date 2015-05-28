@@ -30,15 +30,15 @@ public class CarrerasActivity extends DrawerPagerActivity {
         }else{
             this.filtro = new Filtro(((RunningApplication)this.getApplication()).getDefaultSettings());
         }
-
-    }
-
-    @Override
-    protected ViewPager setPagerAdapter() {
         ViewPager v = ((ViewPager) findViewById(R.id.viewpager));
         v.setAdapter(new ResultadoCarrerasPagerAdapter(getSupportFragmentManager(), this.filtro));
-        return v;
+        // Give the PagerSlidingTabStrip the ViewPager
+        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        // Attach the view pager to the tab strip
+        tabsStrip.setViewPager(v);
     }
+
+
 
 
 

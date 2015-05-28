@@ -11,6 +11,7 @@ import java.util.List;
 
 import studios.thinkup.com.apprunning.DetalleCarreraActivity;
 import studios.thinkup.com.apprunning.adapter.CarreraListAdapter;
+import studios.thinkup.com.apprunning.model.Carrera;
 import studios.thinkup.com.apprunning.model.CarreraCabecera;
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.RunningApplication;
@@ -62,7 +63,12 @@ public class RecomendadosFragment extends ListFragment {
         super.onListItemClick(l, v, position, id);
 
         Intent i = new Intent(this.getActivity(), DetalleCarreraActivity.class);
-        startActivity(i);
+        CarreraCabecera c = (CarreraCabecera)l.getItemAtPosition(position);
+        Intent intent = new Intent(this.getActivity(), DetalleCarreraActivity.class);
+        Bundle b = new Bundle();
+        b.putInt(Carrera.ID, c.getCodigoCarrera()); //Your id
+        intent.putExtras(b); //Put your id to your next Intent
+        startActivity(intent);
 
     }
 }

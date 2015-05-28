@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import com.astuetz.PagerSlidingTabStrip;
 
 import studios.thinkup.com.apprunning.adapter.DetalleCarreraPagerAdapter;
+import studios.thinkup.com.apprunning.adapter.ResultadoCarrerasPagerAdapter;
 import studios.thinkup.com.apprunning.model.Carrera;
 import studios.thinkup.com.apprunning.provider.CarrerasProvider;
 
@@ -19,7 +20,8 @@ public class DetalleCarreraActivity extends DrawerPagerActivity {
     private Carrera carrera;
 
     @Override
-    protected ViewPager setPagerAdapter() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         CarrerasProvider provider = new CarrerasProvider(this);
         Bundle b = getIntent().getExtras();
         int codigo;
@@ -31,7 +33,10 @@ public class DetalleCarreraActivity extends DrawerPagerActivity {
         }
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new DetalleCarreraPagerAdapter(getSupportFragmentManager(), this.carrera));
-        return viewPager;
+        // Give the PagerSlidingTabStrip the ViewPager
+        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        // Attach the view pager to the tab strip
+        tabsStrip.setViewPager(viewPager);
     }
 }
 

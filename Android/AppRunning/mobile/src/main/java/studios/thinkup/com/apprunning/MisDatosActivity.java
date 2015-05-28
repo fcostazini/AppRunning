@@ -15,8 +15,17 @@ import studios.thinkup.com.apprunning.adapter.MisDatosPagerAdapter;
 
 public class MisDatosActivity extends DrawerPagerActivity implements AdapterView.OnItemClickListener {
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setAdapter(new MisDatosPagerAdapter(getSupportFragmentManager()));
+        // Give the PagerSlidingTabStrip the ViewPager
+        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        // Attach the view pager to the tab strip
+        tabsStrip.setViewPager(viewPager);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -46,10 +55,4 @@ public class MisDatosActivity extends DrawerPagerActivity implements AdapterView
     }
 
 
-    @Override
-    protected ViewPager setPagerAdapter() {
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new MisDatosPagerAdapter(getSupportFragmentManager()));
-        return viewPager;
-    }
 }

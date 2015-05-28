@@ -11,8 +11,10 @@ import studios.thinkup.com.apprunning.model.Carrera;
 import studios.thinkup.com.apprunning.model.CarreraCabecera;
 import studios.thinkup.com.apprunning.model.EstadoCarrera;
 import studios.thinkup.com.apprunning.model.Filtro;
+import studios.thinkup.com.apprunning.model.Genero;
 import studios.thinkup.com.apprunning.provider.dbProviders.GenericProvider;
 import studios.thinkup.com.apprunning.provider.helper.DataBaseHelper;
+import studios.thinkup.com.apprunning.provider.tables.CarreraTable;
 
 /**
  * Created by fcostazini on 22/05/2015.
@@ -76,10 +78,18 @@ public class CarrerasProvider {
         Cursor cursor = this.dbProvider.executeQuery("Select * from carrera where codigo =" + String.valueOf(codigo));
         if (cursor != null) {
             cursor.moveToFirst();
-            Carrera c = new Carrera(cursor.getInt(0),
-                    cursor.getString(1), new Date(cursor.getLong(2)),
-                    cursor.getString(3), cursor.getString(4),
-                    cursor.getString(5), EstadoCarrera.getByName(cursor.getString(6)));
+
+            Carrera c = Carrera.getBuilder()
+                        .codigoCarrera(cursor.getInt(cursor.getColumnIndex(CarreraTable.CODIGO.getNombre())))
+                        .nombre(cursor.getString(cursor.getColumnIndex(CarreraTable.NOMBRE.getNombre())))
+                        .fechaInicio(new Date(cursor.getLong(cursor.getColumnIndex(CarreraTable.FECHA_LARGADA.getNombre()))))
+                        .distancia(cursor.getInt(cursor.getColumnIndex(CarreraTable.DISTANCIA.getNombre())))
+                        .descripcion(cursor.getString(cursor.getColumnIndex(CarreraTable.DESCRIPCION.getNombre())))
+                        .urlImage(cursor.getString(cursor.getColumnIndex(CarreraTable.URL_IMAGEN.getNombre())))
+                        .genero(Genero.getByName(cursor.getString(cursor.getColumnIndex(CarreraTable.GENERO.getNombre()))))
+                        .direccion(cursor.getString(cursor.getColumnIndex(CarreraTable.DIRECCION.getNombre())))
+                        .build();
+
             cursor.close();
             return c;
         }

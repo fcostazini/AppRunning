@@ -5,7 +5,7 @@ package studios.thinkup.com.apprunning.model;
  * Generos
  */
 public enum Genero {
-    TODOS("Todos"), HOMBRE("Hombre"), MUJER("Mujer");
+    TODOS("TODOS"), HOMBRE("HOMBRE"), MUJER("MUJER");
     private String nombre;
 
     Genero(String nombre) {

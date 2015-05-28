@@ -39,6 +39,7 @@
     <string name="nav_menu_buscar">Buscar Carreras</string>
     <string name="nav_menu_recomendados">Recomendadas</string>
     <string name="nav_menu_preferencias">Preferencias</string>
+    <string name="sin_resultados">Sin Resultados</string>
 
 
 </resources>

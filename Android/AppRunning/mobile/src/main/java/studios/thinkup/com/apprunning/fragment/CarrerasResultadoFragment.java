@@ -71,7 +71,7 @@ public class CarrerasResultadoFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        CarreraCabecera c = (CarreraCabecera)l.getSelectedItem();
+        CarreraCabecera c = (CarreraCabecera)l.getItemAtPosition(position);
         Intent intent = new Intent(this.getActivity(), DetalleCarreraActivity.class);
         Bundle b = new Bundle();
         b.putInt(Carrera.ID, c.getCodigoCarrera()); //Your id
