@@ -9,7 +9,6 @@ import java.util.Vector;
 
 import studios.thinkup.com.apprunning.model.Carrera;
 import studios.thinkup.com.apprunning.model.CarreraCabecera;
-import studios.thinkup.com.apprunning.model.EstadoCarrera;
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.Genero;
 import studios.thinkup.com.apprunning.provider.dbProviders.GenericProvider;
@@ -35,7 +34,11 @@ public class CarrerasProvider {
     public List<CarreraCabecera> getCarreras(Filtro filtro) {
         QueryGenerator qGen = new QueryGenerator(filtro);
         String fields = "codigo, nombre, fecha_largada, distancia, descripcion, url_imagen, ''";
-        Cursor c = dbProvider.getFildsByWhere("carrera", fields, qGen.getWhereCondition(), "");
+        String query = "select codigo, nombre, fecha_largada, distancia, descripcion, url_imagen, ' ',";
+        query +=  "uc.me_gusta, uc.anotado, uc.corrida from carrera as c" +
+                 " left join usuario_carrera as uc on c.codigo = uc.codigo_carrera ";
+        query += qGen.getWhereCondition();
+        Cursor c = dbProvider.executeQuery(query);
         return this.toCarrerasCabecera(c);
     }
 
@@ -49,25 +52,19 @@ public class CarrerasProvider {
 
     private List<CarreraCabecera> toCarrerasCabecera(Cursor cursor) {
         List<CarreraCabecera> resultados = new Vector<>();
-        Integer codigo;
-        String nombre;
-        Date fechaLargada = new Date();
-        String distancia;
-        String descripcion;
-        String urlImage;
-        EstadoCarrera estado;
-
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            codigo = cursor.getInt(0);
-            nombre = cursor.getString(1);
-            fechaLargada.setTime(cursor.getLong(2));
-            distancia = cursor.getString(3);
-            descripcion = cursor.getString(4);
-            urlImage = cursor.getString(5);
-            estado = EstadoCarrera.getByName(cursor.getString(6));
-            resultados.add(new CarreraCabecera(codigo,
-                    nombre, fechaLargada, distancia, descripcion, urlImage, estado));
+            resultados.add(CarreraCabecera.getBuilder()
+                    .codigoCarrera(cursor.getInt(cursor.getColumnIndex(CarreraTable.CODIGO.getNombre())))
+                    .nombre(cursor.getString(cursor.getColumnIndex(CarreraTable.NOMBRE.getNombre())))
+                    .fechaInicio(new Date(cursor.getLong(cursor.getColumnIndex(CarreraTable.FECHA_LARGADA.getNombre()))))
+                    .distancia(cursor.getInt(cursor.getColumnIndex(CarreraTable.DISTANCIA.getNombre())))
+                    .descripcion(cursor.getString(cursor.getColumnIndex(CarreraTable.DESCRIPCION.getNombre())))
+                    .urlImage(cursor.getString(cursor.getColumnIndex(CarreraTable.URL_IMAGEN.getNombre())))
+                    .meGusta(cursor.getInt(cursor.getColumnIndex("uc.me_gusta"))==1)
+                    .fueCorrida(cursor.getInt(cursor.getColumnIndex("uc.corrida"))==1)
+                    .estoyInscripto(cursor.getInt(cursor.getColumnIndex("uc.anotado"))==1)
+                    .build());
             cursor.moveToNext();
         }
         cursor.close();

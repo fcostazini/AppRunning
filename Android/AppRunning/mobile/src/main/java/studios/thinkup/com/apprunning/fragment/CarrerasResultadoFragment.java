@@ -2,16 +2,13 @@ package studios.thinkup.com.apprunning.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.support.v4.app.ListFragment;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.List;
 
 import studios.thinkup.com.apprunning.DetalleCarreraActivity;
-
 import studios.thinkup.com.apprunning.adapter.CarreraListAdapter;
 import studios.thinkup.com.apprunning.model.Carrera;
 import studios.thinkup.com.apprunning.model.CarreraCabecera;
@@ -29,7 +26,6 @@ public class CarrerasResultadoFragment extends ListFragment {
 
 
     private Filtro filtro;
-    private CarrerasProvider carrerasProvider;
 
 
     // TODO: Rename and change types of parameters
@@ -52,7 +48,7 @@ public class CarrerasResultadoFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.carrerasProvider = new CarrerasProvider(this.getActivity());
+        CarrerasProvider carrerasProvider = new CarrerasProvider(this.getActivity());
 
         if (getArguments() != null) {
             filtro = (Filtro) getArguments().getSerializable(Filtro.class.getSimpleName());
@@ -63,7 +59,7 @@ public class CarrerasResultadoFragment extends ListFragment {
         List<CarreraCabecera> resultados = carrerasProvider.getCarreras(this.filtro);
         // TODO: Change Adapter to display your content
         setListAdapter(new CarreraListAdapter(this.getActivity(),
-                android.R.layout.simple_list_item_1,resultados));
+                resultados));
 
 
     }

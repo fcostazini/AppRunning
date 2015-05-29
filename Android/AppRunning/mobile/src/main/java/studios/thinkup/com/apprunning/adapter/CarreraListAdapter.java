@@ -12,9 +12,8 @@ import android.widget.TextView;
 import com.koushikdutta.ion.Ion;
 
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.model.CarreraCabecera;
@@ -28,30 +27,13 @@ public class CarreraListAdapter extends BaseAdapter {
     private List<CarreraCabecera> carreras;
     private Context context;
 
-    public CarreraListAdapter(Context context, int textViewResourceId, List<CarreraCabecera> carreras) {
+    public CarreraListAdapter(Context context, List<CarreraCabecera> carreras) {
         this.carreras = carreras;
         this.context = context;
-    }
-
-    public void sortData(Comparator<CarreraCabecera> comparator) {
-        Collections.sort(carreras, comparator);
-        this.notifyDataSetChanged();
-    }
-
-    public List<CarreraCabecera> getCategorias() {
-        return carreras;
-    }
-
-    public void setCategorias(List<CarreraCabecera> carreras) {
-        this.carreras = carreras;
     }
 
     public Context getContext() {
         return context;
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
     }
 
     @Override
@@ -73,63 +55,82 @@ public class CarreraListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View v = convertView;
-
+        ViewHolder viewHolder = new ViewHolder();
         if (v == null) {
             LayoutInflater mInflater = (LayoutInflater) this.getContext()
                     .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            v = mInflater.inflate(R.layout.carrera_item, parent,false);
+            v = mInflater.inflate(R.layout.carrera_item, null);
+            viewHolder.nombre = (TextView) v.findViewById(R.id.txt_nombre_carrera);
+            viewHolder.fecha = (TextView) v.findViewById(R.id.txt_fecha);
+            viewHolder.corrida = (ImageView) v.findViewById(R.id.img_corrida);
+            viewHolder.meGusta = (ImageView) v.findViewById(R.id.img_favorito);
+            viewHolder.anotado = (ImageView) v.findViewById(R.id.img_anotado_carrera);
+            viewHolder.logo = (ImageView) v.findViewById(R.id.img_logo_carrera);
+            viewHolder.distancia = (TextView) v.findViewById(R.id.txt_distancia);
+            viewHolder.descripcion = (TextView) v.findViewById(R.id.txt_descripcion);
+            v.setTag(viewHolder);
+        }else {
+            viewHolder = (ViewHolder) v.getTag();
         }
 
-        CarreraCabecera p = this.carreras.get(position);
+        CarreraCabecera p = (CarreraCabecera)getItem(position);
 
         if (p != null) {
-            TextView nombre = (TextView) v.findViewById( R.id.txt_nombre_carrera);
-            TextView fecha = (TextView) v.findViewById(R.id.txt_fecha);
-            ImageView estado = (ImageView) v.findViewById(R.id.img_estado_carrera);
-            ImageView logo = (ImageView) v.findViewById(R.id.img_logo_carrera);
-            TextView distancia = (TextView) v.findViewById(R.id.txt_distancia);
-            TextView descripcion = (TextView) v.findViewById(R.id.txt_descripcion);
+
 
             if(p.getNombre()!=null){
-                nombre.setText(p.getNombre());
+                viewHolder.nombre.setText(p.getNombre());
             }
             if(p.getDescripcion() !=null){
-                descripcion.setText(p.getDescripcion());
+                viewHolder.descripcion.setText(p.getDescripcion());
             }
             if(p.getDistancia() !=null){
-                distancia.setText(p.getDistancia() + " Km");
+                viewHolder.distancia.setText(p.getDistancia() + " Km");
             }
             if(p.getFechaInicio()!=null){
 
-                SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
-                fecha.setText(sf.format(p.getFechaInicio()));
+                SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                viewHolder.fecha.setText(sf.format(p.getFechaInicio()));
             }
 
-            if(p.getEstadoCarrera()!=null){
-                switch (p.getEstadoCarrera()){
-                    case CORRIDA:
-                        estado.setImageResource(android.R.drawable.btn_star_big_on);
-                        break;
-                    case INSCRIPTO:
-                        estado.setImageResource(android.R.drawable.btn_star_big_off);
-                        break;
-                    case ME_GUSTA:
-                        estado.setImageResource(android.R.drawable.btn_plus);
-                        break;
-                }
+            if(p.isEstoyInscripto()){
+                viewHolder.anotado.getDrawable().setAlpha(255);
+            }else{
+                viewHolder.anotado.getDrawable().setAlpha(45);
+
             }
 
+            if(p.isFueCorrida()){
+                viewHolder.corrida.getDrawable().setAlpha(255);
+            }else{
+                viewHolder.corrida.getDrawable().setAlpha(45);
+            }
+            if(p.isMeGusta()){
+                viewHolder.meGusta.getDrawable().setAlpha(255);
+            }else{
+                viewHolder.meGusta.getDrawable().setAlpha(45);
+            }
             if(p.getUrlImage()!=null){
-                Ion.with(logo)
-                        .placeholder(R.drawable.common_ic_googleplayservices)
-                        .error(R.drawable.common_ic_googleplayservices)
+                Ion.with( viewHolder.logo)
+                        .placeholder(R.mipmap.ic_launcher)
+                        .error(R.mipmap.ic_launcher)
                         .load(p.getUrlImage());
             }
-
-            //nombre.setText(p.getNombre() + " (" + p.getCantidad().toString() + ")");
         }
+            //nombre.setText(p.getNombre() + " (" + p.getCantidad().toString() + ")");
+
 
         return v;
     }
 
+    private class ViewHolder{
+        TextView nombre;
+        TextView fecha;
+        ImageView corrida;
+        ImageView meGusta;
+        ImageView anotado;
+        ImageView logo;
+        TextView distancia;
+        TextView descripcion;
+    }
 }

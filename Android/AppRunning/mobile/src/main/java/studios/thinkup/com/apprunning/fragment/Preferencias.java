@@ -27,7 +27,7 @@ public class Preferencias extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ZonaProvider zonaProvider = new ZonaProvider();
+        ZonaProvider zonaProvider = new ZonaProvider(this.getActivity());
         DefaultSettings defaultSettings = ((RunningApplication) this.getActivity().getApplication()).getDefaultSettings();
 
         View rootView = inflater.inflate(R.layout.filtros_activity, container, false);

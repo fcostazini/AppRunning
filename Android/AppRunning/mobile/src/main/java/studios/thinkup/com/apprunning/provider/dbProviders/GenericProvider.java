@@ -22,16 +22,17 @@ public class GenericProvider {
 
     }
 
-    public List<String> getDistinctColumns(String tabla, String[] columnas){
+    public List<String> getDistinctColumns(String tabla, String columna){
 
         List<String> resultado = new Vector<>();
+        String[] columns = {columna};
         Cursor c = null;
         try {
-            c = helper.getReadableDatabase().query(true, tabla, columnas, null, null, null, null, columnas[0], null);
+            c = helper.getReadableDatabase().query(true, tabla, columns, null, null, null, null, columns[0], null);
             // looping through all rows and adding to list
             if (c.moveToFirst()) {
                 do {
-                    resultado.add(c.getString(c.getColumnIndex(columnas[0])));
+                    resultado.add(c.getString(c.getColumnIndex(columns[0])));
                 } while (c.moveToNext());
             }
             helper.close();

@@ -45,7 +45,7 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ZonaProvider zonaProvider = new ZonaProvider();
+        ZonaProvider zonaProvider = new ZonaProvider(this.getActivity());
         this.filtro = new Filtro(((RunningApplication) this.getActivity().getApplication()).getDefaultSettings());
         SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
 

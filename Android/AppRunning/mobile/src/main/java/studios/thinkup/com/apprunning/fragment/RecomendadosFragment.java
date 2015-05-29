@@ -52,8 +52,7 @@ public class RecomendadosFragment extends ListFragment {
         Filtro filtro = new Filtro(((RunningApplication)this.getActivity().getApplication()).getDefaultSettings());
         List<CarreraCabecera> resultados = carrerasProvider.getCarreras(filtro);
         // TODO: Change Adapter to display your content
-        setListAdapter(new CarreraListAdapter(this.getActivity(),
-                android.R.layout.simple_list_item_1,resultados));
+        setListAdapter(new CarreraListAdapter(this.getActivity(),resultados));
 
 
     }

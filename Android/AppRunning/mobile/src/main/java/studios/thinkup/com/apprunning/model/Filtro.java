@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by fcostazini on 22/05/2015.
@@ -20,20 +21,10 @@ public class Filtro implements Serializable {
     private Genero genero;
     private String zona;
     private DefaultSettings defaultSettings;
-    private Subcategoria subcategoria;
 
-    public Subcategoria getSubcategoria() {
-        if (this.subcategoria == null) {
-            return Subcategoria.ZONA;
-        }
-        return subcategoria;
-    }
-
-    public void setSubcategoria(Subcategoria subcategoria) {
-        this.subcategoria = subcategoria;
-    }
 
     public Filtro(DefaultSettings defaultSettings) {
+
         this.nombreCarrera = "";
         this.fechaDesde = new Date();
         this.defaultSettings = defaultSettings;
@@ -44,23 +35,6 @@ public class Filtro implements Serializable {
         return defaultSettings;
     }
 
-    public Subcategoria nextCategoria(Subcategoria tipo) {
-        if (this.getSubcategoria() != null) {
-            switch (tipo) {
-                case ZONA:
-                    return Subcategoria.DISTANCIA;
-                case DISTANCIA:
-                    return Subcategoria.GENERO;
-                case GENERO:
-                    return Subcategoria.ZONA;
-                default:
-                    return Subcategoria.ZONA;
-            }
-        } else {
-            return Subcategoria.ZONA;
-        }
-
-    }
 
     public String getNombreCarrera() {
         return nombreCarrera;
@@ -129,7 +103,7 @@ public class Filtro implements Serializable {
     @Override
     public String toString() {
         String s = "";
-        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         if (!this.getZona().isEmpty()) s += "zona = '" + this.getZona() + "'; \n";
 
         if (this.getNombreCarrera() != null && !this.getNombreCarrera().isEmpty())
@@ -148,7 +122,6 @@ public class Filtro implements Serializable {
             s += "Km hasta = '" + this.getDistanciaMax() + "'; \n";
         }
         if (this.getGenero() != null) s += "genero = '" + this.getGenero() + "'; \n";
-
         return s;
     }
 
@@ -176,4 +149,6 @@ public class Filtro implements Serializable {
     public void setDistanciaMax(Integer distanciaMax) {
         this.distanciaMax = distanciaMax;
     }
+
+
 }

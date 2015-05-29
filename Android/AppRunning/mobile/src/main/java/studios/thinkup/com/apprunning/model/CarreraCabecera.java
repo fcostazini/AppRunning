@@ -1,7 +1,5 @@
 package studios.thinkup.com.apprunning.model;
 
-import android.content.Intent;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -9,83 +7,123 @@ import java.util.Date;
  * Created by fcostazini on 22/05/2015.
  * Cabecera de de carrera
  */
-public class CarreraCabecera implements Serializable{
+public class CarreraCabecera implements Serializable {
 
     private Integer codigoCarrera;
     private String nombre;
     private Date fechaInicio;
-    private String distancia;
+    private Integer distancia;
     private String descripcion;
     private String urlImage;
-    private EstadoCarrera estadoCarrera;
+    private boolean fueCorrida;
+    private boolean estoyInscripto;
+    private boolean meGusta;
 
-    public CarreraCabecera(Integer codigo, String nombre, Date fechaInicio, String distancia, String descripcion, String urlImage, EstadoCarrera estado) {
-        this. codigoCarrera = codigo;
+    public CarreraCabecera(Integer codigoCarrera, String nombre, Date fechaInicio,
+                           Integer distancia, String descripcion, String urlImage,
+                           boolean fueCorrida, boolean estoyInscripto, boolean meGusta) {
+        this.codigoCarrera = codigoCarrera;
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
         this.distancia = distancia;
         this.descripcion = descripcion;
         this.urlImage = urlImage;
-        this.estadoCarrera = estado;
+        this.fueCorrida = fueCorrida;
+        this.estoyInscripto = estoyInscripto;
+        this.meGusta = meGusta;
     }
 
-    public CarreraCabecera(Integer codigo,String nombre, Date fechaInicio, String distancia, String descripcion, String urlImage) {
-        this. codigoCarrera = codigo;
-        this.nombre = nombre;
-        this.fechaInicio = fechaInicio;
-        this.distancia = distancia;
-        this.descripcion = descripcion;
-        this.urlImage = urlImage;
-        this.estadoCarrera = null;
-    }
+    private CarreraCabecera(){
 
-    public EstadoCarrera getEstadoCarrera() {
-        return estadoCarrera;
-    }
 
-    public void setEstadoCarrera(EstadoCarrera estadoCarrera) {
-        this.estadoCarrera = estadoCarrera;
     }
-
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public Date getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
-
-    public String getDistancia() {
+    public Integer getDistancia() {
         return distancia;
-    }
-
-    public void setDistancia(String distancia) {
-        this.distancia = distancia;
     }
 
     public String getDescripcion() {
         return descripcion;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
     public String getUrlImage() {
         return urlImage;
     }
 
-    public void setUrlImage(String urlImage) {
-        this.urlImage = urlImage;
+    public Integer getCodigoCarrera() {
+        return this.codigoCarrera;
     }
 
-    public Integer getCodigoCarrera(){return this.codigoCarrera;}
+    public boolean isFueCorrida() {
+        return fueCorrida;
+    }
+
+    public boolean isEstoyInscripto() {
+        return estoyInscripto;
+    }
+
+    public boolean isMeGusta() {
+        return meGusta;
+    }
+    public static CarreraCabeceraBuilder getBuilder(){ return new CarreraCabeceraBuilder();}
+    public static class CarreraCabeceraBuilder {
+        private CarreraCabecera instance = new CarreraCabecera();
+
+        public CarreraCabeceraBuilder nombre(String nombre) {
+            this.instance.nombre = nombre;
+            return this;
+        }
+
+        public CarreraCabeceraBuilder fechaInicio(Date fechaInicio) {
+            this.instance.fechaInicio = fechaInicio;
+            return this;
+        }
+
+        public CarreraCabeceraBuilder codigoCarrera(Integer codigo) {
+            this.instance.codigoCarrera = codigo;
+            return this;
+        }
+
+        public CarreraCabeceraBuilder distancia(Integer distancia) {
+            this.instance.distancia = distancia;
+            return this;
+        }
+
+        public CarreraCabeceraBuilder descripcion(String descripcion) {
+            this.instance.descripcion = descripcion;
+            return this;
+        }
+
+        public CarreraCabeceraBuilder urlImage(String urlImage) {
+            this.instance.urlImage = urlImage;
+            return this;
+        }
+
+        public CarreraCabeceraBuilder fueCorrida(boolean flag) {
+            this.instance.fueCorrida = flag;
+            return this;
+        }
+
+        public CarreraCabeceraBuilder estoyInscripto(boolean flag) {
+            this.instance.estoyInscripto = flag;
+            return this;
+        }
+
+        public CarreraCabeceraBuilder meGusta(boolean flag) {
+            this.instance.meGusta = flag;
+            return this;
+        }
+
+        public CarreraCabecera build() {
+
+            return this.instance;
+        }
+    }
 }

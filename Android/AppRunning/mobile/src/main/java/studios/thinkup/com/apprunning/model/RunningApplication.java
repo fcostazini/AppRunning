@@ -8,6 +8,7 @@ import android.app.Application;
  */
 public class RunningApplication extends Application {
     private DefaultSettings defaultSettings;
+    private UsuarioApp usuario;
 
     public RunningApplication(){
         super();
@@ -19,4 +20,7 @@ public class RunningApplication extends Application {
         return defaultSettings;
     }
 
+    public void setUsuario(UsuarioApp usuario) {
+        this.usuario = usuario;
+    }
 }

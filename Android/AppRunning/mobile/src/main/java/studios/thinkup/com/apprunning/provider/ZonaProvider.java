@@ -1,27 +1,28 @@
 package studios.thinkup.com.apprunning.provider;
 
-import java.util.List;
-import java.util.Vector;
+import android.content.Context;
 
-import studios.thinkup.com.apprunning.model.Categoria;
+import java.util.List;
+
+import studios.thinkup.com.apprunning.model.Carrera;
+import studios.thinkup.com.apprunning.provider.dbProviders.GenericProvider;
+import studios.thinkup.com.apprunning.provider.helper.DataBaseHelper;
 
 /**
  * Created by FaQ on 23/05/2015.
  * Provider de las Zonas
  */
 public class ZonaProvider {
-    private DummyCategoriaProvider dummyCategoriaProvider;
+    private GenericProvider provider;
 
-    public ZonaProvider() {
-        this.dummyCategoriaProvider = new DummyCategoriaProvider();
+    public ZonaProvider(Context context) {
+        this.provider = new GenericProvider(new DataBaseHelper(context));
     }
 
-    public List<String> getZonas(){
-        List<Categoria> categorias = this.dummyCategoriaProvider.getAllZona();
-        List<String> zonas = new Vector<>();
-        for(Categoria c : categorias){
-            zonas.add(c.getNombre());
-        }
+    public List<String> getZonas() {
+
+        List<String> zonas = this.provider.getDistinctColumns("carrera", Carrera.ZONA_FIELD);
+
 
         return zonas;
     }

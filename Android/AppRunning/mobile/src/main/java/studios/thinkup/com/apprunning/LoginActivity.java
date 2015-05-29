@@ -12,6 +12,10 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 
+import studios.thinkup.com.apprunning.model.RunningApplication;
+import studios.thinkup.com.apprunning.model.UsuarioApp;
+import studios.thinkup.com.apprunning.provider.UsuarioProvider;
+
 
 /**
  * A login screen that offers login via email/password and via Google+ sign in.
@@ -44,6 +48,9 @@ public class LoginActivity extends Activity implements View.OnClickListener,
     public void onConnected(Bundle bundle) {
         mConnectionProgressDialog.dismiss();
         Intent i = new Intent(this, RecomendadosActivity.class);
+        UsuarioProvider usuarioPovider = new UsuarioProvider(this);
+        ((RunningApplication)this.getApplication()).setUsuario(
+                usuarioPovider.getUsuarioByEmail(Plus.AccountApi.getAccountName(mPlusClient)));
         startActivity(i);
     }
 

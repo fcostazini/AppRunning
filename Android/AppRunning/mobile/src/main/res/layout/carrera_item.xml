@@ -3,7 +3,50 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/btn_carrera_item">
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/ll_opciones_carrera"
+    android:gravity="right"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:padding="1dp"
+    android:layout_marginRight="2dp"
+    android:layout_marginTop="2dp">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="center"
+        android:id="@+id/img_favorito"
+        android:src="@drawable/ic_me_gusta"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="center"
+        android:id="@+id/img_corrida"
+        android:src="@drawable/ic_corrida"
+        android:layout_gravity="center"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="center"
+        android:id="@+id/img_anotado_carrera"
+
+        android:src="@drawable/ic_anotado"
+        android:layout_gravity="center"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp" />
+
+</LinearLayout>
     <ImageView
         android:layout_width="@dimen/logoSize"
         android:layout_height="@dimen/logoSize"
@@ -12,8 +55,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignBottom="@+id/txt_fecha"
-        android:src="@drawable/common_ic_googleplayservices"
-        android:layout_marginLeft="10dp" />
+        android:layout_marginLeft="10dp"
+        android:src="@mipmap/ic_launcher" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -21,10 +64,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Nombre de Carrera"
         android:id="@+id/txt_nombre_carrera"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/ll_opciones_carrera"
         android:layout_toRightOf="@+id/img_logo_carrera"
         android:layout_toEndOf="@+id/img_logo_carrera"
-        android:layout_toLeftOf="@+id/img_estado_carrera"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp" />
 
@@ -64,11 +106,5 @@
         android:ellipsize="end"
         android:maxLines="3" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/img_estado_carrera"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>
