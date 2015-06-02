@@ -32,6 +32,8 @@ public class CarrerasActivity extends DrawerPagerActivity {
         }
         ViewPager v = ((ViewPager) findViewById(R.id.viewpager));
         v.setAdapter(new ResultadoCarrerasPagerAdapter(getSupportFragmentManager(), this.filtro));
+        v.setBackgroundResource(R.drawable.path);
+        v.getBackground().setAlpha(130);
         // Give the PagerSlidingTabStrip the ViewPager
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         // Attach the view pager to the tab strip

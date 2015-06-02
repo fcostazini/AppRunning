@@ -70,7 +70,7 @@ public class CarreraListAdapter extends BaseAdapter {
             viewHolder.anotado = (ImageView) convertView.findViewById(R.id.img_anotado_carrera);
             viewHolder.logo = (ImageView) convertView.findViewById(R.id.img_logo_carrera);
             viewHolder.distancia = (TextView) convertView.findViewById(R.id.txt_distancia);
-            viewHolder.descripcion = (TextView) convertView.findViewById(R.id.txt_descripcion);
+           // viewHolder.descripcion = (TextView) convertView.findViewById(R.id.txt_descripcion);
             viewHolder.corrida.setImageResource(R.drawable.ic_no_corrida);
             viewHolder.meGusta.setImageResource(R.drawable.ic_no_me_gusta);
             viewHolder.anotado.setImageResource(R.drawable.ic_no_anotado);
@@ -93,9 +93,9 @@ public class CarreraListAdapter extends BaseAdapter {
             if(p.getZona()!= null ){
                 viewHolder.zona.setText(p.getZona());
             }
-            if (p.getDescripcion() != null) {
+           /* if (p.getDescripcion() != null) {
                 viewHolder.descripcion.setText(p.getDescripcion());
-            }
+            }*/
             if (p.getDistancia() != null) {
                 viewHolder.distancia.setText(p.getDistancia() + " Km");
             }

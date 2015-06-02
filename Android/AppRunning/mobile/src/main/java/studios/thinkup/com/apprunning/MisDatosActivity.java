@@ -26,6 +26,8 @@ public class MisDatosActivity extends DrawerPagerActivity implements AdapterView
         Integer id = ((RunningApplication)this.getApplication()).getUsuario().getId();
         filtro.setIdUsuario(id);
         viewPager.setAdapter(new ResultadoCarrerasPagerAdapter(getSupportFragmentManager(),filtro));
+        viewPager.setBackgroundResource(R.drawable.path);
+        viewPager.getBackground().setAlpha(130);
         // Give the PagerSlidingTabStrip the ViewPager
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         // Attach the view pager to the tab strip

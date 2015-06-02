@@ -63,6 +63,14 @@ public class CarrerasResultadoFragment extends ListFragment {
                 resultados));
 
 
+
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getListView().setDividerHeight(0);
+        getListView().setDivider(null);
     }
 
     @Override

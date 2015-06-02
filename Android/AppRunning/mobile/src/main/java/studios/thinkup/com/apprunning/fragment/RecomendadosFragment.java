@@ -55,9 +55,17 @@ public class RecomendadosFragment extends ListFragment {
         filtro = new Filtro(((RunningApplication)this.getActivity().getApplication()).getDefaultSettings());
         List<CarreraCabecera> resultados = carrerasProvider.getCarreras(filtro);
         adapter =new CarreraListAdapter(this.getActivity(),resultados);
+
         setListAdapter(adapter);
 
 
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getListView().setDividerHeight(0);
+        getListView().setDivider(null);
     }
 
     @Override

@@ -1,122 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:id="@+id/btn_carrera_item"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/btn_carrera_item">
+    android:layout_height="match_parent">
+
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/ll_opciones_carrera"
-        android:gravity="right"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:padding="1dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginTop="2dp">
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/panel"
+        android:orientation="horizontal"
 
-        <TextView
-            android:layout_width="fill_parent"
+        >
+
+        <ImageView
+            android:id="@+id/img_logo_carrera"
+            android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:id="@+id/txt_zona"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/txt_distancia"
             android:layout_weight="0.5"
-            android:layout_marginLeft="15dp"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
-            android:text="Zona"
-            android:gravity="left|center_vertical" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="center"
-            android:id="@+id/img_favorito"
-            android:src="@drawable/ic_me_gusta"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="center"
-            android:id="@+id/img_anotado_carrera"
-
-            android:src="@drawable/ic_anotado"
+            android:background="@null"
+            android:src="@mipmap/ic_launcher"
             android:layout_gravity="center"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp" />
+            android:layout_marginLeft="10dp" />
 
-        <ImageView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:scaleType="center"
-            android:id="@+id/img_corrida"
-            android:src="@drawable/ic_corrida"
-            android:layout_gravity="center"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp" />
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp">
+
+            <TextView
+                android:id="@+id/txt_nombre_carrera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginTop="5dp"
+                android:gravity="center|left"
+                android:singleLine="true"
+                android:text="Nombre de Carrera"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ff00003c"
+                android:layout_marginBottom="5dp" />
+
+            <TextView
+                android:id="@+id/txt_fecha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/ll_opciones_carrera"
+                android:layout_below="@+id/txt_distancia"
+                android:text="28/06/2015"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:textColor="#ff00003c"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp" />
+
+            <TextView
+                android:id="@+id/txt_distancia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/ll_opciones_carrera"
+                android:layout_alignRight="@+id/ll_opciones_carrera"
+                android:layout_below="@+id/ll_opciones_carrera"
+                android:text="50 Km"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:textColor="#ff00003c"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp" />
+
+            <TextView
+                android:id="@+id/txt_zona"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/ll_opciones_carrera"
+                android:layout_below="@+id/txt_fecha"
+                android:layout_weight="0.5"
+                android:text="Zona"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:textColor="#ff00003c"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp" />
+
+            <LinearLayout
+                android:id="@+id/ll_opciones_carrera"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="2dp"
+                android:gravity="right"
+                android:orientation="horizontal"
+                android:padding="1dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp">
+
+                <ImageView
+                    android:id="@+id/img_favorito"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_me_gusta"
+                    android:layout_gravity="left" />
+
+                <ImageView
+                    android:id="@+id/img_anotado_carrera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_anotado" />
+
+                <ImageView
+                    android:id="@+id/img_corrida"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|right"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_corrida" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
-
-    <ImageView
-        android:layout_width="@dimen/logoSize"
-        android:layout_height="@dimen/logoSize"
-        android:id="@+id/img_logo_carrera"
-        android:src="@mipmap/ic_launcher"
-        android:layout_below="@+id/ll_opciones_carrera"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="15dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Nombre de Carrera"
-        android:id="@+id/txt_nombre_carrera"
-        android:layout_below="@+id/ll_opciones_carrera"
-        android:layout_toRightOf="@+id/img_logo_carrera"
-        android:layout_toEndOf="@+id/img_logo_carrera"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="15dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="50 Km"
-        android:id="@+id/txt_distancia"
-        android:layout_below="@+id/txt_nombre_carrera"
-        android:layout_toRightOf="@+id/img_logo_carrera"
-        android:layout_toEndOf="@+id/img_logo_carrera"
-        android:textSize="@dimen/carrera_datos_size"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="28/06/2015"
-        android:id="@+id/txt_fecha"
-        android:textSize="@dimen/carrera_datos_size"
-        android:layout_below="@+id/txt_distancia"
-        android:layout_alignLeft="@+id/txt_distancia"
-        android:layout_alignStart="@+id/txt_distancia"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Una carrera para que los fans de Starwars también corran y hagan un poco de ejercicio."
-        android:id="@+id/txt_descripcion"
-        android:layout_below="@+id/txt_fecha"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:padding="@dimen/categoria_item_padding"
-        android:ellipsize="end"
-        android:maxLines="3" />
-
 
 </RelativeLayout>
