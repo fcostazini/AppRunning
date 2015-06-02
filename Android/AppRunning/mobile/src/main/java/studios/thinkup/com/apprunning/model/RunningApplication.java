@@ -19,7 +19,7 @@ public class RunningApplication extends Application {
     public DefaultSettings getDefaultSettings() {
         return defaultSettings;
     }
-
+    public UsuarioApp getUsuario(){return this.usuario;}
     public void setUsuario(UsuarioApp usuario) {
         this.usuario = usuario;
     }

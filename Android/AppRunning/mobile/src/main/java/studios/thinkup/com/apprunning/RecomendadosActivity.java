@@ -14,16 +14,25 @@ import studios.thinkup.com.apprunning.provider.CarrerasProvider;
 
 
 public class RecomendadosActivity extends DrawerPagerActivity {
-
+    private ViewPager viewPager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new RecomendadosPagerAdapter(getSupportFragmentManager()));
         // Give the PagerSlidingTabStrip the ViewPager
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         // Attach the view pager to the tab strip
         tabsStrip.setViewPager(viewPager);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.viewPager.getAdapter().notifyDataSetChanged();
+
+    }
+
+
 }

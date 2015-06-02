@@ -10,7 +10,9 @@ import android.widget.AdapterView;
 
 import com.astuetz.PagerSlidingTabStrip;
 
-import studios.thinkup.com.apprunning.adapter.MisDatosPagerAdapter;
+import studios.thinkup.com.apprunning.adapter.ResultadoCarrerasPagerAdapter;
+import studios.thinkup.com.apprunning.model.Filtro;
+import studios.thinkup.com.apprunning.model.RunningApplication;
 
 
 public class MisDatosActivity extends DrawerPagerActivity implements AdapterView.OnItemClickListener {
@@ -20,7 +22,10 @@ public class MisDatosActivity extends DrawerPagerActivity implements AdapterView
         super.onCreate(savedInstanceState);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new MisDatosPagerAdapter(getSupportFragmentManager()));
+        Filtro filtro = new Filtro();
+        Integer id = ((RunningApplication)this.getApplication()).getUsuario().getId();
+        filtro.setIdUsuario(id);
+        viewPager.setAdapter(new ResultadoCarrerasPagerAdapter(getSupportFragmentManager(),filtro));
         // Give the PagerSlidingTabStrip the ViewPager
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         // Attach the view pager to the tab strip
@@ -38,10 +43,6 @@ public class MisDatosActivity extends DrawerPagerActivity implements AdapterView
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.mnu_filtros:
-                Intent i = new Intent(this, FiltrosPorDefectoActivity.class);
-                startActivity(i);
-                return true;
 
             default:
                 return super.onOptionsItemSelected(item);

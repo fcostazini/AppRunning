@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -26,10 +26,13 @@ import studios.thinkup.com.apprunning.model.CarreraCabecera;
 public class CarreraListAdapter extends BaseAdapter {
     private List<CarreraCabecera> carreras;
     private Context context;
+    private LayoutInflater inflater;
 
     public CarreraListAdapter(Context context, List<CarreraCabecera> carreras) {
         this.carreras = carreras;
         this.context = context;
+        this.inflater = (LayoutInflater) this.getContext()
+                .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
     }
 
     public Context getContext() {
@@ -43,7 +46,7 @@ public class CarreraListAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-       return this.carreras.get(i);
+        return this.carreras.get(i);
     }
 
     @Override
@@ -54,77 +57,85 @@ public class CarreraListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View v = convertView;
+
         ViewHolder viewHolder = new ViewHolder();
-        if (v == null) {
-            LayoutInflater mInflater = (LayoutInflater) this.getContext()
-                    .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            v = mInflater.inflate(R.layout.carrera_item, null);
-            viewHolder.nombre = (TextView) v.findViewById(R.id.txt_nombre_carrera);
-            viewHolder.fecha = (TextView) v.findViewById(R.id.txt_fecha);
-            viewHolder.corrida = (ImageView) v.findViewById(R.id.img_corrida);
-            viewHolder.meGusta = (ImageView) v.findViewById(R.id.img_favorito);
-            viewHolder.anotado = (ImageView) v.findViewById(R.id.img_anotado_carrera);
-            viewHolder.logo = (ImageView) v.findViewById(R.id.img_logo_carrera);
-            viewHolder.distancia = (TextView) v.findViewById(R.id.txt_distancia);
-            viewHolder.descripcion = (TextView) v.findViewById(R.id.txt_descripcion);
-            v.setTag(viewHolder);
-        }else {
-            viewHolder = (ViewHolder) v.getTag();
+        if (convertView == null) {
+
+            convertView = inflater.inflate(R.layout.carrera_item, null);
+            viewHolder.nombre = (TextView) convertView.findViewById(R.id.txt_nombre_carrera);
+            viewHolder.zona = (TextView) convertView.findViewById(R.id.txt_zona);
+            viewHolder.fecha = (TextView) convertView.findViewById(R.id.txt_fecha);
+            viewHolder.corrida = (ImageView) convertView.findViewById(R.id.img_corrida);
+            viewHolder.meGusta = (ImageView) convertView.findViewById(R.id.img_favorito);
+            viewHolder.anotado = (ImageView) convertView.findViewById(R.id.img_anotado_carrera);
+            viewHolder.logo = (ImageView) convertView.findViewById(R.id.img_logo_carrera);
+            viewHolder.distancia = (TextView) convertView.findViewById(R.id.txt_distancia);
+            viewHolder.descripcion = (TextView) convertView.findViewById(R.id.txt_descripcion);
+            viewHolder.corrida.setImageResource(R.drawable.ic_no_corrida);
+            viewHolder.meGusta.setImageResource(R.drawable.ic_no_me_gusta);
+            viewHolder.anotado.setImageResource(R.drawable.ic_no_anotado);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+            viewHolder.corrida.setImageResource(R.drawable.ic_no_corrida);
+            viewHolder.meGusta.setImageResource(R.drawable.ic_no_me_gusta);
+            viewHolder.anotado.setImageResource(R.drawable.ic_no_anotado);
+
         }
 
-        CarreraCabecera p = (CarreraCabecera)getItem(position);
+        CarreraCabecera p = (CarreraCabecera) getItem(position);
 
         if (p != null) {
 
-
-            if(p.getNombre()!=null){
+            if (p.getNombre() != null) {
                 viewHolder.nombre.setText(p.getNombre());
             }
-            if(p.getDescripcion() !=null){
+            if(p.getZona()!= null ){
+                viewHolder.zona.setText(p.getZona());
+            }
+            if (p.getDescripcion() != null) {
                 viewHolder.descripcion.setText(p.getDescripcion());
             }
-            if(p.getDistancia() !=null){
+            if (p.getDistancia() != null) {
                 viewHolder.distancia.setText(p.getDistancia() + " Km");
             }
-            if(p.getFechaInicio()!=null){
-
+            if (p.getFechaInicio() != null) {
                 SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                 viewHolder.fecha.setText(sf.format(p.getFechaInicio()));
             }
 
-            if(p.isEstoyInscripto()){
-                viewHolder.anotado.getDrawable().setAlpha(255);
+            if (p.isEstoyInscripto()) {
+                viewHolder.anotado.setImageResource(R.drawable.ic_anotado);
             }else{
-                viewHolder.anotado.getDrawable().setAlpha(45);
-
+                viewHolder.anotado.setImageResource(R.drawable.ic_no_anotado);
             }
 
-            if(p.isFueCorrida()){
-                viewHolder.corrida.getDrawable().setAlpha(255);
+            if (p.isFueCorrida()) {
+                viewHolder.corrida.setImageResource(R.drawable.ic_corrida);
             }else{
-                viewHolder.corrida.getDrawable().setAlpha(45);
+                viewHolder.corrida.setImageResource(R.drawable.ic_no_corrida);
             }
-            if(p.isMeGusta()){
-                viewHolder.meGusta.getDrawable().setAlpha(255);
+
+            if (p.isMeGusta()) {
+                viewHolder.meGusta.setImageResource(R.drawable.ic_me_gusta);
             }else{
-                viewHolder.meGusta.getDrawable().setAlpha(45);
+                viewHolder.meGusta.setImageResource(R.drawable.ic_no_me_gusta);
             }
-            if(p.getUrlImage()!=null){
-                Ion.with( viewHolder.logo)
+            if (p.getUrlImage() != null) {
+                Picasso.with(context).load(p.getUrlImage())
                         .placeholder(R.mipmap.ic_launcher)
-                        .error(R.mipmap.ic_launcher)
-                        .load(p.getUrlImage());
+                        .error(R.mipmap.ic_launcher).into(viewHolder.logo);
+
             }
         }
-            //nombre.setText(p.getNombre() + " (" + p.getCantidad().toString() + ")");
 
 
-        return v;
+        return convertView;
     }
 
-    private class ViewHolder{
+    private static class ViewHolder {
         TextView nombre;
+        TextView zona;
         TextView fecha;
         ImageView corrida;
         ImageView meGusta;

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <ImageView
         android:layout_width="100dp"
@@ -13,29 +14,19 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"/>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/img_anotado_carrera"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:src="@android:drawable/btn_star_big_off"
-
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Carrera de StarWars"
-        android:layout_below="@+id/img_anotado_carrera"
         android:id="@+id/txt_nombre_carrera"
         android:layout_centerHorizontal="true"
-        android:gravity="center"
+        android:gravity="left|center"
         android:layout_toEndOf="@id/img_logo"
         android:layout_toRightOf="@id/img_logo"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:layout_width="wrap_content"

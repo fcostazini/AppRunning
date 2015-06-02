@@ -76,8 +76,25 @@ public class GenericProvider {
 
     public Cursor executeQuery(String query){
         if(query!= null && !query.isEmpty()){
+
             return helper.getReadableDatabase().rawQuery(query, null);
         }
+
         return null;
+    }
+
+    public void executeModify(String query){
+        if(query!= null && !query.isEmpty()){
+
+            this.helper.getWritableDatabase().beginTransaction();
+            helper.getWritableDatabase().rawQuery(query, null);
+            helper.getWritableDatabase().endTransaction();
+
+
+        }
+    }
+
+    public DataBaseHelper getHelper() {
+        return helper;
     }
 }

@@ -20,19 +20,63 @@ public class Filtro implements Serializable {
     private Integer distanciaMax;
     private Genero genero;
     private String zona;
-    private DefaultSettings defaultSettings;
+    private Integer idUsuario;
+    private Boolean meGusta = null;
+    private Boolean inscripto = null;
+    private Boolean corrida = null;
 
 
     public Filtro(DefaultSettings defaultSettings) {
-
+        this.idUsuario = -1;
         this.nombreCarrera = "";
         this.fechaDesde = new Date();
-        this.defaultSettings = defaultSettings;
+        Calendar c = Calendar.getInstance();
+        c.setTime(this.fechaDesde);
+        c.add(Calendar.DATE, defaultSettings.getDiasBusqueda());
+        this.fechaHasta = c.getTime();
+        this.zona = defaultSettings.getZona();
+        this.distanciaMin = defaultSettings.getDistanciaMin();
+        this.distanciaMax = defaultSettings.getDistanciaMax();
+        this.genero = defaultSettings.getGenero();
         this.nombreCarrera = "";
+        meGusta = null;
+        inscripto = null;
+        corrida = null;
     }
 
-    public DefaultSettings getDefaultSettings() {
-        return defaultSettings;
+    public Boolean getMeGusta() {
+        return meGusta;
+    }
+
+    public void setMeGusta(Boolean meGusta) {
+        this.meGusta = meGusta;
+    }
+
+    public Boolean getInscripto() {
+        return inscripto;
+    }
+
+    public void setInscripto(Boolean inscripto) {
+        this.inscripto = inscripto;
+    }
+
+    public Boolean getCorrida() {
+        return corrida;
+    }
+
+    public void setCorrida(Boolean corrida) {
+        this.corrida = corrida;
+    }
+
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public Filtro() {
     }
 
 
@@ -54,14 +98,8 @@ public class Filtro implements Serializable {
     }
 
     public Date getFechaHasta() {
-        if (this.fechaHasta != null) {
-            return this.fechaHasta;
-        } else {
-            Calendar c = Calendar.getInstance();
-            c.setTime(this.getFechaDesde());
-            c.add(Calendar.DATE, defaultSettings.getDiasBusqueda());
-            return c.getTime();
-        }
+
+        return this.fechaHasta;
     }
 
     public void setFechaHasta(Date fechaHasta) {
@@ -70,12 +108,7 @@ public class Filtro implements Serializable {
 
 
     public Genero getGenero() {
-        if (this.genero != null) {
-            return this.genero;
-        } else {
-            return this.getDefaultSettings().getGenero();
-        }
-
+        return this.genero;
     }
 
     public void setGenero(Genero genero) {
@@ -83,17 +116,8 @@ public class Filtro implements Serializable {
     }
 
     public String getZona() {
-        if (this.zona != null) {
-            return this.zona;
-        } else {
-            if (this.defaultSettings.getZona() != null) {
-                return this.getDefaultSettings().getZona();
-            } else {
-                return "";
-            }
 
-        }
-
+        return this.zona;
     }
 
     public void setZona(String zona) {
@@ -126,12 +150,7 @@ public class Filtro implements Serializable {
     }
 
     public Integer getDistanciaMin() {
-        if (this.distanciaMin != null) {
-            return distanciaMin;
-        } else {
-            return this.defaultSettings.getDistanciaMin();
-        }
-
+        return distanciaMin;
     }
 
     public void setDistanciaMin(Integer distanciaMin) {
@@ -139,16 +158,77 @@ public class Filtro implements Serializable {
     }
 
     public Integer getDistanciaMax() {
-        if (this.distanciaMax != null) {
-            return distanciaMax;
-        } else {
-            return this.defaultSettings.getDistanciaMax();
-        }
+
+        return distanciaMax;
+
     }
 
     public void setDistanciaMax(Integer distanciaMax) {
         this.distanciaMax = distanciaMax;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Filtro filtro = (Filtro) o;
+
+        if (corrida != null ? !corrida.equals(filtro.corrida) : filtro.corrida != null)
+            return false;
+        if (distanciaMax != null ? !distanciaMax.equals(filtro.distanciaMax) : filtro.distanciaMax != null)
+            return false;
+        if (distanciaMin != null ? !distanciaMin.equals(filtro.distanciaMin) : filtro.distanciaMin != null)
+            return false;
+        if (fechaDesde != null ? !fechaDesde.equals(filtro.fechaDesde) : filtro.fechaDesde != null)
+            return false;
+        if (fechaHasta != null ? !fechaHasta.equals(filtro.fechaHasta) : filtro.fechaHasta != null)
+            return false;
+        if (genero != filtro.genero) return false;
+        if (idUsuario != null ? !idUsuario.equals(filtro.idUsuario) : filtro.idUsuario != null)
+            return false;
+        if (inscripto != null ? !inscripto.equals(filtro.inscripto) : filtro.inscripto != null)
+            return false;
+        if (meGusta != null ? !meGusta.equals(filtro.meGusta) : filtro.meGusta != null)
+            return false;
+        if (nombreCarrera != null ? !nombreCarrera.equals(filtro.nombreCarrera) : filtro.nombreCarrera != null)
+            return false;
+        if (zona != null ? !zona.equals(filtro.zona) : filtro.zona != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = nombreCarrera != null ? nombreCarrera.hashCode() : 0;
+        result = 31 * result + (fechaDesde != null ? fechaDesde.hashCode() : 0);
+        result = 31 * result + (fechaHasta != null ? fechaHasta.hashCode() : 0);
+        result = 31 * result + (distanciaMin != null ? distanciaMin.hashCode() : 0);
+        result = 31 * result + (distanciaMax != null ? distanciaMax.hashCode() : 0);
+        result = 31 * result + (genero != null ? genero.hashCode() : 0);
+        result = 31 * result + (zona != null ? zona.hashCode() : 0);
+        result = 31 * result + (idUsuario != null ? idUsuario.hashCode() : 0);
+        result = 31 * result + (meGusta != null ? meGusta.hashCode() : 0);
+        result = 31 * result + (inscripto != null ? inscripto.hashCode() : 0);
+        result = 31 * result + (corrida != null ? corrida.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Filtro f = new Filtro();
+        f.setCorrida(this.corrida);
+        f.setMeGusta(this.meGusta);
+        f.setInscripto(this.inscripto);
+        f.setFechaDesde(this.fechaDesde);
+        f.setFechaHasta(this.fechaHasta);
+        f.setZona(this.zona);
+        f.setDistanciaMax(this.distanciaMax);
+        f.setDistanciaMin(this.distanciaMin);
+        f.setIdUsuario(this.getIdUsuario());
+        f.setGenero(this.genero);
+        f.setNombreCarrera(this.nombreCarrera);
+        return f;
+
+    }
 }

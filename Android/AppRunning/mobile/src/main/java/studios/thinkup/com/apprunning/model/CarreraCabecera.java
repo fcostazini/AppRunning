@@ -15,13 +15,14 @@ public class CarreraCabecera implements Serializable {
     private Integer distancia;
     private String descripcion;
     private String urlImage;
+    private String zona;
     private boolean fueCorrida;
     private boolean estoyInscripto;
     private boolean meGusta;
 
     public CarreraCabecera(Integer codigoCarrera, String nombre, Date fechaInicio,
                            Integer distancia, String descripcion, String urlImage,
-                           boolean fueCorrida, boolean estoyInscripto, boolean meGusta) {
+                           boolean fueCorrida, boolean estoyInscripto, boolean meGusta, String zona) {
         this.codigoCarrera = codigoCarrera;
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
@@ -31,12 +32,18 @@ public class CarreraCabecera implements Serializable {
         this.fueCorrida = fueCorrida;
         this.estoyInscripto = estoyInscripto;
         this.meGusta = meGusta;
+        this.zona = zona;
     }
 
     private CarreraCabecera(){
 
 
     }
+
+    public String getZona() {
+        return zona;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -121,6 +128,10 @@ public class CarreraCabecera implements Serializable {
             return this;
         }
 
+        public CarreraCabeceraBuilder zona(String zona){
+            this.instance.zona = zona;
+            return this;
+        }
         public CarreraCabecera build() {
 
             return this.instance;

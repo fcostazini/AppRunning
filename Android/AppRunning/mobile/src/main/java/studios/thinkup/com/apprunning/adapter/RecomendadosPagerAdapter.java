@@ -43,7 +43,6 @@ public class RecomendadosPagerAdapter extends FragmentPagerAdapter {
             fragment = RecomendadosFragment.newInstance();
         }
 
-
         return fragment;
 
 

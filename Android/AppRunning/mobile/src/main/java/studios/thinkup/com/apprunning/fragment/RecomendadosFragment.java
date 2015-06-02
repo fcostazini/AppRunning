@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.List;
@@ -24,6 +25,8 @@ import studios.thinkup.com.apprunning.provider.CarrerasProvider;
 public class RecomendadosFragment extends ListFragment {
 
     private CarrerasProvider carrerasProvider;
+    private Filtro filtro;
+    private ListAdapter adapter;
 
 
     // TODO: Rename and change types of parameters
@@ -49,10 +52,10 @@ public class RecomendadosFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.carrerasProvider = new CarrerasProvider(this.getActivity());
-        Filtro filtro = new Filtro(((RunningApplication)this.getActivity().getApplication()).getDefaultSettings());
+        filtro = new Filtro(((RunningApplication)this.getActivity().getApplication()).getDefaultSettings());
         List<CarreraCabecera> resultados = carrerasProvider.getCarreras(filtro);
-        // TODO: Change Adapter to display your content
-        setListAdapter(new CarreraListAdapter(this.getActivity(),resultados));
+        adapter =new CarreraListAdapter(this.getActivity(),resultados);
+        setListAdapter(adapter);
 
 
     }
@@ -69,5 +72,17 @@ public class RecomendadosFragment extends ListFragment {
         intent.putExtras(b); //Put your id to your next Intent
         startActivity(intent);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(this.filtro != null){
+            List<CarreraCabecera> resultados = this.carrerasProvider.getCarreras(this.filtro);
+            this.adapter = new CarreraListAdapter(this.getActivity(),resultados);
+            this.setListAdapter(this.adapter);
+            this.getListView().invalidateViews();
+
+        }
     }
 }

@@ -26,13 +26,14 @@ public class CarrerasResultadoFragment extends ListFragment {
 
 
     private Filtro filtro;
+    public String getIdFragment(){
+        return "TODOS";
+    }
 
-
-    // TODO: Rename and change types of parameters
     public static CarrerasResultadoFragment newInstance(Filtro filtro) {
         CarrerasResultadoFragment fragment = new CarrerasResultadoFragment();
         Bundle args = new Bundle();
-        args.putSerializable(Filtro.class.getSimpleName(), filtro);
+        args.putSerializable(Filtro.class.getSimpleName() + fragment.getIdFragment(),  filtro);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,7 +52,7 @@ public class CarrerasResultadoFragment extends ListFragment {
         CarrerasProvider carrerasProvider = new CarrerasProvider(this.getActivity());
 
         if (getArguments() != null) {
-            filtro = (Filtro) getArguments().getSerializable(Filtro.class.getSimpleName());
+            filtro = (Filtro) getArguments().getSerializable(Filtro.class.getSimpleName() +this.getIdFragment());
         }
         if(this.filtro == null){
             filtro = new Filtro(((RunningApplication) this.getActivity().getApplication()).getDefaultSettings());
@@ -76,4 +77,8 @@ public class CarrerasResultadoFragment extends ListFragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }

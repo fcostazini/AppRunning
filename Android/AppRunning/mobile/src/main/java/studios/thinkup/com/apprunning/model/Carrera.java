@@ -97,6 +97,16 @@ public class Carrera implements Serializable {
         return urlImage;
     }
 
+    public void setCorrida(boolean corrida) {
+        this.fueCorrida = corrida;
+    }
+    public void setMeGusta(boolean meGusta) {
+        this.meGusta = meGusta;
+    }
+    public void setInscripto(boolean inscripto) {
+        this.estoyInscripto = inscripto;
+    }
+
     public static class CarreraBuilder {
         private Carrera instance = new Carrera();
 
