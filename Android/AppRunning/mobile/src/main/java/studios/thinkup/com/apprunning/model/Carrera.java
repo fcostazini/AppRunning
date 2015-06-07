@@ -27,6 +27,7 @@ public class Carrera implements Serializable {
     private boolean fueCorrida;
     private boolean estoyInscripto;
     private boolean meGusta;
+    private long tiempo;
 
     public static CarreraBuilder getBuilder() {
 
@@ -105,6 +106,14 @@ public class Carrera implements Serializable {
     }
     public void setInscripto(boolean inscripto) {
         this.estoyInscripto = inscripto;
+    }
+
+    public void setTiempo(long tiempo) {
+        this.tiempo = tiempo;
+    }
+
+    public long getTiempo() {
+        return tiempo;
     }
 
     public static class CarreraBuilder {

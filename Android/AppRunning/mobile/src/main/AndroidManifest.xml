@@ -27,6 +27,11 @@
             android:label="@string/title_activity_buscar" >
         </activity>
         <activity
+            android:name=".TemporizadorActivity"
+            android:label="@string/title_temporizador">
+
+        </activity>
+        <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateHidden" >

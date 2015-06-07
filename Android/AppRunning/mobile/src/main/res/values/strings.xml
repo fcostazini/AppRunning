@@ -45,6 +45,7 @@
     <string name="icon_velocidad">j</string>
     <string name="icon_correr">m</string>
     <string name="icon_edit">e</string>
+    <string name="title_temporizador">Temporizador</string>
 
 
 </resources>

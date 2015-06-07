@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Calendar;
+
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.TemporizadorActivity;
 import studios.thinkup.com.apprunning.model.Carrera;
@@ -22,7 +24,7 @@ import studios.thinkup.com.apprunning.model.Carrera;
  * Use the {@link EstadisticaCarreraFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EstadisticaCarreraFragment extends Fragment implements View.OnClickListener, View.OnTouchListener {
+public class EstadisticaCarreraFragment extends Fragment {
 private LinearLayout aCorrer;
 private Carrera carrera;
     public static EstadisticaCarreraFragment newInstance(Carrera carrera) {
@@ -59,42 +61,66 @@ private Carrera carrera;
             aCorrer.setVisibility(View.GONE);
         }
         Typeface type = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/digit.ttf");
-        ((TextView) rootView.findViewById(R.id.txt_tiempo)).setTypeface(type);
+        TextView tiempo = (TextView) rootView.findViewById(R.id.txt_tiempo);
+        tiempo.setTypeface(type);
+        int h   = (int)(this.carrera.getTiempo() /3600000);
+        int m = (int)(this.carrera.getTiempo() - h*3600000)/60000;
+        int s= (int)(this.carrera.getTiempo() - h*3600000- m*60000)/1000 ;
+        int ms= (int)(this.carrera.getTiempo() - h*3600000- m*60000 -s*1000)/10 ;
+        String tiempoStr =  (h < 10 ? "0"+h: h+"");
+        tiempoStr += ": " + ( m < 10 ? "0"+m: m+"");
+        tiempoStr += ": " +  ( s < 10 ? "0"+s : s+"");
+        tiempoStr += ":" +( ms < 10 ? "0"+ms : ms+"");
+        tiempo.setText(tiempoStr);
+
         type = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/icomoon.ttf");
         ((TextView) rootView.findViewById(R.id.icon_velocidad)).setTypeface(type);
 
 
-        aCorrer.setOnClickListener(this);
-        aCorrer.setOnTouchListener(this);
+        //aCorrer.setOnClickListener(this);
+        aCorrer.setOnTouchListener(new View.OnTouchListener() {
+            private static final int MAX_CLICK_DURATION = 200;
+            private long startClickTime;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+
+                    case MotionEvent.ACTION_DOWN:{
+                        startClickTime = Calendar.getInstance().getTimeInMillis();
+                       EstadisticaCarreraFragment.this.aCorrer.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+                        return true;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        EstadisticaCarreraFragment.this.aCorrer.getBackground().clearColorFilter();
+                        long clickDuration = Calendar.getInstance().getTimeInMillis() - startClickTime;
+                        if(clickDuration < MAX_CLICK_DURATION) {
+                            EstadisticaCarreraFragment.this.onClickACorrer();
+                        }
+                        return true;
+                    }
+                    case MotionEvent.ACTION_CANCEL:{
+                        EstadisticaCarreraFragment.this.aCorrer.getBackground().clearColorFilter();
+                        return true;
+                    }
+
+                }
+                return true;
+            }
+
+        });
 
         return rootView;
     }
 
 
-    @Override
-    public void onClick(View v) {
+
+    protected void onClickACorrer() {
        Intent i = new Intent(this.getActivity(), TemporizadorActivity.class);
         i.putExtra(Carrera.class.getSimpleName(), this.carrera);
         this.getActivity().startActivity(i);
 
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        switch (event.getAction()){
-            case MotionEvent.ACTION_DOWN:{
-                this.aCorrer.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
-                return true;
-            }
-            case MotionEvent.ACTION_UP: {
-                this.aCorrer.getBackground().clearColorFilter();
-                return true;
-            }
-            case MotionEvent.ACTION_CANCEL:{
-                this.aCorrer.getBackground().clearColorFilter();
-                return true;
-            }
-        }
-        return true;
-    }
+
 }
