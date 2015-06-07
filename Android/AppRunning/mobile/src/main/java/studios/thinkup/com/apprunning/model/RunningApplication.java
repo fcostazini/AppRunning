@@ -16,6 +16,11 @@ public class RunningApplication extends Application {
 
     }
 
+    @Override
+    public void onCreate() {
+        FontsOverride.overrideFont(getApplicationContext(), "SERIF", "fonts/milkrun.ttf");
+    }
+
     public DefaultSettings getDefaultSettings() {
         return defaultSettings;
     }

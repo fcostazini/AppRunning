@@ -7,7 +7,7 @@
 
 
     <Chronometer
-        android:id="@+id/chronometer1"
+        android:id="@+id/chronometer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -16,101 +16,118 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="0dp" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/reloj"
+        android:orientation="horizontal"
         android:gravity="center_horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="00:"
+            android:text="00"
             android:id="@+id/txt_hora"
-            android:layout_alignParentTop="true"
-            android:textSize="50sp"
-            android:layout_alignParentStart="false"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentLeft="false"
-            android:layout_alignParentRight="false"
-            android:gravity="center_horizontal" />
+            android:textSize="60sp"
+            android:gravity="bottom|center_horizontal"
+            android:typeface="monospace"
+            android:textIsSelectable="false"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:elegantTextHeight="true"
+             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="00:"
+            android:text="00"
             android:id="@+id/txt_minutos"
-            android:layout_toRightOf="@+id/txt_hora"
-            android:layout_toEndOf="@+id/txt_hora"
-            android:layout_alignTop="@+id/txt_hora"
-            android:layout_centerHorizontal="true"
-            android:textSize="50sp" />
+            android:textSize="55sp"
+
+            android:typeface="monospace"
+            android:textIsSelectable="false"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:gravity="bottom|center_horizontal"
+            android:elegantTextHeight="true"
+            android:paddingBottom="2dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="00"
-            android:layout_toRightOf="@+id/txt_minutos"
-            android:layout_toEndOf="@+id/txt_minutos"
             android:id="@+id/txt_segundos"
-            android:layout_alignTop="@+id/txt_hora"
-            android:layout_centerHorizontal="true"
-            android:textSize="50sp" />
+
+            android:textSize="45sp"
+            android:gravity="bottom|center_horizontal"
+            android:typeface="monospace"
+            android:textIsSelectable="false"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:elegantTextHeight="true"
+            android:paddingBottom="4dp"
+
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="00"
-            android:id="@+id/txt_milsec"
-            android:layout_marginLeft="15dp"
-            android:textSize="20sp"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentEnd="true"
-            android:singleLine="true"
-            android:layout_alignParentTop="false"
-            android:layout_alignRight="@+id/txt_segundos"
-            android:layout_alignBottom="@+id/txt_segundos"
-            android:layout_marginBottom="10dp" />
-    </RelativeLayout>
+            android:id="@+id/txt_millisec"
+            android:textSize="40sp"
+            android:gravity="bottom|center_horizontal"
+            android:typeface="monospace"
+            android:textIsSelectable="false"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:elegantTextHeight="true"
+            android:paddingBottom="4dp" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/reloj"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:id="@+id/linearLayout">
-
-        <Button
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:text="@string/comenzar"
-            android:id="@+id/button2"
-            android:layout_below="@+id/txt_hora"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <Button
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:text="@string/frenar"
-            android:id="@+id/button3"
-            android:layout_below="@+id/txt_minutos"
-            android:layout_toRightOf="@+id/button2"
-            android:layout_toEndOf="@+id/button2" />
     </LinearLayout>
 
-    <Button
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/editar"
-        android:id="@+id/button4"
-        android:layout_below="@+id/linearLayout"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/reloj"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentEnd="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ib_start"
+            android:src="@android:drawable/ic_media_play"
+            android:background="@color/material_blue_grey_800"
+            android:padding="10dp"
+            android:layout_centerVertical="true" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ib_pause"
+            android:src="@android:drawable/ic_media_pause"
+            android:background="@color/material_blue_grey_800"
+            android:padding="10dp"
+            android:layout_alignBottom="@+id/ib_start"
+            android:layout_toRightOf="@+id/ib_start"
+            android:layout_toEndOf="@+id/ib_start" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ib_save"
+            android:src="@android:drawable/ic_menu_save"
+            android:background="@color/material_blue_grey_800"
+            android:padding="10dp"
+            android:layout_alignBottom="@+id/ib_pause"
+            android:layout_toRightOf="@+id/ib_pause"
+            android:layout_toEndOf="@+id/ib_pause" />
+    </RelativeLayout>
 
 </RelativeLayout>

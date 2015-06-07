@@ -21,14 +21,14 @@ public class RecomendadosPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 1;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         switch(position){
             case 0: return "RECOMENDADAS";
-            case 1: return "AMIGOS";
+            //case 1: return "AMIGOS";
             default: return "";
         }
     }

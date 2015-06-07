@@ -21,12 +21,14 @@
         android:text="Carrera de StarWars"
         android:id="@+id/txt_nombre_carrera"
         android:layout_centerHorizontal="true"
-        android:gravity="left|center"
+        android:gravity="center"
         android:layout_toEndOf="@id/img_logo"
         android:layout_toRightOf="@id/img_logo"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp" />
+        android:layout_marginRight="20dp"
+        android:layout_above="@+id/txt_descripcion"
+        android:layout_alignTop="@+id/img_logo" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,7 +40,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -134,5 +136,55 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/lbl_mas_info"
+        android:id="@+id/lbl_mas_info"
+        android:layout_below="@+id/lbl_direccion"
+        android:layout_alignLeft="@+id/lbl_direccion"
+        android:layout_alignStart="@+id/lbl_direccion"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/wallet_link_text_light" />
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:layout_below="@+id/lbl_mas_info"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ib_temporizador"
+            android:src="@drawable/temporizador"
+            android:background="#00000000"
+            android:layout_marginLeft="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="0dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+            android:text="00:00:00:00"
+            android:id="@+id/txt_tiempo"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/abc_text_size_display_1_material"
+            android:layout_toRightOf="@+id/ib_temporizador"
+            android:layout_toEndOf="@+id/ib_temporizador"
+            android:layout_alignParentTop="true"
+            android:layout_alignBottom="@+id/ib_temporizador"
+            android:typeface="sans"
+            android:textAlignment="center" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

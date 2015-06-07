@@ -13,10 +13,10 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/panel"
         android:orientation="horizontal"
 
-        >
+        android:background="@drawable/item_background"
+        android:id="@+id/linearLayout4">
 
         <ImageView
             android:id="@+id/img_logo_carrera"
@@ -39,7 +39,19 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:paddingTop="10dp"
-            android:paddingBottom="5dp">
+            android:paddingBottom="5dp"
+            android:id="@+id/ll_informacion">
+
+            <ImageView
+                android:id="@+id/img_favorito"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="center"
+                android:src="@drawable/ic_me_gusta"
+                android:layout_above="@+id/linearLayout4"
+                android:layout_alignRight="@+id/ll_informacion"
+                android:layout_alignEnd="@+id/linearLayout4"
+                android:layout_gravity="center_vertical|right" />
 
             <TextView
                 android:id="@+id/txt_nombre_carrera"
@@ -99,23 +111,12 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginRight="2dp"
                 android:layout_marginTop="2dp"
                 android:gravity="right"
                 android:orientation="horizontal"
                 android:padding="1dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="5dp">
-
-                <ImageView
-                    android:id="@+id/img_favorito"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
-                    android:scaleType="center"
-                    android:src="@drawable/ic_me_gusta"
-                    android:layout_gravity="left" />
 
                 <ImageView
                     android:id="@+id/img_anotado_carrera"
@@ -134,14 +135,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|right"
                     android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
                     android:scaleType="center"
                     android:src="@drawable/ic_corrida" />
 
             </LinearLayout>
 
         </LinearLayout>
-
     </LinearLayout>
+
+
 
 </RelativeLayout>
