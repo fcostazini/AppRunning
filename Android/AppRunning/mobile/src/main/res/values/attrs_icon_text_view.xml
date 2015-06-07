@@ -1,6 +1,0 @@
-<resources>
-    <declare-styleable name="IconTextView">
-        <attr name="fontName" format="string" />
-
-    </declare-styleable>
-</resources>

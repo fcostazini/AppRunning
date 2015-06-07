@@ -59,10 +59,9 @@ private Carrera carrera;
             aCorrer.setVisibility(View.GONE);
         }
         Typeface type = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/digit.ttf");
-        ((TextView) rootView.findViewById(R.id.txt_hora)).setTypeface(type);
-        ((TextView) rootView.findViewById(R.id.txt_minutos)).setTypeface(type);
-        ((TextView) rootView.findViewById(R.id.txt_segundos)).setTypeface(type);
-        ((TextView) rootView.findViewById(R.id.txt_millisec)).setTypeface(type);
+        ((TextView) rootView.findViewById(R.id.txt_tiempo)).setTypeface(type);
+        type = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/icomoon.ttf");
+        ((TextView) rootView.findViewById(R.id.icon_velocidad)).setTypeface(type);
 
 
         aCorrer.setOnClickListener(this);
@@ -76,7 +75,7 @@ private Carrera carrera;
     public void onClick(View v) {
        Intent i = new Intent(this.getActivity(), TemporizadorActivity.class);
         i.putExtra(Carrera.class.getSimpleName(), this.carrera);
-        startActivity(i);
+        this.getActivity().startActivity(i);
 
     }
 
