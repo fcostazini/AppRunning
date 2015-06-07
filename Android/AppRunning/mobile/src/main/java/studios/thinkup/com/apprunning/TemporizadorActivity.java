@@ -1,6 +1,7 @@
-package studios.thinkup.com.apprunning.fragment;
+package studios.thinkup.com.apprunning;
 
 
+import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,7 +18,7 @@ import studios.thinkup.com.apprunning.R;
 /**
  * Created by fcostazini on 21/05/2015.
  */
-public class TemporizadorFragment extends Fragment implements  View.OnClickListener {
+public class TemporizadorActivity extends Activity implements View.OnClickListener {
     private TextView horas;
     private TextView minutos;
     private TextView segundos;
@@ -36,20 +37,20 @@ public class TemporizadorFragment extends Fragment implements  View.OnClickListe
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_temporizador, container, false);
+    public  void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_temporizador);
         this.isRunning = false;
-        save = (ImageButton) rootView.findViewById(R.id.ib_save);
-        play = (ImageButton) rootView.findViewById(R.id.ib_start);
-        pause = (ImageButton) rootView.findViewById(R.id.ib_pause);
-        this.horas= (TextView) rootView.findViewById(R.id.txt_hora);
-        this.minutos=(TextView) rootView.findViewById(R.id.txt_minutos);
-        this.segundos =(TextView) rootView.findViewById(R.id.txt_segundos);
-        this.millisec =(TextView) rootView.findViewById(R.id.txt_millisec);
+        save = (ImageButton) this.findViewById(R.id.ib_save);
+        play = (ImageButton) this.findViewById(R.id.ib_start);
+        pause = (ImageButton) this.findViewById(R.id.ib_pause);
+        this.horas= (TextView) this.findViewById(R.id.txt_hora);
+        this.minutos=(TextView) this.findViewById(R.id.txt_minutos);
+        this.segundos =(TextView) this.findViewById(R.id.txt_segundos);
+        this.millisec =(TextView) this.findViewById(R.id.txt_millisec);
         this.pause.setVisibility(View.GONE);
         this.save.setVisibility(View.GONE);
-        Typeface type = Typeface.createFromAsset(this.getActivity().getAssets(), "fonts/digit.ttf");
+        Typeface type = Typeface.createFromAsset(this.getAssets(), "fonts/digit.ttf");
         this.horas.setTypeface(type);
         this.minutos.setTypeface(type);
         this.segundos.setTypeface(type);
@@ -79,7 +80,6 @@ public class TemporizadorFragment extends Fragment implements  View.OnClickListe
         play.setOnClickListener(this);
         pause.setOnClickListener(this);
         save.setOnClickListener(this);
-        return rootView;
     }
 
 

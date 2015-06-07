@@ -5,7 +5,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import studios.thinkup.com.apprunning.fragment.DetalleCarreraFragment;
-import studios.thinkup.com.apprunning.fragment.TemporizadorFragment;
+import studios.thinkup.com.apprunning.TemporizadorActivity;
+import studios.thinkup.com.apprunning.fragment.EstadisticaCarreraFragment;
+import studios.thinkup.com.apprunning.fragment.EstadisticasFragment;
 import studios.thinkup.com.apprunning.model.Carrera;
 
 /**
@@ -13,15 +15,17 @@ import studios.thinkup.com.apprunning.model.Carrera;
  */
 public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter {
     private Carrera carrera;
+    private boolean conEstadisticas;
 
     public DetalleCarreraPagerAdapter(FragmentManager fm, Carrera carrera) {
         super(fm);
         this.carrera = carrera;
+        this.conEstadisticas =this.carrera.isEstoyInscripto();
     }
 
     @Override
     public int getCount() {
-        if (this.carrera.isFueCorrida() || this.carrera.isEstoyInscripto()) {
+        if (this.conEstadisticas) {
             return 2;
 
         } else {
@@ -31,12 +35,12 @@ public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if (this.carrera.isFueCorrida() || this.carrera.isEstoyInscripto()) {
+        if (this.conEstadisticas) {
             switch (position) {
                 case 0:
                     return "DETALLE";
                 case 1:
-                    return "TEMPORIZADOR";
+                    return "ESTADISTICAS";
                 default:
                     return "";
             }
@@ -59,7 +63,7 @@ public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter {
                 //Bundle args = new Bundle();
 
             } else {
-                fragment = new TemporizadorFragment();
+                fragment = EstadisticaCarreraFragment.newInstance(this.carrera);
             }
             return fragment;
 
