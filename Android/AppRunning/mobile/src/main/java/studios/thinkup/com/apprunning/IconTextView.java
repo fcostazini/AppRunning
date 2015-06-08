@@ -5,6 +5,8 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import studios.thinkup.com.apprunning.provider.TypefaceProvider;
+
 public class IconTextView extends TextView {
     public IconTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -12,8 +14,8 @@ public class IconTextView extends TextView {
     }
 
     private void init() {
-        Typeface typeface = Typeface.createFromAsset(
-                getContext().getAssets(), "fonts/icomoon.ttf");
+        Typeface typeface = TypefaceProvider.getInstance(
+                getContext()).getTypeface(TypefaceProvider.ICOMOON);
 
         setTypeface(typeface);
 

@@ -4,7 +4,7 @@
     xmlns:ioniconview="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     tools:context="studios.thinkup.com.apprunning.fragment.EstadisticaCarreraFragment"
-    >
+    android:visibility="visible">
 
 
     <LinearLayout
@@ -12,14 +12,17 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ll_tiempo"
-        android:gravity="left|center_vertical"
+        android:gravity="center_vertical|center"
         android:layout_below="@+id/imageView"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginTop="20dp">
 
 <studios.thinkup.com.apprunning.IconTextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:textSize="22sp"
+    android:textSize="25sp"
     android:text="@string/icon_cronometro"
     android:padding="5dp"
     android:layout_marginLeft="20dp"
@@ -33,20 +36,33 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
             android:text="00:00:00:00"
             android:id="@+id/txt_tiempo"
-            android:textSize="@dimen/abc_text_size_large_material"
+            android:textSize="28sp"
 
             android:typeface="sans"
             android:textAlignment="center"
             android:gravity="bottom" />
+        <studios.thinkup.com.apprunning.IconTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:text="@string/icon_edit"
+            android:padding="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:textColor="#00AAFF"
+            android:typeface="monospace"
+            android:gravity="bottom"
+            android:id="@+id/icon_edit_time"
+            android:visibility="invisible">
 
+        </studios.thinkup.com.apprunning.IconTextView>
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:gravity="center_vertical|center_horizontal"
@@ -56,16 +72,20 @@
         android:id="@+id/lb_a_correr"
         android:layout_below="@+id/ll_velocidad"
         android:layout_centerHorizontal="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp">
         <studios.thinkup.com.apprunning.IconTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="22sp"
             android:text="@string/icon_correr"
-            android:padding="5dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginRight="10dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
 
         </studios.thinkup.com.apprunning.IconTextView>
         <TextView
@@ -74,7 +94,10 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="a Correr!"
             android:id="@+id/txt_correr"
-            android:gravity="center_vertical" />
+            android:gravity="center_vertical"
+            android:paddingRight="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp" />
 
     </LinearLayout>
 
@@ -87,7 +110,8 @@
         android:padding="5dp"
         android:background="#10000000"
         android:layout_margin="10dp"
-        android:src="@drawable/mapa_ejemplo" />
+        android:src="@drawable/mapa_ejemplo"
+        android:visibility="gone" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -99,7 +123,10 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:visibility="gone">
 
         <studios.thinkup.com.apprunning.IconTextView
             android:layout_width="wrap_content"

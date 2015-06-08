@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <studios.thinkup.com.apprunning.IconTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:text="@string/icon_plus_square"
+            android:id="@+id/ic_plus"
+            android:layout_alignParentTop="true"
+            android:layout_alignRight="@+id/txt_num"
+            android:layout_alignLeft="@+id/txt_num"
+            android:textColor="#000000"
+            android:typeface="monospace"
+            android:background="@drawable/button"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp">
+
+        </studios.thinkup.com.apprunning.IconTextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="00"
+            android:layout_below="@+id/ic_plus"
+            android:id="@+id/txt_num"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/abc_text_size_display_1_material"
+            android:numeric="integer"
+            android:textColor="#AA009900"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentRight="false"
+            android:background="#220066FF"
+            android:textAlignment="center"
+            android:gravity="center_vertical|center_horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+
+        <studios.thinkup.com.apprunning.IconTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:text="@string/icon_minus_square"
+            android:id="@+id/ic_minus"
+            android:layout_below="@id/txt_num"
+            android:layout_alignRight="@+id/txt_num"
+            android:layout_alignLeft="@+id/txt_num"
+            android:textColor="#000000"
+            android:typeface="monospace"
+            android:background="@drawable/button"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp">
+
+        </studios.thinkup.com.apprunning.IconTextView>
+
+    </RelativeLayout>
+

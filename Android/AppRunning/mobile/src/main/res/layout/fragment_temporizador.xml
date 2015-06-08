@@ -96,38 +96,44 @@
         android:layout_alignParentRight="false"
         android:layout_alignParentEnd="false"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="40dp"
+        android:id="@+id/relativeLayout">
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ib_start"
             android:src="@android:drawable/ic_media_play"
-            android:background="@color/material_blue_grey_800"
-            android:padding="10dp"
-            android:layout_centerVertical="true" />
+            android:background="#77009900"
+            android:padding="20dp" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ib_pause"
             android:src="@android:drawable/ic_media_pause"
-            android:background="@color/material_blue_grey_800"
-            android:padding="10dp"
+            android:background="#77009900"
+            android:padding="20dp"
             android:layout_alignBottom="@+id/ib_start"
             android:layout_toRightOf="@+id/ib_start"
             android:layout_toEndOf="@+id/ib_start" />
 
-        <ImageButton
+        <studios.thinkup.com.apprunning.IconTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/ib_save"
-            android:src="@android:drawable/ic_menu_save"
-            android:background="@color/material_blue_grey_800"
-            android:padding="10dp"
-            android:layout_alignBottom="@+id/ib_pause"
+            android:textSize="25sp"
+            android:gravity="center"
+            android:text="@string/icon_correr"
+            android:src="@android:drawable/ic_media_play"
+            android:background="#77009900"
+            android:padding="20dp"
+            android:textColor="#fff"
+            android:id="@+id/icon_fin_carrera"
+            android:layout_alignTop="@+id/ib_pause"
             android:layout_toRightOf="@+id/ib_pause"
-            android:layout_toEndOf="@+id/ib_pause" />
+            android:layout_toEndOf="@id/ib_pause"
+            android:layout_alignBottom="@+id/ib_pause" />
+
     </RelativeLayout>
 
 </RelativeLayout>

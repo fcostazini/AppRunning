@@ -1,0 +1,14 @@
+<resources>
+    <declare-styleable name="CustomNumberPickerView">
+        <attr name="numberValue" format="integer" />
+        <attr name="numberTypeFace" format="string" />
+        <attr name="plusSymbol" format="string" />
+        <attr name="minusSymbol" format="string" />
+        <attr name="numberColor" format="color" />
+        <attr name="plusColor" format="color" />
+        <attr name="minusColor" format="color" />
+        <attr name="plusBackground" format="color|reference" />
+        <attr name="minusBackground" format="color|reference" />
+        <attr name="numberBackground" format="color|reference" />
+    </declare-styleable>
+</resources>

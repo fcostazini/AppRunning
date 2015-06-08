@@ -26,14 +26,18 @@ public class DetalleCarreraActivity extends DrawerPagerActivity {
         Bundle b = getIntent().getExtras();
         int codigo;
         if(b!=null){
-            codigo = b.getInt(Carrera.ID);
-            this.carrera = provider.getCarreraByCodigo(codigo);
+            if(b.getSerializable(Carrera.class.getSimpleName())!=null){
+                this.carrera = (Carrera)b.getSerializable(Carrera.class.getSimpleName());
+            }else{
+                codigo = b.getInt(Carrera.ID);
+                this.carrera = provider.getCarreraByCodigo(codigo);
+            }
+
         }else{
 
         }
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new DetalleCarreraPagerAdapter(getSupportFragmentManager(), this.carrera));
-
         // Give the PagerSlidingTabStrip the ViewPager
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         // Attach the view pager to the tab strip

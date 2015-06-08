@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical|center">
+
+
+
+    <studios.thinkup.com.apprunning.components.CustomNumberPickerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:numberValue="10"
+        android:id="@+id/np_hr"
+        app:plusSymbol="@string/icon_plus_square"
+        app:minusSymbol="@string/icon_minus_square"
+        android:padding="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp" />
+    <studios.thinkup.com.apprunning.components.CustomNumberPickerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:numberValue="10"
+        android:id="@+id/np_min"
+        app:plusSymbol="@string/icon_plus_square"
+        app:minusSymbol="@string/icon_minus_square"
+        android:padding="10dp"
+        android:layout_toRightOf="@id/np_hr"
+
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp" />
+    <studios.thinkup.com.apprunning.components.CustomNumberPickerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:numberValue="10"
+        android:id="@+id/np_sec"
+        app:plusSymbol="@string/icon_plus_square"
+        app:minusSymbol="@string/icon_minus_square"
+        android:padding="10dp"
+        android:layout_toRightOf="@id/np_min"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp" />
+    <studios.thinkup.com.apprunning.components.CustomNumberPickerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:numberValue="10"
+        android:id="@+id/np_ms"
+        app:plusSymbol="@string/icon_plus_square"
+        app:minusSymbol="@string/icon_minus_square"
+        android:padding="10dp"
+        android:layout_toRightOf="@id/np_sec"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp" />
+
+    <studios.thinkup.com.apprunning.IconTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
+        android:layout_below="@+id/np_hr"
+        android:layout_alignLeft="@+id/np_min"
+        android:layout_alignRight="@+id/np_sec"
+        android:padding="10dp"
+        android:textSize="22sp"
+        android:text="@string/icon_save"
+        android:textColor="#fff"
+        android:background="#77000000"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        android:textAlignment="center" />
+</RelativeLayout>
