@@ -136,7 +136,7 @@ public class TemporizadorActivity extends Activity implements View.OnClickListen
                 this.carrera.setTiempo(this.time);
 
                 Intent i = new Intent(this, DetalleCarreraActivity.class);
-                i.putExtra(UsuarioCarrera.class.getSimpleName(), this.carrera.getId());
+                i.putExtra(UsuarioCarrera.class.getSimpleName(), this.carrera.getCodigoCarrera());
                 startActivity(i);
 
 
