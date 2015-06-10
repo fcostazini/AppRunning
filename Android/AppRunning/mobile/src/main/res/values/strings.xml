@@ -44,5 +44,9 @@
 
     <string name="title_temporizador">Temporizador</string>
 
-
+    <!-- Button text -->
+    <string name="btn_logout_from_google">Logout from Google</string>
+    <string name="btn_revoke_access">Revoke Access</string>
+    <string name="nav_menu_logout">Logout</string>
+    <string name="face_key">930000867023317</string>
 </resources>

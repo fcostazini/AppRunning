@@ -1,11 +1,9 @@
 package studios.thinkup.com.apprunning;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,9 +14,10 @@ import java.util.List;
 
 import studios.thinkup.com.apprunning.adapter.DrawerItem;
 import studios.thinkup.com.apprunning.adapter.DrawerListAdapter;
+import studios.thinkup.com.apprunning.model.LogOutItem;
 
 
-public abstract  class MainNavigationActivity extends FragmentActivity {
+public abstract class MainNavigationActivity extends FragmentActivity {
 
     private DrawerLayout drawerLayout;
     private ListView drawerList;
@@ -50,15 +49,16 @@ public abstract  class MainNavigationActivity extends FragmentActivity {
         this.drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         this.drawerList = (ListView) findViewById(R.id.left_drawer);
         items = new ArrayList<>();
-        items.add(new DrawerItem(getString(R.string.nav_menu_mis_datos), R.drawable.ic_mis_datos,MisDatosActivity.class));
-        items.add(new DrawerItem(getString(R.string.nav_menu_mis_carreras), R.drawable.ic_mis_carreras,MisDatosActivity.class));
-        items.add(new DrawerItem(getString(R.string.nav_menu_buscar), R.drawable.ic_search,BusquedaCarreraActivity.class));
+        items.add(new DrawerItem(getString(R.string.nav_menu_mis_datos), R.drawable.ic_mis_datos, MisDatosActivity.class));
+        items.add(new DrawerItem(getString(R.string.nav_menu_mis_carreras), R.drawable.ic_mis_carreras, MisDatosActivity.class));
+        items.add(new DrawerItem(getString(R.string.nav_menu_buscar), R.drawable.ic_search, BusquedaCarreraActivity.class));
         items.add(new DrawerItem(getString(R.string.nav_menu_recomendados), R.drawable.ic_recomendados, RecomendadosActivity.class));
         items.add(new DrawerItem(getString(R.string.nav_menu_preferencias), R.drawable.ic_preferencias, FiltrosPorDefectoActivity.class));
+        items.add(new LogOutItem(getString(R.string.nav_menu_logout), R.drawable.ic_logout));
 
         drawerList.setAdapter(new DrawerListAdapter(this, items));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
-        this.mDrawerToggle = new ActionBarDrawerToggle(this, this.drawerLayout , R.string.drawer_open, R.string.drawer_close) {
+        this.mDrawerToggle = new ActionBarDrawerToggle(this, this.drawerLayout, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -89,15 +89,18 @@ public abstract  class MainNavigationActivity extends FragmentActivity {
         super.onPostCreate(savedInstanceState);
         mDrawerToggle.syncState();
     }
+
     protected abstract void defineContentView();
 
 
     protected void selectItem(int position) {
-
-        Intent i = new Intent(this,items.get(position).getActivity());
-        startActivity(i);
         drawerList.setItemChecked(position, true);
-        drawerLayout.closeDrawer(drawerList);
+        if (items.get(position).navigate(this)) {
+
+            drawerLayout.closeDrawer(drawerList);
+        }
+
+
     }
 
     /* La escucha del ListView en el Drawer */

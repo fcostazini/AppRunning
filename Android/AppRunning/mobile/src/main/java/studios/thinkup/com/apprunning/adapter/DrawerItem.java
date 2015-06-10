@@ -1,5 +1,8 @@
 package studios.thinkup.com.apprunning.adapter;
 
+import android.content.Context;
+import android.content.Intent;
+
 /**
  * Created by fcostazini on 27/05/2015.
  * Item del Navigation Drawer
@@ -14,6 +17,8 @@ public class DrawerItem {
         this.iconId = iconId;
         this.activity = activity;
     }
+
+
 
     public String getName() {
         return name;
@@ -37,5 +42,16 @@ public class DrawerItem {
 
     public void setActivity(Class activity) {
         this.activity = activity;
+    }
+
+    public boolean navigate(Context c){
+     if(this.activity != null){
+         Intent i = new Intent(c,this.getActivity());
+         c.startActivity(i);
+         return true;
+     }else{
+         return false;
+     }
+
     }
 }

@@ -1,0 +1,33 @@
+package studios.thinkup.com.apprunning.model;
+
+import android.content.Context;
+import android.content.Intent;
+
+import studios.thinkup.com.apprunning.MainLogin;
+import studios.thinkup.com.apprunning.adapter.DrawerItem;
+
+/**
+ * Created by FaQ on 09/06/2015.
+ */
+public class LogOutItem extends DrawerItem{
+    public LogOutItem(String label, int icon) {
+        super(label, icon, MainLogin.class);
+
+
+    }
+
+    @Override
+    public boolean navigate(Context c) {
+
+        if(this.getActivity() != null){
+
+            Intent i = new Intent(c,MainLogin.class);
+            i.putExtra("LOGOUT", true);
+            c.startActivity(i);
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+}
