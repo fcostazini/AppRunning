@@ -108,6 +108,7 @@ public class MainLogin extends Activity implements View.OnClickListener,
                                     u.setNombre(object.getString("email"));
                                     u.setEmail(object.getString("name"));
                                     u.setTipoCuenta("FACEBOOK");
+                                    u.save();
                                 }
                                 signedIn(u);
                                 } catch (JSONException e) {
@@ -208,6 +209,11 @@ public class MainLogin extends Activity implements View.OnClickListener,
     public void onConnected(Bundle arg0) {
         mSignInClicked = false;
 
+        signedIn(getUsuarioGoogle());
+
+    }
+
+    private UsuarioApp getUsuarioGoogle() {
         UsuarioProvider usuarioPovider = new UsuarioProvider(this);
         UsuarioApp u = usuarioPovider.getUsuarioByEmail(Plus.AccountApi.getAccountName(mGoogleApiClient));
 
@@ -220,9 +226,13 @@ public class MainLogin extends Activity implements View.OnClickListener,
                 u.setNombre(currentPerson.getDisplayName());
                 u.setEmail(Plus.AccountApi.getAccountName(mGoogleApiClient));
                 u.setTipoCuenta("GMAIL");
+                u.save();
+            }else{
+                return null;
             }
-            signedIn(u);
+
         }
+        return u;
     }
 
     private void signedIn(UsuarioApp u) {
@@ -256,6 +266,8 @@ public class MainLogin extends Activity implements View.OnClickListener,
         if (!mGoogleApiClient.isConnecting()) {
             mSignInClicked = true;
             resolveSignInError();
+        }else{
+            signedIn(getUsuarioGoogle());
         }
     }
 

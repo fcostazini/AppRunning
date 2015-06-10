@@ -64,21 +64,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_estadistica_carrera, container, false);
-        this.editar = (IconTextView) rootView.findViewById(R.id.icon_edit_time);
-
-        this.aCorrer = (LinearLayout) rootView.findViewById(R.id.lb_a_correr);
-        editar.setOnClickListener(this);
-        if (this.carrera.isAnotado() && !this.carrera.isCorrida()) {
-            aCorrer.setVisibility(View.VISIBLE);
-
-        } else {
-            aCorrer.setVisibility(View.GONE);
-        }
-        Typeface type = TypefaceProvider.getInstance(this.getActivity()).getTypeface(TypefaceProvider.DIGIT);
-        this.tiempo = (TextView) rootView.findViewById(R.id.txt_tiempo);
-
-        actualizarValores();
-        tiempo.setTypeface(type);
+        initView(rootView);
 
 
 
@@ -116,6 +102,24 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         });
 
         return rootView;
+    }
+
+    private void initView(View rootView) {
+        this.editar = (IconTextView) rootView.findViewById(R.id.icon_edit_time);
+
+        this.aCorrer = (LinearLayout) rootView.findViewById(R.id.lb_a_correr);
+        editar.setOnClickListener(this);
+        if (this.carrera.isAnotado() && !this.carrera.isCorrida()) {
+            aCorrer.setVisibility(View.VISIBLE);
+
+        } else {
+            aCorrer.setVisibility(View.GONE);
+        }
+        Typeface type = TypefaceProvider.getInstance(this.getActivity()).getTypeface(TypefaceProvider.DIGIT);
+        this.tiempo = (TextView) rootView.findViewById(R.id.txt_tiempo);
+
+        actualizarValores();
+        tiempo.setTypeface(type);
     }
 
 
@@ -190,5 +194,12 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
             aCorrer.setVisibility(View.GONE);
             editar.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        UsuarioCarrera.findById(UsuarioCarrera.class,this.carrera.getId());
+        initView(getView());
     }
 }
