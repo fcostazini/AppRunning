@@ -3,7 +3,12 @@ package studios.thinkup.com.apprunning.provider;
 import android.content.Context;
 import android.database.Cursor;
 
-import studios.thinkup.com.apprunning.model.UsuarioApp;
+import com.orm.query.Condition;
+import com.orm.query.Select;
+
+import java.util.List;
+
+import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.dbProviders.GenericProvider;
 import studios.thinkup.com.apprunning.provider.helper.DataBaseHelper;
 
@@ -18,11 +23,13 @@ public class UsuarioProvider {
     }
 
     public UsuarioApp getUsuarioByEmail(String email){
-        Cursor c = this.provider.executeQuery("select * from usuario where email = '" + email + "'");
-        c.moveToFirst();
-        UsuarioApp u = new UsuarioApp(c.getString(c.getColumnIndex("nombre")),
-                                      c.getInt(c.getColumnIndex("id_usuario")));
-        return u;
+        List<UsuarioApp> resultados = UsuarioApp.find(UsuarioApp.class, "email = ?", email);
+        if(resultados != null && resultados.size()>0){
+            return resultados.get(0);
+        }else{
+            return null;
+        }
+
     }
 
 }

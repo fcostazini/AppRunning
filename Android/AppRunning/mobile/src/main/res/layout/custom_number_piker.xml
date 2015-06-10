@@ -18,10 +18,7 @@
             android:typeface="monospace"
             android:background="@drawable/button"
             android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp">
+            android:padding="10dp">
 
         </studios.thinkup.com.apprunning.IconTextView>
 
@@ -44,7 +41,9 @@
             android:textAlignment="center"
             android:gravity="center_vertical|center_horizontal"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
+            android:paddingRight="10dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp" />
 
         <studios.thinkup.com.apprunning.IconTextView
             android:layout_width="wrap_content"
@@ -59,10 +58,7 @@
             android:typeface="monospace"
             android:background="@drawable/button"
             android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp">
+            android:padding="10dp">
 
         </studios.thinkup.com.apprunning.IconTextView>
 

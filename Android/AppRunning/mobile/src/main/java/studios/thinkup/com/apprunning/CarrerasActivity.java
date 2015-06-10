@@ -1,19 +1,13 @@
 package studios.thinkup.com.apprunning;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.widget.AdapterView;
 
 import com.astuetz.PagerSlidingTabStrip;
 
 import studios.thinkup.com.apprunning.adapter.ResultadoCarrerasPagerAdapter;
-import studios.thinkup.com.apprunning.model.Carrera;
-import studios.thinkup.com.apprunning.model.CarreraCabecera;
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.RunningApplication;
-import studios.thinkup.com.apprunning.provider.CarrerasProvider;
 
 
 public class CarrerasActivity extends DrawerPagerActivity {

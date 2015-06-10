@@ -2,6 +2,8 @@ package studios.thinkup.com.apprunning.model;
 
 import java.io.Serializable;
 
+import studios.thinkup.com.apprunning.model.entity.Genero;
+
 /**
  * Created by FaQ on 23/05/2015.
  * <p/>

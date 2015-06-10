@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.model.DefaultSettings;
-import studios.thinkup.com.apprunning.model.Genero;
+import studios.thinkup.com.apprunning.model.entity.Genero;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.provider.ZonaProvider;
 

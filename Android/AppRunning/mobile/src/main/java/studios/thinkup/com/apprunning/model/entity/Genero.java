@@ -1,4 +1,4 @@
-package studios.thinkup.com.apprunning.model;
+package studios.thinkup.com.apprunning.model.entity;
 
 /**
  * Created by FaQ on 23/05/2015.

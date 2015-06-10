@@ -16,7 +16,8 @@ import java.util.List;
 import java.util.Locale;
 
 import studios.thinkup.com.apprunning.R;
-import studios.thinkup.com.apprunning.model.CarreraCabecera;
+import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
+import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 
 /**
  * Created by fcostazini on 22/05/2015.

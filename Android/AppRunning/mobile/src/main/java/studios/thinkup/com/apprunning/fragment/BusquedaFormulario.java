@@ -26,7 +26,7 @@ import studios.thinkup.com.apprunning.CarrerasActivity;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.dialogs.DatePicker;
 import studios.thinkup.com.apprunning.model.Filtro;
-import studios.thinkup.com.apprunning.model.Genero;
+import studios.thinkup.com.apprunning.model.entity.Genero;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.provider.ZonaProvider;
 

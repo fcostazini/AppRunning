@@ -9,6 +9,9 @@
 
 
     <studios.thinkup.com.apprunning.components.CustomNumberPickerView
+        app:plusBackground="@drawable/bg_numpick_plus"
+        app:minusBackground="@drawable/bg_numpick_minus"
+        app:numberBackground="@drawable/bg_numpick_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:numberValue="10"
@@ -20,6 +23,9 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="0dp" />
     <studios.thinkup.com.apprunning.components.CustomNumberPickerView
+        app:plusBackground="@drawable/bg_numpick_plus"
+        app:minusBackground="@drawable/bg_numpick_minus"
+        app:numberBackground="@drawable/bg_numpick_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:numberValue="10"
@@ -32,6 +38,9 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="0dp" />
     <studios.thinkup.com.apprunning.components.CustomNumberPickerView
+        app:plusBackground="@drawable/bg_numpick_plus"
+        app:minusBackground="@drawable/bg_numpick_minus"
+        app:numberBackground="@drawable/bg_numpick_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:numberValue="10"
@@ -43,6 +52,9 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="0dp" />
     <studios.thinkup.com.apprunning.components.CustomNumberPickerView
+        app:plusBackground="@drawable/bg_numpick_plus"
+        app:minusBackground="@drawable/bg_numpick_minus"
+        app:numberBackground="@drawable/bg_numpick_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:numberValue="10"
@@ -54,20 +66,57 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="0dp" />
 
-    <studios.thinkup.com.apprunning.IconTextView
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton"
         android:layout_below="@+id/np_hr"
-        android:layout_alignLeft="@+id/np_min"
-        android:layout_alignRight="@+id/np_sec"
-        android:padding="10dp"
-        android:textSize="22sp"
-        android:text="@string/icon_save"
-        android:textColor="#fff"
-        android:background="#77000000"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:gravity="center"
-        android:textAlignment="center" />
+        android:layout_alignLeft="@+id/np_hr"
+        android:layout_alignRight="@+id/np_ms"
+        android:gravity="center_vertical|center_horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp">
+
+        <studios.thinkup.com.apprunning.IconTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ic_cancel"
+            android:layout_below="@+id/np_hr"
+            android:layout_alignRight="@+id/np_sec"
+
+            android:padding="10dp"
+            android:textSize="22sp"
+            android:text="@string/icon_cancel"
+            android:textColor="#fff"
+            android:background="#77000000"
+
+
+            android:gravity="center"
+            android:textAlignment="center"
+            android:layout_weight="0.5"
+            android:layout_marginRight="5dp" />
+
+        <studios.thinkup.com.apprunning.IconTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ic_save"
+            android:layout_below="@+id/np_hr"
+            android:layout_alignLeft="@+id/np_min"
+
+            android:padding="10dp"
+            android:textSize="22sp"
+            android:text="@string/icon_save"
+            android:textColor="#fff"
+            android:background="#77000000"
+
+
+            android:gravity="center"
+            android:textAlignment="center"
+            android:layout_weight="0.5"
+            android:layout_marginLeft="5dp" />
+
+    </LinearLayout>
+
 </RelativeLayout>

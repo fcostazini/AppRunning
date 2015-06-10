@@ -16,14 +16,14 @@ import studios.thinkup.com.apprunning.model.RunningApplication;
 
 
 public class MisDatosActivity extends DrawerPagerActivity implements AdapterView.OnItemClickListener {
-
+    private ViewPager viewPager;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        this.viewPager = (ViewPager) findViewById(R.id.viewpager);
         Filtro filtro = new Filtro();
-        Integer id = ((RunningApplication)this.getApplication()).getUsuario().getId();
+        long id = ((RunningApplication)this.getApplication()).getUsuario().getId();
         filtro.setIdUsuario(id);
         viewPager.setAdapter(new ResultadoCarrerasPagerAdapter(getSupportFragmentManager(),filtro));
         viewPager.setBackgroundResource(R.drawable.path);
@@ -57,5 +57,10 @@ public class MisDatosActivity extends DrawerPagerActivity implements AdapterView
         startActivity(intent);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.viewPager.getAdapter().notifyDataSetChanged();
 
+    }
 }

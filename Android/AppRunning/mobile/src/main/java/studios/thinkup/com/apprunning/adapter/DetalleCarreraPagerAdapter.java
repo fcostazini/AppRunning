@@ -5,37 +5,29 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import studios.thinkup.com.apprunning.fragment.DetalleCarreraFragment;
-import studios.thinkup.com.apprunning.TemporizadorActivity;
 import studios.thinkup.com.apprunning.fragment.EstadisticaCarreraFragment;
-import studios.thinkup.com.apprunning.fragment.EstadisticasFragment;
-import studios.thinkup.com.apprunning.model.Carrera;
+import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 
 /**
  * Created by fcostazini on 21/05/2015.
  */
 public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter {
-    private Carrera carrera;
-    private boolean conEstadisticas;
+    private long carrera;
 
-    public DetalleCarreraPagerAdapter(FragmentManager fm, Carrera carrera) {
+
+    public DetalleCarreraPagerAdapter(FragmentManager fm, long idCarrera) {
         super(fm);
-        this.carrera = carrera;
-        this.conEstadisticas =this.carrera.isEstoyInscripto();
+        this.carrera = idCarrera;
     }
 
     @Override
     public int getCount() {
-        if (this.conEstadisticas) {
-            return 2;
+           return 2;
 
-        } else {
-            return 1;
-        }
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if (this.conEstadisticas) {
             switch (position) {
                 case 0:
                     return "DETALLE";
@@ -44,15 +36,7 @@ public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter {
                 default:
                     return "";
             }
-        } else {
-            switch (position) {
-                case 0:
-                    return "DETALLE";
-                default:
-                    return "";
-            }
 
-        }
     }
         @Override
         public Fragment getItem ( int i){

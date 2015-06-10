@@ -12,7 +12,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import studios.thinkup.com.apprunning.model.Carrera;
+import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
+import studios.thinkup.com.apprunning.provider.TypefaceProvider;
 
 /**
  * Created by fcostazini on 21/05/2015.
@@ -23,7 +24,7 @@ public class TemporizadorActivity extends Activity implements View.OnClickListen
     private TextView segundos;
     private TextView millisec;
     private boolean editando;
-    private Carrera carrera;
+    private UsuarioCarrera carrera;
 
     private ImageButton pause;
     private ImageButton play;
@@ -39,8 +40,9 @@ public class TemporizadorActivity extends Activity implements View.OnClickListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        long id = this.getIntent().getExtras().getLong(UsuarioCarrera.class.getSimpleName());
+        this.carrera =  UsuarioCarrera.findById(UsuarioCarrera.class,id);
 
-        this.carrera = (Carrera) this.getIntent().getExtras().getSerializable(Carrera.class.getSimpleName());
         setContentView(R.layout.fragment_temporizador);
         this.isRunning = false;
         save = (IconTextView) this.findViewById(R.id.icon_fin_carrera);
@@ -51,7 +53,7 @@ public class TemporizadorActivity extends Activity implements View.OnClickListen
         this.segundos = (TextView) this.findViewById(R.id.txt_segundos);
         this.millisec = (TextView) this.findViewById(R.id.txt_millisec);
 
-        Typeface type = Typeface.createFromAsset(this.getAssets(), "fonts/digit.ttf");
+        Typeface type = TypefaceProvider.getInstance(this).getTypeface(TypefaceProvider.DIGIT);
         this.horas.setTypeface(type);
         this.minutos.setTypeface(type);
         this.segundos.setTypeface(type);
@@ -134,7 +136,7 @@ public class TemporizadorActivity extends Activity implements View.OnClickListen
                 this.carrera.setTiempo(this.time);
 
                 Intent i = new Intent(this, DetalleCarreraActivity.class);
-                i.putExtra(Carrera.class.getSimpleName(), this.carrera);
+                i.putExtra(UsuarioCarrera.class.getSimpleName(), this.carrera.getId());
                 startActivity(i);
 
 

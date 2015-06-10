@@ -2,9 +2,9 @@ package studios.thinkup.com.apprunning.provider;
 
 import java.util.Date;
 
-import studios.thinkup.com.apprunning.model.Carrera;
 import studios.thinkup.com.apprunning.model.Filtro;
-import studios.thinkup.com.apprunning.model.Genero;
+import studios.thinkup.com.apprunning.model.entity.Carrera;
+import studios.thinkup.com.apprunning.model.entity.Genero;
 
 /**
  * Created by FaQ on 25/05/2015.
@@ -18,7 +18,7 @@ public class QueryGenerator {
     }
 
     public String getWhereCondition() {
-        String query = "WHERE 1 = 1 \n";
+        String query = " Where 'a' = 'a' \n";
         if (filtro != null && filtro.getNombreCarrera() != null && !filtro.getNombreCarrera().isEmpty()) {
             query += " AND " + Carrera.NOMBRE_FIELD + " LIKE '" + filtro.getNombreCarrera() + "%' \n";
         }
@@ -31,8 +31,8 @@ public class QueryGenerator {
 
         query += getFechaRange(Carrera.FECHA_LARGADA_FIELD, filtro.getFechaDesde(), filtro.getFechaHasta());
         query += getIntegerRange(Carrera.DISTANCIA_FIELD, filtro.getDistanciaMin(), filtro.getDistanciaMax());
-        if (filtro.getIdUsuario() != null && filtro.getIdUsuario() >= 0) {
-            query += " AND id_usuario = " + filtro.getIdUsuario().intValue();
+        if (filtro.getIdUsuario() >= 0) {
+            query += " AND usuario = " + filtro.getIdUsuario();
         }
         if(filtro.getMeGusta()!=null){
             query += " AND me_gusta = " + this.getIntFromBool(filtro.getMeGusta().booleanValue());

@@ -15,19 +15,21 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import studios.thinkup.com.apprunning.R;
-import studios.thinkup.com.apprunning.model.Carrera;
+import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
+import studios.thinkup.com.apprunning.provider.CarrerasProvider;
+import studios.thinkup.com.apprunning.provider.ICarrerasProvider;
 
 /**
  * Created by fcostazini on 21/05/2015.
  * Detalle de la carrera
  */
 public class DetalleCarreraFragment extends Fragment {
-    private Carrera carrera;
+    private UsuarioCarrera carrera;
 
-    public static DetalleCarreraFragment newInstance(Carrera carrera) {
+    public static DetalleCarreraFragment newInstance(long idCarrera) {
         DetalleCarreraFragment fragment = new DetalleCarreraFragment();
         Bundle args = new Bundle();
-        args.putSerializable(Carrera.class.getSimpleName(), carrera);
+        args.putLong(UsuarioCarrera.class.getSimpleName(), idCarrera);
         fragment.setArguments(args);
         return fragment;
     }
@@ -36,8 +38,10 @@ public class DetalleCarreraFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detalle_carrera, container, false);
+        ICarrerasProvider cp = new CarrerasProvider();
         if (getArguments() != null) {
-            this.carrera = (Carrera) getArguments().getSerializable(Carrera.class.getSimpleName());
+            long id = getArguments().getLong(UsuarioCarrera.class.getSimpleName());
+            this.carrera = cp.getByIdCarrera(id);
         }
         TextView txtNombre = (TextView) rootView.findViewById(R.id.txt_nombre_carrera);
         if (this.carrera == null) {

@@ -13,7 +13,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 
 import studios.thinkup.com.apprunning.model.RunningApplication;
-import studios.thinkup.com.apprunning.model.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 
 
@@ -49,6 +48,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,
         mConnectionProgressDialog.dismiss();
         Intent i = new Intent(this, RecomendadosActivity.class);
         UsuarioProvider usuarioPovider = new UsuarioProvider(this);
+
         ((RunningApplication)this.getApplication()).setUsuario(
                 usuarioPovider.getUsuarioByEmail(Plus.AccountApi.getAccountName(mPlusClient)));
         startActivity(i);

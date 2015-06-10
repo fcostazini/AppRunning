@@ -12,11 +12,13 @@ import java.util.List;
 
 import studios.thinkup.com.apprunning.DetalleCarreraActivity;
 import studios.thinkup.com.apprunning.adapter.CarreraListAdapter;
-import studios.thinkup.com.apprunning.model.Carrera;
-import studios.thinkup.com.apprunning.model.CarreraCabecera;
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.RunningApplication;
-import studios.thinkup.com.apprunning.provider.CarrerasProvider;
+import studios.thinkup.com.apprunning.model.entity.Carrera;
+import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
+import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
+import studios.thinkup.com.apprunning.provider.CarreraCabeceraProvider;
+import studios.thinkup.com.apprunning.provider.ICarreraCabeceraProvider;
 
 /**
  * Created by fcostazini on 26/05/2015.
@@ -24,12 +26,12 @@ import studios.thinkup.com.apprunning.provider.CarrerasProvider;
  */
 public class RecomendadosFragment extends ListFragment {
 
-    private CarrerasProvider carrerasProvider;
+    private ICarreraCabeceraProvider carrerasProvider;
     private Filtro filtro;
     private ListAdapter adapter;
 
 
-    // TODO: Rename and change types of parameters
+
     public static RecomendadosFragment newInstance() {
 
         RecomendadosFragment fragment = new RecomendadosFragment();
@@ -51,9 +53,9 @@ public class RecomendadosFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.carrerasProvider = new CarrerasProvider(this.getActivity());
+        this.carrerasProvider = new CarreraCabeceraProvider(this.getActivity());
         filtro = new Filtro(((RunningApplication)this.getActivity().getApplication()).getDefaultSettings());
-        List<CarreraCabecera> resultados = carrerasProvider.getCarreras(filtro);
+        List<CarreraCabecera> resultados = carrerasProvider.getCarrerasByFiltro(filtro);
         adapter =new CarreraListAdapter(this.getActivity(),resultados);
 
         setListAdapter(adapter);
@@ -76,7 +78,7 @@ public class RecomendadosFragment extends ListFragment {
         CarreraCabecera c = (CarreraCabecera)l.getItemAtPosition(position);
         Intent intent = new Intent(this.getActivity(), DetalleCarreraActivity.class);
         Bundle b = new Bundle();
-        b.putInt(Carrera.ID, c.getCodigoCarrera()); //Your id
+        b.putLong(UsuarioCarrera.class.getSimpleName(), c.getCodigoCarrera()); //Your id
         intent.putExtras(b); //Put your id to your next Intent
         startActivity(intent);
 
@@ -86,7 +88,7 @@ public class RecomendadosFragment extends ListFragment {
     public void onResume() {
         super.onResume();
         if(this.filtro != null){
-            List<CarreraCabecera> resultados = this.carrerasProvider.getCarreras(this.filtro);
+            List<CarreraCabecera> resultados = this.carrerasProvider.getCarrerasByFiltro(this.filtro);
             this.adapter = new CarreraListAdapter(this.getActivity(),resultados);
             this.setListAdapter(this.adapter);
             this.getListView().invalidateViews();

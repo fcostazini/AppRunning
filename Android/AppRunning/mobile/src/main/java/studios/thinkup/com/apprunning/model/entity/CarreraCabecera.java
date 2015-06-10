@@ -1,4 +1,4 @@
-package studios.thinkup.com.apprunning.model;
+package studios.thinkup.com.apprunning.model.entity;
 
 import java.io.Serializable;
 import java.util.Date;

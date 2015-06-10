@@ -8,40 +8,44 @@ import android.view.MenuItem;
 import com.astuetz.PagerSlidingTabStrip;
 
 import studios.thinkup.com.apprunning.adapter.DetalleCarreraPagerAdapter;
-import studios.thinkup.com.apprunning.model.Carrera;
 import studios.thinkup.com.apprunning.model.RunningApplication;
+import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 import studios.thinkup.com.apprunning.provider.CarrerasProvider;
+import studios.thinkup.com.apprunning.provider.ICarrerasProvider;
 
 /**
  * Created by fcostazini on 21/05/2015.
  * Detalle de Carrera
  */
 public class DetalleCarreraActivity extends DrawerPagerActivity {
-    private Carrera carrera;
+    private long idCarrera;
+    private UsuarioCarrera carrera;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CarrerasProvider provider = new CarrerasProvider(this);
+        ICarrerasProvider provider = new CarrerasProvider();
         Bundle b = getIntent().getExtras();
         int codigo;
-        if(b!=null){
-            if(b.getSerializable(Carrera.class.getSimpleName())!=null){
-                this.carrera = (Carrera)b.getSerializable(Carrera.class.getSimpleName());
+        if (b != null) {
+            if (b.containsKey(UsuarioCarrera.class.getSimpleName())) {
+                this.idCarrera = b.getLong(UsuarioCarrera.class.getSimpleName());
+                this.carrera = provider.getByIdCarrera(this.idCarrera);
+                ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+                viewPager.setAdapter(new DetalleCarreraPagerAdapter(getSupportFragmentManager(), this.idCarrera));
+                // Give the PagerSlidingTabStrip the ViewPager
+                PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+                // Attach the view pager to the tab strip
+                tabsStrip.setViewPager(viewPager);
             }else{
-                codigo = b.getInt(Carrera.ID);
-                this.carrera = provider.getCarreraByCodigo(codigo);
+                setContentView(R.layout.sin_resultados);
             }
 
-        }else{
+        } else {
+            setContentView(R.layout.sin_resultados);
 
         }
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new DetalleCarreraPagerAdapter(getSupportFragmentManager(), this.carrera));
-        // Give the PagerSlidingTabStrip the ViewPager
-        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        // Attach the view pager to the tab strip
-        tabsStrip.setViewPager(viewPager);
+
     }
 
 
@@ -61,19 +65,19 @@ public class DetalleCarreraActivity extends DrawerPagerActivity {
             } else {
                 menu.getItem(0).setIcon(R.drawable.ic_no_me_gusta);
             }
-            if (this.carrera.isEstoyInscripto()) {
+            if (this.carrera.isAnotado()) {
                 menu.getItem(1).setIcon(R.drawable.ic_anotado);
             } else {
                 menu.getItem(1).setIcon(R.drawable.ic_no_anotado);
             }
-            if (this.carrera.isFueCorrida()) {
+            if (this.carrera.isCorrida()) {
                 menu.getItem(2).setIcon(R.drawable.ic_corrida);
             } else {
                 menu.getItem(2).setIcon(R.drawable.ic_no_corrida);
             }
 
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -83,41 +87,41 @@ public class DetalleCarreraActivity extends DrawerPagerActivity {
         if (this.carrera == null) {
             return super.onOptionsItemSelected(item);
         }
-        CarrerasProvider cp = new CarrerasProvider(this);
-        Integer usuarioId = ((RunningApplication) this
+
+        long usuarioId = ((RunningApplication) this
                 .getApplication()).getUsuario().getId();
         switch (item.getItemId()) {
             case R.id.mnu_me_gusta:
                 if (!this.carrera.isMeGusta()) {
-                    cp.meGusta(this.carrera.getCodigoCarrera(), usuarioId);
+
                     item.setIcon(R.drawable.ic_me_gusta);
                     this.carrera.setMeGusta(true);
                 } else {
-                    cp.noMegusta(this.carrera.getCodigoCarrera(), usuarioId);
+
                     item.setIcon(R.drawable.ic_no_me_gusta);
                     this.carrera.setMeGusta(false);
                 }
                 return true;
             case R.id.mnu_inscripto:
-                if (!this.carrera.isFueCorrida()) {
-                    if (!this.carrera.isEstoyInscripto()) {
-                        cp.anotarEnCarrera(this.carrera.getCodigoCarrera(), usuarioId);
+                if (!this.carrera.isCorrida()) {
+                    if (!this.carrera.isAnotado()) {
+
                         item.setIcon(R.drawable.ic_anotado);
-                        this.carrera.setInscripto(true);
+                        this.carrera.setAnotado(true);
                     } else {
-                        cp.desanotarEnCarrera(this.carrera.getCodigoCarrera(), usuarioId);
+
                         item.setIcon(R.drawable.ic_no_anotado);
-                        this.carrera.setInscripto(false);
+                        this.carrera.setAnotado(false);
                     }
                 }
                 return true;
             case R.id.mnu_corrida:
-                if (!this.carrera.isFueCorrida()) {
-                    cp.carreraCorrida(this.carrera.getCodigoCarrera(), usuarioId);
+                if (!this.carrera.isCorrida()) {
+
                     item.setIcon(R.drawable.ic_corrida);
                     this.carrera.setCorrida(true);
                 } else {
-                    cp.carreraNoCorrida(this.carrera.getCodigoCarrera(), usuarioId);
+
                     item.setIcon(R.drawable.ic_no_corrida);
                     this.carrera.setCorrida(false);
                 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="studios.thinkup.com.apprunning" >
+    xmlns:tool="http://schemas.android.com/tools"
+    package="studios.thinkup.com.apprunning">
 
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -16,7 +17,13 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        tool:replace ="android:icon"
         android:theme="@style/CustomActionBarTheme">
+
+        <meta-data android:name="DATABASE" android:value="runningDB.sqlite" />
+        <meta-data android:name="VERSION" android:value="1" />
+        <meta-data android:name="QUERY_LOG" android:value="true" />
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="studios.thinkup.com.apprunning.model.entity" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

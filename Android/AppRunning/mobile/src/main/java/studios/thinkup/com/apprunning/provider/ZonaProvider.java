@@ -4,7 +4,7 @@ import android.content.Context;
 
 import java.util.List;
 
-import studios.thinkup.com.apprunning.model.Carrera;
+import studios.thinkup.com.apprunning.model.entity.Carrera;
 import studios.thinkup.com.apprunning.provider.dbProviders.GenericProvider;
 import studios.thinkup.com.apprunning.provider.helper.DataBaseHelper;
 
@@ -21,7 +21,7 @@ public class ZonaProvider {
 
     public List<String> getZonas() {
 
-        List<String> zonas = this.provider.getDistinctColumns("carrera", Carrera.ZONA_FIELD);
+        List<String> zonas = this.provider.getDistinctColumns("CARRERA", Carrera.ZONA_FIELD);
 
 
         return zonas;

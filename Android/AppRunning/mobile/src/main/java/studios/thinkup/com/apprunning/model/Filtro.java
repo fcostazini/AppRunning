@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import studios.thinkup.com.apprunning.model.entity.Genero;
+
 /**
  * Created by fcostazini on 22/05/2015.
  * <p/>
@@ -20,7 +22,7 @@ public class Filtro implements Serializable {
     private Integer distanciaMax;
     private Genero genero;
     private String zona;
-    private Integer idUsuario;
+    private long idUsuario;
     private Boolean meGusta = null;
     private Boolean inscripto = null;
     private Boolean corrida = null;
@@ -68,11 +70,11 @@ public class Filtro implements Serializable {
         this.corrida = corrida;
     }
 
-    public Integer getIdUsuario() {
+    public long getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(Integer idUsuario) {
+    public void setIdUsuario(long idUsuario) {
         this.idUsuario = idUsuario;
     }
 
@@ -185,7 +187,7 @@ public class Filtro implements Serializable {
         if (fechaHasta != null ? !fechaHasta.equals(filtro.fechaHasta) : filtro.fechaHasta != null)
             return false;
         if (genero != filtro.genero) return false;
-        if (idUsuario != null ? !idUsuario.equals(filtro.idUsuario) : filtro.idUsuario != null)
+        if (idUsuario == filtro.idUsuario)
             return false;
         if (inscripto != null ? !inscripto.equals(filtro.inscripto) : filtro.inscripto != null)
             return false;
@@ -207,7 +209,6 @@ public class Filtro implements Serializable {
         result = 31 * result + (distanciaMax != null ? distanciaMax.hashCode() : 0);
         result = 31 * result + (genero != null ? genero.hashCode() : 0);
         result = 31 * result + (zona != null ? zona.hashCode() : 0);
-        result = 31 * result + (idUsuario != null ? idUsuario.hashCode() : 0);
         result = 31 * result + (meGusta != null ? meGusta.hashCode() : 0);
         result = 31 * result + (inscripto != null ? inscripto.hashCode() : 0);
         result = 31 * result + (corrida != null ? corrida.hashCode() : 0);

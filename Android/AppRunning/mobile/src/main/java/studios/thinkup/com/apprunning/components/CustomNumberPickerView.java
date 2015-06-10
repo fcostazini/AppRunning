@@ -254,5 +254,6 @@ public class CustomNumberPickerView extends RelativeLayout implements View.OnCli
 
     public void setNumeroVal(int numeroVal) {
         this.numeroVal = numeroVal;
+        this.numero.setText(getNumeroText(numeroVal));
     }
 }

@@ -1,4 +1,6 @@
-package studios.thinkup.com.apprunning.model;
+package studios.thinkup.com.apprunning.model.entity;
+
+import studios.thinkup.com.apprunning.model.Subcategoria;
 
 /**
  * Created by fcostazini on 22/05/2015.
