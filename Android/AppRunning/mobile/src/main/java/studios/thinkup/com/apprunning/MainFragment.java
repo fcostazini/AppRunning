@@ -94,15 +94,17 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
     }
 
     private void initSocialNetwork(SocialNetwork socialNetwork) {
-        if (socialNetwork.isConnected()) {
-            switch (socialNetwork.getID()) {
-                case FacebookSocialNetwork.ID:
-                    facebook.setText("Show Facebook profile");
-                    break;
+        if(this.getActivity().getIntent().getExtras()!= null &&
+                this.getActivity().getIntent().getExtras().containsKey("LOGOUT") &&
+                socialNetwork.isConnected()){
 
-                case GooglePlusSocialNetwork.ID:
-                    googleplus.setText("Show GooglePlus profile");
-                    break;
+            socialNetwork.cancelAll();
+            socialNetwork.logout();
+        }else {
+            if (socialNetwork.isConnected()) {
+
+                startProfile(socialNetwork.getID());
+
             }
         }
     }
