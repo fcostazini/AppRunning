@@ -148,6 +148,6 @@
         android:layout_alignStart="@+id/lbl_direccion"
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/wallet_link_text_light" />
+        android:textColor="@color/link_text_material_light" />
 
 </RelativeLayout>

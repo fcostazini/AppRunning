@@ -54,8 +54,8 @@ public class DetalleCarreraFragment extends Fragment {
         if (this.carrera.getUrlImage() != null && !this.carrera.getUrlImage().isEmpty()) {
             ImageView logo = (ImageView) rootView.findViewById(R.id.img_logo);
             Picasso.with(this.getActivity()).load(this.carrera.getUrlImage())
-                    .placeholder(R.drawable.common_ic_googleplayservices)
-                    .error(R.drawable.common_ic_googleplayservices)
+                    .placeholder(R.mipmap.ic_launcher)
+                    .error(R.mipmap.ic_launcher)
                     .into(logo);
         }
 

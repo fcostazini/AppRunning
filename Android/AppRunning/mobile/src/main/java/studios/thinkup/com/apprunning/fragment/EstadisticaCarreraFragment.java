@@ -127,6 +127,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         Intent i = new Intent(this.getActivity(), TemporizadorActivity.class);
         i.putExtra(UsuarioCarrera.class.getSimpleName(), this.carrera.getId());
         this.getActivity().startActivity(i);
+        this.getActivity().finish();
 
     }
 

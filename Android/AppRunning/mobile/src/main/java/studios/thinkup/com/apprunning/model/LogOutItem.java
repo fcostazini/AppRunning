@@ -3,7 +3,7 @@ package studios.thinkup.com.apprunning.model;
 import android.content.Context;
 import android.content.Intent;
 
-import studios.thinkup.com.apprunning.MainLogin;
+import studios.thinkup.com.apprunning.MainActivity;
 import studios.thinkup.com.apprunning.adapter.DrawerItem;
 
 /**
@@ -11,7 +11,7 @@ import studios.thinkup.com.apprunning.adapter.DrawerItem;
  */
 public class LogOutItem extends DrawerItem{
     public LogOutItem(String label, int icon) {
-        super(label, icon, MainLogin.class);
+        super(label, icon, MainActivity.class);
 
 
     }
@@ -21,7 +21,7 @@ public class LogOutItem extends DrawerItem{
 
         if(this.getActivity() != null){
 
-            Intent i = new Intent(c,MainLogin.class);
+            Intent i = new Intent(c,this.getActivity());
             i.putExtra("LOGOUT", true);
             c.startActivity(i);
             return true;
