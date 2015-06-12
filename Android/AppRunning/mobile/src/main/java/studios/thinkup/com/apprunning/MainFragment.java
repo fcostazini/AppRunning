@@ -99,12 +99,12 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
                 this.getActivity().getIntent().getExtras().containsKey("LOGOUT") &&
                 socialNetwork.isConnected()){
 
-            socialNetwork.cancelAll();
+
             socialNetwork.logout();
         }else {
             if (socialNetwork.isConnected()) {
 
-                MainActivity.showProgress("Loading social person");
+                MainActivity.showProgress("Cargando...");
                 startProfile(socialNetwork.getID());
 
             }
@@ -138,11 +138,12 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
             if (!socialNetwork.isConnected()) {
                 if (networkId != 0) {
                     socialNetwork.requestLogin();
-                    MainActivity.showProgress("Loading social person");
+                    MainActivity.showProgress("Cargando...");
                 } else {
                     Toast.makeText(getActivity(), "Wrong networkId", Toast.LENGTH_LONG).show();
                 }
             } else {
+
                 startProfile(socialNetwork.getID());
             }
         }
@@ -163,12 +164,16 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
     private void startProfile(int networkId) {
         socialNetwork = MainFragment.mSocialNetworkManager.getSocialNetwork(networkId);
         socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
+
+        MainActivity.showProgress("Cargando...");
         socialNetwork.requestCurrentPerson();
+
     }
 
     @Override
     public void onRequestSocialPersonSuccess(int i, SocialPerson socialPerson) {
 
+        MainActivity.hideProgress();
         if(socialPerson== null){
 
         }else{

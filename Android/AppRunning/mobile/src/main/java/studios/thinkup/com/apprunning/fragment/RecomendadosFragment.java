@@ -87,12 +87,10 @@ public class RecomendadosFragment extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(this.filtro != null){
-            List<CarreraCabecera> resultados = this.carrerasProvider.getCarrerasByFiltro(this.filtro);
+            List<CarreraCabecera> resultados = this.carrerasProvider.getCarrerasRecomendadas();
             this.adapter = new CarreraListAdapter(this.getActivity(),resultados);
             this.setListAdapter(this.adapter);
             this.getListView().invalidateViews();
 
-        }
     }
 }

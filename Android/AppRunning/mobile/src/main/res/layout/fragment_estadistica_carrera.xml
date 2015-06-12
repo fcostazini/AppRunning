@@ -19,19 +19,13 @@
         android:paddingBottom="5dp"
         android:layout_marginTop="20dp">
 
-<studios.thinkup.com.apprunning.IconTextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textSize="25sp"
-    android:text="@string/icon_cronometro"
-    android:padding="5dp"
-    android:layout_marginLeft="20dp"
-    android:layout_marginRight="10dp"
-    android:textColor="#00AAFF"
-    android:typeface="monospace"
-    android:gravity="bottom">
+<ImageView
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:src="@drawable/ic_action_ic_temporizador"
 
-</studios.thinkup.com.apprunning.IconTextView>
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="10dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -42,7 +36,7 @@
 
             android:typeface="sans"
             android:textAlignment="center"
-            android:gravity="bottom" />
+            android:gravity="center_vertical" />
         <studios.thinkup.com.apprunning.IconTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

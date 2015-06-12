@@ -116,14 +116,16 @@ public class DetalleCarreraActivity extends DrawerPagerActivity {
                 }
                 return true;
             case R.id.mnu_corrida:
-                if (!this.carrera.isCorrida()) {
+                if (this.carrera.isAnotado()) {
+                    if (!this.carrera.isCorrida()) {
 
-                    item.setIcon(R.drawable.ic_corrida);
-                    this.carrera.setCorrida(true);
-                } else {
+                        item.setIcon(R.drawable.ic_corrida);
+                        this.carrera.setCorrida(true);
+                    } else {
 
-                    item.setIcon(R.drawable.ic_no_corrida);
-                    this.carrera.setCorrida(false);
+                        item.setIcon(R.drawable.ic_no_corrida);
+                        this.carrera.setCorrida(false);
+                    }
                 }
                 return true;
             default:
