@@ -17,4 +17,10 @@ public interface ICarreraCabeceraProvider {
      * @return
      */
     public List<CarreraCabecera>  getCarrerasByFiltro(Filtro filtro);
+
+    /**
+     * Carreras recomendadas por el administrador
+      * @return lista vacia en caso de no haber resultados
+     */
+    List<CarreraCabecera> getCarrerasRecomendadas();
 }

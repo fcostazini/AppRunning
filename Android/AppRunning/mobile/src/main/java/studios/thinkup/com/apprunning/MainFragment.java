@@ -94,7 +94,8 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
     }
 
     private void initSocialNetwork(SocialNetwork socialNetwork) {
-        if(this.getActivity().getIntent().getExtras()!= null &&
+        if(this.getActivity().getIntent() != null &&
+                this.getActivity().getIntent().getExtras()!= null &&
                 this.getActivity().getIntent().getExtras().containsKey("LOGOUT") &&
                 socialNetwork.isConnected()){
 
@@ -103,6 +104,7 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
         }else {
             if (socialNetwork.isConnected()) {
 
+                MainActivity.showProgress("Loading social person");
                 startProfile(socialNetwork.getID());
 
             }

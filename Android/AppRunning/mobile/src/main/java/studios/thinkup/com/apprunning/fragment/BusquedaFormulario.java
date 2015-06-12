@@ -26,7 +26,7 @@ import studios.thinkup.com.apprunning.CarrerasActivity;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.dialogs.DatePicker;
 import studios.thinkup.com.apprunning.model.Filtro;
-import studios.thinkup.com.apprunning.model.entity.Genero;
+import studios.thinkup.com.apprunning.model.entity.Modalidad;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.provider.ZonaProvider;
 
@@ -58,12 +58,13 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
         buscar.setOnClickListener(this);
 
         Spinner spGenero = (Spinner) rootView.findViewById(R.id.sp_genero);
-        ArrayAdapter<Genero> adapterGenero = new ArrayAdapter<>(this.getActivity(),
-                android.R.layout.simple_spinner_item, Genero.values());
+
+        ArrayAdapter<Modalidad> adapterGenero = new ArrayAdapter<>(this.getActivity(),
+                android.R.layout.simple_spinner_item, Modalidad.values());
         adapterGenero.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spGenero.setAdapter(adapterGenero);
         spGenero.setOnItemSelectedListener(new GeneroSpinnerItemSelectedListener(this.filtro));
-        spGenero.setSelection(adapterGenero.getPosition(filtro.getGenero()));
+        spGenero.setSelection(adapterGenero.getPosition(filtro.getModalidad()));
 
         Spinner spZona = (Spinner) rootView.findViewById(R.id.sp_zona);
         ArrayAdapter<String> adapterZona = new ArrayAdapter<>(this.getActivity(),
@@ -162,13 +163,13 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-            this.filtro.setGenero((Genero)parent.getItemAtPosition(position));
+            this.filtro.setModalidad((Modalidad) parent.getItemAtPosition(position));
 
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
-            this.filtro.setGenero(Genero.TODOS);
+            this.filtro.setModalidad(Modalidad.TODOS);
         }
     }
 

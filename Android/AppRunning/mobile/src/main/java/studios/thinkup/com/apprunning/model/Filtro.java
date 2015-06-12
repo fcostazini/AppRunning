@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import studios.thinkup.com.apprunning.model.entity.Genero;
+import studios.thinkup.com.apprunning.model.entity.Modalidad;
 
 /**
  * Created by fcostazini on 22/05/2015.
@@ -20,7 +20,7 @@ public class Filtro implements Serializable {
     private Date fechaHasta;
     private Integer distanciaMin;
     private Integer distanciaMax;
-    private Genero genero;
+    private Modalidad modalidad;
     private String zona;
     private long idUsuario;
     private Boolean meGusta = null;
@@ -39,7 +39,7 @@ public class Filtro implements Serializable {
         this.zona = defaultSettings.getZona();
         this.distanciaMin = defaultSettings.getDistanciaMin();
         this.distanciaMax = defaultSettings.getDistanciaMax();
-        this.genero = defaultSettings.getGenero();
+        this.modalidad = defaultSettings.getModalidad();
         this.nombreCarrera = "";
         meGusta = null;
         inscripto = null;
@@ -109,12 +109,12 @@ public class Filtro implements Serializable {
     }
 
 
-    public Genero getGenero() {
-        return this.genero;
+    public Modalidad getModalidad() {
+        return this.modalidad;
     }
 
-    public void setGenero(Genero genero) {
-        this.genero = genero;
+    public void setModalidad(Modalidad modalidad) {
+        this.modalidad = modalidad;
     }
 
     public String getZona() {
@@ -147,7 +147,7 @@ public class Filtro implements Serializable {
         if (this.getDistanciaMax() != null) {
             s += "Km hasta = '" + this.getDistanciaMax() + "'; \n";
         }
-        if (this.getGenero() != null) s += "genero = '" + this.getGenero() + "'; \n";
+        if (this.getModalidad() != null) s += "genero = '" + this.getModalidad() + "'; \n";
         return s;
     }
 
@@ -186,7 +186,7 @@ public class Filtro implements Serializable {
             return false;
         if (fechaHasta != null ? !fechaHasta.equals(filtro.fechaHasta) : filtro.fechaHasta != null)
             return false;
-        if (genero != filtro.genero) return false;
+        if (modalidad != filtro.modalidad) return false;
         if (idUsuario == filtro.idUsuario)
             return false;
         if (inscripto != null ? !inscripto.equals(filtro.inscripto) : filtro.inscripto != null)
@@ -207,7 +207,7 @@ public class Filtro implements Serializable {
         result = 31 * result + (fechaHasta != null ? fechaHasta.hashCode() : 0);
         result = 31 * result + (distanciaMin != null ? distanciaMin.hashCode() : 0);
         result = 31 * result + (distanciaMax != null ? distanciaMax.hashCode() : 0);
-        result = 31 * result + (genero != null ? genero.hashCode() : 0);
+        result = 31 * result + (modalidad != null ? modalidad.hashCode() : 0);
         result = 31 * result + (zona != null ? zona.hashCode() : 0);
         result = 31 * result + (meGusta != null ? meGusta.hashCode() : 0);
         result = 31 * result + (inscripto != null ? inscripto.hashCode() : 0);
@@ -227,7 +227,7 @@ public class Filtro implements Serializable {
         f.setDistanciaMax(this.distanciaMax);
         f.setDistanciaMin(this.distanciaMin);
         f.setIdUsuario(this.getIdUsuario());
-        f.setGenero(this.genero);
+        f.setModalidad(this.modalidad);
         f.setNombreCarrera(this.nombreCarrera);
         return f;
 

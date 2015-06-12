@@ -2,7 +2,7 @@ package studios.thinkup.com.apprunning.model;
 
 import java.io.Serializable;
 
-import studios.thinkup.com.apprunning.model.entity.Genero;
+import studios.thinkup.com.apprunning.model.entity.Modalidad;
 
 /**
  * Created by FaQ on 23/05/2015.
@@ -13,7 +13,7 @@ public class DefaultSettings implements Serializable {
 
     private Integer distanciaMin = 0;
     private Integer distanciaMax = 100;
-    private Genero genero = Genero.TODOS;
+    private Modalidad modalidad = Modalidad.TODOS;
     private String zona = "Buenos Aires";
     private Integer diasBusqueda = 15;
 
@@ -42,12 +42,12 @@ public class DefaultSettings implements Serializable {
         this.distanciaMax = distanciaMax;
     }
 
-    public Genero getGenero() {
-        return genero;
+    public Modalidad getModalidad() {
+        return modalidad;
     }
 
-    public void setGenero(Genero genero) {
-        this.genero = genero;
+    public void setModalidad(Modalidad modalidad) {
+        this.modalidad = modalidad;
     }
 
     public String getZona() {

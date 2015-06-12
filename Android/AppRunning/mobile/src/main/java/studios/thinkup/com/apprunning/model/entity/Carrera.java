@@ -13,28 +13,32 @@ public class Carrera extends SugarRecord<Carrera> implements Serializable {
 
     public static final String ID = "ID";
     public static final String NOMBRE_FIELD = "NOMBRE";
-    public static final String ZONA_FIELD = "ZONA";
-    public static final String GENERO_FIELD = "GENERO";
+    public static final String CIUDAD_FIELD = "CIUDAD";
+    public static final String MODALIDAD_FIELD = "MODALIDAD";
     public static final String FECHA_LARGADA_FIELD = "FECHA_INICIO";
     public static final String DISTANCIA_FIELD = "DISTANCIA";
 
-    private Integer codigo;
+
     private String nombre;
-    private Date fechaInicio;
-    private Integer distancia;
-    private String descripcion;
-    private String urlImagen;
-    private Genero genero;
+    private String modalidad;
+    private String ciudad;
     private String direccion;
-    private String zona;
+    private Date fechaInicio;
+    private String descripcion;
+    private Integer distancia;
     private String urlWeb;
+    private String urlImagen;
+
+
+
+
 
     public Carrera(){
 
     }
 
     public Integer getCodigo() {
-        return codigo;
+        return this.getId().intValue();
     }
 
     public String getNombre() {
@@ -57,16 +61,16 @@ public class Carrera extends SugarRecord<Carrera> implements Serializable {
         return urlImagen;
     }
 
-    public Genero getGenero() {
-        return genero;
+    public String getModalidad() {
+        return modalidad;
     }
 
     public String getDireccion() {
         return direccion;
     }
 
-    public String getZona() {
-        return zona;
+    public String getCiudad() {
+        return ciudad;
     }
 
     public String getUrlWeb() {

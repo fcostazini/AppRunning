@@ -55,7 +55,7 @@ public class RecomendadosFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         this.carrerasProvider = new CarreraCabeceraProvider(this.getActivity());
         filtro = new Filtro(((RunningApplication)this.getActivity().getApplication()).getDefaultSettings());
-        List<CarreraCabecera> resultados = carrerasProvider.getCarrerasByFiltro(filtro);
+        List<CarreraCabecera> resultados = carrerasProvider.getCarrerasRecomendadas();
         adapter =new CarreraListAdapter(this.getActivity(),resultados);
 
         setListAdapter(adapter);

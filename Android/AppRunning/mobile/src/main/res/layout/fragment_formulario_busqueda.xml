@@ -27,7 +27,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="10dp"
-                android:prompt="@id/txt_genero" />
+                android:prompt="@id/txt_modalidad" />
 
             <Spinner
                 android:layout_width="fill_parent"

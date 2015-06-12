@@ -70,8 +70,8 @@ public class DetalleCarreraFragment extends Fragment {
         distancia.setText(this.carrera.getDistancia() + " Km");
 
 
-        TextView genero = (TextView) rootView.findViewById(R.id.txt_genero);
-        genero.setText(this.carrera.getGenero().getNombre());
+        TextView genero = (TextView) rootView.findViewById(R.id.txt_modalidad);
+        genero.setText(this.carrera.getModalidad());
 
         TextView direccion = (TextView) rootView.findViewById(R.id.txt_direccion);
         direccion.setText(this.carrera.getDireccion());

@@ -32,9 +32,9 @@ public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
        QueryGenerator qGen = new QueryGenerator(filtro);
         SQLiteOpenHelper db =  new DataBaseHelper(context);
 
-        String fields = "c.ID, c.nombre,c.fecha_inicio, c.distancia," +
-                " c.descripcion, c.url_imagen, c.zona, ifnull(uc.me_gusta,0) as ME_GUSTA," +
-                " ifnull(uc.anotado,0) as ANOTADO, ifnull(uc.corrida,0) as CORRIDA ";
+        String fields = "c.ID, c.NOMBRE,c.FECHA_INICIO, c.DISTANCIA," +
+                " c.DESCRIPCION, c.URL_IMAGEN, c.CIUDAD, ifnull(uc.me_gusta,0) as ME_GUSTA," +
+                " ifnull(uc.ANOTADO,0) as ANOTADO, ifnull(uc.CORRIDA,0) as CORRIDA ";
 
 
         String query = "Select "+ fields + " from CARRERA  c" +
@@ -45,6 +45,29 @@ public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
 
 
                 return this.toCarrerasCabecera(c);
+
+        }
+        return new Vector<>();
+    }
+
+    @Override
+    public List<CarreraCabecera> getCarrerasRecomendadas() {
+
+        SQLiteOpenHelper db =  new DataBaseHelper(context);
+
+        String fields = "c.ID, c.NOMBRE,c.FECHA_INICIO, c.DISTANCIA," +
+                " c.DESCRIPCION, c.URL_IMAGEN, c.CIUDAD, ifnull(uc.me_gusta,0) as ME_GUSTA," +
+                " ifnull(uc.ANOTADO,0) as ANOTADO, ifnull(uc.CORRIDA,0) as CORRIDA ";
+
+
+        String query = "Select "+ fields + " from CARRERA  c" +
+                " left join USUARIO_CARRERA  uc on c.id = uc.carrera Where recomendada = 1";
+
+        Cursor c = db.getReadableDatabase().rawQuery(query,null);
+        if(c.getCount()>0){
+
+
+            return this.toCarrerasCabecera(c);
 
         }
         return new Vector<>();
@@ -61,7 +84,7 @@ public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
                     .distancia(cursor.getInt(cursor.getColumnIndex("DISTANCIA")))
                     .descripcion(cursor.getString(cursor.getColumnIndex("DESCRIPCION")))
                     .urlImage(cursor.getString(cursor.getColumnIndex("URL_IMAGEN")))
-                    .zona(cursor.getString(cursor.getColumnIndex("ZONA")))
+                    .zona(cursor.getString(cursor.getColumnIndex("CIUDAD")))
                     .meGusta(cursor.getInt(cursor.getColumnIndex("ME_GUSTA")) == 1)
                     .fueCorrida(cursor.getInt(cursor.getColumnIndex("CORRIDA")) == 1)
                     .estoyInscripto(cursor.getInt(cursor.getColumnIndex("ANOTADO")) == 1)

@@ -1,28 +1,25 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">ReCorriendo</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Preferencias</string>
     <string name="distancia">Distancia</string>
-    <string name="genero">Género</string>
-    <string name="zona">Zona</string>
+    <string name="genero">Modalidad</string>
+    <string name="zona">Ciudad</string>
     <string name="lbl_fecha_largada">Largada:</string>
     <string name="lbl_distancia">Distancia:</string>
-    <string name="lbl_genero">Género:</string>
+    <string name="lbl_genero">Modalida:</string>
     <string name="lbl_direccion">Dirección:</string>
     <string name="chronometer_initial_format">Initial format:<xliff:g id="initial-format">%</xliff:g></string>
     <string name="comenzar">Comenzar</string>
     <string name="frenar">Frenar</string>
     <string name="editar">Editar</string>
-    <string name="mis_datos">Mis Datos</string>
+    <string name="mis_datos">Mis Carreras</string>
     <string name="filtros">Filtros</string>
     <string name="title_activity_filtros">Preferencias</string>
     <string name="title_activity_carreras">Carreras</string>
     <string name="title_activity_buscar">Buscar Carrera</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_detalle_carrera">Detalle</string>
-    <string name="title_activity_mis_datos">Mis Datos</string>
+    <string name="title_activity_mis_datos">Mis Carreras</string>
     <string name="lbl_nombre_carrera">Nombre Carrera </string>
     <string name="lbl_fecha_desde">Fecha Desde</string>
     <string name="lbl_fecha_hasta">Hasta</string>

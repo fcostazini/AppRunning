@@ -4,7 +4,7 @@ import java.util.Date;
 
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.entity.Carrera;
-import studios.thinkup.com.apprunning.model.entity.Genero;
+import studios.thinkup.com.apprunning.model.entity.Modalidad;
 
 /**
  * Created by FaQ on 25/05/2015.
@@ -23,10 +23,10 @@ public class QueryGenerator {
             query += " AND " + Carrera.NOMBRE_FIELD + " LIKE '" + filtro.getNombreCarrera() + "%' \n";
         }
         if (filtro.getZona() != null && !filtro.getZona().isEmpty()) {
-            query += " AND " + Carrera.ZONA_FIELD + " = '" + filtro.getZona() + "'\n";
+            query += " AND " + Carrera.CIUDAD_FIELD + " = '" + filtro.getZona() + "'\n";
         }
-        if (filtro.getGenero() != null && !filtro.getGenero().equals(Genero.TODOS)) {
-            query += " AND " + Carrera.GENERO_FIELD + " = '" + filtro.getGenero() + "'\n";
+        if (filtro.getModalidad() != null && !filtro.getModalidad().equals(Modalidad.TODOS)) {
+            query += " AND " + Carrera.MODALIDAD_FIELD + " = '" + filtro.getModalidad() + "'\n";
         }
 
         query += getFechaRange(Carrera.FECHA_LARGADA_FIELD, filtro.getFechaDesde(), filtro.getFechaHasta());
@@ -74,7 +74,9 @@ public class QueryGenerator {
 
     private String getFechaRange(String field, Date min, Date max) {
         String resultado = "";
-
+        if(min == null && max == null){
+            return resultado;
+        }
         if (min != null && max != null) {
             if (min.equals(max)) {
                 resultado += " AND " + field + " = " + min.getTime() + "\n";

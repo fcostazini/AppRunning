@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.model.DefaultSettings;
-import studios.thinkup.com.apprunning.model.entity.Genero;
+import studios.thinkup.com.apprunning.model.entity.Modalidad;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.provider.ZonaProvider;
 
@@ -33,12 +33,12 @@ public class Preferencias extends Fragment {
         View rootView = inflater.inflate(R.layout.filtros_activity, container, false);
 
         Spinner spGenero = (Spinner) rootView.findViewById(R.id.sp_genero);
-        ArrayAdapter<Genero> adapterGenero = new ArrayAdapter<>(this.getActivity(),
-                android.R.layout.simple_spinner_item, Genero.values());
+        ArrayAdapter<Modalidad> adapterGenero = new ArrayAdapter<>(this.getActivity(),
+                android.R.layout.simple_spinner_item, Modalidad.values());
         adapterGenero.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spGenero.setAdapter(adapterGenero);
         spGenero.setOnItemSelectedListener(new GeneroSpinnerItemSelectedListener(defaultSettings));
-        spGenero.setSelection(adapterGenero.getPosition(defaultSettings.getGenero()));
+        spGenero.setSelection(adapterGenero.getPosition(defaultSettings.getModalidad()));
 
         Spinner spZona = (Spinner) rootView.findViewById(R.id.sp_zona);
         ArrayAdapter<String> adapterZona = new ArrayAdapter<>(this.getActivity(),
@@ -104,13 +104,13 @@ public class Preferencias extends Fragment {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-            defaultSettings.setGenero((Genero) parent.getItemAtPosition(position));
+            defaultSettings.setModalidad((Modalidad) parent.getItemAtPosition(position));
 
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
-            defaultSettings.setGenero(Genero.TODOS);
+            defaultSettings.setModalidad(Modalidad.TODOS);
         }
     }
 

@@ -116,10 +116,6 @@ public class UsuarioCarrera extends SugarRecord<Carrera> implements IObservableC
         return carrera.getDireccion();
     }
 
-    public Genero getGenero() {
-        return carrera.getGenero();
-    }
-
     public String getUrlWeb() {
         return carrera.getUrlWeb();
     }
@@ -136,8 +132,21 @@ public class UsuarioCarrera extends SugarRecord<Carrera> implements IObservableC
         return carrera.getNombre();
     }
 
-    public String getZona() {
-        return carrera.getZona();
+
+    public Integer getCodigo() {
+        return carrera.getCodigo();
+    }
+
+    public String getCiudad() {
+        return carrera.getCiudad();
+    }
+
+    public String getModalidad() {
+        return carrera.getModalidad();
+    }
+
+    public String getUrlImagen() {
+        return carrera.getUrlImagen();
     }
 
     public String getDescripcion() {
