@@ -12,10 +12,10 @@ import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
  * Created by fcostazini on 21/05/2015.
  */
 public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter {
-    private long carrera;
+    private int carrera;
 
 
-    public DetalleCarreraPagerAdapter(FragmentManager fm, long idCarrera) {
+    public DetalleCarreraPagerAdapter(FragmentManager fm, int idCarrera) {
         super(fm);
         this.carrera = idCarrera;
     }

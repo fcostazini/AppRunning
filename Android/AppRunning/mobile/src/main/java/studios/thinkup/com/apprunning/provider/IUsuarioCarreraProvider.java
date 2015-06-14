@@ -6,7 +6,7 @@ import studios.thinkup.com.apprunning.provider.exceptions.EntityNotFoundExceptio
 /**
  * Created by FaQ on 30/05/2015.
  */
-public interface ICarrerasProvider {
+public interface IUsuarioCarreraProvider extends IProvider<UsuarioCarrera>{
 
     UsuarioCarrera getByIdCarrera(long carrera);
 

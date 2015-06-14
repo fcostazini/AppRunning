@@ -78,7 +78,7 @@ public class RecomendadosFragment extends ListFragment {
         CarreraCabecera c = (CarreraCabecera)l.getItemAtPosition(position);
         Intent intent = new Intent(this.getActivity(), DetalleCarreraActivity.class);
         Bundle b = new Bundle();
-        b.putLong(UsuarioCarrera.class.getSimpleName(), c.getCodigoCarrera()); //Your id
+        b.putInt(UsuarioCarrera.class.getSimpleName(), c.getCodigoCarrera()); //Your id
         intent.putExtras(b); //Put your id to your next Intent
         startActivity(intent);
 

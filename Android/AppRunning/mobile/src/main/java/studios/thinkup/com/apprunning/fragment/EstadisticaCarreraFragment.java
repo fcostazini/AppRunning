@@ -21,8 +21,8 @@ import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.TemporizadorActivity;
 import studios.thinkup.com.apprunning.components.CustomNumberPickerView;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
-import studios.thinkup.com.apprunning.provider.CarrerasProvider;
-import studios.thinkup.com.apprunning.provider.ICarrerasProvider;
+import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
+import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.TypefaceProvider;
 
 /**
@@ -37,10 +37,10 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
     private TextView tiempo;
     private IconTextView editar;
 
-    public static EstadisticaCarreraFragment newInstance(long idCarrera) {
+    public static EstadisticaCarreraFragment newInstance(int idCarrera) {
         EstadisticaCarreraFragment fragment = new EstadisticaCarreraFragment();
         Bundle args = new Bundle();
-        args.putLong(UsuarioCarrera.class.getSimpleName(), idCarrera);
+        args.putInt(UsuarioCarrera.class.getSimpleName(), idCarrera);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,8 +53,8 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            long id =  getArguments().getLong(UsuarioCarrera.class.getSimpleName());
-            ICarrerasProvider cp = new CarrerasProvider();
+            int id =  getArguments().getInt(UsuarioCarrera.class.getSimpleName());
+            IUsuarioCarreraProvider cp = new UsuarioCarreraProvider(this.getActivity());
             this.carrera = cp.getByIdCarrera(id);
         }
     }
@@ -124,7 +124,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
 
 
     protected void onClickACorrer() {
-        Intent i = new Intent(this.getActivity(), TemporizadorActivity.class);
+        Intent i = new Intent(this.getActivity().getApplicationContext(), TemporizadorActivity.class);
         i.putExtra(UsuarioCarrera.class.getSimpleName(), this.carrera.getId());
         this.getActivity().startActivity(i);
         this.getActivity().finish();
@@ -150,7 +150,8 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
             hr.setNumeroVal((int) (this.carrera.getTiempo() / 3600000));
             min.setNumeroVal((int) (this.carrera.getTiempo() - hr.getNumeroVal() * 3600000) / 60000);
             sec.setNumeroVal((int) (this.carrera.getTiempo() - hr.getNumeroVal() * 3600000 - min.getNumeroVal() * 60000) / 1000);
-            ms.setNumeroVal((int) (this.carrera.getTiempo() - hr.getNumeroVal() * 3600000 - min.getNumeroVal() * 60000 - sec.getNumeroVal() * 1000) / 10);
+            ms.setNumeroVal((int) (this.carrera.getTiempo() - hr.getNumeroVal() * 3600000 - min.getNumeroVal() * 60000 -
+                    sec.getNumeroVal() * 1000) / 10);
 
         }
 

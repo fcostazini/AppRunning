@@ -32,13 +32,13 @@ public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
        QueryGenerator qGen = new QueryGenerator(filtro);
         SQLiteOpenHelper db =  new DataBaseHelper(context);
 
-        String fields = "c.ID, c.NOMBRE,c.FECHA_INICIO, c.DISTANCIA," +
-                " c.DESCRIPCION, c.URL_IMAGEN, c.CIUDAD, ifnull(uc.me_gusta,0) as ME_GUSTA," +
+        String fields = "c.ID_CARRERA, c.NOMBRE,c.FECHA_INICIO, c.DISTANCIA," +
+                " c.DESCRIPCION, c.URL_IMAGEN, c.CIUDAD, uc.ID_USUARIO_CARRERA, ifnull(uc.me_gusta,0) as ME_GUSTA," +
                 " ifnull(uc.ANOTADO,0) as ANOTADO, ifnull(uc.CORRIDA,0) as CORRIDA ";
 
 
         String query = "Select "+ fields + " from CARRERA  c" +
-                " left join USUARIO_CARRERA  uc on c.id = uc.carrera ";
+                " left join USUARIO_CARRERA  uc on c.id_carrera = uc.carrera ";
         query += qGen.getWhereCondition();
         Cursor c = db.getReadableDatabase().rawQuery(query,null);
         if(c.getCount()>0){
@@ -55,13 +55,13 @@ public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
 
         SQLiteOpenHelper db =  new DataBaseHelper(context);
 
-        String fields = "c.ID, c.NOMBRE,c.FECHA_INICIO, c.DISTANCIA," +
-                " c.DESCRIPCION, c.URL_IMAGEN, c.CIUDAD, ifnull(uc.me_gusta,0) as ME_GUSTA," +
+        String fields = "c.ID_CARRERA, c.NOMBRE,c.FECHA_INICIO, c.DISTANCIA," +
+                " c.DESCRIPCION, c.URL_IMAGEN, c.CIUDAD, uc.ID_USUARIO_CARRERA, ifnull(uc.me_gusta,0) as ME_GUSTA," +
                 " ifnull(uc.ANOTADO,0) as ANOTADO, ifnull(uc.CORRIDA,0) as CORRIDA ";
 
 
         String query = "Select "+ fields + " from CARRERA  c" +
-                " left join USUARIO_CARRERA  uc on c.id = uc.carrera Where recomendada = 1";
+                " left join USUARIO_CARRERA  uc on c.id_carrera = uc.carrera Where recomendada = 1";
 
         Cursor c = db.getReadableDatabase().rawQuery(query,null);
         if(c.getCount()>0){
@@ -78,7 +78,7 @@ public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             resultados.add(CarreraCabecera.getBuilder()
-                    .codigoCarrera(cursor.getInt(cursor.getColumnIndex("ID")))
+                    .codigoCarrera(cursor.getInt(cursor.getColumnIndex("ID_CARRERA")))
                     .nombre(cursor.getString(cursor.getColumnIndex("NOMBRE")))
                     .fechaInicio(new Date(cursor.getLong(cursor.getColumnIndex("FECHA_INICIO"))))
                     .distancia(cursor.getInt(cursor.getColumnIndex("DISTANCIA")))

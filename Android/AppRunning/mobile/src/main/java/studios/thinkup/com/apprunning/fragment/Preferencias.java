@@ -1,6 +1,7 @@
 package studios.thinkup.com.apprunning.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,20 +9,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import studios.thinkup.com.apprunning.MainActivity;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.model.DefaultSettings;
-import studios.thinkup.com.apprunning.model.entity.Modalidad;
 import studios.thinkup.com.apprunning.model.RunningApplication;
+import studios.thinkup.com.apprunning.model.entity.Modalidad;
+import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
+import studios.thinkup.com.apprunning.provider.LoginGoogleProvider;
 import studios.thinkup.com.apprunning.provider.ZonaProvider;
 
 /**
  * Created by fcostazini on 27/05/2015.
  * Preferencias de busqueda
- *
  */
 public class Preferencias extends Fragment {
 
@@ -31,7 +35,28 @@ public class Preferencias extends Fragment {
         DefaultSettings defaultSettings = ((RunningApplication) this.getActivity().getApplication()).getDefaultSettings();
 
         View rootView = inflater.inflate(R.layout.filtros_activity, container, false);
+        Button logout = (Button) rootView.findViewById(R.id.btn_logout);
+        UsuarioApp ua = ((RunningApplication) this.getActivity().getApplication()).getUsuario();
+        if (!ua.getTipoCuenta().equals(String.valueOf(LoginGoogleProvider.ID))) {
+            logout.setBackgroundColor(this.getActivity().getResources().getColor(R.color.com_facebook_blue));
+            logout.setTextColor(this.getActivity().getResources().getColor(R.color.common_signin_btn_text_dark));
+        } else {
+            logout.setBackgroundColor(this.getActivity().getResources().getColor(R.color.rojo_google));
+            logout.setTextColor(this.getActivity().getResources().getColor(R.color.common_signin_btn_text_dark));
+        }
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Preferencias.this.getActivity() != null) {
 
+                    Intent i = new Intent(Preferencias.this.getActivity(), MainActivity.class);
+                    i.putExtra("LOGOUT", true);
+                    Preferencias.this.getActivity().startActivity(i);
+                    Preferencias.this.getActivity().finish();
+
+                }
+            }
+        });
         Spinner spGenero = (Spinner) rootView.findViewById(R.id.sp_genero);
         ArrayAdapter<Modalidad> adapterGenero = new ArrayAdapter<>(this.getActivity(),
                 android.R.layout.simple_spinner_item, Modalidad.values());
@@ -68,7 +93,7 @@ public class Preferencias extends Fragment {
         sbDias.setProgress(defaultSettings.getDiasBusqueda());
         sbDias.setMax(120);
         sbDias.setOnSeekBarChangeListener(new DistanciaSeekBarChangeListener(defaultSettings, txtDias));
-        return  rootView;
+        return rootView;
 
     }
 

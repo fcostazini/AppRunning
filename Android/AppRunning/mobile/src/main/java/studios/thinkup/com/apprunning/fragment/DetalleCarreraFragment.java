@@ -16,8 +16,8 @@ import java.util.Locale;
 
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
-import studios.thinkup.com.apprunning.provider.CarrerasProvider;
-import studios.thinkup.com.apprunning.provider.ICarrerasProvider;
+import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
+import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
 
 /**
  * Created by fcostazini on 21/05/2015.
@@ -26,10 +26,10 @@ import studios.thinkup.com.apprunning.provider.ICarrerasProvider;
 public class DetalleCarreraFragment extends Fragment {
     private UsuarioCarrera carrera;
 
-    public static DetalleCarreraFragment newInstance(long idCarrera) {
+    public static DetalleCarreraFragment newInstance(int idCarrera) {
         DetalleCarreraFragment fragment = new DetalleCarreraFragment();
         Bundle args = new Bundle();
-        args.putLong(UsuarioCarrera.class.getSimpleName(), idCarrera);
+        args.putInt(UsuarioCarrera.class.getSimpleName(), idCarrera);
         fragment.setArguments(args);
         return fragment;
     }
@@ -38,9 +38,9 @@ public class DetalleCarreraFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detalle_carrera, container, false);
-        ICarrerasProvider cp = new CarrerasProvider();
+        IUsuarioCarreraProvider cp = new UsuarioCarreraProvider(this.getActivity());
         if (getArguments() != null) {
-            long id = getArguments().getLong(UsuarioCarrera.class.getSimpleName());
+            int id = getArguments().getInt(UsuarioCarrera.class.getSimpleName());
             this.carrera = cp.getByIdCarrera(id);
         }
         TextView txtNombre = (TextView) rootView.findViewById(R.id.txt_nombre_carrera);

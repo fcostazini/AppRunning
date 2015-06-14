@@ -10,26 +10,26 @@ import com.astuetz.PagerSlidingTabStrip;
 import studios.thinkup.com.apprunning.adapter.DetalleCarreraPagerAdapter;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
-import studios.thinkup.com.apprunning.provider.CarrerasProvider;
-import studios.thinkup.com.apprunning.provider.ICarrerasProvider;
+import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
+import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
 
 /**
  * Created by fcostazini on 21/05/2015.
  * Detalle de Carrera
  */
 public class DetalleCarreraActivity extends DrawerPagerActivity {
-    private long idCarrera;
+    private int idCarrera;
     private UsuarioCarrera carrera;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ICarrerasProvider provider = new CarrerasProvider();
+        IUsuarioCarreraProvider provider = new UsuarioCarreraProvider(this);
         Bundle b = getIntent().getExtras();
         int codigo;
         if (b != null) {
             if (b.containsKey(UsuarioCarrera.class.getSimpleName())) {
-                this.idCarrera = b.getLong(UsuarioCarrera.class.getSimpleName());
+                this.idCarrera = b.getInt(UsuarioCarrera.class.getSimpleName());
                 this.carrera = provider.getByIdCarrera(this.idCarrera);
                 ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
                 viewPager.setAdapter(new DetalleCarreraPagerAdapter(getSupportFragmentManager(), this.idCarrera));

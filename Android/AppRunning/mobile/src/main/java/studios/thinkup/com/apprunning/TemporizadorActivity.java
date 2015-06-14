@@ -13,7 +13,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
+import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.TypefaceProvider;
+import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
+import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 
 /**
  * Created by fcostazini on 21/05/2015.
@@ -40,8 +43,9 @@ public class TemporizadorActivity extends Activity implements View.OnClickListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        long id = this.getIntent().getExtras().getLong(UsuarioCarrera.class.getSimpleName());
-        this.carrera =  UsuarioCarrera.findById(UsuarioCarrera.class,id);
+        int id = this.getIntent().getIntExtra(UsuarioCarrera.class.getSimpleName(),-1);
+        IUsuarioCarreraProvider up = new UsuarioCarreraProvider(this);
+        this.carrera =  up.findById(UsuarioCarrera.class, id);
 
         setContentView(R.layout.fragment_temporizador);
         this.isRunning = false;

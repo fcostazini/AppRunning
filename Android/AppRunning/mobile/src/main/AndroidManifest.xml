@@ -23,10 +23,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/face_key"/>
-        <meta-data android:name="DATABASE" android:value="runningDB.sqlite" />
-        <meta-data android:name="VERSION" android:value="2" />
-        <meta-data android:name="QUERY_LOG" android:value="true" />
-        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="studios.thinkup.com.apprunning.model.entity" />
        <activity
             android:name=".BusquedaCarreraActivity"
             android:windowSoftInputMode="stateHidden"
@@ -41,7 +37,6 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_login"
-            android:noHistory="true"
             android:windowSoftInputMode="adjustResize|stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

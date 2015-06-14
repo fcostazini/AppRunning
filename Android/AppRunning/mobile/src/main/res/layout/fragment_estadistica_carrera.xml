@@ -22,7 +22,7 @@
 <ImageView
     android:layout_width="50dp"
     android:layout_height="50dp"
-    android:src="@drawable/ic_action_ic_temporizador"
+    android:src="@drawable/ic_cronometro"
 
     android:layout_marginLeft="20dp"
     android:layout_marginRight="10dp"/>

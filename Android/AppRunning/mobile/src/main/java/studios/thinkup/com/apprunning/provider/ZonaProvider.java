@@ -21,7 +21,7 @@ public class ZonaProvider {
 
     public List<String> getZonas() {
 
-        List<String> zonas = this.provider.getDistinctColumns("CARRERA", Carrera.CIUDAD_FIELD);
+        List<String> zonas = this.provider.getDistinctColumns("CARRERA", Carrera.CIUDAD);
 
 
         return zonas;

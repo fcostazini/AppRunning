@@ -20,17 +20,17 @@ public class QueryGenerator {
     public String getWhereCondition() {
         String query = " Where 'a' = 'a' \n";
         if (filtro != null && filtro.getNombreCarrera() != null && !filtro.getNombreCarrera().isEmpty()) {
-            query += " AND " + Carrera.NOMBRE_FIELD + " LIKE '" + filtro.getNombreCarrera() + "%' \n";
+            query += " AND " + Carrera.NOMBRE + " LIKE '" + filtro.getNombreCarrera() + "%' \n";
         }
         if (filtro.getZona() != null && !filtro.getZona().isEmpty()) {
-            query += " AND " + Carrera.CIUDAD_FIELD + " = '" + filtro.getZona() + "'\n";
+            query += " AND " + Carrera.CIUDAD + " = '" + filtro.getZona() + "'\n";
         }
         if (filtro.getModalidad() != null && !filtro.getModalidad().equals(Modalidad.TODOS)) {
-            query += " AND " + Carrera.MODALIDAD_FIELD + " = '" + filtro.getModalidad() + "'\n";
+            query += " AND " + Carrera.MODALIDAD + " = '" + filtro.getModalidad() + "'\n";
         }
 
-        query += getFechaRange(Carrera.FECHA_LARGADA_FIELD, filtro.getFechaDesde(), filtro.getFechaHasta());
-        query += getIntegerRange(Carrera.DISTANCIA_FIELD, filtro.getDistanciaMin(), filtro.getDistanciaMax());
+        query += getFechaRange(Carrera.FECHA_INICIO, filtro.getFechaDesde(), filtro.getFechaHasta());
+        query += getIntegerRange(Carrera.DISTANCIA, filtro.getDistanciaMin(), filtro.getDistanciaMax());
         if (filtro.getIdUsuario() >= 0) {
             query += " AND usuario = " + filtro.getIdUsuario();
         }

@@ -1,7 +1,6 @@
 package studios.thinkup.com.apprunning.model.entity;
 
-import com.orm.SugarRecord;
-import com.orm.dsl.Ignore;
+import android.database.Cursor;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,12 +9,25 @@ import java.util.Vector;
 
 import studios.thinkup.com.apprunning.model.IObservableCarrera;
 import studios.thinkup.com.apprunning.model.IObservadorCarrera;
+import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
+import studios.thinkup.com.apprunning.provider.helper.Id;
+import studios.thinkup.com.apprunning.provider.helper.Ignore;
 
 /**
  * Created by FaQ on 08/06/2015.
  */
-public class UsuarioCarrera extends SugarRecord<Carrera> implements IObservableCarrera,Serializable {
+public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity {
 
+    public static final String CARRERA      =  "CARRERA"     ;
+    public static final String TIEMPO       =  "TIEMPO"      ;
+    public static final String ANOTADO      =  "ANOTADO"     ;
+    public static final String ME_GUSTA     =  "ME_GUSTA"    ;
+    public static final String CORRIDA      =  "CORRIDA"     ;
+    public static final String ID           =  "ID_USUARIO_CARRERA"          ;
+
+
+    @Id
+    private Integer idUsuarioCarrera;
     private Carrera carrera;
     private boolean corrida;
     private boolean meGusta;
@@ -30,6 +42,15 @@ public class UsuarioCarrera extends SugarRecord<Carrera> implements IObservableC
 
     public UsuarioCarrera() {
         this.observadores = new Vector<>();
+    }
+    public UsuarioCarrera(Cursor c){
+        this();
+        this.idUsuarioCarrera = c.getInt(c.getColumnIndex(UsuarioCarrera.ID));
+        this.anotado = c.getInt(c.getColumnIndex(UsuarioCarrera.ANOTADO)) == 1;
+        this.corrida = c.getInt(c.getColumnIndex(UsuarioCarrera.CORRIDA)) == 1;
+        this.meGusta = c.getInt(c.getColumnIndex(UsuarioCarrera.ME_GUSTA)) == 1;
+        this.tiempo = c.getLong(c.getColumnIndex(UsuarioCarrera.TIEMPO));
+        this.setCarrera(new Carrera(c));
     }
 
     public Carrera getCarrera() {
@@ -101,7 +122,13 @@ public class UsuarioCarrera extends SugarRecord<Carrera> implements IObservableC
 
     @Override
     public void actualizarObservadores() {
-     this.save();
+        try {
+            for (IObservadorCarrera ob : this.observadores) {
+                ob.actualizarCarrera(this);
+            }
+        } catch (EntidadNoGuardadaException e) {
+            e.printStackTrace();
+        }
     }
 
     public Integer getCodigoCarrera() {
@@ -132,6 +159,19 @@ public class UsuarioCarrera extends SugarRecord<Carrera> implements IObservableC
         return carrera.getNombre();
     }
 
+    public Integer getId() {
+        return idUsuarioCarrera;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.idUsuarioCarrera = id;
+    }
+
+    @Override
+    public String getNombreId() {
+        return "ID_USUARIO_CARRERA";
+    }
 
     public Integer getCodigo() {
         return carrera.getCodigo();

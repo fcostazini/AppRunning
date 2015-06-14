@@ -1,8 +1,7 @@
 package studios.thinkup.com.apprunning.model;
 
+import android.app.Application;
 import android.content.ContextWrapper;
-
-import com.orm.SugarApp;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +13,7 @@ import studios.thinkup.com.apprunning.provider.helper.DataBaseHelper;
  * Created by FaQ on 23/05/2015.
  * Application
  */
-public class RunningApplication extends SugarApp {
+public class RunningApplication extends Application{
     private DefaultSettings defaultSettings;
     private UsuarioApp usuario;
 
@@ -27,7 +26,6 @@ public class RunningApplication extends SugarApp {
     @Override
     public void onCreate() {
         init();
-        super.onCreate();
         FontsOverride.overrideFont(getApplicationContext(), "SERIF", "fonts/milkrun.ttf");
 
     }
