@@ -15,27 +15,13 @@ public class CarreraCabecera implements Serializable {
     private Integer distancia;
     private String descripcion;
     private String urlImage;
+    private String provincia;
     private String zona;
     private boolean fueCorrida;
     private boolean estoyInscripto;
     private boolean meGusta;
 
-    public CarreraCabecera(Integer codigoCarrera, String nombre, Date fechaInicio,
-                           Integer distancia, String descripcion, String urlImage,
-                           boolean fueCorrida, boolean estoyInscripto, boolean meGusta, String zona) {
-        this.codigoCarrera = codigoCarrera;
-        this.nombre = nombre;
-        this.fechaInicio = fechaInicio;
-        this.distancia = distancia;
-        this.descripcion = descripcion;
-        this.urlImage = urlImage;
-        this.fueCorrida = fueCorrida;
-        this.estoyInscripto = estoyInscripto;
-        this.meGusta = meGusta;
-        this.zona = zona;
-    }
-
-    private CarreraCabecera(){
+    private CarreraCabecera() {
 
 
     }
@@ -79,7 +65,11 @@ public class CarreraCabecera implements Serializable {
     public boolean isMeGusta() {
         return meGusta;
     }
-    public static CarreraCabeceraBuilder getBuilder(){ return new CarreraCabeceraBuilder();}
+
+    public static CarreraCabeceraBuilder getBuilder() {
+        return new CarreraCabeceraBuilder();
+    }
+
     public static class CarreraCabeceraBuilder {
         private CarreraCabecera instance = new CarreraCabecera();
 
@@ -128,13 +118,19 @@ public class CarreraCabecera implements Serializable {
             return this;
         }
 
-        public CarreraCabeceraBuilder zona(String zona){
+        public CarreraCabeceraBuilder zona(String zona) {
             this.instance.zona = zona;
             return this;
         }
+
         public CarreraCabecera build() {
 
             return this.instance;
+        }
+
+        public CarreraCabeceraBuilder provincia(String provincia) {
+            this.instance.provincia = provincia;
+            return this;
         }
     }
 }

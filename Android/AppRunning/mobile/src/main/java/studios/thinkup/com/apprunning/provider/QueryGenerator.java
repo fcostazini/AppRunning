@@ -1,5 +1,6 @@
 package studios.thinkup.com.apprunning.provider;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import studios.thinkup.com.apprunning.model.Filtro;
@@ -22,30 +23,48 @@ public class QueryGenerator {
         if (filtro != null && filtro.getNombreCarrera() != null && !filtro.getNombreCarrera().isEmpty()) {
             query += " AND " + Carrera.NOMBRE + " LIKE '" + filtro.getNombreCarrera() + "%' \n";
         }
-        if (filtro.getZona() != null && !filtro.getZona().isEmpty()) {
-            query += " AND " + Carrera.CIUDAD + " = '" + filtro.getZona() + "'\n";
+        if (filtro.getProvincia() != null && !filtro.getProvincia().isEmpty() && !filtro.getProvincia().equals("TODOS")) {
+            query += " AND " + Carrera.PROVINCIA + " = '" + filtro.getProvincia() + "'\n";
+        }
+
+        if (filtro.getCiudad() != null && !filtro.getCiudad().isEmpty() && !filtro.getCiudad().equals("TODOS")) {
+            query += " AND " + Carrera.CIUDAD + " = '" + filtro.getCiudad() + "'\n";
         }
         if (filtro.getModalidad() != null && !filtro.getModalidad().equals(Modalidad.TODOS)) {
             query += " AND " + Carrera.MODALIDAD + " = '" + filtro.getModalidad() + "'\n";
         }
-
+        query += getDistancia(filtro.getRangoDistancia());
         query += getFechaRange(Carrera.FECHA_INICIO, filtro.getFechaDesde(), filtro.getFechaHasta());
-        query += getIntegerRange(Carrera.DISTANCIA, filtro.getDistanciaMin(), filtro.getDistanciaMax());
         if (filtro.getIdUsuario() >= 0) {
             query += " AND usuario = " + filtro.getIdUsuario();
         }
         if(filtro.getMeGusta()!=null){
-            query += " AND me_gusta = " + this.getIntFromBool(filtro.getMeGusta().booleanValue());
+            query += " AND me_gusta = " + this.getIntFromBool(filtro.getMeGusta());
         }
 
         if(filtro.getInscripto()!=null){
-            query += " AND anotado = " + this.getIntFromBool(filtro.getInscripto().booleanValue());
+            query += " AND anotado = " + this.getIntFromBool(filtro.getInscripto());
         }
 
         if(filtro.getCorrida()!=null){
-            query += " AND corrida = " + this.getIntFromBool(filtro.getCorrida().booleanValue());
+            query += " AND corrida = " + this.getIntFromBool(filtro.getCorrida());
         }
         return query;
+    }
+
+    private String getDistancia(Integer rangoDistancia) {
+        switch (rangoDistancia){
+            case 0:
+                return " AND " + Carrera.DISTANCIA + " BETWEEN " + 0 + " AND " + 9;
+            case 1:
+                return " AND " + Carrera.DISTANCIA + " BETWEEN " + 10 + " AND " + 20;
+            case 2:
+                return " AND " + Carrera.DISTANCIA + " BETWEEN " + 21 + " AND " + 41;
+            case 3:
+                return " AND " + Carrera.DISTANCIA + " > " + 41;
+        }
+
+        return "";
     }
 
     private int getIntFromBool(boolean bool) {
@@ -74,21 +93,22 @@ public class QueryGenerator {
 
     private String getFechaRange(String field, Date min, Date max) {
         String resultado = "";
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
         if(min == null && max == null){
             return resultado;
         }
         if (min != null && max != null) {
             if (min.equals(max)) {
-                resultado += " AND " + field + " = " + min.getTime() + "\n";
+                resultado += " AND " + field + " LIKE '" + sf.format(min) + "%'\n";
             } else {
-                resultado += " AND " + field + " BETWEEN " + min.getTime() + " AND " + max.getTime() + " \n";
+                resultado += " AND " + field + " BETWEEN '" + sf.format(min) + "' AND '" + sf.format(max) + "' \n";
             }
         } else {
 
             if (min != null)
-                resultado += " AND " + field + " >= " + min.getTime() + " \n";
+                resultado += " AND " + field + " >= '" + sf.format(min) + "' \n";
             if (max != null)
-                resultado += " AND " + field + " <= " + max.getTime() + " \n";
+                resultado += " AND " + field + " <= '" + sf.format(max) + "' \n";
         }
 
         return resultado;

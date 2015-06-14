@@ -14,19 +14,27 @@ import studios.thinkup.com.apprunning.model.entity.Modalidad;
  * Filtros de busqueda para carreras
  */
 public class Filtro implements Serializable {
+    public final static String[] DISTANCIAS = {"0 a 9 Km", "10 a 21 Km", "21 a 41 Km", "Mas de 41 Km"};
 
     private String nombreCarrera;
     private Date fechaDesde;
     private Date fechaHasta;
-    private Integer distanciaMin;
-    private Integer distanciaMax;
+    private Integer rangoDistancia;
     private Modalidad modalidad;
-    private String zona;
+    private String ciudad;
+    private String provincia;
     private long idUsuario;
     private Boolean meGusta = null;
     private Boolean inscripto = null;
     private Boolean corrida = null;
 
+    public String getProvincia() {
+        return provincia;
+    }
+
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
+    }
 
     public Filtro(DefaultSettings defaultSettings) {
         this.idUsuario = -1;
@@ -36,9 +44,8 @@ public class Filtro implements Serializable {
         c.setTime(this.fechaDesde);
         c.add(Calendar.DATE, defaultSettings.getDiasBusqueda());
         this.fechaHasta = c.getTime();
-        this.zona = defaultSettings.getZona();
-        this.distanciaMin = defaultSettings.getDistanciaMin();
-        this.distanciaMax = defaultSettings.getDistanciaMax();
+        //this.ciudad = defaultSettings.getZona();
+        this.rangoDistancia = defaultSettings.getDistanciaMin();
         this.modalidad = defaultSettings.getModalidad();
         this.nombreCarrera = "";
         meGusta = null;
@@ -117,20 +124,20 @@ public class Filtro implements Serializable {
         this.modalidad = modalidad;
     }
 
-    public String getZona() {
+    public String getCiudad() {
 
-        return this.zona;
+        return this.ciudad;
     }
 
-    public void setZona(String zona) {
-        this.zona = zona;
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
     }
 
     @Override
     public String toString() {
         String s = "";
         SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        if (!this.getZona().isEmpty()) s += "zona = '" + this.getZona() + "'; \n";
+        if (!this.getCiudad().isEmpty()) s += "CIUDAD = '" + this.getCiudad() + "'; \n";
 
         if (this.getNombreCarrera() != null && !this.getNombreCarrera().isEmpty())
             s += "nombre = '" + this.getNombreCarrera() + "'; \n";
@@ -141,32 +148,19 @@ public class Filtro implements Serializable {
         if (this.getFechaHasta() != null) {
             s += "hasta = '" + sf.format(this.getFechaHasta()) + "'; \n";
         }
-        if (this.getDistanciaMin() != null) {
-            s += "Km desde = '" + this.getDistanciaMin() + "'; \n";
+        if (this.getRangoDistancia() != null) {
+            s += "Km desde = '" + this.getRangoDistancia() + "'; \n";
         }
-        if (this.getDistanciaMax() != null) {
-            s += "Km hasta = '" + this.getDistanciaMax() + "'; \n";
-        }
-        if (this.getModalidad() != null) s += "genero = '" + this.getModalidad() + "'; \n";
+        if (this.getModalidad() != null) s += "MODALIDAD = '" + this.getModalidad() + "'; \n";
         return s;
     }
 
-    public Integer getDistanciaMin() {
-        return distanciaMin;
+    public Integer getRangoDistancia() {
+        return rangoDistancia;
     }
 
-    public void setDistanciaMin(Integer distanciaMin) {
-        this.distanciaMin = distanciaMin;
-    }
-
-    public Integer getDistanciaMax() {
-
-        return distanciaMax;
-
-    }
-
-    public void setDistanciaMax(Integer distanciaMax) {
-        this.distanciaMax = distanciaMax;
+    public void setRangoDistancia(Integer rangoDistancia) {
+        this.rangoDistancia = rangoDistancia;
     }
 
     @Override
@@ -178,9 +172,7 @@ public class Filtro implements Serializable {
 
         if (corrida != null ? !corrida.equals(filtro.corrida) : filtro.corrida != null)
             return false;
-        if (distanciaMax != null ? !distanciaMax.equals(filtro.distanciaMax) : filtro.distanciaMax != null)
-            return false;
-        if (distanciaMin != null ? !distanciaMin.equals(filtro.distanciaMin) : filtro.distanciaMin != null)
+        if (rangoDistancia != null ? !rangoDistancia.equals(filtro.rangoDistancia) : filtro.rangoDistancia != null)
             return false;
         if (fechaDesde != null ? !fechaDesde.equals(filtro.fechaDesde) : filtro.fechaDesde != null)
             return false;
@@ -195,7 +187,7 @@ public class Filtro implements Serializable {
             return false;
         if (nombreCarrera != null ? !nombreCarrera.equals(filtro.nombreCarrera) : filtro.nombreCarrera != null)
             return false;
-        if (zona != null ? !zona.equals(filtro.zona) : filtro.zona != null) return false;
+        if (ciudad != null ? !ciudad.equals(filtro.ciudad) : filtro.ciudad != null) return false;
 
         return true;
     }
@@ -205,10 +197,9 @@ public class Filtro implements Serializable {
         int result = nombreCarrera != null ? nombreCarrera.hashCode() : 0;
         result = 31 * result + (fechaDesde != null ? fechaDesde.hashCode() : 0);
         result = 31 * result + (fechaHasta != null ? fechaHasta.hashCode() : 0);
-        result = 31 * result + (distanciaMin != null ? distanciaMin.hashCode() : 0);
-        result = 31 * result + (distanciaMax != null ? distanciaMax.hashCode() : 0);
+        result = 31 * result + (rangoDistancia != null ? rangoDistancia.hashCode() : 0);
         result = 31 * result + (modalidad != null ? modalidad.hashCode() : 0);
-        result = 31 * result + (zona != null ? zona.hashCode() : 0);
+        result = 31 * result + (ciudad != null ? ciudad.hashCode() : 0);
         result = 31 * result + (meGusta != null ? meGusta.hashCode() : 0);
         result = 31 * result + (inscripto != null ? inscripto.hashCode() : 0);
         result = 31 * result + (corrida != null ? corrida.hashCode() : 0);
@@ -223,9 +214,9 @@ public class Filtro implements Serializable {
         f.setInscripto(this.inscripto);
         f.setFechaDesde(this.fechaDesde);
         f.setFechaHasta(this.fechaHasta);
-        f.setZona(this.zona);
-        f.setDistanciaMax(this.distanciaMax);
-        f.setDistanciaMin(this.distanciaMin);
+        f.setCiudad(this.ciudad);
+        f.setProvincia(this.provincia);
+        f.setRangoDistancia(this.rangoDistancia);
         f.setIdUsuario(this.getIdUsuario());
         f.setModalidad(this.modalidad);
         f.setNombreCarrera(this.nombreCarrera);

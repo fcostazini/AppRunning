@@ -53,6 +53,7 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
         String fields = "c.NOMBRE";
         fields += ", c.DISTANCIA";
         fields += ", c.MODALIDAD";
+        fields += ", c.PROVINCIA";
         fields += ", c.CIUDAD";
         fields += ", c.DIRECCION";
         fields += ", c.FECHA_INICIO";

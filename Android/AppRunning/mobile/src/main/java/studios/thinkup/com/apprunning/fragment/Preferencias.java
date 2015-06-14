@@ -17,11 +17,12 @@ import android.widget.TextView;
 import studios.thinkup.com.apprunning.MainActivity;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.model.DefaultSettings;
+import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.Modalidad;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.LoginGoogleProvider;
-import studios.thinkup.com.apprunning.provider.ZonaProvider;
+import studios.thinkup.com.apprunning.provider.FiltrosProvider;
 
 /**
  * Created by fcostazini on 27/05/2015.
@@ -29,9 +30,11 @@ import studios.thinkup.com.apprunning.provider.ZonaProvider;
  */
 public class Preferencias extends Fragment {
 
+
+private Spinner spProvincia;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ZonaProvider zonaProvider = new ZonaProvider(this.getActivity());
+        FiltrosProvider filtrosProvider = new FiltrosProvider(this.getActivity());
         DefaultSettings defaultSettings = ((RunningApplication) this.getActivity().getApplication()).getDefaultSettings();
 
         View rootView = inflater.inflate(R.layout.filtros_activity, container, false);
@@ -67,7 +70,7 @@ public class Preferencias extends Fragment {
 
         Spinner spZona = (Spinner) rootView.findViewById(R.id.sp_zona);
         ArrayAdapter<String> adapterZona = new ArrayAdapter<>(this.getActivity(),
-                android.R.layout.simple_spinner_item, zonaProvider.getZonas());
+                android.R.layout.simple_spinner_item, filtrosProvider.getProvincias());
         adapterZona.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spZona.setAdapter(adapterZona);
         spZona.setOnItemSelectedListener(new ZonaSpinnerItemSelectedListener(defaultSettings));
@@ -76,16 +79,9 @@ public class Preferencias extends Fragment {
 
         SeekBar sbMinDistancia = (SeekBar) rootView.findViewById(R.id.sb_min_distancia);
         TextView txtMinDistancia = (TextView) rootView.findViewById(R.id.lbl_dist_desde);
-        txtMinDistancia.setText(defaultSettings.getDistanciaMin().toString());
         sbMinDistancia.setProgress(defaultSettings.getDistanciaMin());
+        txtMinDistancia.setText(Filtro.DISTANCIAS[defaultSettings.getDistanciaMin()]);
         sbMinDistancia.setOnSeekBarChangeListener(new DistanciaSeekBarChangeListener(defaultSettings, txtMinDistancia));
-
-
-        SeekBar sbMaxDistancia = (SeekBar) rootView.findViewById(R.id.sb_max_distancia);
-        TextView txtMaxDistancia = (TextView) rootView.findViewById(R.id.lbl_dist_hasta);
-        txtMaxDistancia.setText(defaultSettings.getDistanciaMax().toString());
-        sbMaxDistancia.setProgress(defaultSettings.getDistanciaMax());
-        sbMaxDistancia.setOnSeekBarChangeListener(new DistanciaSeekBarChangeListener(defaultSettings, txtMaxDistancia));
 
         SeekBar sbDias = (SeekBar) rootView.findViewById(R.id.sb_dias);
         TextView txtDias = (TextView) rootView.findViewById(R.id.txt_dias);
@@ -152,7 +148,7 @@ public class Preferencias extends Fragment {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             this.progress = progress;
-            this.toUpdate.setText(String.valueOf(progress));
+            this.toUpdate.setText(Filtro.DISTANCIAS[progress]);
         }
 
         @Override
@@ -167,9 +163,7 @@ public class Preferencias extends Fragment {
                     case R.id.sb_min_distancia:
                         defaultSettings.setDistanciaMin(progress);
                         break;
-                    case R.id.sb_max_distancia:
-                        defaultSettings.setDistanciaMax(progress);
-                        break;
+
                     case R.id.sb_dias:
                         defaultSettings.setDiasBusqueda(progress);
                         break;

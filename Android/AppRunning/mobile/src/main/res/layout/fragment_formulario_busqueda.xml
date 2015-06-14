@@ -32,7 +32,7 @@
             <Spinner
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/sp_zona"
+                android:id="@+id/sp_provincia"
                 android:spinnerMode="dropdown"
                 android:contentDescription="@string/genero"
                 android:layout_below="@+id/sp_genero"
@@ -40,14 +40,14 @@
                 android:layout_alignStart="@+id/sp_genero"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="10dp"
-                 />
+                android:layout_marginTop="10dp" />
+
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/sp_zona"
+                android:layout_below="@+id/sp_provincia"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:id="@+id/ll_rango_dias"
@@ -160,16 +160,16 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:id="@+id/ll_distancia"
-                android:layout_below="@+id/ll_rango_dias"
                 android:layout_marginTop="10dp"
-                android:padding="10dp">
+                android:padding="10dp"
+                android:layout_below="@+id/ll_rango_dias">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Distancia en KM"
-                    android:id="@+id/lbl_distancia" />
+                    android:text="Distancia de Carrera"
+                    android:id="@+id/textView7" />
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -182,18 +182,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@string/desde"
-                        android:id="@+id/textView8"
-                        android:layout_weight=".3" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="1"
+                        android:text="0 a 9 Km"
                         android:id="@+id/lbl_dist_desde"
                         android:layout_weight=".3"
-                        android:layout_marginLeft="20dp"
                         android:minWidth="20dp" />
 
                     <SeekBar
@@ -201,45 +192,10 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/sb_min_distancia"
                         android:layout_weight="5"
-                        android:max="100"
+                        android:max="3"
                         android:indeterminate="false"
                         android:progress="1" />
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:gravity="center">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@string/hasta"
-                        android:id="@+id/textView9"
-                        android:layout_weight=".3" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="100"
-                        android:id="@+id/lbl_dist_hasta"
-                        android:layout_weight=".3"
-                        android:layout_marginLeft="20dp"
-                        android:minWidth="20dp" />
-
-                    <SeekBar
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/sb_max_distancia"
-                        android:layout_weight="5"
-                        android:max="100"
-                        android:indeterminate="false"
-                        android:progress="100" />
                 </LinearLayout>
 
             </LinearLayout>

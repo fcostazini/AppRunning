@@ -3,6 +3,7 @@ package studios.thinkup.com.apprunning.model.entity;
 import android.database.Cursor;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import studios.thinkup.com.apprunning.provider.helper.Id;
@@ -13,25 +14,27 @@ import studios.thinkup.com.apprunning.provider.helper.Id;
  */
 public class Carrera implements Serializable, IEntity {
 
-    public static final String NOMBRE       =  "NOMBRE"      ;
-    public static final String DISTANCIA    =  "DISTANCIA"   ;
-    public static final String MODALIDAD    =  "MODALIDAD"   ;
-    public static final String CIUDAD       =  "CIUDAD"      ;
-    public static final String DIRECCION    =  "DIRECCION"   ;
-    public static final String FECHA_INICIO =  "FECHA_INICIO";
-    public static final String DESCRIPCION  =  "DESCRIPCION" ;
-    public static final String URL_WEB      =  "URL_WEB"     ;
-    public static final String RECOMENDADA  =  "RECOMENDADA" ;
-    public static final String URL_IMAGEN   =  "URL_IMAGEN"  ;
-    public static final String ID           =  "ID_CARRERA"          ;
+    public static final String NOMBRE = "NOMBRE";
+    public static final String DISTANCIA = "DISTANCIA";
+    public static final String MODALIDAD = "MODALIDAD";
+    public static final String PROVINCIA = "PROVINCIA";
+    public static final String CIUDAD = "CIUDAD";
+    public static final String DIRECCION = "DIRECCION";
+    public static final String FECHA_INICIO = "FECHA_INICIO";
+    public static final String DESCRIPCION = "DESCRIPCION";
+    public static final String URL_WEB = "URL_WEB";
+    public static final String RECOMENDADA = "RECOMENDADA";
+    public static final String URL_IMAGEN = "URL_IMAGEN";
+    public static final String ID = "ID_CARRERA";
 
     @Id
     private Integer id;
-    private String   nombre;
-    private String  modalidad;
-    private String  ciudad;
-    private String  direccion;
-    private Date   fechaInicio;
+    private String nombre;
+    private String modalidad;
+    private String provincia;
+    private String ciudad;
+    private String direccion;
+    private Date fechaInicio;
     private String descripcion;
     private Integer distancia;
     private String urlWeb;
@@ -41,19 +44,27 @@ public class Carrera implements Serializable, IEntity {
     public Carrera() {
 
     }
-    public Carrera(Cursor c){
-        this.id = c.getInt(c.getColumnIndex(Carrera.ID));
-        this.nombre = c.getString(c.getColumnIndex(NOMBRE));
-        this.modalidad = c.getString(c.getColumnIndex(MODALIDAD));
-        this.ciudad = c.getString(c.getColumnIndex(CIUDAD));
-        this.direccion = c.getString(c.getColumnIndex(DIRECCION));
-        this.fechaInicio = new Date(c.getInt(c.getColumnIndex(FECHA_INICIO)));
-        this.descripcion = c.getString(c.getColumnIndex(DESCRIPCION));
-        this.distancia = c.getInt(c.getColumnIndex(DISTANCIA));
-        this.urlWeb = c.getString(c.getColumnIndex(URL_WEB));
-        this.urlImagen= c.getString(c.getColumnIndex(URL_IMAGEN));
+
+    public Carrera(Cursor c) {
+        try {
+            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+            this.id = c.getInt(c.getColumnIndex(Carrera.ID));
+            this.nombre = c.getString(c.getColumnIndex(NOMBRE));
+            this.modalidad = c.getString(c.getColumnIndex(MODALIDAD));
+            this.provincia = c.getString(c.getColumnIndex(PROVINCIA));
+            this.ciudad = c.getString(c.getColumnIndex(CIUDAD));
+            this.direccion = c.getString(c.getColumnIndex(DIRECCION));
+            this.fechaInicio = sf.parse(c.getString(c.getColumnIndex("FECHA_INICIO")));
+            this.descripcion = c.getString(c.getColumnIndex(DESCRIPCION));
+            this.distancia = c.getInt(c.getColumnIndex(DISTANCIA));
+            this.urlWeb = c.getString(c.getColumnIndex(URL_WEB));
+            this.urlImagen = c.getString(c.getColumnIndex(URL_IMAGEN));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
+
     public Integer getCodigo() {
         return this.getId().intValue();
     }
@@ -92,6 +103,14 @@ public class Carrera implements Serializable, IEntity {
 
     public String getUrlWeb() {
         return urlWeb;
+    }
+
+    public String getProvincia() {
+        return provincia;
+    }
+
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
     }
 
     @Override

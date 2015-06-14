@@ -3,7 +3,7 @@
     <string name="action_settings">Preferencias</string>
     <string name="distancia">Distancia</string>
     <string name="genero">Modalidad</string>
-    <string name="zona">Ciudad</string>
+    <string name="ciudad">Ciudad</string>
     <string name="lbl_fecha_largada">Largada:</string>
     <string name="lbl_distancia">Distancia:</string>
     <string name="lbl_genero">Modalida:</string>
