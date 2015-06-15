@@ -19,9 +19,9 @@ import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaExcep
  */
 public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> implements IUsuarioCarreraProvider, IObservadorCarrera {
 
-
-    public UsuarioCarreraProvider(Context c) {
-        super(c);
+    private Integer idUsuario;
+    public UsuarioCarreraProvider(Context c, Integer usuarioId) {
+        super(c);this.idUsuario = usuarioId;
     }
 
     @Override
@@ -33,8 +33,8 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
         try {
             db = this.dbProvider.getReadableDatabase();
             String fields = getStringFields();
-            String[] params = {String.valueOf(carrera)};
-            c = db.rawQuery("SELECT " + fields + " FROM CARRERA c LEFT JOIN USUARIO_CARRERA uc ON c.ID_CARRERA = uc.CARRERA WHERE c.ID_CARRERA = ?", params);
+            String[] params = { String.valueOf(this.idUsuario),String.valueOf(carrera)};
+            c = db.rawQuery("SELECT " + fields + " FROM CARRERA c LEFT JOIN USUARIO_CARRERA uc ON c.ID_CARRERA = uc.CARRERA AND uc.USUARIO = ? WHERE c.ID_CARRERA = ?", params);
             return this.toEntity(c);
         } catch (Exception e) {
             return null;
@@ -74,7 +74,9 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
 
     @Override
     public UsuarioCarrera actualizarCarrera(UsuarioCarrera usuarioCarrera) throws EntidadNoGuardadaException {
-
+        if(usuarioCarrera.getUsuario() == null || usuarioCarrera.getUsuario() == 0){
+            usuarioCarrera.setUsuario(this.idUsuario);
+        }
         if (usuarioCarrera.getId() !=null && usuarioCarrera.getId() >0) {
             return this.update(usuarioCarrera);
         } else {
@@ -133,8 +135,8 @@ UsuarioCarrera uc = null;
         try {
             db = this.dbProvider.getReadableDatabase();
             String fields = getStringFields();
-            String[] params = {String.valueOf(id)};
-            c = db.rawQuery("SELECT " + fields + " FROM CARRERA c LEFT JOIN USUARIO_CARRERA uc ON c.ID_CARRERA = uc.CARRERA WHERE uc.ID_USUARIO_CARRERA = ?", params);
+            String[] params = {String.valueOf(this.idUsuario), String.valueOf(id)};
+            c = db.rawQuery("SELECT " + fields + " FROM CARRERA c LEFT JOIN USUARIO_CARRERA uc ON c.ID_CARRERA = uc.CARRERA AND uc.USUARIO = ? WHERE uc.ID_USUARIO_CARRERA = ?", params);
             return this.toEntity(c);
         } catch (Exception e) {
             return null;
@@ -148,14 +150,14 @@ UsuarioCarrera uc = null;
         }
     }
 
-    @Override
     protected String[] getFields(Class<? extends IEntity> clazz) {
         String[] fields = {
                 UsuarioCarrera.ANOTADO,
                 UsuarioCarrera.CARRERA,
                 UsuarioCarrera.ID,
                 UsuarioCarrera.ME_GUSTA,
-                UsuarioCarrera.TIEMPO
+                UsuarioCarrera.TIEMPO,
+                UsuarioCarrera.ID_USUARIO
         };
         return fields;
     }

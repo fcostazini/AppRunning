@@ -5,13 +5,13 @@ android {
         debug {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
-            storeFile file('C:/Users/FaQ/.android/debug.keystore')
+            storeFile file('C:/Users/fcostazini/.android/debug.keystore')
             storePassword 'android'
         }
         release {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
-            storeFile file('C:/Users/FaQ/.android/debug.keystore')
+            storeFile file('C:/Users/fcostazini/.android/debug.keystore')
             storePassword 'android'
         }
     }
@@ -38,7 +38,7 @@ android {
 repositories { mavenCentral() }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     wearApp project(':wear')
     compile 'com.android.support:support-v4:22.1.1'
     compile 'com.android.support:appcompat-v7:22.1.+'
@@ -46,6 +46,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.asne:asne-facebook:0.3.3'
     compile 'com.github.asne:asne-googleplus:0.3.3'
-    compile 'com.google.guava:guava:14.0.1' // guava 14.0.1
+    compile 'com.google.guava:guava:14.0.1'
+    // guava 14.0.1
 }
 

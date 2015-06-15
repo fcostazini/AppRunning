@@ -30,6 +30,7 @@ public class FiltrosProvider {
             c = db.rawQuery("SELECT DISTINCT " + Carrera.PROVINCIA + " FROM CARRERA", null);
             if (c.getCount() > 0) {
                 c.moveToFirst();
+                resultados.add("TODAS");
                 while (!c.isAfterLast()) {
                     resultados.add(c.getString(c.getColumnIndex(Carrera.PROVINCIA)));
                     c.moveToNext();

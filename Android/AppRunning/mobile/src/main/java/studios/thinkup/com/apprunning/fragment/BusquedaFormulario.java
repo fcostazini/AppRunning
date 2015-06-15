@@ -109,7 +109,7 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
                 //BusquedaFormulario.this.filtro.setCiudad("TODOS");
             }
         });
-        spProvincia.setSelection(1);
+        spProvincia.setSelection(adapterProvincia.getPosition(filtro.getProvincia()));
 
 
         TextView txtDesde = (TextView) rootView.findViewById(R.id.txt_fecha_desde);

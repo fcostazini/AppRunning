@@ -192,7 +192,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/sb_min_distancia"
                         android:layout_weight="5"
-                        android:max="3"
+                        android:max="4"
                         android:indeterminate="false"
                         android:progress="1" />
 

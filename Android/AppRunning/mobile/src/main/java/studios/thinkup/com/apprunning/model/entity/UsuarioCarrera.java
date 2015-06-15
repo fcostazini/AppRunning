@@ -24,6 +24,7 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
     public static final String ME_GUSTA     =  "ME_GUSTA"    ;
     public static final String CORRIDA      =  "CORRIDA"     ;
     public static final String ID           =  "ID_USUARIO_CARRERA"          ;
+    public static final String ID_USUARIO           =  "USUARIO"          ;
 
 
     @Id
@@ -32,6 +33,7 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
     private boolean corrida;
     private boolean meGusta;
     private boolean anotado;
+    private Integer usuario;
     private long tiempo;
     @Ignore
     private long velocidad;
@@ -39,6 +41,14 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
     private String recorrido;
     @Ignore
     private List<IObservadorCarrera> observadores;
+
+    public Integer getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Integer usuario) {
+        this.usuario = usuario;
+    }
 
     public UsuarioCarrera() {
         this.observadores = new Vector<>();
@@ -50,6 +60,7 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
         this.corrida = c.getInt(c.getColumnIndex(UsuarioCarrera.CORRIDA)) == 1;
         this.meGusta = c.getInt(c.getColumnIndex(UsuarioCarrera.ME_GUSTA)) == 1;
         this.tiempo = c.getLong(c.getColumnIndex(UsuarioCarrera.TIEMPO));
+        this.usuario = c.getInt(c.getColumnIndex(UsuarioCarrera.ID_USUARIO));
         this.setCarrera(new Carrera(c));
     }
 

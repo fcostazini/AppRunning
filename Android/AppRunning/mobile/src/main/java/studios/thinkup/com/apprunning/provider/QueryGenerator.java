@@ -23,11 +23,11 @@ public class QueryGenerator {
         if (filtro != null && filtro.getNombreCarrera() != null && !filtro.getNombreCarrera().isEmpty()) {
             query += " AND " + Carrera.NOMBRE + " LIKE '" + filtro.getNombreCarrera() + "%' \n";
         }
-        if (filtro.getProvincia() != null && !filtro.getProvincia().isEmpty() && !filtro.getProvincia().equals("TODOS")) {
+        if (filtro.getProvincia() != null && !filtro.getProvincia().isEmpty() && !filtro.getProvincia().equals("TODAS")) {
             query += " AND " + Carrera.PROVINCIA + " = '" + filtro.getProvincia() + "'\n";
         }
 
-        if (filtro.getCiudad() != null && !filtro.getCiudad().isEmpty() && !filtro.getCiudad().equals("TODOS")) {
+        if (filtro.getCiudad() != null && !filtro.getCiudad().isEmpty() && !filtro.getCiudad().equals("TODAS")) {
             query += " AND " + Carrera.CIUDAD + " = '" + filtro.getCiudad() + "'\n";
         }
         if (filtro.getModalidad() != null && !filtro.getModalidad().equals(Modalidad.TODOS)) {
@@ -55,13 +55,13 @@ public class QueryGenerator {
     private String getDistancia(Integer rangoDistancia) {
         if (rangoDistancia != null) {
             switch (rangoDistancia) {
-                case 0:
-                    return " AND " + Carrera.DISTANCIA + " BETWEEN " + 0 + " AND " + 9;
                 case 1:
-                    return " AND " + Carrera.DISTANCIA + " BETWEEN " + 10 + " AND " + 20;
+                    return " AND " + Carrera.DISTANCIA + " BETWEEN " + 0 + " AND " + 9;
                 case 2:
-                    return " AND " + Carrera.DISTANCIA + " BETWEEN " + 21 + " AND " + 41;
+                    return " AND " + Carrera.DISTANCIA + " BETWEEN " + 10 + " AND " + 20;
                 case 3:
+                    return " AND " + Carrera.DISTANCIA + " BETWEEN " + 21 + " AND " + 41;
+                case 4:
                     return " AND " + Carrera.DISTANCIA + " > " + 41;
             }
         }

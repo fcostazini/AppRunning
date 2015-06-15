@@ -27,7 +27,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        IUsuarioCarreraProvider provider = new UsuarioCarreraProvider(this);
+        IUsuarioCarreraProvider provider = new UsuarioCarreraProvider(this, ((RunningApplication)this.getApplication()).getUsuario().getId());
         Bundle b = getIntent().getExtras();
         int codigo;
         if (b != null) {

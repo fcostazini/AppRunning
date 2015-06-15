@@ -20,6 +20,7 @@ import studios.thinkup.com.apprunning.IconTextView;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.TemporizadorActivity;
 import studios.thinkup.com.apprunning.components.CustomNumberPickerView;
+import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.TypefaceProvider;
@@ -54,7 +55,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             int id = getArguments().getInt(UsuarioCarrera.class.getSimpleName());
-            IUsuarioCarreraProvider cp = new UsuarioCarreraProvider(this.getActivity());
+            IUsuarioCarreraProvider cp = new UsuarioCarreraProvider(this.getActivity(),((RunningApplication)this.getActivity().getApplication()).getUsuario().getId());
             this.carrera = cp.getByIdCarrera(id);
         }
     }

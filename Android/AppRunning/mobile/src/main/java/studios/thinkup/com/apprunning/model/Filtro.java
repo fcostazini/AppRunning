@@ -14,7 +14,7 @@ import studios.thinkup.com.apprunning.model.entity.Modalidad;
  * Filtros de busqueda para carreras
  */
 public class Filtro implements Serializable {
-    public final static String[] DISTANCIAS = {"0 a 9 Km", "10 a 21 Km", "21 a 41 Km", "Mas de 41 Km"};
+    public final static String[] DISTANCIAS = {"TODAS","0 a 9 Km", "10 a 21 Km", "21 a 41 Km", "Mas de 41 Km"};
 
     private String nombreCarrera;
     private Date fechaDesde;

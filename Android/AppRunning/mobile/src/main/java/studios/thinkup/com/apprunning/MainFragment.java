@@ -96,21 +96,14 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
     }
 
     private void initSocialNetwork(SocialNetwork socialNetwork) {
-        if (this.getActivity() != null &&
-                this.getActivity().getIntent() != null &&
-                this.getActivity().getIntent().getExtras() != null &&
-                this.getActivity().getIntent().getExtras().containsKey("LOGOUT") &&
-                socialNetwork.isConnected()) {
-            this.getActivity().getIntent().getExtras().remove("LOGOUT");
-            socialNetwork.logout();
-        } else {
+
             if (socialNetwork.isConnected()) {
 
                 MainActivity.showProgress("Cargando...");
                 startProfile(socialNetwork.getID());
 
             }
-        }
+
     }
 
     @Override
@@ -167,10 +160,25 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
 
     private void startProfile(int networkId) {
         socialNetwork = MainFragment.mSocialNetworkManager.getSocialNetwork(networkId);
-        socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
+        if (this.getActivity() != null &&
+                this.getActivity().getIntent() != null &&
+                this.getActivity().getIntent().getExtras() != null &&
+                this.getActivity().getIntent().getExtras().containsKey("LOGOUT") &&
+                socialNetwork.isConnected()) {
+            this.getActivity().getIntent().getExtras().remove("LOGOUT");
+            MainActivity.hideProgress();
+            socialNetwork.logout();
+            Intent i = new Intent(this.getActivity(), MainActivity.class);
+            this.getActivity().startActivity(i);
+            this.getActivity().finish();
 
-        MainActivity.showProgress("Cargando...");
-        socialNetwork.requestCurrentPerson();
+        } else {
+
+            socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
+
+
+            socialNetwork.requestCurrentPerson();
+        }
 
     }
 

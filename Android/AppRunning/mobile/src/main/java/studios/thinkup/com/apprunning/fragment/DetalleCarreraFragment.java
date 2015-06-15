@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import studios.thinkup.com.apprunning.R;
+import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
@@ -40,7 +41,7 @@ public class DetalleCarreraFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detalle_carrera, container, false);
-        IUsuarioCarreraProvider cp = new UsuarioCarreraProvider(this.getActivity());
+        IUsuarioCarreraProvider cp = new UsuarioCarreraProvider(this.getActivity(),((RunningApplication)this.getActivity().getApplication()).getUsuario().getId());
         if (getArguments() != null) {
             int id = getArguments().getInt(UsuarioCarrera.class.getSimpleName());
             this.carrera = cp.getByIdCarrera(id);

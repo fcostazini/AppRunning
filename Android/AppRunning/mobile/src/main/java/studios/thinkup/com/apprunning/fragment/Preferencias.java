@@ -54,6 +54,7 @@ private Spinner spProvincia;
 
                     Intent i = new Intent(Preferencias.this.getActivity(), MainActivity.class);
                     i.putExtra("LOGOUT", true);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     Preferencias.this.getActivity().startActivity(i);
                     Preferencias.this.getActivity().finish();
 

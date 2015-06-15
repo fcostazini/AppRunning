@@ -52,6 +52,7 @@ public class LoginGoogleProvider extends SocialNetwork implements GooglePlayServ
     private static final String TAG = LoginGoogleProvider.class.getSimpleName();
     private static final int REQUEST_AUTH = UUID.randomUUID().hashCode() & '\uffff';
     private static final String SAVE_STATE_KEY_IS_CONNECTED = "LoginGoogleProvider.SAVE_STATE_KEY_OAUTH_TOKEN";
+    private static boolean LOGOUT = false;
     private static Activity mActivity;
     private GoogleApiClient googleApiClient;
     private ConnectionResult mConnectionResult;
@@ -77,7 +78,7 @@ public class LoginGoogleProvider extends SocialNetwork implements GooglePlayServ
         try {
             this.mConnectionResult.startResolutionForResult(mActivity, REQUEST_AUTH);
         } catch (Exception var3) {
-            if(!this.googleApiClient.isConnecting()) {
+            if (!this.googleApiClient.isConnecting()) {
                 this.googleApiClient.connect();
             }
         }
@@ -86,12 +87,14 @@ public class LoginGoogleProvider extends SocialNetwork implements GooglePlayServ
 
     public void logout() {
         this.mConnectRequested = false;
-        if(this.googleApiClient.isConnected()) {
+        LoginGoogleProvider.LOGOUT = true;
+        if (this.googleApiClient.isConnected()) {
             this.mSharedPreferences.edit().remove("LoginGoogleProvider.SAVE_STATE_KEY_OAUTH_TOKEN").commit();
-            Plus.AccountApi.clearDefaultAccount(this.googleApiClient);
+            Plus.AccountApi.revokeAccessAndDisconnect(this.googleApiClient);
             this.googleApiClient.disconnect();
             this.googleApiClient.connect();
         }
+
 
     }
 
@@ -105,7 +108,7 @@ public class LoginGoogleProvider extends SocialNetwork implements GooglePlayServ
 
     public void requestAccessToken(OnRequestAccessTokenCompleteListener onRequestAccessTokenCompleteListener) {
         super.requestAccessToken(onRequestAccessTokenCompleteListener);
-        AsyncTask task = new AsyncTask<Activity,String,String>() {
+        AsyncTask task = new AsyncTask<Activity, String, String>() {
             protected String doInBackground(Activity... params) {
                 String scope = "oauth2:https://www.googleapis.com/auth/plus.login";
 
@@ -119,10 +122,10 @@ public class LoginGoogleProvider extends SocialNetwork implements GooglePlayServ
             }
 
             protected void onPostExecute(String token) {
-                if(token != null) {
-                    ((OnRequestAccessTokenCompleteListener)LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_ACCESS_TOKEN")).onRequestAccessTokenComplete(LoginGoogleProvider.this.getID(), new AccessToken(token, (String)null));
+                if (token != null) {
+                    ((OnRequestAccessTokenCompleteListener) LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_ACCESS_TOKEN")).onRequestAccessTokenComplete(LoginGoogleProvider.this.getID(), new AccessToken(token, (String) null));
                 } else {
-                    ((SocialNetworkListener)LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_ACCESS_TOKEN")).onError(LoginGoogleProvider.this.getID(), "SocialNetwork.REQUEST_ACCESS_TOKEN", token, (Object)null);
+                    ((SocialNetworkListener) LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_ACCESS_TOKEN")).onError(LoginGoogleProvider.this.getID(), "SocialNetwork.REQUEST_ACCESS_TOKEN", token, (Object) null);
                 }
 
             }
@@ -144,7 +147,7 @@ public class LoginGoogleProvider extends SocialNetwork implements GooglePlayServ
         super.requestSocialPersons(userID, onRequestSocialPersonsCompleteListener);
         Plus.PeopleApi.load(this.googleApiClient, userID).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
             public void onResult(People.LoadPeopleResult loadPeopleResult) {
-                if(loadPeopleResult.getStatus().getStatusCode() == 0) {
+                if (loadPeopleResult.getStatus().getStatusCode() == 0) {
                     PersonBuffer personBuffer = loadPeopleResult.getPersonBuffer();
 
                     try {
@@ -152,21 +155,21 @@ public class LoginGoogleProvider extends SocialNetwork implements GooglePlayServ
                         SocialPerson socialPerson = new SocialPerson();
                         ArrayList socialPersons = new ArrayList();
 
-                        for(int i = 0; i < count; ++i) {
+                        for (int i = 0; i < count; ++i) {
                             LoginGoogleProvider.this.getSocialPerson(socialPerson, personBuffer.get(i), userID[i]);
                             socialPersons.add(socialPerson);
                             socialPerson = new SocialPerson();
                         }
 
-                        if(LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_PERSONS") != null) {
-                            ((OnRequestSocialPersonsCompleteListener)LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_PERSONS")).onRequestSocialPersonsSuccess(LoginGoogleProvider.this.getID(), socialPersons);
+                        if (LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_PERSONS") != null) {
+                            ((OnRequestSocialPersonsCompleteListener) LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_PERSONS")).onRequestSocialPersonsSuccess(LoginGoogleProvider.this.getID(), socialPersons);
                             LoginGoogleProvider.this.mLocalListeners.remove("SocialNetwork.REQUEST_GET_PERSONS");
                         }
                     } finally {
                         personBuffer.close();
                     }
-                } else if(LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_PERSONS") != null) {
-                    ((SocialNetworkListener)LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_PERSONS")).onError(LoginGoogleProvider.this.getID(), "SocialNetwork.REQUEST_GET_PERSONS", "Can\'t get persons" + loadPeopleResult.getStatus(), (Object)null);
+                } else if (LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_PERSONS") != null) {
+                    ((SocialNetworkListener) LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_PERSONS")).onError(LoginGoogleProvider.this.getID(), "SocialNetwork.REQUEST_GET_PERSONS", "Can\'t get persons" + loadPeopleResult.getStatus(), (Object) null);
                     LoginGoogleProvider.this.mLocalListeners.remove("SocialNetwork.REQUEST_GET_PERSONS");
                 }
 
@@ -176,31 +179,31 @@ public class LoginGoogleProvider extends SocialNetwork implements GooglePlayServ
 
     public void requestDetailedSocialPerson(String userId, OnRequestDetailedSocialPersonCompleteListener onRequestDetailedSocialPersonCompleteListener) {
         super.requestDetailedSocialPerson(userId, onRequestDetailedSocialPersonCompleteListener);
-        final String user = userId == null?"me":userId;
-        Plus.PeopleApi.load(this.googleApiClient, new String[]{user}).setResultCallback(new  ResultCallback<People.LoadPeopleResult>() {
+        final String user = userId == null ? "me" : userId;
+        Plus.PeopleApi.load(this.googleApiClient, new String[]{user}).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
             public void onResult(final People.LoadPeopleResult loadPeopleResult) {
-                if(loadPeopleResult.getStatus().getStatusCode() == 0) {
+                if (loadPeopleResult.getStatus().getStatusCode() == 0) {
                     PersonBuffer personBuffer = loadPeopleResult.getPersonBuffer();
 
                     try {
                         int count = personBuffer.getCount();
                         GooglePlusPerson googlePlusPerson = new GooglePlusPerson();
 
-                        for(int i = 0; i < count; ++i) {
+                        for (int i = 0; i < count; ++i) {
                             LoginGoogleProvider.this.getDetailedSocialPerson(googlePlusPerson, personBuffer.get(i), user);
                         }
 
-                        if(LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_DETAIL_PERSON") != null) {
-                            ((OnRequestDetailedSocialPersonCompleteListener)LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_DETAIL_PERSON")).onRequestDetailedSocialPersonSuccess(LoginGoogleProvider.this.getID(), googlePlusPerson);
+                        if (LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_DETAIL_PERSON") != null) {
+                            ((OnRequestDetailedSocialPersonCompleteListener) LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_DETAIL_PERSON")).onRequestDetailedSocialPersonSuccess(LoginGoogleProvider.this.getID(), googlePlusPerson);
                             LoginGoogleProvider.this.mLocalListeners.remove("SocialNetwork.REQUEST_GET_DETAIL_PERSON");
                         }
                     } finally {
                         personBuffer.close();
                     }
-                } else if(LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_DETAIL_PERSON") != null) {
+                } else if (LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_DETAIL_PERSON") != null) {
                     LoginGoogleProvider.this.mHandler.post(new Runnable() {
                         public void run() {
-                            ((SocialNetworkListener)LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_DETAIL_PERSON")).onError(LoginGoogleProvider.this.getID(), "SocialNetwork.REQUEST_GET_DETAIL_PERSON", "Can\'t get person" + loadPeopleResult.getStatus(), (Object)null);
+                            ((SocialNetworkListener) LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_DETAIL_PERSON")).onError(LoginGoogleProvider.this.getID(), "SocialNetwork.REQUEST_GET_DETAIL_PERSON", "Can\'t get person" + loadPeopleResult.getStatus(), (Object) null);
                             LoginGoogleProvider.this.mLocalListeners.remove("SocialNetwork.REQUEST_GET_DETAIL_PERSON");
                         }
                     });
@@ -211,34 +214,34 @@ public class LoginGoogleProvider extends SocialNetwork implements GooglePlayServ
     }
 
     private void requestPerson(final String userID, OnRequestSocialPersonCompleteListener onRequestSocialPersonCompleteListener) {
-        Plus.PeopleApi.load(this.googleApiClient, new String[]{userID}).setResultCallback(new  ResultCallback<People.LoadPeopleResult>() {
+        Plus.PeopleApi.load(this.googleApiClient, new String[]{userID}).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
             public void onResult(People.LoadPeopleResult loadPeopleResult) {
-                if(loadPeopleResult.getStatus().getStatusCode() == 0) {
+                if (loadPeopleResult.getStatus().getStatusCode() == 0) {
                     PersonBuffer personBuffer = loadPeopleResult.getPersonBuffer();
 
                     try {
                         int count = personBuffer.getCount();
                         SocialPerson socialPerson = new SocialPerson();
 
-                        for(int i = 0; i < count; ++i) {
+                        for (int i = 0; i < count; ++i) {
                             LoginGoogleProvider.this.getSocialPerson(socialPerson, personBuffer.get(i), userID);
                         }
 
-                        if(LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_PERSON") != null) {
-                            ((OnRequestSocialPersonCompleteListener)LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_PERSON")).onRequestSocialPersonSuccess(LoginGoogleProvider.this.getID(), socialPerson);
+                        if (LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_PERSON") != null) {
+                            ((OnRequestSocialPersonCompleteListener) LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_PERSON")).onRequestSocialPersonSuccess(LoginGoogleProvider.this.getID(), socialPerson);
                             LoginGoogleProvider.this.mLocalListeners.remove("SocialNetwork.REQUEST_GET_PERSON");
-                        } else if(LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_CURRENT_PERSON") != null) {
-                            ((OnRequestSocialPersonCompleteListener)LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_CURRENT_PERSON")).onRequestSocialPersonSuccess(LoginGoogleProvider.this.getID(), socialPerson);
+                        } else if (LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_CURRENT_PERSON") != null) {
+                            ((OnRequestSocialPersonCompleteListener) LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_CURRENT_PERSON")).onRequestSocialPersonSuccess(LoginGoogleProvider.this.getID(), socialPerson);
                             LoginGoogleProvider.this.mLocalListeners.remove("SocialNetwork.REQUEST_GET_CURRENT_PERSON");
                         }
                     } finally {
                         personBuffer.close();
                     }
-                } else if(LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_PERSON") != null) {
-                    ((SocialNetworkListener)LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_PERSON")).onError(LoginGoogleProvider.this.getID(), "SocialNetwork.REQUEST_GET_PERSON", "Can\'t get person" + loadPeopleResult.getStatus(), (Object)null);
+                } else if (LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_PERSON") != null) {
+                    ((SocialNetworkListener) LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_PERSON")).onError(LoginGoogleProvider.this.getID(), "SocialNetwork.REQUEST_GET_PERSON", "Can\'t get person" + loadPeopleResult.getStatus(), (Object) null);
                     LoginGoogleProvider.this.mLocalListeners.remove("SocialNetwork.REQUEST_GET_PERSON");
-                } else if(LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_CURRENT_PERSON") != null) {
-                    ((SocialNetworkListener)LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_CURRENT_PERSON")).onError(LoginGoogleProvider.this.getID(), "SocialNetwork.REQUEST_GET_CURRENT_PERSON", "Can\'t get person" + loadPeopleResult.getStatus(), (Object)null);
+                } else if (LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_CURRENT_PERSON") != null) {
+                    ((SocialNetworkListener) LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_CURRENT_PERSON")).onError(LoginGoogleProvider.this.getID(), "SocialNetwork.REQUEST_GET_CURRENT_PERSON", "Can\'t get person" + loadPeopleResult.getStatus(), (Object) null);
                     LoginGoogleProvider.this.mLocalListeners.remove("SocialNetwork.REQUEST_GET_CURRENT_PERSON");
                 }
 
@@ -249,12 +252,12 @@ public class LoginGoogleProvider extends SocialNetwork implements GooglePlayServ
     private SocialPerson getSocialPerson(SocialPerson socialPerson, Person person, String userId) {
         socialPerson.id = person.getId();
         socialPerson.name = person.getDisplayName();
-        if(person.hasImage() && person.getImage().hasUrl()) {
+        if (person.hasImage() && person.getImage().hasUrl()) {
             socialPerson.avatarURL = person.getImage().getUrl().replace("?sz=50", "?sz=200");
         }
 
         socialPerson.profileURL = person.getUrl();
-        if(userId.equals("me")) {
+        if (userId.equals("me")) {
             socialPerson.email = Plus.AccountApi.getAccountName(this.googleApiClient);
         }
 
@@ -268,11 +271,11 @@ public class LoginGoogleProvider extends SocialNetwork implements GooglePlayServ
         googlePlusPerson.braggingRights = person.getBraggingRights();
         Person.Cover cover = person.getCover();
         String placesLived;
-        if(cover != null) {
+        if (cover != null) {
             Person.Cover.CoverPhoto organizations = cover.getCoverPhoto();
-            if(organizations != null) {
+            if (organizations != null) {
                 placesLived = organizations.getUrl();
-                if(placesLived != null) {
+                if (placesLived != null) {
                     googlePlusPerson.coverURL = placesLived;
                 }
             }
@@ -285,22 +288,22 @@ public class LoginGoogleProvider extends SocialNetwork implements GooglePlayServ
         googlePlusPerson.objectType = person.getObjectType();
         List organizations1 = person.getOrganizations();
         String placeLivedValue;
-        if(organizations1 != null && organizations1.size() > 0) {
-            placesLived = ((Person.Organizations)organizations1.get(organizations1.size() - 1)).getName();
-            if(placesLived != null) {
+        if (organizations1 != null && organizations1.size() > 0) {
+            placesLived = ((Person.Organizations) organizations1.get(organizations1.size() - 1)).getName();
+            if (placesLived != null) {
                 googlePlusPerson.company = placesLived;
             }
 
-            placeLivedValue = ((Person.Organizations)organizations1.get(organizations1.size() - 1)).getTitle();
-            if(placeLivedValue != null) {
+            placeLivedValue = ((Person.Organizations) organizations1.get(organizations1.size() - 1)).getTitle();
+            if (placeLivedValue != null) {
                 googlePlusPerson.position = placeLivedValue;
             }
         }
 
         List placesLived1 = person.getPlacesLived();
-        if(placesLived1 != null && placesLived1.size() > 0) {
-            placeLivedValue = ((Person.PlacesLived)placesLived1.get(placesLived1.size() - 1)).getValue();
-            if(placeLivedValue != null) {
+        if (placesLived1 != null && placesLived1.size() > 0) {
+            placeLivedValue = ((Person.PlacesLived) placesLived1.get(placesLived1.size() - 1)).getValue();
+            if (placeLivedValue != null) {
                 googlePlusPerson.placeLivedValue = placeLivedValue;
             }
         }
@@ -325,12 +328,12 @@ public class LoginGoogleProvider extends SocialNetwork implements GooglePlayServ
     public void requestPostDialog(Bundle bundle, OnPostingCompleteListener onPostingCompleteListener) {
         super.requestPostDialog(bundle, onPostingCompleteListener);
         PlusShare.Builder plusShare = (new PlusShare.Builder(mActivity)).setType("text/plain");
-        if(bundle != null) {
-            if(bundle.containsKey("message")) {
+        if (bundle != null) {
+            if (bundle.containsKey("message")) {
                 plusShare.setText(bundle.getString("message"));
             }
 
-            if(bundle.containsKey("link")) {
+            if (bundle.containsKey("link")) {
                 plusShare.setContentUrl(Uri.parse(bundle.getString("link")));
             }
         }
@@ -347,37 +350,37 @@ public class LoginGoogleProvider extends SocialNetwork implements GooglePlayServ
         super.requestGetFriends(onRequestGetFriendsCompleteListener);
         ArrayList socialPersons = new ArrayList();
         ArrayList ids = new ArrayList();
-        this.getAllFriends((String)null, socialPersons, ids);
+        this.getAllFriends((String) null, socialPersons, ids);
     }
 
     private void getAllFriends(String pageToken, final ArrayList<SocialPerson> socialPersons, final ArrayList<String> ids) {
-        Plus.PeopleApi.loadVisible(this.googleApiClient, pageToken).setResultCallback(new  ResultCallback<People.LoadPeopleResult>() {
+        Plus.PeopleApi.loadVisible(this.googleApiClient, pageToken).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
             public void onResult(People.LoadPeopleResult loadPeopleResult) {
-                if(loadPeopleResult.getStatus().getStatusCode() == 0) {
+                if (loadPeopleResult.getStatus().getStatusCode() == 0) {
                     PersonBuffer personBuffer = loadPeopleResult.getPersonBuffer();
 
                     try {
                         SocialPerson socialPerson = new SocialPerson();
 
-                        for(Iterator var4 = personBuffer.iterator(); var4.hasNext(); socialPerson = new SocialPerson()) {
-                            Person person = (Person)var4.next();
+                        for (Iterator var4 = personBuffer.iterator(); var4.hasNext(); socialPerson = new SocialPerson()) {
+                            Person person = (Person) var4.next();
                             LoginGoogleProvider.this.getSocialPerson(socialPerson, person, "not me");
                             ids.add(person.getId());
                             socialPersons.add(socialPerson);
                         }
 
-                        if(loadPeopleResult.getNextPageToken() != null) {
+                        if (loadPeopleResult.getNextPageToken() != null) {
                             LoginGoogleProvider.this.getAllFriends(loadPeopleResult.getNextPageToken(), socialPersons, ids);
-                        } else if(LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_FRIENDS") != null) {
-                            ((OnRequestGetFriendsCompleteListener)LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_FRIENDS")).OnGetFriendsIdComplete(LoginGoogleProvider.this.getID(), (String[])ids.toArray(new String[ids.size()]));
-                            ((OnRequestGetFriendsCompleteListener)LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_FRIENDS")).OnGetFriendsComplete(LoginGoogleProvider.this.getID(), socialPersons);
+                        } else if (LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_FRIENDS") != null) {
+                            ((OnRequestGetFriendsCompleteListener) LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_FRIENDS")).OnGetFriendsIdComplete(LoginGoogleProvider.this.getID(), (String[]) ids.toArray(new String[ids.size()]));
+                            ((OnRequestGetFriendsCompleteListener) LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_FRIENDS")).OnGetFriendsComplete(LoginGoogleProvider.this.getID(), socialPersons);
                             LoginGoogleProvider.this.mLocalListeners.remove("SocialNetwork.REQUEST_GET_FRIENDS");
                         }
                     } finally {
                         personBuffer.close();
                     }
-                } else if(LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_FRIENDS") != null) {
-                    ((SocialNetworkListener)LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_FRIENDS")).onError(LoginGoogleProvider.this.getID(), "SocialNetwork.REQUEST_GET_DETAIL_PERSON", "Can\'t get person" + loadPeopleResult.getStatus(), (Object)null);
+                } else if (LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_FRIENDS") != null) {
+                    ((SocialNetworkListener) LoginGoogleProvider.this.mLocalListeners.get("SocialNetwork.REQUEST_GET_FRIENDS")).onError(LoginGoogleProvider.this.getID(), "SocialNetwork.REQUEST_GET_DETAIL_PERSON", "Can\'t get person" + loadPeopleResult.getStatus(), (Object) null);
                 }
 
             }
@@ -404,7 +407,7 @@ public class LoginGoogleProvider extends SocialNetwork implements GooglePlayServ
     }
 
     public void onStop() {
-        if(this.googleApiClient.isConnected()) {
+        if (this.googleApiClient.isConnected()) {
             this.googleApiClient.disconnect();
         }
 
@@ -413,26 +416,34 @@ public class LoginGoogleProvider extends SocialNetwork implements GooglePlayServ
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         int sanitizedRequestCode = requestCode % 65536;
-        if(sanitizedRequestCode == REQUEST_AUTH) {
-            if(resultCode == -1 && !this.googleApiClient.isConnected() && !this.googleApiClient.isConnecting()) {
+        if (sanitizedRequestCode == REQUEST_AUTH) {
+            if (resultCode == -1 && !this.googleApiClient.isConnected() && !this.googleApiClient.isConnecting()) {
                 this.googleApiClient.connect();
-            } else if(resultCode == 0 && this.mLocalListeners.get("SocialNetwork.REQUEST_LOGIN") != null) {
-                ((SocialNetworkListener)this.mLocalListeners.get("SocialNetwork.REQUEST_LOGIN")).onError(this.getID(), "SocialNetwork.REQUEST_LOGIN", "canceled", (Object)null);
+            } else if (resultCode == 0 && this.mLocalListeners.get("SocialNetwork.REQUEST_LOGIN") != null) {
+                ((SocialNetworkListener) this.mLocalListeners.get("SocialNetwork.REQUEST_LOGIN")).onError(this.getID(), "SocialNetwork.REQUEST_LOGIN", "canceled", (Object) null);
             }
         }
 
     }
 
     public void onConnected(Bundle bundle) {
-        if(this.mConnectRequested) {
-            if(this.mLocalListeners.get("SocialNetwork.REQUEST_LOGIN") != null) {
+        if (this.mConnectRequested) {
+            if (this.mLocalListeners.get("SocialNetwork.REQUEST_LOGIN") != null) {
                 this.mSharedPreferences.edit().putBoolean("LoginGoogleProvider.SAVE_STATE_KEY_OAUTH_TOKEN", true).commit();
-                ((OnLoginCompleteListener)this.mLocalListeners.get("SocialNetwork.REQUEST_LOGIN")).onLoginSuccess(this.getID());
+                ((OnLoginCompleteListener) this.mLocalListeners.get("SocialNetwork.REQUEST_LOGIN")).onLoginSuccess(this.getID());
                 return;
             }
 
-            if(this.mLocalListeners.get("SocialNetwork.REQUEST_LOGIN") != null) {
-                ((SocialNetworkListener)this.mLocalListeners.get("SocialNetwork.REQUEST_LOGIN")).onError(this.getID(), "SocialNetwork.REQUEST_LOGIN", "get person == null", (Object)null);
+            if (this.mLocalListeners.get("SocialNetwork.REQUEST_LOGIN") != null) {
+                ((SocialNetworkListener) this.mLocalListeners.get("SocialNetwork.REQUEST_LOGIN")).onError(this.getID(), "SocialNetwork.REQUEST_LOGIN", "get person == null", (Object) null);
+            }
+
+        } else {
+            if (LoginGoogleProvider.LOGOUT) {
+                Plus.AccountApi.clearDefaultAccount(this.googleApiClient);
+                this.googleApiClient.disconnect();
+                LoginGoogleProvider.LOGOUT = false;
+
             }
         }
 
@@ -440,8 +451,8 @@ public class LoginGoogleProvider extends SocialNetwork implements GooglePlayServ
     }
 
     public void onConnectionSuspended(int i) {
-        if(this.mLocalListeners.get("SocialNetwork.REQUEST_LOGIN") != null) {
-            ((SocialNetworkListener)this.mLocalListeners.get("SocialNetwork.REQUEST_LOGIN")).onError(this.getID(), "SocialNetwork.REQUEST_LOGIN", "get person == null", (Object)null);
+        if (this.mLocalListeners.get("SocialNetwork.REQUEST_LOGIN") != null) {
+            ((SocialNetworkListener) this.mLocalListeners.get("SocialNetwork.REQUEST_LOGIN")).onError(this.getID(), "SocialNetwork.REQUEST_LOGIN", "get person == null", (Object) null);
         }
 
         this.mConnectRequested = false;
@@ -453,8 +464,8 @@ public class LoginGoogleProvider extends SocialNetwork implements GooglePlayServ
 
     public void onConnectionFailed(ConnectionResult connectionResult) {
         this.mConnectionResult = connectionResult;
-        if(this.mConnectRequested && this.mLocalListeners.get("SocialNetwork.REQUEST_LOGIN") != null) {
-            ((SocialNetworkListener)this.mLocalListeners.get("SocialNetwork.REQUEST_LOGIN")).onError(this.getID(), "SocialNetwork.REQUEST_LOGIN", "error: " + connectionResult.getErrorCode(), (Object)null);
+        if (this.mConnectRequested && this.mLocalListeners.get("SocialNetwork.REQUEST_LOGIN") != null) {
+            ((SocialNetworkListener) this.mLocalListeners.get("SocialNetwork.REQUEST_LOGIN")).onError(this.getID(), "SocialNetwork.REQUEST_LOGIN", "error: " + connectionResult.getErrorCode(), (Object) null);
         }
 
         this.mConnectRequested = false;
