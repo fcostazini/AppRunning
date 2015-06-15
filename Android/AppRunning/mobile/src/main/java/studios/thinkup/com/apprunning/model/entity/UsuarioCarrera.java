@@ -3,6 +3,7 @@ package studios.thinkup.com.apprunning.model.entity;
 import android.database.Cursor;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -27,7 +28,7 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
     public static final String ID_USUARIO           =  "USUARIO"          ;
 
 
-    @Id
+
     private Integer idUsuarioCarrera;
     private Carrera carrera;
     private boolean corrida;
@@ -35,11 +36,11 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
     private boolean anotado;
     private Integer usuario;
     private long tiempo;
-    @Ignore
+
     private long velocidad;
-    @Ignore
+
     private String recorrido;
-    @Ignore
+
     private List<IObservadorCarrera> observadores;
 
     public Integer getUsuario() {
@@ -186,6 +187,17 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
     @Override
     public String getNombreId() {
         return "ID_USUARIO_CARRERA";
+    }
+
+    @Override
+    public ArrayList<String> getIgnoredFields() {
+        ArrayList<String> ignored = new ArrayList<>();
+        ignored.add("idUsuarioCarrera");
+        ignored.add("velocidad");
+        ignored.add("tiempo");
+        ignored.add("observadores");
+        ignored.add("recorrido");
+        return ignored;
     }
 
     public Integer getCodigo() {

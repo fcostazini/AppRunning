@@ -41,8 +41,6 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
      * 7 - Instagram
      */
     private Button facebook;
-    private Button twitter;
-    private Button linkedin;
     private Button googleplus;
     private SocialNetwork socialNetwork;
 
@@ -175,8 +173,6 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
         } else {
 
             socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
-
-
             socialNetwork.requestCurrentPerson();
         }
 

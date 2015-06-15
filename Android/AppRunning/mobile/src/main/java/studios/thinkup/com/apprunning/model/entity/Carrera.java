@@ -4,6 +4,7 @@ import android.database.Cursor;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import studios.thinkup.com.apprunning.provider.helper.Id;
@@ -27,7 +28,6 @@ public class Carrera implements Serializable, IEntity {
     public static final String URL_IMAGEN = "URL_IMAGEN";
     public static final String ID = "ID_CARRERA";
 
-    @Id
     private Integer id;
     private String nombre;
     private String modalidad;
@@ -126,5 +126,10 @@ public class Carrera implements Serializable, IEntity {
     @Override
     public String getNombreId() {
         return "ID_CARRERA";
+    }
+
+    @Override
+    public ArrayList<String> getIgnoredFields() {
+        return new ArrayList<>();
     }
 }

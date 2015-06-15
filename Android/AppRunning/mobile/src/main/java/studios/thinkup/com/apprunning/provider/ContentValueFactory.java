@@ -31,7 +31,7 @@ public class ContentValueFactory {
                 if (java.lang.reflect.Modifier.isStatic(f.getModifiers())) {
                     continue;
                 }
-                if (f.isAnnotationPresent(Ignore.class)||f.isAnnotationPresent(Id.class)) {
+                if (ent.getIgnoredFields().contains(f.getName())|| f.getName().equals(ent.getNombreId())) {
                     continue;
                 }
                 if (IEntity.class.isAssignableFrom(f.getType())) {

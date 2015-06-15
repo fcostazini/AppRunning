@@ -1,6 +1,7 @@
 package studios.thinkup.com.apprunning.model.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import studios.thinkup.com.apprunning.provider.helper.Id;
 
@@ -62,5 +63,10 @@ public class UsuarioApp implements Serializable, IEntity {
     @Override
     public String getNombreId() {
         return "id";
+    }
+
+    @Override
+    public ArrayList<String> getIgnoredFields() {
+        return new ArrayList<>();
     }
 }

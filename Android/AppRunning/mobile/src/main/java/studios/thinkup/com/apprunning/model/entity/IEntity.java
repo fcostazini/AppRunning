@@ -1,6 +1,7 @@
 package studios.thinkup.com.apprunning.model.entity;
 
 
+import java.util.ArrayList;
 
 /**
  * Created by FaQ on 13/06/2015.
@@ -15,4 +16,6 @@ public interface IEntity {
 
     void setId(Integer id);
     String getNombreId();
+
+    ArrayList<String> getIgnoredFields();
 }
