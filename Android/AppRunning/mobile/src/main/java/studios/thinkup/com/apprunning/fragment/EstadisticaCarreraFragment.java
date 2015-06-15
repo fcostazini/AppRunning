@@ -172,7 +172,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
                 int m = ((CustomNumberPickerView)dialog.findViewById(R.id.np_min)).getNumeroVal();
                 int s = ((CustomNumberPickerView)dialog.findViewById(R.id.np_sec)).getNumeroVal();
                 int ms = ((CustomNumberPickerView)dialog.findViewById(R.id.np_ms)).getNumeroVal();
-                long tiempo = ms + (s*1000) + (m*60000) + (h*3600000);
+                long tiempo = ms*10 + (s*1000) + (m*60000) + (h*3600000);
                 EstadisticaCarreraFragment.this.carrera.setTiempo(tiempo);
                 actualizarValores();
                 dialog.dismiss();
@@ -183,7 +183,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
     }
 
     private void actualizarValores() {
-        if (this.carrera.getTiempo() > 0) {
+        if (this.carrera.getTiempo() >= 0) {
             int h = (int) (this.carrera.getTiempo() / 3600000);
             int m = (int) (this.carrera.getTiempo() - h * 3600000) / 60000;
             int s = (int) (this.carrera.getTiempo() - h * 3600000 - m * 60000) / 1000;
@@ -193,8 +193,14 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
             tiempoStr += ":" + (s < 10 ? "0" + s : s + "");
             tiempoStr += ":" + (ms < 10 ? "0" + ms : ms + "");
             tiempo.setText(tiempoStr);
-            aCorrer.setVisibility(View.GONE);
+            if(this.carrera.getTiempo() > 0){
+                aCorrer.setVisibility(View.GONE);
+            }else{
+                aCorrer.setVisibility(View.VISIBLE);
+            }
             editar.setVisibility(View.VISIBLE);
+
+
         }
     }
 
