@@ -50,7 +50,7 @@ public class DetalleCarreraFragment extends Fragment {
             return rootView;
         }
 
-        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyyy", Locale.getDefault());
+        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         if (this.carrera.getUrlImage() != null && !this.carrera.getUrlImage().isEmpty()) {
             ImageView logo = (ImageView) rootView.findViewById(R.id.img_logo);
             Picasso.with(this.getActivity()).load(this.carrera.getUrlImage())

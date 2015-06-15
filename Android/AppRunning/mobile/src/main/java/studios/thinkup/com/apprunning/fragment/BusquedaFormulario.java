@@ -220,6 +220,8 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             this.progress = progress;
             this.toUpdate.setText(Filtro.DISTANCIAS[progress]);
+
+
         }
 
         @Override
@@ -234,99 +236,99 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
                 this.filtro.setRangoDistancia(progress);
 
 
+            }
+
+        }
+    }
+
+
+    private class DatePickerListener implements View.OnClickListener {
+        private TextView fechaToUpdate;
+
+        DatePickerListener(TextView fecha) {
+            this.fechaToUpdate = fecha;
         }
 
-    }
-}
+        @Override
+        public void onClick(View v) {
+            DatePicker newFragment = new DatePicker();
+            if (v.getId() == R.id.txt_fecha_desde || v.getId() == R.id.img_fecha_desde) {
+                newFragment.setMaxDate(BusquedaFormulario.this.filtro.getFechaHasta());
+                newFragment.setListener(new FechaDesdeListener(BusquedaFormulario.this.filtro, fechaToUpdate));
+            } else {
+                newFragment.setMinDate(BusquedaFormulario.this.filtro.getFechaDesde());
+                newFragment.setListener(new FechaHastaListener(BusquedaFormulario.this.filtro, fechaToUpdate));
+            }
+            newFragment.show(BusquedaFormulario.this.getActivity().getSupportFragmentManager(), "datePicker");
 
-
-private class DatePickerListener implements View.OnClickListener {
-    private TextView fechaToUpdate;
-
-    DatePickerListener(TextView fecha) {
-        this.fechaToUpdate = fecha;
-    }
-
-    @Override
-    public void onClick(View v) {
-        DatePicker newFragment = new DatePicker();
-        if (v.getId() == R.id.txt_fecha_desde || v.getId() == R.id.img_fecha_desde) {
-            newFragment.setMaxDate(BusquedaFormulario.this.filtro.getFechaHasta());
-            newFragment.setListener(new FechaDesdeListener(BusquedaFormulario.this.filtro, fechaToUpdate));
-        } else {
-            newFragment.setMinDate(BusquedaFormulario.this.filtro.getFechaDesde());
-            newFragment.setListener(new FechaHastaListener(BusquedaFormulario.this.filtro, fechaToUpdate));
         }
-        newFragment.show(BusquedaFormulario.this.getActivity().getSupportFragmentManager(), "datePicker");
-
-    }
-}
-
-private class FechaDesdeListener implements DatePickerDialog.OnDateSetListener {
-    private Filtro filtro;
-    private TextView text;
-
-    public FechaDesdeListener(Filtro filtro, TextView text) {
-        this.filtro = filtro;
-        this.text = text;
     }
 
-    @Override
-    public void onDateSet(android.widget.DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+    private class FechaDesdeListener implements DatePickerDialog.OnDateSetListener {
+        private Filtro filtro;
+        private TextView text;
 
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, monthOfYear);
-        c.set(Calendar.DATE, dayOfMonth);
-        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        this.text.setText(sf.format(c.getTime()));
-        this.filtro.setFechaDesde(c.getTime());
-    }
-}
-
-private class FechaHastaListener implements DatePickerDialog.OnDateSetListener {
-    private Filtro filtro;
-    private TextView text;
-
-    public FechaHastaListener(Filtro filtro, TextView text) {
-        this.filtro = filtro;
-        this.text = text;
-    }
-
-    @Override
-    public void onDateSet(android.widget.DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, monthOfYear);
-        c.set(Calendar.DATE, dayOfMonth);
-        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        this.text.setText(sf.format(c.getTime()));
-        this.filtro.setFechaHasta(c.getTime());
-
-    }
-}
-
-private class Cleaner implements View.OnClickListener {
-    private TextView toClean;
-    private Filtro filter;
-
-    public Cleaner(TextView txt, Filtro filter) {
-        this.toClean = txt;
-        this.filter = filter;
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.img_close_desde) {
-            this.filter.setFechaDesde(null);
-        } else {
-            this.filter.setFechaHasta(null);
+        public FechaDesdeListener(Filtro filtro, TextView text) {
+            this.filtro = filtro;
+            this.text = text;
         }
-        this.toClean.setText("");
+
+        @Override
+        public void onDateSet(android.widget.DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+            Calendar c = Calendar.getInstance();
+            c.set(Calendar.YEAR, year);
+            c.set(Calendar.MONTH, monthOfYear);
+            c.set(Calendar.DATE, dayOfMonth);
+            SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            this.text.setText(sf.format(c.getTime()));
+            this.filtro.setFechaDesde(c.getTime());
+        }
     }
-}
+
+    private class FechaHastaListener implements DatePickerDialog.OnDateSetListener {
+        private Filtro filtro;
+        private TextView text;
+
+        public FechaHastaListener(Filtro filtro, TextView text) {
+            this.filtro = filtro;
+            this.text = text;
+        }
+
+        @Override
+        public void onDateSet(android.widget.DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+            Calendar c = Calendar.getInstance();
+            c.set(Calendar.YEAR, year);
+            c.set(Calendar.MONTH, monthOfYear);
+            c.set(Calendar.DATE, dayOfMonth);
+            SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            this.text.setText(sf.format(c.getTime()));
+            this.filtro.setFechaHasta(c.getTime());
+
+        }
+    }
+
+    private class Cleaner implements View.OnClickListener {
+        private TextView toClean;
+        private Filtro filter;
+
+        public Cleaner(TextView txt, Filtro filter) {
+            this.toClean = txt;
+            this.filter = filter;
+        }
+
+
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == R.id.img_close_desde) {
+                this.filter.setFechaDesde(null);
+            } else {
+                this.filter.setFechaHasta(null);
+            }
+            this.toClean.setText("");
+        }
+    }
 }
 
 

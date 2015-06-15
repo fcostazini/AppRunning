@@ -130,7 +130,8 @@
         android:layout_below="@+id/img_logo"
         android:layout_alignLeft="@+id/lbl_fecha_largada"
         android:layout_alignStart="@+id/lbl_fecha_largada"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:padding="15dp" />
 
     <ScrollView
         android:layout_width="wrap_content"

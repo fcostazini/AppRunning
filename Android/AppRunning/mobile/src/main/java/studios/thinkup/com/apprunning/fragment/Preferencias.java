@@ -148,7 +148,12 @@ private Spinner spProvincia;
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             this.progress = progress;
-            this.toUpdate.setText(Filtro.DISTANCIAS[progress]);
+            if(seekBar.getId()== R.id.sb_dias){
+                this.toUpdate.setText(String.valueOf(progress));
+            }else{
+                this.toUpdate.setText(Filtro.DISTANCIAS[progress]);
+            }
+
         }
 
         @Override

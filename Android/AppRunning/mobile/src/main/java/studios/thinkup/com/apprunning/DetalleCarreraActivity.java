@@ -7,6 +7,8 @@ import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
 
+import java.util.Date;
+
 import studios.thinkup.com.apprunning.adapter.DetalleCarreraPagerAdapter;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
@@ -20,6 +22,7 @@ import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
 public class DetalleCarreraActivity extends DrawerPagerActivity {
     private int idCarrera;
     private UsuarioCarrera carrera;
+    private Menu menu;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         menu.clear();
+        this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_detalle_carrera, menu);
         if (this.carrera != null) {
             if (this.carrera.isMeGusta()) {
@@ -103,30 +107,34 @@ public class DetalleCarreraActivity extends DrawerPagerActivity {
                 }
                 return true;
             case R.id.mnu_inscripto:
-                if (!this.carrera.isCorrida()) {
-                    if (!this.carrera.isAnotado()) {
-
-                        item.setIcon(R.drawable.ic_anotado);
-                        this.carrera.setAnotado(true);
-                    } else {
-
+               if(this.carrera.isAnotado()){
+                    if(!this.carrera.isCorrida()){
                         item.setIcon(R.drawable.ic_no_anotado);
                         this.carrera.setAnotado(false);
                     }
-                }
+               }else{
+                       item.setIcon(R.drawable.ic_anotado);
+                       this.carrera.setAnotado(true);
+               }
+
+
                 return true;
             case R.id.mnu_corrida:
-                if (this.carrera.isAnotado()) {
-                    if (!this.carrera.isCorrida()) {
+                if(this.carrera.isCorrida()){
+                    item.setIcon(R.drawable.ic_no_corrida);
+                    this.carrera.setCorrida(true);
+                }else{
+                    if(this.carrera.getFechaInicio().compareTo(new Date())<=0){
 
+                        if(this.menu!= null){
+                            menu.getItem(1).setIcon(R.drawable.ic_anotado);
+                            this.carrera.setAnotado(true);
+                        }
                         item.setIcon(R.drawable.ic_corrida);
                         this.carrera.setCorrida(true);
-                    } else {
-
-                        item.setIcon(R.drawable.ic_no_corrida);
-                        this.carrera.setCorrida(false);
                     }
                 }
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
