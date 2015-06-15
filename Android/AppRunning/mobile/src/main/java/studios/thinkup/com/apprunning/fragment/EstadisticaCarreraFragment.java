@@ -21,9 +21,9 @@ import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.TemporizadorActivity;
 import studios.thinkup.com.apprunning.components.CustomNumberPickerView;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
-import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.TypefaceProvider;
+import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,7 +53,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            int id =  getArguments().getInt(UsuarioCarrera.class.getSimpleName());
+            int id = getArguments().getInt(UsuarioCarrera.class.getSimpleName());
             IUsuarioCarreraProvider cp = new UsuarioCarreraProvider(this.getActivity());
             this.carrera = cp.getByIdCarrera(id);
         }
@@ -65,7 +65,6 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_estadistica_carrera, container, false);
         initView(rootView);
-
 
 
         //aCorrer.setOnClickListener(this);
@@ -146,14 +145,11 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         CustomNumberPickerView sec = (CustomNumberPickerView) dialog.findViewById(R.id.np_sec);
         CustomNumberPickerView ms = (CustomNumberPickerView) dialog.findViewById(R.id.np_ms);
 
-        if (this.carrera.getTiempo() > 0) {
-            hr.setNumeroVal((int) (this.carrera.getTiempo() / 3600000));
-            min.setNumeroVal((int) (this.carrera.getTiempo() - hr.getNumeroVal() * 3600000) / 60000);
-            sec.setNumeroVal((int) (this.carrera.getTiempo() - hr.getNumeroVal() * 3600000 - min.getNumeroVal() * 60000) / 1000);
-            ms.setNumeroVal((int) (this.carrera.getTiempo() - hr.getNumeroVal() * 3600000 - min.getNumeroVal() * 60000 -
-                    sec.getNumeroVal() * 1000) / 10);
-
-        }
+        hr.setNumeroVal((int) (this.carrera.getTiempo() / 3600000));
+        min.setNumeroVal((int) (this.carrera.getTiempo() - hr.getNumeroVal() * 3600000) / 60000);
+        sec.setNumeroVal((int) (this.carrera.getTiempo() - hr.getNumeroVal() * 3600000 - min.getNumeroVal() * 60000) / 1000);
+        ms.setNumeroVal((int) (this.carrera.getTiempo() - hr.getNumeroVal() * 3600000 - min.getNumeroVal() * 60000 -
+                sec.getNumeroVal() * 1000) / 10);
 
 
         IconTextView dialogOk = (IconTextView) dialog.findViewById(R.id.ic_save);
@@ -168,11 +164,11 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         dialogOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int h = ((CustomNumberPickerView)dialog.findViewById(R.id.np_hr)).getNumeroVal();
-                int m = ((CustomNumberPickerView)dialog.findViewById(R.id.np_min)).getNumeroVal();
-                int s = ((CustomNumberPickerView)dialog.findViewById(R.id.np_sec)).getNumeroVal();
-                int ms = ((CustomNumberPickerView)dialog.findViewById(R.id.np_ms)).getNumeroVal();
-                long tiempo = ms*10 + (s*1000) + (m*60000) + (h*3600000);
+                int h = ((CustomNumberPickerView) dialog.findViewById(R.id.np_hr)).getNumeroVal();
+                int m = ((CustomNumberPickerView) dialog.findViewById(R.id.np_min)).getNumeroVal();
+                int s = ((CustomNumberPickerView) dialog.findViewById(R.id.np_sec)).getNumeroVal();
+                int ms = ((CustomNumberPickerView) dialog.findViewById(R.id.np_ms)).getNumeroVal();
+                long tiempo = ms * 10 + (s * 1000) + (m * 60000) + (h * 3600000);
                 EstadisticaCarreraFragment.this.carrera.setTiempo(tiempo);
                 actualizarValores();
                 dialog.dismiss();
@@ -193,14 +189,12 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
             tiempoStr += ":" + (s < 10 ? "0" + s : s + "");
             tiempoStr += ":" + (ms < 10 ? "0" + ms : ms + "");
             tiempo.setText(tiempoStr);
-            if(this.carrera.getTiempo() > 0){
+            if (this.carrera.getTiempo() > 0) {
                 aCorrer.setVisibility(View.GONE);
-            }else{
+            } else {
                 aCorrer.setVisibility(View.VISIBLE);
             }
             editar.setVisibility(View.VISIBLE);
-
-
         }
     }
 

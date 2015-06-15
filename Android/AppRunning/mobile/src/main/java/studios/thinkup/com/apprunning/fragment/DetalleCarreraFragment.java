@@ -1,5 +1,7 @@
 package studios.thinkup.com.apprunning.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -50,7 +52,7 @@ public class DetalleCarreraFragment extends Fragment {
             return rootView;
         }
 
-        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy hh:mm", Locale.getDefault());
         if (this.carrera.getUrlImage() != null && !this.carrera.getUrlImage().isEmpty()) {
             ImageView logo = (ImageView) rootView.findViewById(R.id.img_logo);
             Picasso.with(this.getActivity()).load(this.carrera.getUrlImage())
@@ -61,7 +63,7 @@ public class DetalleCarreraFragment extends Fragment {
 
         txtNombre.setText(this.carrera.getNombre());
         TextView fecha = (TextView) rootView.findViewById(R.id.txt_fecha_largada);
-        fecha.setText(sf.format(this.carrera.getFechaInicio()));
+        fecha.setText(sf.format(this.carrera.getFechaInicio()) + " Hs");
 
         TextView descripcion = (TextView) rootView.findViewById(R.id.txt_descripcion);
         descripcion.setText(this.carrera.getDescripcion());
@@ -74,7 +76,22 @@ public class DetalleCarreraFragment extends Fragment {
         genero.setText(this.carrera.getModalidad());
 
         TextView direccion = (TextView) rootView.findViewById(R.id.txt_direccion);
-        direccion.setText(this.carrera.getDireccion());
+
+        TextView masInfo = (TextView) rootView.findViewById(R.id.lbl_mas_info);
+        masInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(DetalleCarreraFragment.this.carrera.getUrlWeb()!=null &&
+                        !DetalleCarreraFragment.this.carrera.getUrlWeb().isEmpty()){
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(DetalleCarreraFragment.this.carrera.getUrlWeb()));
+                    startActivity(i);
+                }
+
+
+            }
+        });
+        direccion.setText(this.carrera.getFullDireccion());
         return rootView;
     }
 

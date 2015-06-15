@@ -1,154 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/img_logo"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Carrera de StarWars"
-        android:id="@+id/txt_nombre_carrera"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:layout_toEndOf="@id/img_logo"
-        android:layout_toRightOf="@id/img_logo"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="20dp"
-        android:layout_above="@+id/txt_descripcion"
-        android:layout_alignTop="@+id/img_logo" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/lbl_fecha_largada"
-        android:id="@+id/lbl_fecha_largada"
-        android:layout_below="@+id/txt_descripcion"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="28/06/2015 15:00 Hs"
-        android:id="@+id/txt_fecha_largada"
-        android:layout_alignTop="@+id/lbl_fecha_largada"
-        android:layout_toRightOf="@+id/lbl_fecha_largada"
-        android:layout_toEndOf="@+id/lbl_fecha_largada"
-        android:layout_marginLeft="15dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/lbl_distancia"
-        android:id="@+id/lbl_distancia"
-        android:layout_below="@+id/lbl_fecha_largada"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="20 Km"
-        android:id="@+id/txt_distancia"
-        android:layout_alignTop="@+id/lbl_distancia"
-        android:layout_toRightOf="@+id/lbl_distancia"
-        android:layout_toEndOf="@+id/lbl_distancia"
-        android:layout_marginLeft="15dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/lbl_genero"
-        android:id="@+id/lbl_modalidad"
-        android:layout_below="@+id/lbl_distancia"
-        android:layout_alignLeft="@+id/lbl_distancia"
-        android:layout_alignStart="@+id/lbl_distancia"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Todos"
-        android:id="@+id/txt_modalidad"
-        android:layout_marginLeft="15dp"
-        android:layout_toRightOf="@id/lbl_modalidad"
-        android:layout_alignTop="@id/lbl_modalidad"
-        android:layout_below="@+id/lbl_distancia"
-/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/lbl_direccion"
-        android:id="@+id/lbl_direccion"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/lbl_modalidad"
-        android:layout_alignLeft="@+id/lbl_distancia"
-        android:layout_alignStart="@+id/lbl_distancia" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Av. Rivadavia 2555, Capital Federal"
-        android:id="@+id/txt_direccion"
-        android:layout_toRightOf="@id/lbl_direccion"
-        android:layout_alignTop="@+id/lbl_direccion"
-        android:layout_marginLeft="15dp"
-        />
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Una carrera para los fanaticos de StarWars que promete...."
-        android:id="@+id/txt_descripcion"
-        android:layout_below="@+id/img_logo"
-        android:layout_alignLeft="@+id/lbl_fecha_largada"
-        android:layout_alignStart="@+id/lbl_fecha_largada"
-        android:layout_marginTop="10dp"
-        android:padding="15dp" />
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/scrollView" />
+        android:layout_height="fill_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/lbl_mas_info"
-        android:id="@+id/lbl_mas_info"
-        android:layout_below="@+id/txt_direccion"
-        android:layout_alignLeft="@+id/lbl_direccion"
-        android:layout_alignStart="@+id/lbl_direccion"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/link_text_material_light" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <ImageView
+                android:id="@+id/img_logo"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp" />
+
+            <TextView
+                android:id="@+id/txt_nombre_carrera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/txt_descripcion"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/img_logo"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="20dp"
+                android:layout_toEndOf="@id/img_logo"
+                android:layout_toRightOf="@id/img_logo"
+                android:gravity="center"
+                android:text="Carrera de StarWars"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/lbl_fecha_largada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/lbl_distancia"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/lbl_modalidad"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/lbl_fecha_largada"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/txt_fecha_largada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/txt_distancia"
+                android:layout_alignTop="@+id/lbl_fecha_largada"
+                android:layout_toEndOf="@+id/lbl_fecha_largada"
+                android:layout_toRightOf="@+id/lbl_fecha_largada"
+                android:text="28/06/2015 15:00 Hs"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/lbl_distancia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_descripcion"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/lbl_distancia"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/txt_distancia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/lbl_distancia"
+                android:layout_marginLeft="15dp"
+                android:layout_toEndOf="@+id/lbl_distancia"
+                android:layout_toRightOf="@+id/lbl_distancia"
+                android:text="20 Km"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/lbl_modalidad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/lbl_distancia"
+                android:layout_alignStart="@+id/lbl_distancia"
+                android:layout_below="@+id/lbl_distancia"
+                android:layout_marginTop="10dp"
+                android:text="@string/lbl_genero"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/txt_modalidad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/lbl_modalidad"
+                android:layout_below="@+id/lbl_distancia"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/lbl_modalidad"
+                android:text="Todos"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/lbl_direccion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/lbl_distancia"
+                android:layout_alignStart="@+id/lbl_distancia"
+                android:layout_below="@+id/lbl_fecha_largada"
+                android:layout_marginTop="10dp"
+                android:text="@string/lbl_direccion"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/txt_direccion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/lbl_direccion"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/lbl_direccion"
+                android:text="Av. Rivadavia 2555, Capital Federal"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/txt_descripcion"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/lbl_fecha_largada"
+                android:layout_alignStart="@+id/lbl_fecha_largada"
+                android:layout_below="@+id/img_logo"
+                android:layout_marginTop="10dp"
+                android:paddingBottom="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="15dp"
+                android:text="Una carrera para los fanaticos de StarWars que promete...."
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <studios.thinkup.com.apprunning.IconTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:text="@string/icon_web"
+                android:id="@+id/icon_mundo"
+                android:padding="5dp"
+                android:typeface="monospace"
+                android:textColor="@color/link_text_material_light"
+                android:gravity="center_vertical"
+                android:layout_below="@+id/txt_direccion"
+                android:layout_alignLeft="@+id/lbl_distancia"
+                android:layout_marginTop="10dp"
+                android:layout_alignBottom="@+id/lbl_mas_info"
+                android:layout_marginLeft="10dp">
+
+            </studios.thinkup.com.apprunning.IconTextView>
+
+            <TextView
+                android:id="@+id/lbl_mas_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_direccion"
+                android:layout_centerHorizontal="true"
+                android:layout_toEndOf="@id/icon_mundo"
+                android:layout_toRightOf="@id/icon_mundo"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:text="@string/lbl_mas_info"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/link_text_material_light" />
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

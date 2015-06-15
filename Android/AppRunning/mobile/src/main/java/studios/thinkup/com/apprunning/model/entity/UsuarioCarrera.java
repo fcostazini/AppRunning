@@ -53,6 +53,10 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
         this.setCarrera(new Carrera(c));
     }
 
+    public String getProvincia() {
+        return carrera.getProvincia();
+    }
+
     public Carrera getCarrera() {
         return carrera;
     }
@@ -192,4 +196,23 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
     public String getDescripcion() {
         return carrera.getDescripcion();
     }
+
+    public String getFullDireccion() {
+        String direccionStr ="";
+        if(this.getDireccion()!= null && !this.getDireccion().isEmpty() ){
+            direccionStr = this.getDireccion();
+        }
+        if(this.getCiudad()!= null && !this.getCiudad().isEmpty()){
+            direccionStr += direccionStr.isEmpty()?this.getCiudad(): ", " + this.getCiudad();
+        }
+        if(this.getProvincia()!= null && !this.getProvincia().isEmpty()){
+            if(this.getCiudad()!=null && !this.getCiudad().isEmpty() && !this.getProvincia().equals(this.getCiudad())) {
+                direccionStr += direccionStr.isEmpty() ? this.getProvincia() : ", " + this.getProvincia();
+
+            }
+        }
+
+        return direccionStr;
+    }
+
 }

@@ -46,4 +46,5 @@
     <string name="btn_revoke_access">Revoke Access</string>
     <string name="nav_menu_logout">Logout</string>
     <string name="face_key">930000867023317</string>
+    <string name="icon_web">r</string>
 </resources>
