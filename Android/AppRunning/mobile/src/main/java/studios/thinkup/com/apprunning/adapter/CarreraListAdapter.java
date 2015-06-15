@@ -17,7 +17,6 @@ import java.util.Locale;
 
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
-import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 
 /**
  * Created by fcostazini on 22/05/2015.
@@ -101,7 +100,7 @@ public class CarreraListAdapter extends BaseAdapter {
                 viewHolder.distancia.setText(p.getDistancia() + " Km");
             }
             if (p.getFechaInicio() != null) {
-                SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.getDefault());
                 viewHolder.fecha.setText(sf.format(p.getFechaInicio()));
             }
 

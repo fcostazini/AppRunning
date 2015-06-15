@@ -18,8 +18,8 @@ import java.util.Locale;
 
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
-import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
+import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
 
 /**
  * Created by fcostazini on 21/05/2015.
@@ -52,7 +52,7 @@ public class DetalleCarreraFragment extends Fragment {
             return rootView;
         }
 
-        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy hh:mm", Locale.getDefault());
+        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.getDefault());
         if (this.carrera.getUrlImage() != null && !this.carrera.getUrlImage().isEmpty()) {
             ImageView logo = (ImageView) rootView.findViewById(R.id.img_logo);
             Picasso.with(this.getActivity()).load(this.carrera.getUrlImage())
@@ -63,7 +63,7 @@ public class DetalleCarreraFragment extends Fragment {
 
         txtNombre.setText(this.carrera.getNombre());
         TextView fecha = (TextView) rootView.findViewById(R.id.txt_fecha_largada);
-        fecha.setText(sf.format(this.carrera.getFechaInicio()) + " Hs");
+        fecha.setText(sf.format(this.carrera.getFechaInicio()));
 
         TextView descripcion = (TextView) rootView.findViewById(R.id.txt_descripcion);
         descripcion.setText(this.carrera.getDescripcion());

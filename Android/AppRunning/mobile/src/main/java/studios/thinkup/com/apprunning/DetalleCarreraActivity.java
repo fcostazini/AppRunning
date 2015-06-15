@@ -12,8 +12,8 @@ import java.util.Date;
 import studios.thinkup.com.apprunning.adapter.DetalleCarreraPagerAdapter;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
-import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
+import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
 
 /**
  * Created by fcostazini on 21/05/2015.
@@ -122,7 +122,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity {
             case R.id.mnu_corrida:
                 if(this.carrera.isCorrida()){
                     item.setIcon(R.drawable.ic_no_corrida);
-                    this.carrera.setCorrida(true);
+                    this.carrera.setCorrida(false);
                 }else{
                     if(this.carrera.getFechaInicio().compareTo(new Date())<=0){
 

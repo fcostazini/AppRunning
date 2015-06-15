@@ -53,17 +53,18 @@ public class QueryGenerator {
     }
 
     private String getDistancia(Integer rangoDistancia) {
-        switch (rangoDistancia){
-            case 0:
-                return " AND " + Carrera.DISTANCIA + " BETWEEN " + 0 + " AND " + 9;
-            case 1:
-                return " AND " + Carrera.DISTANCIA + " BETWEEN " + 10 + " AND " + 20;
-            case 2:
-                return " AND " + Carrera.DISTANCIA + " BETWEEN " + 21 + " AND " + 41;
-            case 3:
-                return " AND " + Carrera.DISTANCIA + " > " + 41;
+        if (rangoDistancia != null) {
+            switch (rangoDistancia) {
+                case 0:
+                    return " AND " + Carrera.DISTANCIA + " BETWEEN " + 0 + " AND " + 9;
+                case 1:
+                    return " AND " + Carrera.DISTANCIA + " BETWEEN " + 10 + " AND " + 20;
+                case 2:
+                    return " AND " + Carrera.DISTANCIA + " BETWEEN " + 21 + " AND " + 41;
+                case 3:
+                    return " AND " + Carrera.DISTANCIA + " > " + 41;
+            }
         }
-
         return "";
     }
 

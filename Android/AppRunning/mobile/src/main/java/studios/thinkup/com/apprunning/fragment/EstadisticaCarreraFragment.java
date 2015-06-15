@@ -37,16 +37,16 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
     private TextView tiempo;
     private IconTextView editar;
 
+    public EstadisticaCarreraFragment() {
+        // Required empty public constructor
+    }
+
     public static EstadisticaCarreraFragment newInstance(int idCarrera) {
         EstadisticaCarreraFragment fragment = new EstadisticaCarreraFragment();
         Bundle args = new Bundle();
         args.putInt(UsuarioCarrera.class.getSimpleName(), idCarrera);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public EstadisticaCarreraFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -191,7 +191,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
             tiempo.setText(tiempoStr);
             if (this.carrera.getTiempo() > 0) {
                 aCorrer.setVisibility(View.GONE);
-            } else {
+            } else if (this.carrera.isAnotado()) {
                 aCorrer.setVisibility(View.VISIBLE);
             }
             editar.setVisibility(View.VISIBLE);
