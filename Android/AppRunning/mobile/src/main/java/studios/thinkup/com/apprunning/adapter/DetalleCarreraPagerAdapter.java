@@ -9,17 +9,21 @@ import com.astuetz.PagerSlidingTabStrip;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.fragment.DetalleCarreraFragment;
 import studios.thinkup.com.apprunning.fragment.EstadisticaCarreraFragment;
+import studios.thinkup.com.apprunning.fragment.IStatusCarreraObservable;
 
 /**
  * Created by fcostazini on 21/05/2015.
+ * Pager de Detalle de carrera
  */
 public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
     private int carrera;
+    private IStatusCarreraObservable observable;
 
 
-    public DetalleCarreraPagerAdapter(FragmentManager fm, int idCarrera) {
+    public DetalleCarreraPagerAdapter(FragmentManager fm, int idCarrera, IStatusCarreraObservable observable) {
         super(fm);
         this.carrera = idCarrera;
+        this.observable = observable;
     }
 
     @Override
@@ -57,12 +61,20 @@ public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter implements 
         Fragment fragment;
         // Crear un FoodFragment con el nombre como argumento
         if (i == 0) {
-            fragment = DetalleCarreraFragment.newInstance(this.carrera);
-            //Bundle args = new Bundle();
 
+            DetalleCarreraFragment df = DetalleCarreraFragment.newInstance(this.carrera);
+            if( observable!= null){
+                observable.registrarObservador(df);
+            }
+            fragment = df;
         } else {
-            fragment = EstadisticaCarreraFragment.newInstance(this.carrera);
+            EstadisticaCarreraFragment ef = EstadisticaCarreraFragment.newInstance(this.carrera);
+            if( observable!= null){
+                observable.registrarObservador(ef);
+            }
+            fragment = ef;
         }
+
         return fragment;
 
 

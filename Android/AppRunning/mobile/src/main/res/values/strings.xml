@@ -6,7 +6,7 @@
     <string name="ciudad">Ciudad</string>
     <string name="lbl_fecha_largada">Largada:</string>
     <string name="lbl_distancia">Distancia:</string>
-    <string name="lbl_genero">Modalida:</string>
+    <string name="lbl_genero">Modalidad:</string>
     <string name="lbl_direccion">Dirección:</string>
     <string name="chronometer_initial_format">Initial format:<xliff:g id="initial-format">%</xliff:g></string>
     <string name="comenzar">Comenzar</string>
@@ -34,7 +34,7 @@
     <string name="nav_menu_mis_datos">Mis Datos</string>
     <string name="nav_menu_mis_carreras">Mis Carreras</string>
     <string name="nav_menu_buscar">Buscar Carreras</string>
-    <string name="nav_menu_recomendados">Preferidas</string>
+    <string name="nav_menu_recomendados">Recomendadas</string>
     <string name="nav_menu_preferencias">Preferencias</string>
     <string name="sin_resultados">Sin Resultados</string>
     <string name="lbl_mas_info">Mas Información</string>

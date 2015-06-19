@@ -194,7 +194,6 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
         ArrayList<String> ignored = new ArrayList<>();
         ignored.add("idUsuarioCarrera");
         ignored.add("velocidad");
-        ignored.add("tiempo");
         ignored.add("observadores");
         ignored.add("recorrido");
         return ignored;

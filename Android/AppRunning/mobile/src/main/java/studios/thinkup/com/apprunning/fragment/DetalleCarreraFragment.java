@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import studios.thinkup.com.apprunning.R;
+import studios.thinkup.com.apprunning.model.EstadoCarrera;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
@@ -26,7 +27,7 @@ import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
  * Created by fcostazini on 21/05/2015.
  * Detalle de la carrera
  */
-public class DetalleCarreraFragment extends Fragment {
+public class DetalleCarreraFragment extends Fragment implements IStatusCarreraObserver{
     private UsuarioCarrera carrera;
 
     public static DetalleCarreraFragment newInstance(int idCarrera) {
@@ -103,4 +104,8 @@ public class DetalleCarreraFragment extends Fragment {
     }
 
 
+    @Override
+    public void actualizarCambioEstadoCarrera(EstadoCarrera estado) {
+
+    }
 }
