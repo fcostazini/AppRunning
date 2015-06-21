@@ -20,6 +20,7 @@ import studios.thinkup.com.apprunning.IconTextView;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.TemporizadorActivity;
 import studios.thinkup.com.apprunning.components.CustomNumberPickerView;
+import studios.thinkup.com.apprunning.model.EstadoCarrera;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
@@ -31,7 +32,7 @@ import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
  * Use the {@link EstadisticaCarreraFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EstadisticaCarreraFragment extends Fragment implements View.OnClickListener {
+public class EstadisticaCarreraFragment extends Fragment implements View.OnClickListener, IStatusCarreraObserver {
     private LinearLayout aCorrer;
     private UsuarioCarrera carrera;
     private Dialog dialog;
@@ -55,7 +56,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             int id = getArguments().getInt(UsuarioCarrera.class.getSimpleName());
-            IUsuarioCarreraProvider cp = new UsuarioCarreraProvider(this.getActivity(),((RunningApplication)this.getActivity().getApplication()).getUsuario().getId());
+            IUsuarioCarreraProvider cp = new UsuarioCarreraProvider(this.getActivity(), ((RunningApplication) this.getActivity().getApplication()).getUsuario().getId());
             this.carrera = cp.getByIdCarrera(id);
         }
     }
@@ -200,4 +201,27 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
     }
 
 
+    @Override
+    public void actualizarCambioEstadoCarrera(EstadoCarrera estado) {
+        switch (estado) {
+            case ANOTADO:
+
+                this.aCorrer.setVisibility(View.VISIBLE);
+                break;
+            case NO_ANOTADO:
+                this.aCorrer.setVisibility(View.GONE);
+                break;
+
+            case CORRIDA:
+
+                this.aCorrer.setVisibility(View.GONE);
+                break;
+            case NO_CORRIDA:
+                if (carrera.isAnotado() && carrera.getTiempo() <= 0) {
+                    this.aCorrer.setVisibility(View.VISIBLE);
+                }
+
+                break;
+        }
+    }
 }

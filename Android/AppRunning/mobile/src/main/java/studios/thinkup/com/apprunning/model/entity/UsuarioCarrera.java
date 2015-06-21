@@ -11,6 +11,8 @@ import java.util.Vector;
 import studios.thinkup.com.apprunning.model.IObservableCarrera;
 import studios.thinkup.com.apprunning.model.IObservadorCarrera;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
+import studios.thinkup.com.apprunning.provider.helper.Id;
+import studios.thinkup.com.apprunning.provider.helper.Ignore;
 
 /**
  * Created by FaQ on 08/06/2015.
@@ -41,11 +43,18 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
 
     private List<IObservadorCarrera> observadores;
 
+    public Integer getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Integer usuario) {
+        this.usuario = usuario;
+    }
+
     public UsuarioCarrera() {
         this.observadores = new Vector<>();
     }
-
-    public UsuarioCarrera(Cursor c) {
+    public UsuarioCarrera(Cursor c){
         this();
         this.idUsuarioCarrera = c.getInt(c.getColumnIndex(UsuarioCarrera.ID));
         this.anotado = c.getInt(c.getColumnIndex(UsuarioCarrera.ANOTADO)) == 1;
@@ -54,14 +63,6 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
         this.tiempo = c.getLong(c.getColumnIndex(UsuarioCarrera.TIEMPO));
         this.usuario = c.getInt(c.getColumnIndex(UsuarioCarrera.ID_USUARIO));
         this.setCarrera(new Carrera(c));
-    }
-
-    public Integer getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Integer usuario) {
-        this.usuario = usuario;
     }
 
     public String getProvincia() {
@@ -193,7 +194,6 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
         ArrayList<String> ignored = new ArrayList<>();
         ignored.add("idUsuarioCarrera");
         ignored.add("velocidad");
-
         ignored.add("observadores");
         ignored.add("recorrido");
         return ignored;

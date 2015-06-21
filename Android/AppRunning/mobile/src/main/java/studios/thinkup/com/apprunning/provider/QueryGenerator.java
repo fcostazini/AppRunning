@@ -21,7 +21,7 @@ public class QueryGenerator {
     public String getWhereCondition() {
         String query = " Where 'a' = 'a' \n";
         if (filtro != null && filtro.getNombreCarrera() != null && !filtro.getNombreCarrera().isEmpty()) {
-            query += " AND " + Carrera.NOMBRE + " LIKE '" + filtro.getNombreCarrera() + "%' \n";
+            query += " AND upper(" + Carrera.NOMBRE + ") LIKE upper('%" + filtro.getNombreCarrera() + "%') \n";
         }
         if (filtro.getProvincia() != null && !filtro.getProvincia().isEmpty() && !filtro.getProvincia().equals("TODAS")) {
             query += " AND " + Carrera.PROVINCIA + " = '" + filtro.getProvincia() + "'\n";
