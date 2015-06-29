@@ -9,7 +9,7 @@ import com.astuetz.PagerSlidingTabStrip;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.fragment.DetalleCarreraFragment;
 import studios.thinkup.com.apprunning.fragment.EstadisticaCarreraFragment;
-import studios.thinkup.com.apprunning.fragment.IStatusCarreraObservable;
+import studios.thinkup.com.apprunning.fragment.IUsuarioCarreraObservable;
 
 /**
  * Created by fcostazini on 21/05/2015.
@@ -17,13 +17,14 @@ import studios.thinkup.com.apprunning.fragment.IStatusCarreraObservable;
  */
 public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
     private int carrera;
-    private IStatusCarreraObservable observable;
+    private IUsuarioCarreraObservable observable;
 
 
-    public DetalleCarreraPagerAdapter(FragmentManager fm, int idCarrera, IStatusCarreraObservable observable) {
+    public DetalleCarreraPagerAdapter(FragmentManager fm, int idCarrera, IUsuarioCarreraObservable observable) {
         super(fm);
         this.carrera = idCarrera;
         this.observable = observable;
+
     }
 
     @Override
@@ -64,13 +65,14 @@ public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter implements 
 
             DetalleCarreraFragment df = DetalleCarreraFragment.newInstance(this.carrera);
             if( observable!= null){
-                observable.registrarObservador(df);
+                observable.registrarObservadorUsuario(df);
+
             }
             fragment = df;
         } else {
             EstadisticaCarreraFragment ef = EstadisticaCarreraFragment.newInstance(this.carrera);
             if( observable!= null){
-                observable.registrarObservador(ef);
+                observable.registrarObservadorUsuario(ef);
             }
             fragment = ef;
         }

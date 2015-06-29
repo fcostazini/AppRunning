@@ -27,7 +27,7 @@ import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
  * Created by fcostazini on 21/05/2015.
  * Detalle de la carrera
  */
-public class DetalleCarreraFragment extends Fragment implements IStatusCarreraObserver{
+public class DetalleCarreraFragment extends Fragment implements IUsuarioCarreraObserver{
     private UsuarioCarrera carrera;
 
     public static DetalleCarreraFragment newInstance(int idCarrera) {
@@ -103,9 +103,8 @@ public class DetalleCarreraFragment extends Fragment implements IStatusCarreraOb
         setHasOptionsMenu(true);
     }
 
-
     @Override
-    public void actualizarCambioEstadoCarrera(EstadoCarrera estado) {
-
+    public void actuliazarUsuarioCarrera(UsuarioCarrera usuario, EstadoCarrera estado) {
+        this.carrera = usuario;
     }
 }

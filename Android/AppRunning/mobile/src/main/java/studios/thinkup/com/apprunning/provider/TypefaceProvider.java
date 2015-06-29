@@ -14,13 +14,13 @@ public class TypefaceProvider {
     private static TypefaceProvider instance;
     public final static String DIGIT = "fonts/digit.ttf";
     public final static String ICOMOON = "fonts/icomoon.ttf";
-    public final static String MILKRUN = "fonts/milkrun.ttf";
+    public final static String MAINFONT = "fonts/mainfont.ttf";
 
     private TypefaceProvider(Context context){
         typeFaces = new HashMap<>();
-        typeFaces.put("fonts/digit.ttf",Typeface.createFromAsset(context.getAssets(), "fonts/digit.ttf"));
-        typeFaces.put("fonts/icomoon.ttf",Typeface.createFromAsset(context.getAssets(), "fonts/icomoon.ttf"));
-        typeFaces.put("fonts/milkrun.ttf",Typeface.createFromAsset(context.getAssets(), "fonts/milkrun.ttf"));
+        typeFaces.put(DIGIT,Typeface.createFromAsset(context.getAssets(), DIGIT));
+        typeFaces.put(ICOMOON,Typeface.createFromAsset(context.getAssets(),ICOMOON));
+        typeFaces.put(MAINFONT,Typeface.createFromAsset(context.getAssets(), MAINFONT));
 
     }
 

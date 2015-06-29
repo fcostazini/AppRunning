@@ -32,7 +32,7 @@ import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
  * Use the {@link EstadisticaCarreraFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EstadisticaCarreraFragment extends Fragment implements View.OnClickListener, IStatusCarreraObserver {
+public class EstadisticaCarreraFragment extends Fragment implements View.OnClickListener, IUsuarioCarreraObserver {
     private LinearLayout aCorrer;
     private UsuarioCarrera carrera;
     private Dialog dialog;
@@ -202,7 +202,8 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
 
 
     @Override
-    public void actualizarCambioEstadoCarrera(EstadoCarrera estado) {
+    public void actuliazarUsuarioCarrera(UsuarioCarrera usuario, EstadoCarrera estado) {
+        this.carrera = usuario;
         switch (estado) {
             case ANOTADO:
 

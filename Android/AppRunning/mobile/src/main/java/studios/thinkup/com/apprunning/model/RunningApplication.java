@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
+import studios.thinkup.com.apprunning.provider.TypefaceProvider;
 import studios.thinkup.com.apprunning.provider.helper.DataBaseHelper;
 
 /**
@@ -26,7 +27,7 @@ public class RunningApplication extends Application{
     @Override
     public void onCreate() {
         init();
-        FontsOverride.overrideFont(getApplicationContext(), "SERIF", "fonts/milkrun.ttf");
+        FontsOverride.overrideFont(getApplicationContext(), "SERIF", TypefaceProvider.MAINFONT);
 
     }
    private void init() {
