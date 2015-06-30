@@ -7,8 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import studios.thinkup.com.apprunning.provider.helper.Id;
-
 /**
  * Created by fcostazini on 22/05/2015.
  * Entidad de Modelo CARRERA
@@ -16,29 +14,35 @@ import studios.thinkup.com.apprunning.provider.helper.Id;
 public class Carrera implements Serializable, IEntity {
 
     public static final String NOMBRE = "NOMBRE";
-    public static final String DISTANCIA = "DISTANCIA";
-    public static final String MODALIDAD = "MODALIDAD";
+    public static final String DISTANCIAS = "DISTANCIAS";
+    public static final String MODALIDADES = "MODALIDADES";
     public static final String PROVINCIA = "PROVINCIA";
     public static final String CIUDAD = "CIUDAD";
     public static final String DIRECCION = "DIRECCION";
     public static final String FECHA_INICIO = "FECHA_INICIO";
+    public static final String HORA_INICIO = "HORA_INICIO";
     public static final String DESCRIPCION = "DESCRIPCION";
     public static final String URL_WEB = "URL_WEB";
     public static final String RECOMENDADA = "RECOMENDADA";
     public static final String URL_IMAGEN = "URL_IMAGEN";
+    public static final String DISTANCIAS_DISPONIBLE = "DISTANCIA_DISPONIBLE";
     public static final String ID = "ID_CARRERA";
 
     private Integer id;
     private String nombre;
-    private String modalidad;
+
     private String provincia;
     private String ciudad;
     private String direccion;
     private Date fechaInicio;
+    private String hora;
     private String descripcion;
-    private Integer distancia;
+
+    private String distancias;
+    private String modalidades;
     private String urlWeb;
     private String urlImagen;
+    private String distanciasDisponibles;
 
 
     public Carrera() {
@@ -47,19 +51,21 @@ public class Carrera implements Serializable, IEntity {
 
     public Carrera(Cursor c) {
         try {
-            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
             this.id = c.getInt(c.getColumnIndex(Carrera.ID));
             this.nombre = c.getString(c.getColumnIndex(NOMBRE));
-            this.modalidad = c.getString(c.getColumnIndex(MODALIDAD));
+            this.modalidades = c.getString(c.getColumnIndex(MODALIDADES));
             this.provincia = c.getString(c.getColumnIndex(PROVINCIA));
             this.ciudad = c.getString(c.getColumnIndex(CIUDAD));
             this.direccion = c.getString(c.getColumnIndex(DIRECCION));
-            this.fechaInicio = sf.parse(c.getString(c.getColumnIndex("FECHA_INICIO")));
+            this.fechaInicio = sf.parse(c.getString(c.getColumnIndex(FECHA_INICIO)));
+            this.hora = c.getString(c.getColumnIndex(HORA_INICIO));
             this.descripcion = c.getString(c.getColumnIndex(DESCRIPCION));
-            this.distancia = c.getInt(c.getColumnIndex(DISTANCIA));
+            this.distancias = c.getString(c.getColumnIndex(DISTANCIAS));
             this.urlWeb = c.getString(c.getColumnIndex(URL_WEB));
             this.urlImagen = c.getString(c.getColumnIndex(URL_IMAGEN));
-        }catch (Exception e){
+            this.distanciasDisponibles = c.getString(c.getColumnIndex(DISTANCIAS_DISPONIBLE));
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -77,8 +83,8 @@ public class Carrera implements Serializable, IEntity {
         return fechaInicio;
     }
 
-    public Integer getDistancia() {
-        return distancia;
+    public String getDistancias() {
+        return distancias;
     }
 
     public String getDescripcion() {
@@ -89,8 +95,8 @@ public class Carrera implements Serializable, IEntity {
         return urlImagen;
     }
 
-    public String getModalidad() {
-        return modalidad;
+    public String getModalidades() {
+        return modalidades;
     }
 
     public String getDireccion() {
@@ -111,6 +117,10 @@ public class Carrera implements Serializable, IEntity {
 
     public void setProvincia(String provincia) {
         this.provincia = provincia;
+    }
+
+    public String getHora() {
+        return hora;
     }
 
     @Override

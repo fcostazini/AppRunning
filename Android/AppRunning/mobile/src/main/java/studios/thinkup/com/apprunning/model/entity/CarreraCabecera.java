@@ -12,10 +12,12 @@ public class CarreraCabecera implements Serializable {
     private Integer codigoCarrera;
     private String nombre;
     private Date fechaInicio;
+    private String hora;
     private Integer distancia;
     private String descripcion;
     private String urlImage;
     private String provincia;
+    private String distanciaDisponible;
     private String zona;
     private boolean fueCorrida;
     private boolean estoyInscripto;
@@ -28,6 +30,10 @@ public class CarreraCabecera implements Serializable {
 
     public String getZona() {
         return zona;
+    }
+
+    public String getDistanciaDisponible() {
+        return distanciaDisponible;
     }
 
     public String getNombre() {
@@ -66,6 +72,10 @@ public class CarreraCabecera implements Serializable {
         return meGusta;
     }
 
+    public String getHora() {
+        return hora;
+    }
+
     public static CarreraCabeceraBuilder getBuilder() {
         return new CarreraCabeceraBuilder();
     }
@@ -90,6 +100,11 @@ public class CarreraCabecera implements Serializable {
 
         public CarreraCabeceraBuilder distancia(Integer distancia) {
             this.instance.distancia = distancia;
+            return this;
+        }
+
+        public CarreraCabeceraBuilder distanciaDisponible(String distancia) {
+            this.instance.distanciaDisponible = distancia;
             return this;
         }
 
@@ -123,6 +138,16 @@ public class CarreraCabecera implements Serializable {
             return this;
         }
 
+        public CarreraCabeceraBuilder hora(String hora) {
+            if (hora == null && hora.isEmpty()) {
+                this.instance.hora = "-:-";
+            } else {
+                this.instance.hora = hora;
+            }
+
+            return this;
+        }
+
         public CarreraCabecera build() {
 
             return this.instance;
@@ -133,4 +158,5 @@ public class CarreraCabecera implements Serializable {
             return this;
         }
     }
+
 }

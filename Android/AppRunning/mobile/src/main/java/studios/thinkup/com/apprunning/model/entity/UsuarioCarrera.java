@@ -26,12 +26,16 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
     public static final String CORRIDA      =  "CORRIDA"     ;
     public static final String ID           =  "ID_USUARIO_CARRERA"          ;
     public static final String ID_USUARIO           =  "USUARIO"          ;
+    public static final String DISTANCIA           =  "DISTANCIA";
+    public static final String MODALIDAD           =  "MODALIDAD"          ;
 
 
 
     private Integer idUsuarioCarrera;
     private Carrera carrera;
     private boolean corrida;
+    private Integer distancia;
+    private String modalidad;
     private boolean meGusta;
     private boolean anotado;
     private Integer usuario;
@@ -62,6 +66,8 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
         this.meGusta = c.getInt(c.getColumnIndex(UsuarioCarrera.ME_GUSTA)) == 1;
         this.tiempo = c.getLong(c.getColumnIndex(UsuarioCarrera.TIEMPO));
         this.usuario = c.getInt(c.getColumnIndex(UsuarioCarrera.ID_USUARIO));
+        this.distancia = c.getInt(c.getColumnIndex(UsuarioCarrera.DISTANCIA));
+        this.modalidad = c.getString(c.getColumnIndex(UsuarioCarrera.MODALIDAD));
         this.setCarrera(new Carrera(c));
     }
 
@@ -164,7 +170,7 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
     }
 
     public Integer getDistancia() {
-        return carrera.getDistancia();
+        return this.distancia;
     }
 
     public String getUrlImage() {
@@ -208,8 +214,11 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
     }
 
     public String getModalidad() {
-        return carrera.getModalidad();
+        return this.modalidad;
     }
+    public String getModalidades() { return this.getCarrera().getModalidades();}
+
+    public String getDistancias() { return this.getCarrera().getDistancias();}
 
     public String getUrlImagen() {
         return carrera.getUrlImagen();
@@ -218,7 +227,7 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
     public String getDescripcion() {
         return carrera.getDescripcion();
     }
-
+    public String getHora(){return carrera.getHora();}
     public String getFullDireccion() {
         String direccionStr ="";
         if(this.getDireccion()!= null && !this.getDireccion().isEmpty() ){

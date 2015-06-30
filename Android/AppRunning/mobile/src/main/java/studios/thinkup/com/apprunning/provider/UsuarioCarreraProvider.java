@@ -57,6 +57,7 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
         fields += ", c.CIUDAD";
         fields += ", c.DIRECCION";
         fields += ", c.FECHA_INICIO";
+        fields += ", c.HORA_INICIO";
         fields += ", c.DESCRIPCION";
         fields += ", c.URL_WEB";
         fields += ", c.RECOMENDADA";

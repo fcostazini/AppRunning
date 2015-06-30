@@ -54,7 +54,7 @@ public class DetalleCarreraFragment extends Fragment implements IUsuarioCarreraO
             return rootView;
         }
 
-        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.getDefault());
+        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         if (this.carrera.getUrlImage() != null && !this.carrera.getUrlImage().isEmpty()) {
             ImageView logo = (ImageView) rootView.findViewById(R.id.img_logo);
             Picasso.with(this.getActivity()).load(this.carrera.getUrlImage())
@@ -65,7 +65,7 @@ public class DetalleCarreraFragment extends Fragment implements IUsuarioCarreraO
 
         txtNombre.setText(this.carrera.getNombre());
         TextView fecha = (TextView) rootView.findViewById(R.id.txt_fecha_largada);
-        fecha.setText(sf.format(this.carrera.getFechaInicio()));
+        fecha.setText(sf.format(this.carrera.getFechaInicio()) + "   " + this.carrera.getHora());
 
         TextView descripcion = (TextView) rootView.findViewById(R.id.txt_descripcion);
         descripcion.setText(this.carrera.getDescripcion());

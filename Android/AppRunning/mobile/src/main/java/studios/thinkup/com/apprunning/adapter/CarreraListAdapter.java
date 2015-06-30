@@ -97,11 +97,12 @@ public class CarreraListAdapter extends BaseAdapter {
                 viewHolder.descripcion.setText(p.getDescripcion());
             }*/
             if (p.getDistancia() != null) {
-                viewHolder.distancia.setText(p.getDistancia() + " Km");
+                viewHolder.distancia.setText(p.getDistanciaDisponible() + " Km");
             }
             if (p.getFechaInicio() != null) {
-                SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.getDefault());
-                viewHolder.fecha.setText(sf.format(p.getFechaInicio()));
+                SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+                viewHolder.fecha.setText(sf.format(p.getFechaInicio())+ "   " + p.getHora());
             }
 
             if (p.isEstoyInscripto()) {

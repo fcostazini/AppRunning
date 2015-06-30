@@ -31,9 +31,9 @@ public class QueryGenerator {
             query += " AND " + Carrera.CIUDAD + " = '" + filtro.getCiudad() + "'\n";
         }
         if (filtro.getModalidad() != null && !filtro.getModalidad().equals(Modalidad.TODOS)) {
-            query += " AND " + Carrera.MODALIDAD + " = '" + filtro.getModalidad() + "'\n";
+            query += " AND " + Carrera.MODALIDADES + " LIKE '%" + filtro.getModalidad() + "%'\n";
         }
-        query += getDistancia(filtro.getRangoDistancia());
+
         query += getFechaRange(Carrera.FECHA_INICIO, filtro.getFechaDesde(), filtro.getFechaHasta());
         if (filtro.getIdUsuario() >= 0) {
             query += " AND usuario = " + filtro.getIdUsuario();
@@ -52,21 +52,6 @@ public class QueryGenerator {
         return query;
     }
 
-    private String getDistancia(Integer rangoDistancia) {
-        if (rangoDistancia != null) {
-            switch (rangoDistancia) {
-                case 1:
-                    return " AND " + Carrera.DISTANCIA + " BETWEEN " + 0 + " AND " + 9;
-                case 2:
-                    return " AND " + Carrera.DISTANCIA + " BETWEEN " + 10 + " AND " + 20;
-                case 3:
-                    return " AND " + Carrera.DISTANCIA + " BETWEEN " + 21 + " AND " + 41;
-                case 4:
-                    return " AND " + Carrera.DISTANCIA + " > " + 41;
-            }
-        }
-        return "";
-    }
 
     private int getIntFromBool(boolean bool) {
         return bool?1:0;
