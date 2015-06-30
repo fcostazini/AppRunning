@@ -1,16 +1,16 @@
 package studios.thinkup.com.apprunning;
 
+
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
-import com.astuetz.PagerSlidingTabStrip;
-
-import studios.thinkup.com.apprunning.adapter.ResultadoCarrerasPagerAdapter;
+import studios.thinkup.com.apprunning.fragment.CarrerasResultadoFragment;
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 
 
-public class CarrerasActivity extends DrawerPagerActivity {
+public class CarrerasActivity extends MainNavigationActivity {
 
     private Filtro filtro;
 
@@ -24,20 +24,18 @@ public class CarrerasActivity extends DrawerPagerActivity {
         }else{
             this.filtro = new Filtro(((RunningApplication)this.getApplication()).getDefaultSettings());
         }
-        ViewPager v = ((ViewPager) findViewById(R.id.viewpager));
-        v.setAdapter(new ResultadoCarrerasPagerAdapter(getSupportFragmentManager(), this.filtro));
-        v.setBackgroundResource(R.drawable.path);
-        v.getBackground().setAlpha(130);
-        // Give the PagerSlidingTabStrip the ViewPager
-        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        // Attach the view pager to the tab strip
-        tabsStrip.setViewPager(v);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        CarrerasResultadoFragment fragment = CarrerasResultadoFragment.newInstance(this.filtro);
+        fragmentTransaction.add(R.id.content_fragment, fragment);
+        fragmentTransaction.commit();
+
     }
 
-
-
-
-
+    @Override
+    protected void defineContentView() {
+        setContentView(R.layout.activity_resultados);
+    }
 
 
 }
