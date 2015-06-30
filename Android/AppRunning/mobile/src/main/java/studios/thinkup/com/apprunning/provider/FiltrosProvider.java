@@ -62,7 +62,7 @@ public class FiltrosProvider {
                 c = db.rawQuery("SELECT DISTINCT " + Carrera.CIUDAD + " FROM CARRERA ", null);
                 if (c.getCount() > 0) {
                     c.moveToFirst();
-
+                    resultados.add(TODAS_LAS_CIUDADES);
                     while (!c.isAfterLast()) {
                         resultados.add(c.getString(c.getColumnIndex(Carrera.CIUDAD)));
                     }
@@ -71,6 +71,7 @@ public class FiltrosProvider {
                 c = db.rawQuery("SELECT DISTINCT " + Carrera.CIUDAD + " FROM CARRERA Where " + Carrera.PROVINCIA + " = ? ", param);
                 if (c.getCount() > 0) {
                     c.moveToFirst();
+                    resultados.add(TODAS_LAS_CIUDADES);
                     while (!c.isAfterLast()) {
                         resultados.add(c.getString(c.getColumnIndex(Carrera.CIUDAD)));
                         c.moveToNext();
