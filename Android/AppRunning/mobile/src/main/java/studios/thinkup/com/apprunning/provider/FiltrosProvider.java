@@ -15,6 +15,8 @@ import studios.thinkup.com.apprunning.provider.helper.DataBaseHelper;
  * Provider de las Zonas
  */
 public class FiltrosProvider {
+    public static final String TODAS_LAS_PROVINCIAS = "Todas las Provincias";
+    public static final String TODAS_LAS_CIUDADES = "Todas las Ciudades";
     private DataBaseHelper dbProvider;
 
     public FiltrosProvider(Context context) {
@@ -30,7 +32,7 @@ public class FiltrosProvider {
             c = db.rawQuery("SELECT DISTINCT " + Carrera.PROVINCIA + " FROM CARRERA", null);
             if (c.getCount() > 0) {
                 c.moveToFirst();
-                resultados.add("TODAS");
+                resultados.add(TODAS_LAS_PROVINCIAS);
                 while (!c.isAfterLast()) {
                     resultados.add(c.getString(c.getColumnIndex(Carrera.PROVINCIA)));
                     c.moveToNext();
@@ -56,10 +58,11 @@ public class FiltrosProvider {
         try {
             db = this.dbProvider.getReadableDatabase();
             String[] param = {provincia};
-            if (provincia.equals("TODOS")) {
+            if (provincia.equals(TODAS_LAS_PROVINCIAS)) {
                 c = db.rawQuery("SELECT DISTINCT " + Carrera.CIUDAD + " FROM CARRERA ", null);
                 if (c.getCount() > 0) {
                     c.moveToFirst();
+
                     while (!c.isAfterLast()) {
                         resultados.add(c.getString(c.getColumnIndex(Carrera.CIUDAD)));
                     }

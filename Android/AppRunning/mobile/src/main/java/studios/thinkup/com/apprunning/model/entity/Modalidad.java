@@ -5,7 +5,7 @@ package studios.thinkup.com.apprunning.model.entity;
  * Generos
  */
 public enum Modalidad {
-    TODOS("TODOS"),EQUIPOS("Equipos"), INDIVIDUAL("Individual"), KIDS("Kids");
+    TODOS("Todas las Modalidades"),EQUIPOS("Equipos"), INDIVIDUAL("Individual"), KIDS("Kids");
     private String nombre;
 
     Modalidad(String nombre) {

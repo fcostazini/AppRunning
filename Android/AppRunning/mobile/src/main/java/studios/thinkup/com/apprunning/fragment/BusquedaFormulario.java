@@ -47,7 +47,7 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FiltrosProvider filtrosProvider = new FiltrosProvider(this.getActivity());
+        final FiltrosProvider filtrosProvider = new FiltrosProvider(this.getActivity());
         this.filtro = new Filtro(((RunningApplication) this.getActivity().getApplication()).getDefaultSettings());
         SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
@@ -67,25 +67,9 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
         spGenero.setAdapter(adapterGenero);
         spGenero.setOnItemSelectedListener(new GeneroSpinnerItemSelectedListener(this.filtro));
         spGenero.setSelection(adapterGenero.getPosition(filtro.getModalidad()));
-/*
-        spCiudad = (Spinner) rootView.findViewById(R.id.sp_zona);
-        ArrayAdapter<String> adapterZona = new ArrayAdapter<>(this.getActivity(),
-                android.R.layout.simple_spinner_item, filtrosProvider.getCiudades("TODOS"));
-        adapterZona.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spCiudad.setAdapter(adapterZona);
-        spCiudad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                BusquedaFormulario.this.filtro.setCiudad(parent.getItemAtPosition(position).toString());
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                BusquedaFormulario.this.filtro.setCiudad("TODOS");
-            }
-        });
-        spCiudad.setSelection(adapterZona.getPosition(filtro.getCiudad()));
-*/
+        spCiudad = (Spinner) rootView.findViewById(R.id.sp_ciudad);
+        spCiudad.setVisibility(View.GONE);
         spProvincia = (Spinner) rootView.findViewById(R.id.sp_provincia);
         ArrayAdapter<String> adapterProvincia = new ArrayAdapter<>(this.getActivity(),
                 android.R.layout.simple_spinner_item, filtrosProvider.getProvincias());
@@ -94,24 +78,37 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
         spProvincia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                BusquedaFormulario.this.filtro.setProvincia(parent.getItemAtPosition(position).toString());
-                /*ArrayAdapter<String> adapterZona = new ArrayAdapter<>(this.getActivity(),
-                        android.R.layout.simple_spinner_item, filtrosProvider.getCiudades("TODOS"));
-                adapterZona.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spCiudad.setAdapter(adapterZona);
-                */
+                String provincia = parent.getItemAtPosition(position).toString();
+                BusquedaFormulario.this.filtro.setProvincia(provincia);
+                if (!provincia.equals(FiltrosProvider.TODAS_LAS_PROVINCIAS)) {
+                    spCiudad.setVisibility(View.VISIBLE);
+                    ArrayAdapter<String> adapterZona = new ArrayAdapter<>(BusquedaFormulario.this.getActivity(),
+                            android.R.layout.simple_spinner_item, filtrosProvider.getCiudades(provincia));
+                    adapterZona.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spCiudad.setAdapter(adapterZona);
+                    spCiudad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            BusquedaFormulario.this.filtro.setCiudad(parent.getItemAtPosition(position).toString());
+                        }
 
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                            BusquedaFormulario.this.filtro.setCiudad(FiltrosProvider.TODAS_LAS_CIUDADES);
+                        }
+                    });
+
+                }else{
+                    spCiudad.setVisibility(View.GONE);
+                    BusquedaFormulario.this.filtro.setCiudad(FiltrosProvider.TODAS_LAS_CIUDADES);
+                }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                BusquedaFormulario.this.filtro.setProvincia("TODOS");
-                //BusquedaFormulario.this.filtro.setCiudad("TODOS");
+                BusquedaFormulario.this.filtro.setProvincia(FiltrosProvider.TODAS_LAS_PROVINCIAS);
+                spCiudad.setVisibility(View.GONE);
             }
         });
-        spProvincia.setSelection(adapterProvincia.getPosition(filtro.getProvincia()));
-
-
         TextView txtDesde = (TextView) rootView.findViewById(R.id.txt_fecha_desde);
         txtDesde.setOnClickListener(new DatePickerListener(txtDesde));
         if (filtro.getFechaDesde() != null)

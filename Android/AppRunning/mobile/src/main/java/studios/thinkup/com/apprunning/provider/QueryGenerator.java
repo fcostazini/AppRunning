@@ -23,11 +23,11 @@ public class QueryGenerator {
         if (filtro != null && filtro.getNombreCarrera() != null && !filtro.getNombreCarrera().isEmpty()) {
             query += " AND upper(" + Carrera.NOMBRE + ") LIKE upper('%" + filtro.getNombreCarrera() + "%') \n";
         }
-        if (filtro.getProvincia() != null && !filtro.getProvincia().isEmpty() && !filtro.getProvincia().equals("TODAS")) {
+        if (filtro.getProvincia() != null && !filtro.getProvincia().isEmpty() && !filtro.getProvincia().equals(FiltrosProvider.TODAS_LAS_PROVINCIAS)) {
             query += " AND " + Carrera.PROVINCIA + " = '" + filtro.getProvincia() + "'\n";
         }
 
-        if (filtro.getCiudad() != null && !filtro.getCiudad().isEmpty() && !filtro.getCiudad().equals("TODAS")) {
+        if (filtro.getCiudad() != null && !filtro.getCiudad().isEmpty() && !filtro.getCiudad().equals(FiltrosProvider.TODAS_LAS_CIUDADES)) {
             query += " AND " + Carrera.CIUDAD + " = '" + filtro.getCiudad() + "'\n";
         }
         if (filtro.getModalidad() != null && !filtro.getModalidad().equals(Modalidad.TODOS)) {
