@@ -5,8 +5,8 @@
     <string name="genero">Modalidad</string>
     <string name="ciudad">Ciudad</string>
     <string name="lbl_fecha_largada">Largada:</string>
-    <string name="lbl_distancia">Distancia:</string>
-    <string name="lbl_genero">Modalidad:</string>
+    <string name="lbl_distancia">Distancias:</string>
+    <string name="lbl_genero">Modalidades:</string>
     <string name="lbl_direccion">Dirección:</string>
     <string name="chronometer_initial_format">Initial format:<xliff:g id="initial-format">%</xliff:g></string>
     <string name="comenzar">Comenzar</string>

@@ -65,13 +65,13 @@ public class DetalleCarreraFragment extends Fragment implements IUsuarioCarreraO
 
         txtNombre.setText(this.carrera.getNombre());
         TextView fecha = (TextView) rootView.findViewById(R.id.txt_fecha_largada);
-        fecha.setText(sf.format(this.carrera.getFechaInicio()) + "   " + this.carrera.getHora());
+        fecha.setText(sf.format(this.carrera.getFechaInicio()) + "   " + this.carrera.getHora() + " hs.");
 
         TextView descripcion = (TextView) rootView.findViewById(R.id.txt_descripcion);
         descripcion.setText(this.carrera.getDescripcion());
 
         TextView distancia = (TextView) rootView.findViewById(R.id.txt_distancia);
-        distancia.setText(this.carrera.getDistancia() + " Km");
+        distancia.setText(this.carrera.getDistancias() + " Km");
 
 
         TextView genero = (TextView) rootView.findViewById(R.id.txt_modalidad);

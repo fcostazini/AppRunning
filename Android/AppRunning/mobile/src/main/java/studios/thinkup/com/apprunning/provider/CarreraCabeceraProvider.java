@@ -4,13 +4,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Vector;
-import java.util.logging.SimpleFormatter;
 
+import studios.thinkup.com.apprunning.model.Distancias;
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
 import studios.thinkup.com.apprunning.provider.dbProviders.GenericProvider;
@@ -31,64 +29,108 @@ public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
         dbProvider = new GenericProvider(new DataBaseHelper(context));
 
     }
+
     @Override
     public List<CarreraCabecera> getCarrerasByFiltro(Filtro filtro) {
-       QueryGenerator qGen = new QueryGenerator(filtro);
-        SQLiteOpenHelper db =  new DataBaseHelper(context);
+        QueryGenerator qGen = new QueryGenerator(filtro);
+        SQLiteOpenHelper db = new DataBaseHelper(context);
         this.filtro = filtro;
-        String fields = "c.NOMBRE,c.FECHA_INICIO, c.HORA_INICIO, c.DISTANCIA_DISPONIBLE," +
+        String fields = "c.ID_CARRERA, c.NOMBRE,c.FECHA_INICIO, c.HORA_INICIO, c.DISTANCIA_DISPONIBLE," +
                 " c.DESCRIPCION, c.URL_IMAGEN, c.PROVINCIA, c.CIUDAD, uc.ID_USUARIO_CARRERA, ifnull(uc.me_gusta,0) as ME_GUSTA," +
                 " ifnull(uc.ANOTADO,0) as ANOTADO, ifnull(uc.CORRIDA,0) as CORRIDA ";
 
 
-        String query = "Select "+ fields + " from CARRERA  c" +
+        String query = "Select " + fields + " from CARRERA  c" +
                 " left join USUARIO_CARRERA  uc on c.id_carrera = uc.carrera ";
-        query += qGen.getWhereCondition() + " group by c.NOMBRE";
-        Cursor c = db.getReadableDatabase().rawQuery(query,null);
-        if(c.getCount()>0){
+        query += qGen.getWhereCondition();
+        Cursor c = null;
+        try {
+            c = db.getReadableDatabase().rawQuery(query, null);
+            if (c.getCount() > 0) {
 
 
-                return this.toCarrerasCabecera(c);
+                List<CarreraCabecera> resultados = this.toCarrerasCabecera(c);
+                List<CarreraCabecera> resultadosFinales = getCarreraCabecerasFiltradasPorDistancia(filtro, resultados);
+                if (resultadosFinales != null) return resultadosFinales;
+
+            }
+            return new Vector<>();
+        } catch (Exception e) {
+            return new Vector<>();
+        } finally {
+            if (c != null && !c.isClosed()) {
+                c.close();
+            }
+            if(db!= null){
+                db.close();
+            }
 
         }
-        return new Vector<>();
+    }
+
+    private List<CarreraCabecera> getCarreraCabecerasFiltradasPorDistancia(Filtro filtro, List<CarreraCabecera> resultados) {
+        if (filtro.getRangoDistancia()!= null && filtro.getRangoDistancia() > 0) {
+            List<CarreraCabecera> resultadosFinales = new Vector<>();
+            Distancias d = Distancias.getById(filtro.getRangoDistancia());
+            String[] distancias = null;
+            for (CarreraCabecera cc : resultados) {
+                distancias = cc.getDistanciaDisponible().split(",");
+                for (String s : distancias) {
+                    if (Integer.valueOf(s.trim()) >= d.getMin() && Integer.valueOf(s.trim()) <= d.getMax()) {
+                        resultadosFinales.add(cc);
+                        break;
+                    }
+                }
+            }
+            return resultadosFinales;
+        }
+        return resultados;
     }
 
     @Override
     public List<CarreraCabecera> getCarrerasRecomendadas() {
 
-        SQLiteOpenHelper db =  new DataBaseHelper(context);
+        SQLiteOpenHelper db = new DataBaseHelper(context);
 
-        String fields = "c.NOMBRE,c.FECHA_INICIO, c.HORA_INICIO, c.DISTANCIA_DISPONIBLE," +
+        String fields = "c.ID_CARRERA, c.NOMBRE,c.FECHA_INICIO, c.HORA_INICIO, c.DISTANCIA_DISPONIBLE," +
                 " c.DESCRIPCION, c.URL_IMAGEN, c.PROVINCIA, c.CIUDAD, uc.ID_USUARIO_CARRERA, ifnull(uc.me_gusta,0) as ME_GUSTA," +
                 " ifnull(uc.ANOTADO,0) as ANOTADO, ifnull(uc.CORRIDA,0) as CORRIDA ";
 
 
-        String query = "Select "+ fields + " from CARRERA  c" +
-                " left join USUARIO_CARRERA  uc on c.id_carrera = uc.carrera Where recomendada = 1  group by c.NOMBRE";
+        String query = "Select " + fields + " from CARRERA  c" +
+                " left join USUARIO_CARRERA  uc on c.id_carrera = uc.carrera Where recomendada = 1";
+        Cursor c = null;
+        try {
+            c = db.getReadableDatabase().rawQuery(query, null);
+            if (c.getCount() > 0) {
 
-        Cursor c = db.getReadableDatabase().rawQuery(query,null);
-        if(c.getCount()>0){
+                return this.toCarrerasCabecera(c);
 
 
-            return this.toCarrerasCabecera(c);
+            }
+            return new Vector<>();
+        } catch (Exception e) {
+            return new Vector<>();
+        } finally {
+            if (c != null && !c.isClosed()) {
+                c.close();
+            }
+            if(db!= null){
+                db.close();
+            }
 
         }
-        return new Vector<>();
+
     }
 
-    private List<CarreraCabecera> toCarrerasCabecera(Cursor cursor)  {
+    private List<CarreraCabecera> toCarrerasCabecera(Cursor cursor) {
         List<CarreraCabecera> resultados = new Vector<>();
         cursor.moveToFirst();
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             while (!cursor.isAfterLast()) {
-                if(this.filtro != null){
-                    if(!this.filtro.getRangoDistancia().equals(0)){
-
-                    }
-                }
                 resultados.add(CarreraCabecera.getBuilder()
+                        .codigoCarrera(cursor.getInt(cursor.getColumnIndex("ID_CARRERA")))
                         .nombre(cursor.getString(cursor.getColumnIndex("NOMBRE")))
                         .fechaInicio(sf.parse(cursor.getString(cursor.getColumnIndex("FECHA_INICIO"))))
                         .distanciaDisponible(cursor.getString(cursor.getColumnIndex("DISTANCIA_DISPONIBLE")))
@@ -103,7 +145,7 @@ public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
                         .build());
                 cursor.moveToNext();
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         cursor.close();

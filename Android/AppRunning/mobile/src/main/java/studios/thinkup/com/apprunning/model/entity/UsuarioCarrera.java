@@ -26,8 +26,8 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
     public static final String CORRIDA      =  "CORRIDA"     ;
     public static final String ID           =  "ID_USUARIO_CARRERA"          ;
     public static final String ID_USUARIO           =  "USUARIO"          ;
-    public static final String DISTANCIA           =  "DISTANCIA";
-    public static final String MODALIDAD           =  "MODALIDAD"          ;
+    public static final String DISTANCIA           =  "DISTANCIA_DISPONIBLE";
+    public static final String MODALIDAD           =  "MODALIDADES"          ;
 
 
 

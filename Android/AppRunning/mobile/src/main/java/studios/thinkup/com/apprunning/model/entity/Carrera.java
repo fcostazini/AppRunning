@@ -14,7 +14,6 @@ import java.util.Date;
 public class Carrera implements Serializable, IEntity {
 
     public static final String NOMBRE = "NOMBRE";
-    public static final String DISTANCIAS = "DISTANCIAS";
     public static final String MODALIDADES = "MODALIDADES";
     public static final String PROVINCIA = "PROVINCIA";
     public static final String CIUDAD = "CIUDAD";
@@ -61,7 +60,7 @@ public class Carrera implements Serializable, IEntity {
             this.fechaInicio = sf.parse(c.getString(c.getColumnIndex(FECHA_INICIO)));
             this.hora = c.getString(c.getColumnIndex(HORA_INICIO));
             this.descripcion = c.getString(c.getColumnIndex(DESCRIPCION));
-            this.distancias = c.getString(c.getColumnIndex(DISTANCIAS));
+            this.distancias = c.getString(c.getColumnIndex(DISTANCIAS_DISPONIBLE));
             this.urlWeb = c.getString(c.getColumnIndex(URL_WEB));
             this.urlImagen = c.getString(c.getColumnIndex(URL_IMAGEN));
             this.distanciasDisponibles = c.getString(c.getColumnIndex(DISTANCIAS_DISPONIBLE));

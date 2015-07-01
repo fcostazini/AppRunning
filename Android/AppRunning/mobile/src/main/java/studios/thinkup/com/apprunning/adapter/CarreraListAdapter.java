@@ -96,7 +96,7 @@ public class CarreraListAdapter extends BaseAdapter {
            /* if (p.getDescripcion() != null) {
                 viewHolder.descripcion.setText(p.getDescripcion());
             }*/
-            if (p.getDistancia() != null) {
+            if (p.getDistanciaDisponible() != null) {
                 viewHolder.distancia.setText(p.getDistanciaDisponible() + " Km");
             }
             if (p.getFechaInicio() != null) {
