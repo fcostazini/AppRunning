@@ -163,11 +163,17 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
     public void registrarObservadorUsuario(IUsuarioCarreraObserver ob) {
         this.observadoresUsuario.add(ob);
     }
+
     private void actualizarUsuarioCarrera(UsuarioCarrera usuarioCarrera, EstadoCarrera estado) {
 
         for (IUsuarioCarreraObserver ob : this.observadoresUsuario) {
-            ob.actuliazarUsuarioCarrera(usuarioCarrera,estado);
+            ob.actuliazarUsuarioCarrera(usuarioCarrera, estado);
         }
+    }
+
+    @Override
+    public UsuarioCarrera getUsuarioCarrera() {
+    return this.carrera;
     }
 
 

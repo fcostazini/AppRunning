@@ -26,6 +26,7 @@ import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.TypefaceProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
+import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,19 +35,22 @@ import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
  */
 public class EstadisticaCarreraFragment extends Fragment implements View.OnClickListener, IUsuarioCarreraObserver {
     private LinearLayout aCorrer;
-    private UsuarioCarrera carrera;
+    private UsuarioProvider usuarioProvider;
     private Dialog dialog;
     private TextView tiempo;
     private IconTextView editar;
-
+    private IUsuarioCarreraObservable usuarioObservable;
     public EstadisticaCarreraFragment() {
         // Required empty public constructor
     }
-
+    public void setObservable(IUsuarioCarreraObservable usuarioObservable){
+        this.usuarioObservable = usuarioObservable;
+    }
     public static EstadisticaCarreraFragment newInstance(int idCarrera) {
         EstadisticaCarreraFragment fragment = new EstadisticaCarreraFragment();
         Bundle args = new Bundle();
         args.putInt(UsuarioCarrera.class.getSimpleName(), idCarrera);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,11 +58,6 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            int id = getArguments().getInt(UsuarioCarrera.class.getSimpleName());
-            IUsuarioCarreraProvider cp = new UsuarioCarreraProvider(this.getActivity(), ((RunningApplication) this.getActivity().getApplication()).getUsuario().getId());
-            this.carrera = cp.getByIdCarrera(id);
-        }
     }
 
     @Override
@@ -110,7 +109,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
 
         this.aCorrer = (LinearLayout) rootView.findViewById(R.id.lb_a_correr);
         editar.setOnClickListener(this);
-        if (this.carrera.isAnotado() && !this.carrera.isCorrida()) {
+        if (this.usuarioObservable.getUsuarioCarrera().isAnotado() && !this.usuarioObservable.getUsuarioCarrera().isCorrida()) {
             aCorrer.setVisibility(View.VISIBLE);
 
         } else {
@@ -126,7 +125,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
 
     protected void onClickACorrer() {
         Intent i = new Intent(this.getActivity().getApplicationContext(), TemporizadorActivity.class);
-        i.putExtra(UsuarioCarrera.class.getSimpleName(), this.carrera.getId());
+        i.putExtra(UsuarioCarrera.class.getSimpleName(), this.usuarioObservable.getUsuarioCarrera().getId());
         this.getActivity().startActivity(i);
         this.getActivity().finish();
 
@@ -147,10 +146,10 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         CustomNumberPickerView sec = (CustomNumberPickerView) dialog.findViewById(R.id.np_sec);
         CustomNumberPickerView ms = (CustomNumberPickerView) dialog.findViewById(R.id.np_ms);
 
-        hr.setNumeroVal((int) (this.carrera.getTiempo() / 3600000));
-        min.setNumeroVal((int) (this.carrera.getTiempo() - hr.getNumeroVal() * 3600000) / 60000);
-        sec.setNumeroVal((int) (this.carrera.getTiempo() - hr.getNumeroVal() * 3600000 - min.getNumeroVal() * 60000) / 1000);
-        ms.setNumeroVal((int) (this.carrera.getTiempo() - hr.getNumeroVal() * 3600000 - min.getNumeroVal() * 60000 -
+        hr.setNumeroVal((int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() / 3600000));
+        min.setNumeroVal((int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - hr.getNumeroVal() * 3600000) / 60000);
+        sec.setNumeroVal((int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - hr.getNumeroVal() * 3600000 - min.getNumeroVal() * 60000) / 1000);
+        ms.setNumeroVal((int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - hr.getNumeroVal() * 3600000 - min.getNumeroVal() * 60000 -
                 sec.getNumeroVal() * 1000) / 10);
 
 
@@ -171,7 +170,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
                 int s = ((CustomNumberPickerView) dialog.findViewById(R.id.np_sec)).getNumeroVal();
                 int ms = ((CustomNumberPickerView) dialog.findViewById(R.id.np_ms)).getNumeroVal();
                 long tiempo = ms * 10 + (s * 1000) + (m * 60000) + (h * 3600000);
-                EstadisticaCarreraFragment.this.carrera.setTiempo(tiempo);
+                EstadisticaCarreraFragment.this.usuarioObservable.getUsuarioCarrera().setTiempo(tiempo);
                 actualizarValores();
                 dialog.dismiss();
             }
@@ -181,19 +180,19 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
     }
 
     private void actualizarValores() {
-        if (this.carrera.getTiempo() >= 0) {
-            int h = (int) (this.carrera.getTiempo() / 3600000);
-            int m = (int) (this.carrera.getTiempo() - h * 3600000) / 60000;
-            int s = (int) (this.carrera.getTiempo() - h * 3600000 - m * 60000) / 1000;
-            int ms = (int) (this.carrera.getTiempo() - h * 3600000 - m * 60000 - s * 1000) / 10;
+        if (this.usuarioObservable.getUsuarioCarrera().getTiempo() >= 0) {
+            int h = (int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() / 3600000);
+            int m = (int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - h * 3600000) / 60000;
+            int s = (int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - h * 3600000 - m * 60000) / 1000;
+            int ms = (int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - h * 3600000 - m * 60000 - s * 1000) / 10;
             String tiempoStr = (h < 10 ? "0" + h : h + "");
             tiempoStr += ":" + (m < 10 ? "0" + m : m + "");
             tiempoStr += ":" + (s < 10 ? "0" + s : s + "");
             tiempoStr += ":" + (ms < 10 ? "0" + ms : ms + "");
             tiempo.setText(tiempoStr);
-            if (this.carrera.getTiempo() > 0) {
+            if (this.usuarioObservable.getUsuarioCarrera().getTiempo() > 0) {
                 aCorrer.setVisibility(View.GONE);
-            } else if (this.carrera.isAnotado()) {
+            } else if (this.usuarioObservable.getUsuarioCarrera().isAnotado()) {
                 aCorrer.setVisibility(View.VISIBLE);
             }
             editar.setVisibility(View.VISIBLE);
@@ -203,7 +202,6 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
 
     @Override
     public void actuliazarUsuarioCarrera(UsuarioCarrera usuario, EstadoCarrera estado) {
-        this.carrera = usuario;
         switch (estado) {
             case ANOTADO:
 
@@ -218,7 +216,8 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
                 this.aCorrer.setVisibility(View.GONE);
                 break;
             case NO_CORRIDA:
-                if (carrera.isAnotado() && carrera.getTiempo() <= 0) {
+                if (this.usuarioObservable.getUsuarioCarrera().isAnotado() &&
+                        this.usuarioObservable.getUsuarioCarrera().getTiempo() <= 0) {
                     this.aCorrer.setVisibility(View.VISIBLE);
                 }
 

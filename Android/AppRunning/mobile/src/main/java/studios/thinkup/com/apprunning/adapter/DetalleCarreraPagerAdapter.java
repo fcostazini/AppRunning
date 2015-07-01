@@ -64,15 +64,18 @@ public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter implements 
         if (i == 0) {
 
             DetalleCarreraFragment df = DetalleCarreraFragment.newInstance(this.carrera);
+
             if( observable!= null){
                 observable.registrarObservadorUsuario(df);
+                df.setUsuarioObsercable(observable);
 
             }
             fragment = df;
         } else {
             EstadisticaCarreraFragment ef = EstadisticaCarreraFragment.newInstance(this.carrera);
+
             if( observable!= null){
-                observable.registrarObservadorUsuario(ef);
+                observable.registrarObservadorUsuario(ef);ef.setObservable(observable);
             }
             fragment = ef;
         }

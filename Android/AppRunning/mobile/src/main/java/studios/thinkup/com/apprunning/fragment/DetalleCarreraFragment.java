@@ -27,8 +27,14 @@ import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
  * Created by fcostazini on 21/05/2015.
  * Detalle de la carrera
  */
-public class DetalleCarreraFragment extends Fragment implements IUsuarioCarreraObserver{
-    private UsuarioCarrera carrera;
+public class DetalleCarreraFragment extends Fragment implements IUsuarioCarreraObserver {
+
+    private IUsuarioCarreraObservable usuarioObservable;
+
+    public void setUsuarioObsercable(IUsuarioCarreraObservable usuarioObservable) {
+        this.usuarioObservable = usuarioObservable;
+
+    }
 
     public static DetalleCarreraFragment newInstance(int idCarrera) {
         DetalleCarreraFragment fragment = new DetalleCarreraFragment();
@@ -42,40 +48,37 @@ public class DetalleCarreraFragment extends Fragment implements IUsuarioCarreraO
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detalle_carrera, container, false);
-        IUsuarioCarreraProvider cp = new UsuarioCarreraProvider(this.getActivity(),((RunningApplication)this.getActivity().getApplication()).getUsuario().getId());
-        if (getArguments() != null) {
-            int id = getArguments().getInt(UsuarioCarrera.class.getSimpleName());
-            this.carrera = cp.getByIdCarrera(id);
-        }
+        IUsuarioCarreraProvider cp = new UsuarioCarreraProvider(this.getActivity(), ((RunningApplication) this.getActivity().getApplication()).getUsuario().getId());
+
         TextView txtNombre = (TextView) rootView.findViewById(R.id.txt_nombre_carrera);
-        if (this.carrera == null) {
+        if (this.usuarioObservable.getUsuarioCarrera() == null) {
             //Sin RESULTADO
             txtNombre.setText(this.getActivity().getResources().getString(R.string.sin_resultados));
             return rootView;
         }
 
         SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        if (this.carrera.getUrlImage() != null && !this.carrera.getUrlImage().isEmpty()) {
+        if (this.usuarioObservable.getUsuarioCarrera().getUrlImage() != null && !this.usuarioObservable.getUsuarioCarrera().getUrlImage().isEmpty()) {
             ImageView logo = (ImageView) rootView.findViewById(R.id.img_logo);
-            Picasso.with(this.getActivity()).load(this.carrera.getUrlImage())
+            Picasso.with(this.getActivity()).load(this.usuarioObservable.getUsuarioCarrera().getUrlImage())
                     .placeholder(R.mipmap.ic_launcher)
                     .error(R.mipmap.ic_launcher)
                     .into(logo);
         }
 
-        txtNombre.setText(this.carrera.getNombre());
+        txtNombre.setText(this.usuarioObservable.getUsuarioCarrera().getNombre());
         TextView fecha = (TextView) rootView.findViewById(R.id.txt_fecha_largada);
-        fecha.setText(sf.format(this.carrera.getFechaInicio()) + "   " + this.carrera.getHora() + " hs.");
+        fecha.setText(sf.format(this.usuarioObservable.getUsuarioCarrera().getFechaInicio()) + "   " + this.usuarioObservable.getUsuarioCarrera().getHora() + " hs.");
 
         TextView descripcion = (TextView) rootView.findViewById(R.id.txt_descripcion);
-        descripcion.setText(this.carrera.getDescripcion());
+        descripcion.setText(this.usuarioObservable.getUsuarioCarrera().getDescripcion());
 
         TextView distancia = (TextView) rootView.findViewById(R.id.txt_distancia);
-        distancia.setText(this.carrera.getDistancias() + " Km");
+        distancia.setText(this.usuarioObservable.getUsuarioCarrera().getDistancias() + " Km");
 
 
         TextView genero = (TextView) rootView.findViewById(R.id.txt_modalidad);
-        genero.setText(this.carrera.getModalidad());
+        genero.setText(this.usuarioObservable.getUsuarioCarrera().getModalidad());
 
         TextView direccion = (TextView) rootView.findViewById(R.id.txt_direccion);
 
@@ -83,17 +86,17 @@ public class DetalleCarreraFragment extends Fragment implements IUsuarioCarreraO
         masInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(DetalleCarreraFragment.this.carrera.getUrlWeb()!=null &&
-                        !DetalleCarreraFragment.this.carrera.getUrlWeb().isEmpty()){
+                if (DetalleCarreraFragment.this.usuarioObservable.getUsuarioCarrera().getUrlWeb() != null &&
+                        !DetalleCarreraFragment.this.usuarioObservable.getUsuarioCarrera().getUrlWeb().isEmpty()) {
                     Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(DetalleCarreraFragment.this.carrera.getUrlWeb()));
+                    i.setData(Uri.parse(DetalleCarreraFragment.this.usuarioObservable.getUsuarioCarrera().getUrlWeb()));
                     startActivity(i);
                 }
 
 
             }
         });
-        direccion.setText(this.carrera.getFullDireccion());
+        direccion.setText(this.usuarioObservable.getUsuarioCarrera().getFullDireccion());
         return rootView;
     }
 
@@ -105,6 +108,6 @@ public class DetalleCarreraFragment extends Fragment implements IUsuarioCarreraO
 
     @Override
     public void actuliazarUsuarioCarrera(UsuarioCarrera usuario, EstadoCarrera estado) {
-        this.carrera = usuario;
+
     }
 }

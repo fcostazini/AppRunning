@@ -144,9 +144,10 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
 
     @Override
     public void actualizarObservadores() {
+        UsuarioCarrera uc = null;
         try {
             for (IObservadorCarrera ob : this.observadores) {
-                ob.actualizarCarrera(this);
+                uc = ob.actualizarCarrera(this);
             }
         } catch (EntidadNoGuardadaException e) {
             e.printStackTrace();
