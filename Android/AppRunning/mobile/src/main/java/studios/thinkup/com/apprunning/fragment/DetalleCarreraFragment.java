@@ -68,7 +68,11 @@ public class DetalleCarreraFragment extends Fragment implements IUsuarioCarreraO
 
         txtNombre.setText(this.usuarioObservable.getUsuarioCarrera().getNombre());
         TextView fecha = (TextView) rootView.findViewById(R.id.txt_fecha_largada);
-        fecha.setText(sf.format(this.usuarioObservable.getUsuarioCarrera().getFechaInicio()) + "   " + this.usuarioObservable.getUsuarioCarrera().getHora() + " hs.");
+        if(this.usuarioObservable.getUsuarioCarrera().getHora()!= null && !this.usuarioObservable.getUsuarioCarrera().getHora().isEmpty()) {
+            fecha.setText(sf.format(this.usuarioObservable.getUsuarioCarrera().getFechaInicio()) + "   " + this.usuarioObservable.getUsuarioCarrera().getHora() + " hs.");
+        }else {
+            fecha.setText(sf.format(this.usuarioObservable.getUsuarioCarrera().getFechaInicio()));
+        }
 
         TextView descripcion = (TextView) rootView.findViewById(R.id.txt_descripcion);
         descripcion.setText(this.usuarioObservable.getUsuarioCarrera().getDescripcion());
