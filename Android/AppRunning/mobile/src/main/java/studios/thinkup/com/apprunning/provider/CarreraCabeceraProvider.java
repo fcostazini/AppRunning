@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Vector;
 
-import studios.thinkup.com.apprunning.model.Distancias;
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
 import studios.thinkup.com.apprunning.provider.dbProviders.GenericProvider;
@@ -69,22 +68,22 @@ public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
     }
 
     private List<CarreraCabecera> getCarreraCabecerasFiltradasPorDistancia(Filtro filtro, List<CarreraCabecera> resultados) {
-        if (filtro.getRangoDistancia()!= null && filtro.getRangoDistancia() > 0) {
+
             List<CarreraCabecera> resultadosFinales = new Vector<>();
-            Distancias d = Distancias.getById(filtro.getRangoDistancia());
+
             String[] distancias = null;
             for (CarreraCabecera cc : resultados) {
                 distancias = cc.getDistanciaDisponible().split("/");
                 for (String s : distancias) {
-                    if (Double.valueOf(s.trim()) >= d.getMin() && Double.valueOf(s.trim()) <= d.getMax()) {
+                    if (Double.valueOf(s.trim()) >= filtro.getMinDistancia() && Double.valueOf(s.trim()) <= filtro.getMaxDistancia()) {
                         resultadosFinales.add(cc);
                         break;
                     }
                 }
             }
             return resultadosFinales;
-        }
-        return resultados;
+
+
     }
 
     @Override

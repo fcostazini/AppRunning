@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:rsb="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/form_busqueda"
@@ -192,22 +193,30 @@
                     android:gravity="center">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="0 a 9 Km"
+                        android:text="0 Km"
                         android:id="@+id/lbl_dist_desde"
-                        android:layout_weight=".3"
-                        android:minWidth="20dp" />
+                        android:layout_weight=".2" />
 
-                    <SeekBar
-                        android:layout_width="wrap_content"
+                    <com.edmodo.rangebar.RangeBar
+                        xmlns:custom="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/sb_distancia"
+                        android:layout_weight=".6"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/sb_min_distancia"
-                        android:layout_weight="5"
-                        android:max="4"
-                        android:indeterminate="false"
-                        android:progress="1" />
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        custom:tickCount="11" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="100 Km"
+                        android:id="@+id/lbl_dist_hasta"
+                        android:layout_weight=".2" />
 
                 </LinearLayout>
 

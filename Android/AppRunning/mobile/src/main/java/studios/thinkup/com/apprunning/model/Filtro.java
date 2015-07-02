@@ -1,10 +1,8 @@
 package studios.thinkup.com.apprunning.model;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import studios.thinkup.com.apprunning.model.entity.Modalidad;
 
@@ -14,12 +12,13 @@ import studios.thinkup.com.apprunning.model.entity.Modalidad;
  * Filtros de busqueda para carreras
  */
 public class Filtro implements Serializable {
-    public final static String[] DISTANCIAS = {"TODAS","0 a 9 Km", "10 a 21 Km", "21 a 41 Km", "Mas de 41 Km"};
+
 
     private String nombreCarrera;
     private Date fechaDesde;
     private Date fechaHasta;
-    private Integer rangoDistancia;
+    private Integer minDistancia;
+    private Integer maxDistancia;
     private Modalidad modalidad;
     private String ciudad;
     private String provincia;
@@ -45,7 +44,8 @@ public class Filtro implements Serializable {
         c.add(Calendar.DATE, defaultSettings.getDiasBusqueda());
         this.fechaHasta = c.getTime();
         //this.ciudad = defaultSettings.getZona();
-        this.rangoDistancia = defaultSettings.getDistanciaMin();
+        this.minDistancia = defaultSettings.getDistanciaMin();
+        this.maxDistancia = defaultSettings.getDistanciaMax();
         this.modalidad = defaultSettings.getModalidad();
         this.nombreCarrera = "";
         meGusta = null;
@@ -133,34 +133,20 @@ public class Filtro implements Serializable {
         this.ciudad = ciudad;
     }
 
-    @Override
-    public String toString() {
-        String s = "";
-        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        if (!this.getCiudad().isEmpty()) s += "CIUDAD = '" + this.getCiudad() + "'; \n";
-
-        if (this.getNombreCarrera() != null && !this.getNombreCarrera().isEmpty())
-            s += "nombre = '" + this.getNombreCarrera() + "'; \n";
-        if (this.getFechaDesde() != null) {
-            s += "desde = '" + sf.format(this.getFechaDesde()) + "'; \n";
-        }
-
-        if (this.getFechaHasta() != null) {
-            s += "hasta = '" + sf.format(this.getFechaHasta()) + "'; \n";
-        }
-        if (this.getRangoDistancia() != null) {
-            s += "Km desde = '" + this.getRangoDistancia() + "'; \n";
-        }
-        if (this.getModalidad() != null) s += "MODALIDAD = '" + this.getModalidad() + "'; \n";
-        return s;
+    public Integer getMinDistancia() {
+        return minDistancia;
     }
 
-    public Integer getRangoDistancia() {
-        return rangoDistancia;
+    public void setMinDistancia(Integer minDistancia) {
+        this.minDistancia = minDistancia;
     }
 
-    public void setRangoDistancia(Integer rangoDistancia) {
-        this.rangoDistancia = rangoDistancia;
+    public Integer getMaxDistancia() {
+        return maxDistancia;
+    }
+
+    public void setMaxDistancia(Integer maxDistancia) {
+        this.maxDistancia = maxDistancia;
     }
 
     @Override
@@ -171,8 +157,6 @@ public class Filtro implements Serializable {
         Filtro filtro = (Filtro) o;
 
         if (corrida != null ? !corrida.equals(filtro.corrida) : filtro.corrida != null)
-            return false;
-        if (rangoDistancia != null ? !rangoDistancia.equals(filtro.rangoDistancia) : filtro.rangoDistancia != null)
             return false;
         if (fechaDesde != null ? !fechaDesde.equals(filtro.fechaDesde) : filtro.fechaDesde != null)
             return false;
@@ -197,7 +181,6 @@ public class Filtro implements Serializable {
         int result = nombreCarrera != null ? nombreCarrera.hashCode() : 0;
         result = 31 * result + (fechaDesde != null ? fechaDesde.hashCode() : 0);
         result = 31 * result + (fechaHasta != null ? fechaHasta.hashCode() : 0);
-        result = 31 * result + (rangoDistancia != null ? rangoDistancia.hashCode() : 0);
         result = 31 * result + (modalidad != null ? modalidad.hashCode() : 0);
         result = 31 * result + (ciudad != null ? ciudad.hashCode() : 0);
         result = 31 * result + (meGusta != null ? meGusta.hashCode() : 0);
@@ -216,7 +199,8 @@ public class Filtro implements Serializable {
         f.setFechaHasta(this.fechaHasta);
         f.setCiudad(this.ciudad);
         f.setProvincia(this.provincia);
-        f.setRangoDistancia(this.rangoDistancia);
+        f.setMinDistancia(this.minDistancia);
+        f.setMaxDistancia(this.maxDistancia);
         f.setIdUsuario(this.getIdUsuario());
         f.setModalidad(this.modalidad);
         f.setNombreCarrera(this.nombreCarrera);

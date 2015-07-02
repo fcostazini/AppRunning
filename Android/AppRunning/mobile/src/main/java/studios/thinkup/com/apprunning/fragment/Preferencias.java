@@ -17,12 +17,11 @@ import android.widget.TextView;
 import studios.thinkup.com.apprunning.MainActivity;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.model.DefaultSettings;
-import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.Modalidad;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
-import studios.thinkup.com.apprunning.provider.LoginGoogleProvider;
 import studios.thinkup.com.apprunning.provider.FiltrosProvider;
+import studios.thinkup.com.apprunning.provider.LoginGoogleProvider;
 
 /**
  * Created by fcostazini on 27/05/2015.
@@ -81,7 +80,7 @@ private Spinner spProvincia;
         SeekBar sbMinDistancia = (SeekBar) rootView.findViewById(R.id.sb_min_distancia);
         TextView txtMinDistancia = (TextView) rootView.findViewById(R.id.lbl_dist_desde);
         sbMinDistancia.setProgress(defaultSettings.getDistanciaMin());
-        txtMinDistancia.setText(Filtro.DISTANCIAS[defaultSettings.getDistanciaMin()]);
+        //txtMinDistancia.setText(Filtro.DISTANCIAS[defaultSettings.getDistanciaMin()]);
         sbMinDistancia.setOnSeekBarChangeListener(new DistanciaSeekBarChangeListener(defaultSettings, txtMinDistancia));
 
         SeekBar sbDias = (SeekBar) rootView.findViewById(R.id.sb_dias);
@@ -152,7 +151,7 @@ private Spinner spProvincia;
             if(seekBar.getId()== R.id.sb_dias){
                 this.toUpdate.setText(String.valueOf(progress));
             }else{
-                this.toUpdate.setText(Filtro.DISTANCIAS[progress]);
+                //this.toUpdate.setText(Filtro.DISTANCIAS[progress]);
             }
 
         }
