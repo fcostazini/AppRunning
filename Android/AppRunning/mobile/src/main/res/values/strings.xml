@@ -20,6 +20,7 @@
 
     <string name="title_activity_detalle_carrera">Detalle</string>
     <string name="title_activity_mis_datos">Mis Carreras</string>
+    <string name="title_activity_mis_tiempos">Mis Tiempos</string>
     <string name="lbl_nombre_carrera">Nombre Carrera </string>
     <string name="lbl_fecha_desde">Fecha Desde</string>
     <string name="lbl_fecha_hasta">Hasta</string>
@@ -49,5 +50,5 @@
     <string name="face_key">930000867023317</string>
     <string name="icon_web">r</string>
     <string name="lbl_tiempo">Tiempo</string>
-    <string name="lbl_tiempo_km">Tiempo / Km</string>
+    <string name="lbl_tiempo_km">Tiempo/Km</string>
 </resources>

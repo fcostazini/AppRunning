@@ -85,7 +85,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="studios.thinkup.com.apprunning.CarrerasActivity" />
         </activity>
-
+        <activity
+            android:name=".TiemposCarrerasActivity"
+            android:label="@string/title_activity_mis_tiempos"
+            android:parentActivityName=".CarrerasActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="studios.thinkup.com.apprunning.CarrerasActivity" />
+        </activity>
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="your API key" />
