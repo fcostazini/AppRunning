@@ -33,6 +33,7 @@
     <string name="action_example">Example action</string>
     <string name="nav_menu_mis_datos">Mis Datos</string>
     <string name="nav_menu_mis_carreras">Mis Carreras</string>
+    <string name="nav_menu_mis_tiempos">Mis Tiempos</string>
     <string name="nav_menu_buscar">Buscar Carreras</string>
     <string name="nav_menu_recomendados">Recomendadas</string>
     <string name="nav_menu_preferencias">Preferencias</string>
@@ -47,4 +48,6 @@
     <string name="nav_menu_logout">Logout</string>
     <string name="face_key">930000867023317</string>
     <string name="icon_web">r</string>
+    <string name="lbl_tiempo">Tiempo</string>
+    <string name="lbl_tiempo_km">Tiempo / Km</string>
 </resources>
