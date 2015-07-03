@@ -86,6 +86,8 @@ public class Filtro implements Serializable {
     }
 
     public Filtro() {
+        this.minDistancia = 0;
+        this.maxDistancia = 100;
     }
 
 
