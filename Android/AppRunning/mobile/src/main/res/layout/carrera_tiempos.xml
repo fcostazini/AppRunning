@@ -62,12 +62,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/distancia"
                 android:id="@+id/lbl_distancia"
                 android:layout_below="@+id/txt_nombre_carrera"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txt_distancia"
@@ -79,35 +80,37 @@
                 android:layout_toRightOf="@+id/lbl_distancia"
                 android:layout_toEndOf="@+id/lbl_distancia"
                 android:layout_marginLeft="10dp"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/lbl_tiempo"
                 android:id="@+id/lbl_tiempo"
                 android:layout_below="@+id/lbl_distancia"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/lbl_tiempo_km"
                 android:id="@+id/lbl_tiempo_km"
                 android:layout_below="@+id/lbl_tiempo"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginBottom="15dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="25 hs/Km"
                 android:id="@+id/txt_tiempo_km"
                 android:layout_alignTop="@+id/lbl_tiempo_km"
@@ -121,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:text="04:00"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ff00003c"
                 android:layout_alignBottom="@+id/lbl_tiempo"
                 android:layout_toRightOf="@+id/lbl_tiempo"

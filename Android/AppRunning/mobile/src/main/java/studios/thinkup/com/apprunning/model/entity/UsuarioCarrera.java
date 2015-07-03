@@ -39,7 +39,7 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
     private boolean meGusta;
     private boolean anotado;
     private Integer usuario;
-    private long tiempo;
+    private Long tiempo;
 
     private long velocidad;
 
@@ -110,11 +110,11 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
         this.actualizarObservadores();
     }
 
-    public long getTiempo() {
+    public Long getTiempo() {
         return tiempo;
     }
 
-    public void setTiempo(long tiempo) {
+    public void setTiempo(Long tiempo) {
         this.tiempo = tiempo;
         this.actualizarObservadores();
     }
