@@ -14,9 +14,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.edmodo.rangebar.RangeBar;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,7 +38,6 @@ import studios.thinkup.com.apprunning.provider.FiltrosProvider;
 public class BusquedaFormulario extends Fragment implements View.OnClickListener, TextWatcher {
     private Filtro filtro;
     private Spinner spCiudad;
-    private Spinner spProvincia;
 
     public static BusquedaFormulario newInstance() {
         return new BusquedaFormulario();
@@ -67,10 +67,16 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
         spGenero.setAdapter(adapterGenero);
         spGenero.setOnItemSelectedListener(new GeneroSpinnerItemSelectedListener(this.filtro));
         spGenero.setSelection(adapterGenero.getPosition(filtro.getModalidad()));
+        RangeBar sb_distancia = (RangeBar) rootView.findViewById(R.id.sb_distancia);
+
+        TextView left = (TextView) rootView.findViewById(R.id.lbl_dist_desde);
+        TextView right = (TextView) rootView.findViewById(R.id.lbl_dist_hasta);
+
+        sb_distancia.setOnRangeBarChangeListener(new DistanciaSeekBarChangeListener(this.filtro, left, right));
 
         spCiudad = (Spinner) rootView.findViewById(R.id.sp_ciudad);
         spCiudad.setVisibility(View.GONE);
-        spProvincia = (Spinner) rootView.findViewById(R.id.sp_provincia);
+        Spinner spProvincia = (Spinner) rootView.findViewById(R.id.sp_provincia);
         ArrayAdapter<String> adapterProvincia = new ArrayAdapter<>(this.getActivity(),
                 android.R.layout.simple_spinner_item, filtrosProvider.getProvincias());
         adapterProvincia.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -98,11 +104,12 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
                         }
                     });
 
-                }else{
+                } else {
                     spCiudad.setVisibility(View.GONE);
                     BusquedaFormulario.this.filtro.setCiudad(FiltrosProvider.TODAS_LAS_CIUDADES);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 BusquedaFormulario.this.filtro.setProvincia(FiltrosProvider.TODAS_LAS_PROVINCIAS);
@@ -124,11 +131,15 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
         rootView.findViewById(R.id.img_close_hasta).setOnClickListener(new Cleaner(txtHasta, this.filtro));
 
 
-        SeekBar sbMinDistancia = (SeekBar) rootView.findViewById(R.id.sb_min_distancia);
+
+/*        // Add to layout
+        LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.seekbar_placeholder);
+        layout.addView(rangeSeekBar);
         TextView txtMinDistancia = (TextView) rootView.findViewById(R.id.lbl_dist_desde);
         txtMinDistancia.setText(Filtro.DISTANCIAS[filtro.getRangoDistancia()]);
         sbMinDistancia.setProgress(filtro.getRangoDistancia());
         sbMinDistancia.setOnSeekBarChangeListener(new DistanciaSeekBarChangeListener(filtro, txtMinDistancia));
+        */
 
         return rootView;
     }
@@ -160,28 +171,6 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
         this.filtro.setNombreCarrera(s.toString());
     }
 
-
-    private class ZonaSpinnerItemSelectedListener implements AdapterView.OnItemSelectedListener {
-        private Filtro filtro;
-
-        ZonaSpinnerItemSelectedListener(Filtro filtro) {
-            this.filtro = filtro;
-        }
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            this.filtro.setCiudad(parent.getItemAtPosition(position).toString());
-
-
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-            this.filtro.setCiudad("");
-        }
-    }
-
     private class GeneroSpinnerItemSelectedListener implements AdapterView.OnItemSelectedListener {
         private Filtro filtro;
 
@@ -203,37 +192,23 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
     }
 
 
-    private class DistanciaSeekBarChangeListener implements SeekBar.OnSeekBarChangeListener {
-        int progress = 0;
+    private class DistanciaSeekBarChangeListener implements RangeBar.OnRangeBarChangeListener {
         Filtro filtro;
-        TextView toUpdate;
+        TextView left;
+        TextView right;
 
-        private DistanciaSeekBarChangeListener(Filtro filtro, TextView toUpdate) {
+        private DistanciaSeekBarChangeListener(Filtro filtro, TextView left, TextView right) {
             this.filtro = filtro;
-            this.toUpdate = toUpdate;
+            this.left = left;
+            this.right = right;
         }
 
         @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            this.progress = progress;
-            this.toUpdate.setText(Filtro.DISTANCIAS[progress]);
-
-
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
-
-        }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-            if (seekBar != null) {
-
-                this.filtro.setRangoDistancia(progress);
-
-
-            }
+        public void onIndexChangeListener(RangeBar rangeBar, int i, int i1) {
+            this.left.setText(String.valueOf(i * 10) + " Km");
+            this.right.setText(String.valueOf(i1 * 10)+ " Km");
+            filtro.setMinDistancia(i*10);
+            filtro.setMaxDistancia(i1*10);
 
         }
     }
