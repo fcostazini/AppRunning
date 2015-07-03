@@ -29,10 +29,10 @@ public class TiempoCarreraListAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private SimpleDateFormat sf;
+
     public TiempoCarreraListAdapter(Context context, List<UsuarioCarrera> carreras) {
         this.carreras = carreras;
         this.context = context;
-        sf = new SimpleDateFormat("hh:mm:ss", Locale.getDefault());
         this.inflater = (LayoutInflater) this.getContext()
                 .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
     }
@@ -86,13 +86,13 @@ public class TiempoCarreraListAdapter extends BaseAdapter {
             }
             if (p.getTiempo() != null) {
 
-                viewHolder.tiempo.setText(sf.format(p.getTiempo()));
+                viewHolder.tiempo.setText(getTimeString(p.getTiempo()));
             }
             if (p.getTiempo() != null && p.getTiempo() > 0 && p.getDistancia() != null && p.getDistancia() > 0) {
-                double  tiempoKm = p.getTiempo() / 3600000 / p.getDistancia();
-                viewHolder.tiempoPorDistancia.setText(tiempoKm + " hs/Km");
-            }else{
-                viewHolder.tiempoPorDistancia.setText( " - hs/Km");
+
+                viewHolder.tiempoPorDistancia.setText(getTimeString(p.getTiempo() / p.getDistancia()));
+            } else {
+                viewHolder.tiempoPorDistancia.setText(" - ");
             }
 
             if (p.getUrlImage() != null) {
@@ -105,6 +105,25 @@ public class TiempoCarreraListAdapter extends BaseAdapter {
 
 
         return convertView;
+    }
+
+    private String getTimeString(long tiempo) {
+        long second = (tiempo / 1000) % 60;
+        long minute = (tiempo / (1000 * 60)) % 60;
+        long hour = (tiempo / (1000 * 60 * 60)) % 24;
+
+        String str = "";
+        if (hour > 0) {
+            str += String.format("%02d", hour) + "h ";
+        }
+        if (minute > 0) {
+            str += String.format("%02d", minute) + "m ";
+        }
+        if (second > 0) {
+            str += String.format("%02d", second) + "s ";
+        }
+
+        return str;
     }
 
     private static class ViewHolder {
