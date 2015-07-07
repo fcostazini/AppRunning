@@ -60,7 +60,6 @@ public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter implements 
     @Override
     public Fragment getItem(int i) {
         Fragment fragment;
-        // Crear un FoodFragment con el nombre como argumento
         if (i == 0) {
 
             DetalleCarreraFragment df = DetalleCarreraFragment.newInstance(this.carrera);
@@ -84,4 +83,5 @@ public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter implements 
 
 
     }
+
 }

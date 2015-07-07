@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="icon_cronometro">m</string>
-    <string name="icon_velocidad">j</string>
-    <string name="icon_correr">h</string>
-    <string name="icon_edit">e</string>
-    <string name="icon_plus">e</string>
-    <string name="icon_minus">-</string>
+    <string name="icon_cronometro">s</string>
+    <string name="icon_velocidad">p</string>
+    <string name="icon_correr">B</string>
+    <string name="icon_edit">p</string>
+    <string name="icon_plus">[</string>
+    <string name="icon_minus">_</string>
     <string name="icon_minus_square">1</string>
     <string name="icon_plus_square">2</string>
-    <string name="icon_save">S</string>
-    <string name="icon_cancel">X</string>
+    <string name="icon_save">f</string>
+    <string name="icon_cancel">e</string>
+    <string name="icon_web">h</string>
+    <string name="icon_ciudad">C</string>
+    <string name="icon_calendario">D</string>
+    <string name="icon_direccion">L</string>
+    <string name="icon_ganador">W</string>
+
+
 
 </resources>

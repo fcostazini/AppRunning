@@ -47,11 +47,12 @@
                 android:text="Carrera de StarWars"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
+
             <TextView
                 android:id="@+id/lbl_fecha_largada"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/lbl_distancia"
+                android:layout_alignLeft="@+id/lbl_modalidad"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/lbl_modalidad"
