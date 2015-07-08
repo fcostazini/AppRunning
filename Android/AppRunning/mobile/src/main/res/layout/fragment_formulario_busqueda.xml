@@ -1,242 +1,346 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:rsb="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/form_busqueda"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/form_busqueda"
     android:padding="20dp">
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView2"
-        android:layout_alignParentTop="true"
         android:layout_above="@+id/btn_buscar"
+        android:layout_alignParentTop="true"
         android:layout_marginBottom="10dp">
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
 
-            <Spinner
-                android:layout_width="fill_parent"
+            <studios.thinkup.com.apprunning.IconTextView
+                android:id="@+id/icon_modalidad"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/sp_genero"
-                android:spinnerMode="dropdown"
-                android:contentDescription="@string/genero"
-                android:layout_below="@+id/txt_nombre"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="10dp"
-                android:prompt="@id/txt_modalidad" />
-
-            <Spinner
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/sp_provincia"
-                android:spinnerMode="dropdown"
-                android:contentDescription="@string/genero"
-                android:layout_below="@+id/sp_genero"
-                android:layout_alignLeft="@+id/sp_genero"
-                android:layout_alignStart="@+id/sp_genero"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="10dp" />
-
-
-            <Spinner
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/sp_ciudad"
-                android:spinnerMode="dropdown"
-                android:contentDescription="@string/genero"
-                android:layout_below="@+id/sp_provincia"
-                android:layout_alignLeft="@+id/sp_provincia"
-                android:layout_alignStart="@+id/sp_genero"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="10dp" />
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/sp_ciudad"
+                android:layout_alignBottom="@+id/sp_genero"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:id="@+id/ll_rango_dias"
-                android:padding="10dp"
-                android:layout_marginTop="10dp">
+                android:layout_below="@+id/txt_nombre"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:padding="5dp"
+                android:text="@string/icon_ganador"
+                android:textColor="@color/link_text_material_light"
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Intervalo de Fecha"
-                    android:id="@+id/textView2" />
+                android:textSize="22dp"
+                android:typeface="monospace">
+
+            </studios.thinkup.com.apprunning.IconTextView>
+
+            <Spinner
+                android:id="@+id/sp_genero"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_nombre"
+                android:layout_marginLeft="5dp"
+                android:layout_toEndOf="@+id/icon_modalidad"
+                android:layout_toRightOf="@+id/icon_modalidad"
+                android:contentDescription="@string/genero"
+                android:prompt="@id/txt_modalidad"
+                android:spinnerMode="dropdown" />
+
+            <studios.thinkup.com.apprunning.IconTextView
+                android:id="@+id/icon_provincia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/sp_provincia"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/icon_modalidad"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:padding="5dp"
+                android:text="@string/icon_ciudad"
+                android:textColor="@color/link_text_material_light"
+
+                android:textSize="22dp"
+                android:typeface="monospace">
+
+            </studios.thinkup.com.apprunning.IconTextView>
+
+            <Spinner
+                android:id="@+id/sp_provincia"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/sp_genero"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignStart="@+id/sp_genero"
+                android:layout_below="@+id/sp_genero"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@string/genero"
+                android:spinnerMode="dropdown" />
+
+            <Spinner
+                android:id="@+id/sp_ciudad"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/sp_provincia"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignStart="@+id/sp_genero"
+                android:layout_below="@+id/sp_provincia"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@string/genero"
+                android:spinnerMode="dropdown" />
+
+            <LinearLayout
+                android:id="@+id/ll_rango_dias"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/sp_ciudad"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="5dp">
 
                 <LinearLayout
-                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <studios.thinkup.com.apprunning.IconTextView
+                        android:id="@+id/icon_fecha"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/icon_calendario"
+                        android:textColor="@color/link_text_material_light"
+                        android:textSize="22dp"
+                        android:layout_weight="0.1"
+                        android:typeface="monospace">
+
+                    </studios.thinkup.com.apprunning.IconTextView>
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Intervalo de Fecha"
+                        android:layout_weight="0.9"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:id="@+id/linearLayout2"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp">
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp">
 
                     <TextView
+                        android:id="@+id/textView3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@string/desde"
-                        android:id="@+id/textView3"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginLeft="20dp"
                         android:gravity="center_vertical|center"
-                        android:layout_gravity="center_vertical" />
+                        android:text="@string/desde"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
 
                     <TextView
+                        android:id="@+id/txt_fecha_desde"
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
-                        android:inputType="date"
-                        android:ems="10"
-                        android:id="@+id/txt_fecha_desde"
-                        android:layout_weight="0.5"
-                        android:editable="false"
+                        android:layout_gravity="center"
                         android:layout_marginLeft="10dp"
+                        android:layout_weight="0.5"
                         android:background="#1d1b5687"
-                        android:layout_gravity="center"
-                        android:gravity="center" />
+                        android:editable="false"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:inputType="date" />
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:id="@+id/img_fecha_desde"
-                        android:src="@drawable/ic_calendar"
-                        android:layout_gravity="center"
-                        android:scaleType="center" />
-
-                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:scaleType="center"
+                        android:src="@drawable/ic_calendar" />
+
+                    <ImageView
                         android:id="@+id/img_close_desde"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:src="@drawable/ic_delete" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="horizontal"
+                    android:id="@+id/ll_fechas"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:id="@+id/ll_fechas">
+                    android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/textView4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@string/hasta"
-                        android:id="@+id/textView4"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginLeft="20dp"
                         android:gravity="center_vertical|center"
-                        android:layout_gravity="center_vertical" />
+                        android:text="@string/hasta"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
 
                     <TextView
+                        android:id="@+id/txt_fecha_hasta"
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
-                        android:inputType="date"
-                        android:ems="10"
-                        android:id="@+id/txt_fecha_hasta"
-                        android:layout_weight="0.5"
+                        android:layout_gravity="center"
                         android:layout_marginLeft="10dp"
+                        android:layout_weight="0.5"
                         android:background="#1d1b5687"
-                        android:layout_gravity="center"
-                        android:gravity="center" />
+                        android:ems="10"
+                        android:gravity="center"
+                        android:inputType="date" />
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:id="@+id/img_fecha_hasta"
-                        android:src="@drawable/ic_calendar"
-                        android:layout_gravity="center"
-                        android:scaleType="center" />
-
-                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:scaleType="center"
+                        android:src="@drawable/ic_calendar" />
+
+                    <ImageView
                         android:id="@+id/img_close_hasta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:src="@drawable/ic_delete" />
                 </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/ll_distancia"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:id="@+id/ll_distancia"
+                android:layout_below="@+id/ll_rango_dias"
                 android:layout_marginTop="10dp"
-                android:padding="10dp"
-                android:layout_below="@+id/ll_rango_dias">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Distancia de Carrera"
-                    android:id="@+id/textView7" />
-
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="5dp">
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:gravity="center">
+                    android:orientation="horizontal">
 
-                    <TextView
+                    <studios.thinkup.com.apprunning.IconTextView
+                        android:id="@+id/icon_distancia"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="0 Km"
-                        android:id="@+id/lbl_dist_desde"
-                        android:layout_weight=".2" />
+                        android:gravity="center_vertical"
+                        android:text="@string/icon_distancia"
+                        android:textColor="@color/link_text_material_light"
+                        android:textSize="22dp"
+                        android:layout_weight="0.1"
+                        android:typeface="monospace">
 
-                    <com.edmodo.rangebar.RangeBar
-                        xmlns:custom="http://schemas.android.com/apk/res-auto"
+                    </studios.thinkup.com.apprunning.IconTextView>
+
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Distancia de Carrera"
+                        android:layout_weight="0.9"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/lbl_dist_desde"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".2"
+                        android:text="0 Km"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <com.edmodo.rangebar.RangeBar xmlns:custom="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/sb_distancia"
-                        android:layout_weight=".6"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="10dp"
+                        android:layout_weight=".6"
                         custom:tickCount="11" />
 
                     <TextView
+                        android:id="@+id/lbl_dist_hasta"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:layout_weight=".2"
                         android:text="100 Km"
-                        android:id="@+id/lbl_dist_hasta"
-                        android:layout_weight=".2" />
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
 
                 </LinearLayout>
 
             </LinearLayout>
+            <studios.thinkup.com.apprunning.IconTextView
+                android:id="@+id/icon_nombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/txt_nombre"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:padding="5dp"
+                android:text="@string/icon_velocidad"
+                android:textColor="@color/link_text_material_light"
 
+                android:textSize="22dp"
+                android:typeface="monospace">
+
+            </studios.thinkup.com.apprunning.IconTextView>
             <EditText
+                android:id="@+id/txt_nombre"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/txt_nombre"
-                android:hint="Nombre Carrera" />
+                android:hint="Nombre Carrera"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/icon_nombre"
+                android:layout_margin="5dp" />
         </RelativeLayout>
     </ScrollView>
 
     <Button
+        android:id="@+id/btn_buscar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btn_buscar"
-        android:id="@+id/btn_buscar"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true" />
+        android:text="@string/btn_buscar" />
 
 
 </RelativeLayout>
