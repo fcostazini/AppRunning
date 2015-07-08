@@ -65,9 +65,12 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_estadistica_carrera, container, false);
+
+
+        if(this.usuarioObservable == null){
+            this.usuarioObservable = (IUsuarioCarreraObservable) this.getActivity();
+        }
         initView(rootView);
-
-
         //aCorrer.setOnClickListener(this);
         aCorrer.setOnTouchListener(new View.OnTouchListener() {
             private static final int MAX_CLICK_DURATION = 200;
