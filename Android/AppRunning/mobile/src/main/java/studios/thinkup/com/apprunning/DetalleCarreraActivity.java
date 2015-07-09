@@ -240,8 +240,9 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
                 distanciaDialog.dismiss();
             }
         });
-        distanciaDialog.setIcon(R.drawable.ic_anotado);
+
         distanciaDialog= builder.create();
+        distanciaDialog.setIcon(R.drawable.ic_anotado);
         distanciaDialog.show();
     }
 

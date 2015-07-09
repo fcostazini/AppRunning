@@ -54,7 +54,7 @@ public class ResultadoCarrerasPagerAdapter extends FragmentPagerAdapter {
                 case 1:{
                     filtroNuevo.setMeGusta(null);
                     filtroNuevo.setInscripto(Boolean.TRUE);
-                    filtroNuevo.setCorrida(null);
+                    filtroNuevo.setCorrida(Boolean.FALSE);
                     break;
                 }
 
