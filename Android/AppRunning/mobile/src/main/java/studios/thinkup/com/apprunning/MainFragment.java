@@ -57,7 +57,7 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
         googleplus = (Button) rootView.findViewById(R.id.googleplus);
         googleplus.setOnClickListener(loginClick);
 
-
+        rootView.findViewById(R.id.login_buttons).setVisibility(View.VISIBLE);
         //Chose permissions
         ArrayList<String> fbScope = new ArrayList<String>();
         fbScope.addAll(Arrays.asList("public_profile, email, user_friends"));
@@ -96,9 +96,13 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
     private void initSocialNetwork(SocialNetwork socialNetwork) {
 
             if (socialNetwork.isConnected()) {
+                if(getView()!=null){
+                    getView().findViewById(R.id.login_buttons).setVisibility(View.GONE);
+                }
 
                 MainActivity.showProgress("Cargando...");
                 startProfile(socialNetwork.getID());
+
 
             }
 
@@ -131,6 +135,8 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
             if (!socialNetwork.isConnected()) {
                 if (networkId != 0) {
                     socialNetwork.requestLogin();
+
+                    getView().findViewById(R.id.login_buttons).setVisibility(View.GONE);
                     MainActivity.showProgress("Cargando...");
                 } else {
                     Toast.makeText(getActivity(), "Wrong networkId", Toast.LENGTH_LONG).show();
