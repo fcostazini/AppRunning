@@ -147,13 +147,11 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
 
         CustomNumberPickerView min = (CustomNumberPickerView) dialog.findViewById(R.id.np_min);
         CustomNumberPickerView sec = (CustomNumberPickerView) dialog.findViewById(R.id.np_sec);
-        CustomNumberPickerView ms = (CustomNumberPickerView) dialog.findViewById(R.id.np_ms);
 
         hr.setNumeroVal((int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() / 3600000));
         min.setNumeroVal((int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - hr.getNumeroVal() * 3600000) / 60000);
         sec.setNumeroVal((int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - hr.getNumeroVal() * 3600000 - min.getNumeroVal() * 60000) / 1000);
-        ms.setNumeroVal((int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - hr.getNumeroVal() * 3600000 - min.getNumeroVal() * 60000 -
-                sec.getNumeroVal() * 1000) / 10);
+
 
 
         IconTextView dialogOk = (IconTextView) dialog.findViewById(R.id.ic_save);
@@ -171,8 +169,8 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
                 int h = ((CustomNumberPickerView) dialog.findViewById(R.id.np_hr)).getNumeroVal();
                 int m = ((CustomNumberPickerView) dialog.findViewById(R.id.np_min)).getNumeroVal();
                 int s = ((CustomNumberPickerView) dialog.findViewById(R.id.np_sec)).getNumeroVal();
-                int ms = ((CustomNumberPickerView) dialog.findViewById(R.id.np_ms)).getNumeroVal();
-                long tiempo = ms * 10 + (s * 1000) + (m * 60000) + (h * 3600000);
+
+                long tiempo = (s * 1000) + (m * 60000) + (h * 3600000);
                 EstadisticaCarreraFragment.this.usuarioObservable.getUsuarioCarrera().setTiempo(tiempo);
                 actualizarValores();
                 dialog.dismiss();
@@ -187,11 +185,11 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
             int h = (int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() / 3600000);
             int m = (int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - h * 3600000) / 60000;
             int s = (int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - h * 3600000 - m * 60000) / 1000;
-            int ms = (int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - h * 3600000 - m * 60000 - s * 1000) / 10;
+
             String tiempoStr = (h < 10 ? "0" + h : h + "");
             tiempoStr += ":" + (m < 10 ? "0" + m : m + "");
             tiempoStr += ":" + (s < 10 ? "0" + s : s + "");
-            tiempoStr += ":" + (ms < 10 ? "0" + ms : ms + "");
+
             tiempo.setText(tiempoStr);
             if (this.usuarioObservable.getUsuarioCarrera().getTiempo() > 0) {
                 aCorrer.setVisibility(View.GONE);
