@@ -63,8 +63,6 @@ public class TiemposCarrerasFragment extends ListFragment {
         }
         IUsuarioCarreraProvider carrerasProvider = new UsuarioCarreraProvider(getActivity(),(int)filtro.getIdUsuario());
         List<UsuarioCarrera> resultados = carrerasProvider.findTiemposByFiltro(this.filtro);
-        // TODO: Change Adapter to display your content
-
         setListAdapter(new TiempoCarreraListAdapter(this.getActivity(),
                 resultados));
 

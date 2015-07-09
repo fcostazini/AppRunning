@@ -93,6 +93,8 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
         fields += ", uc.ANOTADO";
         fields += ", uc.ME_GUSTA";
         fields += ", uc.CORRIDA";
+        fields += ", uc.DISTANCIA";
+        fields += ", uc.MODALIDAD";
         fields += ", uc.ID_USUARIO_CARRERA";
         fields += ", uc.USUARIO";
         return fields;
@@ -182,6 +184,8 @@ UsuarioCarrera uc = null;
                 UsuarioCarrera.CARRERA,
                 UsuarioCarrera.ID,
                 UsuarioCarrera.ME_GUSTA,
+                UsuarioCarrera.DISTANCIA,
+                UsuarioCarrera.MODALIDAD,
                 UsuarioCarrera.TIEMPO,
                 UsuarioCarrera.ID_USUARIO
         };
