@@ -1,5 +1,7 @@
 package studios.thinkup.com.apprunning;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
@@ -28,6 +30,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
     private int idCarrera;
     private UsuarioCarrera carrera;
     private Menu menu;
+    AlertDialog distanciaDialog;
     private List<IUsuarioCarreraObserver> observadoresUsuario;
 
     @Override
@@ -94,7 +97,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         if (this.carrera == null) {
             return super.onOptionsItemSelected(item);
         }
@@ -121,15 +124,19 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
                 return true;
             case R.id.mnu_inscripto:
                 if (this.carrera.isAnotado()) {
-                    if (!this.carrera.isCorrida()) {
-                        item.setIcon(R.drawable.ic_no_anotado);
-                        this.carrera.setAnotado(false);
-                        this.actualizarUsuarioCarrera(this.carrera, EstadoCarrera.NO_ANOTADO);
-                    }
+                    desanotarCarrera(item);
                 } else {
-                    item.setIcon(R.drawable.ic_anotado);
-                    this.carrera.setAnotado(true);
-                    this.actualizarUsuarioCarrera(this.carrera, EstadoCarrera.ANOTADO);
+                    Integer distancia = 0;
+                    if(this.carrera.getDistancias().contains("/")){
+                        this.seleccionarCarrera(item);
+                    }else {
+
+                        this.carrera.setDistancia(Integer.valueOf(this.carrera.getDistancias().replace("Km","").trim()));
+                        item.setIcon(R.drawable.ic_anotado);
+                        this.carrera.setAnotado(true);
+                        this.actualizarUsuarioCarrera(this.carrera, EstadoCarrera.ANOTADO);
+                    }
+
                 }
 
 
@@ -159,6 +166,30 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
 
     }
 
+    private void desanotarCarrera(final MenuItem item) {
+        if (!this.carrera.isCorrida()) {
+            AlertDialog dialog = new AlertDialog.Builder(this).create();
+            dialog.setTitle("Desanotarse");
+            dialog.setMessage(getString(R.string.confirmar_Desanotar));
+            dialog.setCancelable(false);
+            dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Si", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int buttonId) {
+                    item.setIcon(R.drawable.ic_no_anotado);
+                    carrera.setAnotado(false);
+                    actualizarUsuarioCarrera(carrera, EstadoCarrera.NO_ANOTADO);
+                }
+            });
+            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int buttonId) {
+
+                }
+            });
+            dialog.setIcon(R.drawable.ic_anotado);
+            dialog.show();
+
+        }
+    }
+
     @Override
     public void registrarObservadorUsuario(IUsuarioCarreraObserver ob) {
         this.observadoresUsuario.add(ob);
@@ -175,7 +206,44 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
     public UsuarioCarrera getUsuarioCarrera() {
     return this.carrera;
     }
+    private void seleccionarCarrera(final MenuItem menuItem){
 
+
+        // Strings to Show In Dialog with Radio Buttons
+
+
+        // Creating and Building the Dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.que_distancia_recorres));
+        String[] distancias = this.carrera.getDistancias().replace("Km","").split("/");
+        int i = 0;
+        for(String s : distancias){
+            s = s.trim();
+            if(Integer.valueOf(s.trim()) < 10){
+
+                s = " " + s;
+            }
+            distancias[i] = s + " Km";
+            i++;
+        }
+        builder.setSingleChoiceItems(distancias, -1, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+
+                if( item >= 0){
+                    String distSeleccionada =carrera.getDistancias().split("/")[item];
+                    Integer distancia = Integer.valueOf(distSeleccionada.replace("Km", "").trim());
+                    carrera.setDistancia(distancia);
+                    menuItem.setIcon(R.drawable.ic_anotado);
+                    carrera.setAnotado(true);
+                    actualizarUsuarioCarrera(carrera, EstadoCarrera.ANOTADO);
+                }
+                distanciaDialog.dismiss();
+            }
+        });
+        distanciaDialog.setIcon(R.drawable.ic_anotado);
+        distanciaDialog= builder.create();
+        distanciaDialog.show();
+    }
 
 }
 
