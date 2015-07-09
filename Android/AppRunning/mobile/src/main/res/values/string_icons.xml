@@ -2,7 +2,7 @@
 <resources>
 
     <string name="icon_cronometro">s</string>
-    <string name="icon_velocidad">p</string>
+    <string name="icon_velocidad">g</string>
     <string name="icon_correr">B</string>
     <string name="icon_edit">p</string>
     <string name="icon_plus">[</string>
@@ -16,6 +16,9 @@
     <string name="icon_calendario">D</string>
     <string name="icon_direccion">L</string>
     <string name="icon_ganador">W</string>
+
+
+
 
 
 

@@ -17,7 +17,25 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
+            <studios.thinkup.com.apprunning.IconTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:text="@string/icon_ganador"
+                android:id="@+id/icon_modalidad"
+                android:padding="5dp"
+                android:typeface="monospace"
+                android:textColor="#33B5E5"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/icon_nombre"
+                android:layout_alignBottom="@id/sp_genero"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp">
 
+            </studios.thinkup.com.apprunning.IconTextView>
             <Spinner
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -25,11 +43,30 @@
                 android:spinnerMode="dropdown"
                 android:contentDescription="@string/genero"
                 android:layout_below="@+id/txt_nombre"
+                android:layout_toRightOf="@id/icon_modalidad"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="10dp"
                 android:prompt="@id/txt_modalidad" />
+            <studios.thinkup.com.apprunning.IconTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:text="@string/icon_ciudad"
+                android:id="@+id/icon_ciudad"
+                android:padding="5dp"
+                android:typeface="monospace"
+                android:textColor="#33B5E5"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/icon_modalidad"
+                android:layout_alignBottom="@+id/sp_provincia"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp">
 
+            </studios.thinkup.com.apprunning.IconTextView>
             <Spinner
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -65,15 +102,41 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:id="@+id/ll_rango_dias"
-                android:padding="10dp"
                 android:layout_marginTop="10dp">
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                    <studios.thinkup.com.apprunning.IconTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="22sp"
+                        android:text="@string/icon_calendario"
+                        android:id="@+id/icon_calendario"
+                        android:padding="5dp"
+                        android:typeface="monospace"
+                        android:textColor="#33B5E5"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignBottom="@+id/textView2"
+                        android:layout_alignTop="@+id/textView2"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Intervalo de Fecha"
-                    android:id="@+id/textView2" />
+                    </studios.thinkup.com.apprunning.IconTextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Intervalo de Fecha"
+                        android:layout_toRightOf="@id/icon_calendario"
+                        android:id="@+id/textView2" />
+
+                </RelativeLayout>
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -175,15 +238,44 @@
                 android:layout_alignParentStart="true"
                 android:id="@+id/ll_distancia"
                 android:layout_marginTop="10dp"
-                android:padding="10dp"
+
                 android:layout_below="@+id/ll_rango_dias">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Distancia de Carrera"
-                    android:id="@+id/textView7" />
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                    <studios.thinkup.com.apprunning.IconTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="22sp"
+                        android:text="@string/icon_direccion"
+                        android:id="@+id/icon_distancia"
+                        android:padding="5dp"
+                        android:typeface="monospace"
+                        android:textColor="#33B5E5"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignBottom="@+id/lbl_distancia"
+                        android:layout_alignTop="@+id/lbl_distancia"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp">
+
+                    </studios.thinkup.com.apprunning.IconTextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Distancia"
+                        android:layout_toRightOf="@id/icon_distancia"
+                        android:id="@+id/lbl_distancia" />
+
+                </RelativeLayout>
+
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -221,11 +313,32 @@
                 </LinearLayout>
 
             </LinearLayout>
+            <studios.thinkup.com.apprunning.IconTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:text="@string/icon_velocidad"
+                android:id="@+id/icon_nombre"
+                android:padding="5dp"
+                android:typeface="monospace"
+                android:textColor="#33B5E5"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_alignBottom="@+id/txt_nombre"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp">
+
+            </studios.thinkup.com.apprunning.IconTextView>
 
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/txt_nombre"
+                android:padding="10dp"
+                android:layout_toRightOf="@id/icon_nombre"
                 android:hint="Nombre Carrera" />
         </RelativeLayout>
     </ScrollView>
@@ -236,7 +349,8 @@
         android:text="@string/btn_buscar"
         android:id="@+id/btn_buscar"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:background="#90B8DD" />
 
 
 </RelativeLayout>
