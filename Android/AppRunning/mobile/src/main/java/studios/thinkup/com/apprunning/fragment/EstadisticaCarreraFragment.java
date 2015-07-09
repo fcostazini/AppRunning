@@ -112,17 +112,25 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
 
         this.aCorrer = (LinearLayout) rootView.findViewById(R.id.lb_a_correr);
         editar.setOnClickListener(this);
-        if (this.usuarioObservable.getUsuarioCarrera().isAnotado() && !this.usuarioObservable.getUsuarioCarrera().isCorrida()) {
-            aCorrer.setVisibility(View.VISIBLE);
+        updateEstadoEdicionTiempo();
 
-        } else {
-            aCorrer.setVisibility(View.GONE);
-        }
         Typeface type = TypefaceProvider.getInstance(this.getActivity()).getTypeface(TypefaceProvider.DIGIT);
         this.tiempo = (TextView) rootView.findViewById(R.id.txt_tiempo);
 
         actualizarValores();
         tiempo.setTypeface(type);
+    }
+
+    private void updateEstadoEdicionTiempo() {
+        editar.setVisibility(View.INVISIBLE);
+        aCorrer.setVisibility(View.GONE);
+        if (this.usuarioObservable.getUsuarioCarrera().isAnotado()){
+            if(!this.usuarioObservable.getUsuarioCarrera().isCorrida() &&
+                    this.usuarioObservable.getUsuarioCarrera().getTiempo() <= 0){
+                aCorrer.setVisibility(View.VISIBLE);
+            }
+            editar.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -191,38 +199,14 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
             tiempoStr += ":" + (s < 10 ? "0" + s : s + "");
 
             tiempo.setText(tiempoStr);
-            if (this.usuarioObservable.getUsuarioCarrera().getTiempo() > 0) {
-                aCorrer.setVisibility(View.GONE);
-            } else if (this.usuarioObservable.getUsuarioCarrera().isAnotado()) {
-                aCorrer.setVisibility(View.VISIBLE);
-            }
-            editar.setVisibility(View.VISIBLE);
+            updateEstadoEdicionTiempo();
         }
     }
 
 
     @Override
     public void actuliazarUsuarioCarrera(UsuarioCarrera usuario, EstadoCarrera estado) {
-        switch (estado) {
-            case ANOTADO:
+        updateEstadoEdicionTiempo();
 
-                this.aCorrer.setVisibility(View.VISIBLE);
-                break;
-            case NO_ANOTADO:
-                this.aCorrer.setVisibility(View.GONE);
-                break;
-
-            case CORRIDA:
-
-                this.aCorrer.setVisibility(View.GONE);
-                break;
-            case NO_CORRIDA:
-                if (this.usuarioObservable.getUsuarioCarrera().isAnotado() &&
-                        this.usuarioObservable.getUsuarioCarrera().getTiempo() <= 0) {
-                    this.aCorrer.setVisibility(View.VISIBLE);
-                }
-
-                break;
-        }
     }
 }

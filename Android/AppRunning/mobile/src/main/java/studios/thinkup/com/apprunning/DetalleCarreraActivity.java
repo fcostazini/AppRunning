@@ -97,7 +97,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         if (this.carrera == null) {
             return super.onOptionsItemSelected(item);
         }
@@ -124,11 +124,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
                 return true;
             case R.id.mnu_inscripto:
                 if (this.carrera.isAnotado()) {
-                    if (!this.carrera.isCorrida()) {
-                        item.setIcon(R.drawable.ic_no_anotado);
-                        this.carrera.setAnotado(false);
-                        this.actualizarUsuarioCarrera(this.carrera, EstadoCarrera.NO_ANOTADO);
-                    }
+                    desanotarCarrera(item);
                 } else {
                     Integer distancia = 0;
                     if(this.carrera.getDistancias().contains("/")){
@@ -168,6 +164,30 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    private void desanotarCarrera(final MenuItem item) {
+        if (!this.carrera.isCorrida()) {
+            AlertDialog dialog = new AlertDialog.Builder(this).create();
+            dialog.setTitle("Desanotarse");
+            dialog.setMessage(getString(R.string.confirmar_Desanotar));
+            dialog.setCancelable(false);
+            dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Si", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int buttonId) {
+                    item.setIcon(R.drawable.ic_no_anotado);
+                    carrera.setAnotado(false);
+                    actualizarUsuarioCarrera(carrera, EstadoCarrera.NO_ANOTADO);
+                }
+            });
+            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int buttonId) {
+
+                }
+            });
+            dialog.setIcon(R.drawable.ic_anotado);
+            dialog.show();
+
+        }
     }
 
     @Override
@@ -220,6 +240,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
                 distanciaDialog.dismiss();
             }
         });
+        distanciaDialog.setIcon(R.drawable.ic_anotado);
         distanciaDialog= builder.create();
         distanciaDialog.show();
     }

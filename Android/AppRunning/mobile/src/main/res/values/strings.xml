@@ -52,4 +52,5 @@
     <string name="lbl_tiempo">Tiempo</string>
     <string name="lbl_tiempo_km">Tiempo/Km</string>
     <string name="que_distancia_recorres">Que distancia vas a ReCorrer?</string>
+    <string name="confirmar_Desanotar">Está seguro que desea desanotarse de la carrera?</string>
 </resources>
