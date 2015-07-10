@@ -207,6 +207,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
     @Override
     public void actuliazarUsuarioCarrera(UsuarioCarrera usuario, EstadoCarrera estado) {
         updateEstadoEdicionTiempo();
+        actualizarValores();
 
     }
 }

@@ -143,9 +143,8 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
                 return true;
             case R.id.mnu_corrida:
                 if (this.carrera.isCorrida()) {
-                    item.setIcon(R.drawable.ic_no_corrida);
-                    this.carrera.setCorrida(false);
-                    this.actualizarUsuarioCarrera(this.carrera, EstadoCarrera.NO_CORRIDA);
+                    confirmarNoCorrida(item);
+
                 } else {
                     if (this.carrera.getFechaInicio().compareTo(new Date()) <= 0) {
 
@@ -163,6 +162,33 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
             default:
                 return super.onOptionsItemSelected(item);
         }
+
+    }
+
+    private void confirmarNoCorrida(final MenuItem item) {
+
+        AlertDialog dialog = new AlertDialog.Builder(this).create();
+        dialog.setTitle("Desmarcar Corrida");
+        dialog.setMessage(getString(R.string.confirmar_no_corrida));
+        dialog.setCancelable(false);
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Si", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int buttonId) {
+                item.setIcon(R.drawable.ic_no_corrida);
+                carrera.setCorrida(false);
+                carrera.setTiempo(0l);
+                carrera.setVelocidad(0);
+                actualizarUsuarioCarrera(carrera, EstadoCarrera.NO_CORRIDA);
+
+            }
+        });
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int buttonId) {
+
+            }
+        });
+        dialog.setIcon(R.drawable.ic_corrida);
+        dialog.show();
+
 
     }
 

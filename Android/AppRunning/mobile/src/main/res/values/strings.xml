@@ -53,4 +53,5 @@
     <string name="lbl_tiempo_km">Tiempo/Km</string>
     <string name="que_distancia_recorres">Que distancia vas a ReCorrer?</string>
     <string name="confirmar_Desanotar">Está seguro que desea borrar la inscripción de la carrera?</string>
+    <string name="confirmar_no_corrida">Está por desmarcar la carrera como \"Corrida\". Se borrarán todos los datos asociados a la carrera. Desea continuar?</string>
 </resources>
