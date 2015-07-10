@@ -84,7 +84,7 @@ public class DetalleCarreraFragment extends Fragment implements IUsuarioCarreraO
 
 
         TextView genero = (TextView) rootView.findViewById(R.id.txt_modalidad);
-        genero.setText(this.usuarioObservable.getUsuarioCarrera().getModalidad());
+        genero.setText(this.usuarioObservable.getUsuarioCarrera().getCarrera().getModalidades());
 
         TextView direccion = (TextView) rootView.findViewById(R.id.txt_direccion);
 

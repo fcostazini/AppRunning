@@ -169,7 +169,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
     private void desanotarCarrera(final MenuItem item) {
         if (!this.carrera.isCorrida()) {
             AlertDialog dialog = new AlertDialog.Builder(this).create();
-            dialog.setTitle("Desanotarse");
+            dialog.setTitle("Borrar Inscripción");
             dialog.setMessage(getString(R.string.confirmar_Desanotar));
             dialog.setCancelable(false);
             dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Si", new DialogInterface.OnClickListener() {
