@@ -35,7 +35,8 @@ public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
         SQLiteOpenHelper db = new DataBaseHelper(context);
         this.filtro = filtro;
         String fields = "c.ID_CARRERA, c.NOMBRE,c.FECHA_INICIO, c.HORA_INICIO, c.DISTANCIA_DISPONIBLE," +
-                " c.DESCRIPCION, c.URL_IMAGEN, c.PROVINCIA, c.CIUDAD, uc.ID_USUARIO_CARRERA, ifnull(uc.me_gusta,0) as ME_GUSTA," +
+                " c.DESCRIPCION, c.URL_IMAGEN, c.PROVINCIA, c.CIUDAD, uc.ID_USUARIO_CARRERA, uc.DISTANCIA, uc.MODALIDAD, " +
+                " ifnull(uc.me_gusta,0) as ME_GUSTA," +
                 " ifnull(uc.ANOTADO,0) as ANOTADO, ifnull(uc.CORRIDA,0) as CORRIDA ";
 
 
@@ -92,7 +93,8 @@ public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
         SQLiteOpenHelper db = new DataBaseHelper(context);
 
         String fields = "c.ID_CARRERA, c.NOMBRE,c.FECHA_INICIO, c.HORA_INICIO, c.DISTANCIA_DISPONIBLE," +
-                " c.DESCRIPCION, c.URL_IMAGEN, c.PROVINCIA, c.CIUDAD, uc.ID_USUARIO_CARRERA, ifnull(uc.me_gusta,0) as ME_GUSTA," +
+                " c.DESCRIPCION, c.URL_IMAGEN, c.PROVINCIA, c.CIUDAD, uc.ID_USUARIO_CARRERA, uc.DISTANCIA, uc.MODALIDAD, " +
+                " ifnull(uc.me_gusta,0) as ME_GUSTA," +
                 " ifnull(uc.ANOTADO,0) as ANOTADO, ifnull(uc.CORRIDA,0) as CORRIDA ";
 
 
@@ -141,6 +143,7 @@ public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
                         .meGusta(cursor.getInt(cursor.getColumnIndex("ME_GUSTA")) == 1)
                         .fueCorrida(cursor.getInt(cursor.getColumnIndex("CORRIDA")) == 1)
                         .estoyInscripto(cursor.getInt(cursor.getColumnIndex("ANOTADO")) == 1)
+                        .distancia(cursor.getInt(cursor.getColumnIndex("DISTANCIA")))
                         .build());
                 cursor.moveToNext();
             }

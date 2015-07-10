@@ -49,6 +49,12 @@ public class QueryGenerator {
         if(filtro.getCorrida()!=null){
             query += " AND corrida = " + this.getIntFromBool(filtro.getCorrida());
         }
+        if(filtro.getIdUsuario() >= 0 && filtro.getCorrida()==null &&filtro.getInscripto()==null
+                &&filtro.getMeGusta()==null){
+            query += " AND ( corrida = 1" +
+                     " OR  anotado = 1" +
+                     " OR  me_gusta = 1 )";
+        }
         return query;
     }
 
