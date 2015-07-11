@@ -8,154 +8,161 @@
     tools:context="studios.thinkup.com.apprunning.fragment.EstadisticaCarreraFragment"
     android:background="@drawable/detalle_bg_xml">
 
-    <LinearLayout
-        android:id="@+id/ll_tiempo"
-        android:layout_width="fill_parent"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical|center"
-        android:orientation="horizontal"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp">
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-
-            android:layout_marginRight="10dp"
-            android:src="@drawable/ic_cronometro" />
-
-        <TextView
-            android:id="@+id/txt_tiempo"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:gravity="center_vertical"
-            android:text="00:00:00"
-
-            android:textAlignment="center"
-            android:textSize="32sp"
-            android:typeface="sans" />
-
-        <studios.thinkup.com.apprunning.IconTextView
-            android:id="@+id/icon_edit_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
-            android:gravity="bottom"
-            android:padding="5dp"
-            android:text="@string/icon_edit"
-            android:textColor="#00AAFF"
-            android:textSize="25sp"
-            android:typeface="monospace"
-            android:visibility="invisible">
-
-        </studios.thinkup.com.apprunning.IconTextView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lb_a_correr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_velocidad"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:addStatesFromChildren="true"
-        android:background="@drawable/run_button"
-        android:focusableInTouchMode="false"
         android:gravity="center_vertical|center_horizontal"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        android:paddingBottom="5dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="5dp">
+        android:layout_centerVertical="true">
 
-        <studios.thinkup.com.apprunning.IconTextView
+        <LinearLayout
+            android:id="@+id/ll_tiempo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageView"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical|center"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_cronometro" />
+
+            <TextView
+                android:id="@+id/txt_tiempo"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
+                android:text="00:00:00"
+
+                android:textAlignment="center"
+                android:textSize="32sp"
+                android:typeface="sans" />
+
+            <studios.thinkup.com.apprunning.IconTextView
+                android:id="@+id/icon_edit_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:gravity="bottom"
+                android:padding="5dp"
+                android:text="@string/icon_edit"
+                android:textColor="#00AAFF"
+                android:textSize="25sp"
+                android:typeface="monospace"
+                android:visibility="invisible">
+
+            </studios.thinkup.com.apprunning.IconTextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lb_a_correr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_below="@+id/ll_velocidad"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:addStatesFromChildren="true"
+            android:background="@drawable/run_button"
+            android:focusableInTouchMode="false"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal"
+            android:padding="5dp"
             android:paddingBottom="5dp"
             android:paddingLeft="15dp"
-            android:paddingTop="5dp"
-            android:text="@string/icon_correr"
-            android:textSize="22sp">
-
-        </studios.thinkup.com.apprunning.IconTextView>
-
-        <TextView
-            android:id="@+id/txt_correr"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:gravity="center_vertical"
-            android:paddingBottom="5dp"
             android:paddingRight="15dp"
-            android:paddingTop="5dp"
-            android:text="a Correr!"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:paddingTop="5dp">
 
-    </LinearLayout>
+            <studios.thinkup.com.apprunning.IconTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="5dp"
+                android:text="@string/icon_correr"
+                android:textSize="22sp"
+                android:id="@+id/">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="fill_parent"
-        android:layout_height="200dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
-        android:background="#10000000"
-        android:padding="5dp"
-        android:src="@drawable/mapa_ejemplo"
-        android:visibility="gone" />
+            </studios.thinkup.com.apprunning.IconTextView>
 
-    <LinearLayout
-        android:id="@+id/ll_velocidad"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/ll_tiempo"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:gravity="left|center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
-        android:visibility="gone">
+            <TextView
+                android:id="@+id/txt_correr"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
+                android:paddingBottom="5dp"
+                android:paddingRight="15dp"
+                android:paddingTop="5dp"
+                android:text="a Correr!"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <studios.thinkup.com.apprunning.IconTextView
-            android:id="@+id/icon_velocidad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
-            android:gravity="bottom"
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:background="#10000000"
             android:padding="5dp"
-            android:text="@string/icon_velocidad"
-            android:textColor="#00AAFF"
-            android:textSize="22sp"
-            android:typeface="monospace">
+            android:src="@drawable/mapa_ejemplo"
+            android:visibility="gone" />
 
-        </studios.thinkup.com.apprunning.IconTextView>
+        <LinearLayout
+            android:id="@+id/ll_velocidad"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/ll_tiempo"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="left|center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:visibility="gone">
 
-        <TextView
-            android:id="@+id/txt_velocidad_promedio"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignBottom="@+id/img_velocidad"
-            android:layout_alignParentTop="false"
-            android:layout_alignTop="@+id/img_velocidad"
-            android:layout_toEndOf="@+id/img_velocidad"
-            android:layout_toRightOf="@+id/img_velocidad"
-            android:gravity="center_vertical|bottom"
-            android:text="10 Km/h"
-            android:textAlignment="center"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-            android:textSize="@dimen/abc_text_size_large_material"
-            android:typeface="sans" />
-    </LinearLayout>
+            <studios.thinkup.com.apprunning.IconTextView
+                android:id="@+id/icon_velocidad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:gravity="bottom"
+                android:padding="5dp"
+                android:text="@string/icon_velocidad"
+                android:textColor="#00AAFF"
+                android:textSize="22sp"
+                android:typeface="monospace">
+
+            </studios.thinkup.com.apprunning.IconTextView>
+
+            <TextView
+                android:id="@+id/txt_velocidad_promedio"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_alignBottom="@+id/img_velocidad"
+                android:layout_alignParentTop="false"
+                android:layout_alignTop="@+id/img_velocidad"
+                android:layout_toEndOf="@+id/img_velocidad"
+                android:layout_toRightOf="@+id/img_velocidad"
+                android:gravity="center_vertical|bottom"
+                android:text="10 Km/h"
+                android:textAlignment="center"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+                android:textSize="@dimen/abc_text_size_large_material"
+                android:typeface="sans" />
+        </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

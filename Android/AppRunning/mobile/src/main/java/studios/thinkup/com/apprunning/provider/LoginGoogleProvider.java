@@ -70,7 +70,9 @@ public class LoginGoogleProvider extends SocialNetwork implements GooglePlayServ
     public boolean isConnected() {
         return this.mSharedPreferences.getBoolean("LoginGoogleProvider.SAVE_STATE_KEY_OAUTH_TOKEN", false);
     }
-
+    public void googleClientReconnect(){
+        this.googleApiClient.connect();
+    }
     public void requestLogin(OnLoginCompleteListener onLoginCompleteListener) {
         super.requestLogin(onLoginCompleteListener);
         this.mConnectRequested = true;
@@ -92,7 +94,20 @@ public class LoginGoogleProvider extends SocialNetwork implements GooglePlayServ
             this.mSharedPreferences.edit().remove("LoginGoogleProvider.SAVE_STATE_KEY_OAUTH_TOKEN").commit();
             Plus.AccountApi.revokeAccessAndDisconnect(this.googleApiClient);
             this.googleApiClient.disconnect();
-            this.googleApiClient.connect();
+
+        }else{
+            this.googleApiClient.registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                @Override
+                public void onConnected(Bundle bundle) {
+                    revoke();
+                }
+
+                @Override
+                public void onConnectionSuspended(int i) {
+
+                }
+            });
+
         }
 
 
@@ -457,7 +472,14 @@ public class LoginGoogleProvider extends SocialNetwork implements GooglePlayServ
 
         this.mConnectRequested = false;
     }
+public void revoke(){
+    if(this.googleApiClient.isConnected()) {
+        this.mSharedPreferences.edit().remove("LoginGoogleProvider.SAVE_STATE_KEY_OAUTH_TOKEN").commit();
+        Plus.AccountApi.revokeAccessAndDisconnect(this.googleApiClient);
+        this.googleApiClient.disconnect();
+    }
 
+}
     public void onDisconnected() {
         this.mConnectRequested = false;
     }
