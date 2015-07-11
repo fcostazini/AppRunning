@@ -202,6 +202,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
                 public void onClick(DialogInterface dialog, int buttonId) {
                     item.setIcon(R.drawable.ic_no_anotado);
                     carrera.setAnotado(false);
+                    carrera.setTiempo(0l);
                     actualizarUsuarioCarrera(carrera, EstadoCarrera.NO_ANOTADO);
                 }
             });
