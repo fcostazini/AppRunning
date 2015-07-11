@@ -17,6 +17,7 @@ import studios.thinkup.com.apprunning.provider.helper.DataBaseHelper;
 public class FiltrosProvider {
     public static final String TODAS_LAS_PROVINCIAS = "Todas las Provincias";
     public static final String TODAS_LAS_CIUDADES = "Todas las Ciudades";
+    public static final String CAPITAL = "Capital Federal";
     private DataBaseHelper dbProvider;
 
     public FiltrosProvider(Context context) {

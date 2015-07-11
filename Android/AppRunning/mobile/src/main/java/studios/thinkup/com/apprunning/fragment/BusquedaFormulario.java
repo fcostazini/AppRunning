@@ -86,7 +86,8 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String provincia = parent.getItemAtPosition(position).toString();
                 BusquedaFormulario.this.filtro.setProvincia(provincia);
-                if (!provincia.equals(FiltrosProvider.TODAS_LAS_PROVINCIAS)) {
+                if (!provincia.equals(FiltrosProvider.TODAS_LAS_PROVINCIAS)
+                        && !provincia.equals(FiltrosProvider.CAPITAL)) {
                     spCiudad.setVisibility(View.VISIBLE);
                     ArrayAdapter<String> adapterZona = new ArrayAdapter<>(BusquedaFormulario.this.getActivity(),
                             android.R.layout.simple_spinner_item, filtrosProvider.getCiudades(provincia));
