@@ -16,6 +16,7 @@ import com.github.gorbin.asne.core.listener.OnLoginCompleteListener;
 import com.github.gorbin.asne.core.listener.OnRequestSocialPersonCompleteListener;
 import com.github.gorbin.asne.core.persons.SocialPerson;
 import com.github.gorbin.asne.facebook.FacebookSocialNetwork;
+import com.github.gorbin.asne.googleplus.GooglePlusSocialNetwork;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -75,7 +76,7 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
             mSocialNetworkManager.addSocialNetwork(fbNetwork);
 
             //Init and add to manager LinkedInSocialNetwork
-            LoginGoogleProvider gpNetwork = new LoginGoogleProvider(this);
+            GooglePlusSocialNetwork gpNetwork = new GooglePlusSocialNetwork(this);
             mSocialNetworkManager.addSocialNetwork(gpNetwork);
 
             //Initiate every network from mSocialNetworkManager
@@ -165,6 +166,12 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
 
     private void startProfile(int networkId) {
         socialNetwork = MainFragment.mSocialNetworkManager.getSocialNetwork(networkId);
+            socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
+            socialNetwork.requestCurrentPerson();
+    }
+
+    @Override
+    public void onRequestSocialPersonSuccess(int i, SocialPerson socialPerson) {
         if (this.getActivity() != null &&
                 this.getActivity().getIntent() != null &&
                 this.getActivity().getIntent().getExtras() != null &&
@@ -173,44 +180,35 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
             this.getActivity().getIntent().getExtras().remove("LOGOUT");
             MainActivity.hideProgress();
             socialNetwork.logout();
-            Intent i = new Intent(this.getActivity(), MainActivity.class);
-            this.getActivity().startActivity(i);
+            Intent intent = new Intent(this.getActivity(), MainActivity.class);
+            this.getActivity().startActivity(intent);
             this.getActivity().finish();
 
         } else {
 
-            socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
-            socialNetwork.requestCurrentPerson();
-        }
+            MainActivity.hideProgress();
+            if (socialPerson == null) {
 
-    }
-
-    @Override
-    public void onRequestSocialPersonSuccess(int i, SocialPerson socialPerson) {
-
-        MainActivity.hideProgress();
-        if (socialPerson == null) {
-
-        } else {
-            IUsuarioProvider usuarioPovider = new UsuarioProvider(this.getActivity());
-            UsuarioApp u = usuarioPovider.getUsuarioByEmail(socialPerson.email);
-            if (u == null) {
-                u = new UsuarioApp();
-                u.setNombre(socialPerson.name);
-                u.setEmail(socialPerson.email);
-                u.setTipoCuenta(String.valueOf(socialNetwork.getID()));
-                try {
-                    usuarioPovider.grabar(u);
-                } catch (EntidadNoGuardadaException e) {
-                    socialNetwork.cancelAll();
-                    socialNetwork.logout();
-                    Toast.makeText(this.getActivity(), "No se puede crear un usuario", Toast.LENGTH_LONG);
+            } else {
+                IUsuarioProvider usuarioPovider = new UsuarioProvider(this.getActivity());
+                UsuarioApp u = usuarioPovider.getUsuarioByEmail(socialPerson.email);
+                if (u == null) {
+                    u = new UsuarioApp();
+                    u.setNombre(socialPerson.name);
+                    u.setEmail(socialPerson.email);
+                    u.setTipoCuenta(String.valueOf(socialNetwork.getID()));
+                    try {
+                        usuarioPovider.grabar(u);
+                    } catch (EntidadNoGuardadaException e) {
+                        socialNetwork.cancelAll();
+                        socialNetwork.logout();
+                        Toast.makeText(this.getActivity(), "No se puede crear un usuario", Toast.LENGTH_LONG);
+                    }
                 }
+                Intent intent = new Intent(this.getActivity(), RecomendadosActivity.class);
+                ((RunningApplication) this.getActivity().getApplication()).setUsuario(u);
+                startActivity(intent);
             }
-            Intent intent = new Intent(this.getActivity(), RecomendadosActivity.class);
-            ((RunningApplication) this.getActivity().getApplication()).setUsuario(u);
-            startActivity(intent);
         }
-
     }
 }
