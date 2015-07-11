@@ -54,5 +54,5 @@
     <string name="que_distancia_recorres">Que distancia vas a ReCorrer?</string>
     <string name="confirmar_Desanotar">Está seguro que desea borrar la inscripción de la carrera?</string>
     <string name="confirmar_no_corrida">Está por desmarcar la carrera como \"Corrida\". Se borrarán todos los datos asociados a la carrera. Desea continuar?</string>
-    <string name="app_version">Versión 0.0.16</string>
+    <string name="app_version">Versión 0.0.17</string>
 </resources>

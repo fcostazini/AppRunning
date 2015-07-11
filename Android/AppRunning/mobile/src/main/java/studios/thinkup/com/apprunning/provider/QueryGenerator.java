@@ -85,7 +85,7 @@ public class QueryGenerator {
 
     private String getFechaRange(String field, Date min, Date max) {
         String resultado = "";
-        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
         if(min == null && max == null){
             return resultado;
         }

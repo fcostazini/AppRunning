@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.edmodo.rangebar.RangeBar;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -226,11 +227,19 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
         public void onClick(View v) {
             DatePicker newFragment = new DatePicker();
             if (v.getId() == R.id.txt_fecha_desde || v.getId() == R.id.img_fecha_desde) {
+
                 newFragment.setMaxDate(BusquedaFormulario.this.filtro.getFechaHasta());
                 newFragment.setListener(new FechaDesdeListener(BusquedaFormulario.this.filtro, fechaToUpdate));
             } else {
                 newFragment.setMinDate(BusquedaFormulario.this.filtro.getFechaDesde());
                 newFragment.setListener(new FechaHastaListener(BusquedaFormulario.this.filtro, fechaToUpdate));
+
+            }
+            SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
+            try {
+                newFragment.setInitialDate(sf.parse(fechaToUpdate.getText().toString()));
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
             newFragment.show(BusquedaFormulario.this.getActivity().getSupportFragmentManager(), "datePicker");
 
@@ -253,6 +262,9 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
             c.set(Calendar.YEAR, year);
             c.set(Calendar.MONTH, monthOfYear);
             c.set(Calendar.DATE, dayOfMonth);
+            c.set(Calendar.HOUR_OF_DAY, 0);
+            c.set(Calendar.MINUTE, 0);
+            c.set(Calendar.SECOND, 0);
             SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             this.text.setText(sf.format(c.getTime()));
             this.filtro.setFechaDesde(c.getTime());
@@ -275,6 +287,9 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
             c.set(Calendar.YEAR, year);
             c.set(Calendar.MONTH, monthOfYear);
             c.set(Calendar.DATE, dayOfMonth);
+            c.set(Calendar.HOUR_OF_DAY, 23);
+            c.set(Calendar.MINUTE, 59);
+            c.set(Calendar.SECOND, 59);
             SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             this.text.setText(sf.format(c.getTime()));
             this.filtro.setFechaHasta(c.getTime());

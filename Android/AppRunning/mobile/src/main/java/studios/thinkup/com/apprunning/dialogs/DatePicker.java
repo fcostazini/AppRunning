@@ -19,7 +19,11 @@ public class DatePicker extends DialogFragment {
     private DatePickerDialog.OnDateSetListener listener;
     private Date minDate;
     private Date maxDate;
+    private Date initDate;
 
+    public void setInitialDate(final Date date){
+        this.initDate = date;
+    }
     public Date getMinDate() {
         return minDate;
     }
@@ -48,8 +52,8 @@ public class DatePicker extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker
         final Calendar c = Calendar.getInstance();
-        if(this.getMinDate()!=null)
-            c.setTime(this.getMinDate());
+        if(this.initDate!=null)
+            c.setTime(this.initDate);
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
