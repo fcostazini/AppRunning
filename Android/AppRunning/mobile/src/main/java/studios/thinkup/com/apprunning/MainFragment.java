@@ -25,7 +25,7 @@ import java.util.List;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
-import studios.thinkup.com.apprunning.provider.LoginGoogleProvider;
+
 import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 
@@ -129,7 +129,7 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
                     networkId = FacebookSocialNetwork.ID;
                     break;
                 case R.id.googleplus:
-                    networkId = LoginGoogleProvider.ID;
+                    networkId = GooglePlusSocialNetwork.ID;
                     break;
             }
             SocialNetwork socialNetwork = mSocialNetworkManager.getSocialNetwork(networkId);
