@@ -103,8 +103,6 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
                     getView().setBackgroundResource(R.drawable.app_background);
                 }
                 startProfile(socialNetwork.getID());
-
-
             }
 
     }
@@ -132,22 +130,24 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
                     networkId = GooglePlusSocialNetwork.ID;
                     break;
             }
-            SocialNetwork socialNetwork = mSocialNetworkManager.getSocialNetwork(networkId);
-            if (!socialNetwork.isConnected()) {
-                if (networkId != 0) {
-                    socialNetwork.requestLogin();
-                    if(getView()!= null) {
-                        getView().findViewById(R.id.login_buttons).setVisibility(View.GONE);
-                        getView().setBackgroundResource(R.drawable.app_background);
+
+                SocialNetwork socialNetwork = mSocialNetworkManager.getSocialNetwork(networkId);
+                if (!socialNetwork.isConnected()) {
+                    if (networkId != 0) {
+                        socialNetwork.requestLogin();
+                        if (getView() != null) {
+                            getView().findViewById(R.id.login_buttons).setVisibility(View.GONE);
+                            getView().setBackgroundResource(R.drawable.app_background);
+                        }
+                    } else {
+                        Toast.makeText(getActivity(), "Wrong networkId", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(getActivity(), "Wrong networkId", Toast.LENGTH_LONG).show();
-                }
-            } else {
 
-                startProfile(socialNetwork.getID());
+                    startProfile(socialNetwork.getID());
+                }
             }
-        }
+
     };
 
     @Override

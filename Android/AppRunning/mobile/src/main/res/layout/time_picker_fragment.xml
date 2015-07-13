@@ -62,7 +62,6 @@
         android:gravity="center_vertical|center_horizontal"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="30dp">
 
         <studios.thinkup.com.apprunning.IconTextView
