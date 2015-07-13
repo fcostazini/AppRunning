@@ -2,12 +2,14 @@ package studios.thinkup.com.apprunning;
 
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.github.gorbin.asne.core.SocialNetwork;
@@ -59,7 +61,9 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
         googleplus.setOnClickListener(loginClick);
 
         rootView.findViewById(R.id.login_buttons).setVisibility(View.VISIBLE);
-        rootView.setBackgroundResource(R.drawable.background_login);
+        ImageView i = (ImageView)rootView.findViewById(R.id.background);
+        i.setImageResource(R.drawable.loggin_bg);
+        i.setAlpha(0.15f);
         //Chose permissions
         ArrayList<String> fbScope = new ArrayList<String>();
         fbScope.addAll(Arrays.asList("public_profile, email, user_friends"));
@@ -100,7 +104,9 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
             if (socialNetwork.isConnected()) {
                 if(getView()!=null){
                     getView().findViewById(R.id.login_buttons).setVisibility(View.GONE);
-                    getView().setBackgroundResource(R.drawable.app_background);
+                    ImageView i = (ImageView) getView().findViewById(R.id.background);
+                    i.setImageResource(R.drawable.app_logo);
+                    i.setAlpha(1f);
                 }
                 startProfile(socialNetwork.getID());
             }
@@ -137,7 +143,9 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
                         socialNetwork.requestLogin();
                         if (getView() != null) {
                             getView().findViewById(R.id.login_buttons).setVisibility(View.GONE);
-                            getView().setBackgroundResource(R.drawable.app_background);
+                            ImageView i = (ImageView) getView().findViewById(R.id.background);
+                            i.setImageResource(R.drawable.app_logo);
+                            i.setAlpha(1f);
                         }
                     } else {
                         Toast.makeText(getActivity(), "Wrong networkId", Toast.LENGTH_LONG).show();
