@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -149,6 +150,10 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         this.dialog = new Dialog(this.getActivity());
         dialog.setContentView(R.layout.time_picker_fragment);
         dialog.setTitle("Ingrese su tiempo");
+        dialog.getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 
         // set the custom dialog components - text, image and button
         CustomNumberPickerView hr = (CustomNumberPickerView) dialog.findViewById(R.id.np_hr);

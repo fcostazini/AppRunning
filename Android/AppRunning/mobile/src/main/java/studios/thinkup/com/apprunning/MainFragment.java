@@ -68,7 +68,7 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
         mSocialNetworkManager = (SocialNetworkManager) getFragmentManager().findFragmentByTag(MainActivity.SOCIAL_NETWORK_TAG);
 
         //Check if manager exist
-        if (mSocialNetworkManager == null) {
+        if (mSocialNetworkManager == null || mSocialNetworkManager.getInitializedSocialNetworks().isEmpty()) {
             mSocialNetworkManager = new SocialNetworkManager();
 
             //Init and add to manager FacebookSocialNetwork
