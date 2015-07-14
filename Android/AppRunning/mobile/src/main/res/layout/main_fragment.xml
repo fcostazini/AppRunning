@@ -10,7 +10,8 @@
         android:id="@+id/background"
         android:src="@drawable/loggin_bg"
         android:alpha="0.15"
-        android:scaleType="fitXY" />
+        android:scaleType="center"
+        android:background="#9000000" />
     <LinearLayout
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"

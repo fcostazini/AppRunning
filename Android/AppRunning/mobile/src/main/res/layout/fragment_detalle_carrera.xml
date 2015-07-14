@@ -9,8 +9,8 @@
         android:layout_height="fill_parent"
         android:id="@+id/background"
         android:src="@drawable/detalle_bg"
-        android:alpha="0.15"
-        android:scaleType="center" />
+        android:alpha="0.35"
+        android:scaleType="fitCenter" />
 
     <ScrollView
         android:layout_width="wrap_content"

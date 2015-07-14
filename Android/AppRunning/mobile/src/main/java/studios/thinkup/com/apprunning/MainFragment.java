@@ -63,7 +63,7 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
         rootView.findViewById(R.id.login_buttons).setVisibility(View.VISIBLE);
         ImageView i = (ImageView)rootView.findViewById(R.id.background);
         i.setImageResource(R.drawable.loggin_bg);
-        i.setAlpha(0.15f);
+        i.setAlpha(0.25f);
         //Chose permissions
         ArrayList<String> fbScope = new ArrayList<String>();
         fbScope.addAll(Arrays.asList("public_profile, email, user_friends"));

@@ -1,6 +1,7 @@
 package studios.thinkup.com.apprunning.fragment;
 
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -147,6 +148,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
     @Override
     public void onClick(View v) {
 // custom dialog
+
         this.dialog = new Dialog(this.getActivity());
         dialog.setContentView(R.layout.time_picker_fragment);
         dialog.setTitle("Ingrese su tiempo");
