@@ -9,14 +9,10 @@ import android.widget.ListView;
 import java.util.List;
 
 import studios.thinkup.com.apprunning.DetalleCarreraActivity;
-import studios.thinkup.com.apprunning.adapter.CarreraListAdapter;
 import studios.thinkup.com.apprunning.adapter.TiempoCarreraListAdapter;
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.RunningApplication;
-import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
-import studios.thinkup.com.apprunning.provider.CarreraCabeceraProvider;
-import studios.thinkup.com.apprunning.provider.ICarreraCabeceraProvider;
 import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
 
@@ -26,18 +22,18 @@ import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
  * <p/>
  * interface.
  */
-public class TiemposCarrerasFragment extends ListFragment {
+public class TiemposCarrerasFragment extends FilteredFragment {
 
 
-    private Filtro filtro;
-    public String getIdFragment(){
+    @Override
+    public String getIdFragment() {
         return "TODOS";
     }
 
     public static TiemposCarrerasFragment newInstance(Filtro filtro) {
         TiemposCarrerasFragment fragment = new TiemposCarrerasFragment();
         Bundle args = new Bundle();
-        args.putSerializable(Filtro.class.getSimpleName() + fragment.getIdFragment(),  filtro);
+        args.putSerializable(Filtro.class.getSimpleName() + fragment.getIdFragment(), filtro);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,33 +50,18 @@ public class TiemposCarrerasFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        if (getArguments() != null) {
-            filtro = (Filtro) getArguments().getSerializable(Filtro.class.getSimpleName() +this.getIdFragment());
-        }
-        if(this.filtro == null){
-            filtro = new Filtro(((RunningApplication) this.getActivity().getApplication()).getDefaultSettings());
-        }
-        IUsuarioCarreraProvider carrerasProvider = new UsuarioCarreraProvider(getActivity(),(int)filtro.getIdUsuario());
-        List<UsuarioCarrera> resultados = carrerasProvider.findTiemposByFiltro(this.filtro);
-        setListAdapter(new TiempoCarreraListAdapter(this.getActivity(),
-                resultados));
-
-
-
+        IUsuarioCarreraProvider carrerasProvider = new UsuarioCarreraProvider(getActivity(), (int) this.getFiltro().getIdUsuario());
+        List<UsuarioCarrera> resultados = carrerasProvider.findTiemposByFiltro(this.getFiltro());
+        TiempoCarreraListAdapter adapter = new TiempoCarreraListAdapter(this.getActivity(),
+                resultados);
+        setListAdapter(adapter);
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        getListView().setDividerHeight(0);
-        getListView().setDivider(null);
-    }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        UsuarioCarrera c = (UsuarioCarrera)l.getItemAtPosition(position);
+        UsuarioCarrera c = (UsuarioCarrera) l.getItemAtPosition(position);
         Intent intent = new Intent(this.getActivity(), DetalleCarreraActivity.class);
         Bundle b = new Bundle();
         b.putInt(UsuarioCarrera.class.getSimpleName(), c.getCodigoCarrera()); //Your id
@@ -88,17 +69,4 @@ public class TiemposCarrerasFragment extends ListFragment {
         startActivity(intent);
 
     }
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(this.filtro != null){
-
-            IUsuarioCarreraProvider carrerasProvider = new UsuarioCarreraProvider(getActivity(),(int)filtro.getIdUsuario());
-            List<UsuarioCarrera> resultados = carrerasProvider.findTiemposByFiltro(this.filtro);
-            setListAdapter(new TiempoCarreraListAdapter(this.getActivity(),
-                    resultados));
-            this.getListView().invalidateViews();
-
-        }
-    }
-   }
+}

@@ -24,18 +24,15 @@ import studios.thinkup.com.apprunning.provider.ICarreraCabeceraProvider;
  * <p/>
  * interface.
  */
-public class CarrerasResultadoFragment extends ListFragment {
-
-
-    private Filtro filtro;
-    public String getIdFragment(){
+public class CarrerasResultadoFragment extends FilteredFragment {
+    public String getIdFragment() {
         return "TODOS";
     }
 
     public static CarrerasResultadoFragment newInstance(Filtro filtro) {
         CarrerasResultadoFragment fragment = new CarrerasResultadoFragment();
         Bundle args = new Bundle();
-        args.putSerializable(Filtro.class.getSimpleName() + fragment.getIdFragment(),  filtro);
+        args.putSerializable(Filtro.class.getSimpleName() + fragment.getIdFragment(), filtro);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,34 +49,17 @@ public class CarrerasResultadoFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ICarreraCabeceraProvider carrerasProvider = new CarreraCabeceraProvider(this.getActivity());
-
-        if (getArguments() != null) {
-            filtro = (Filtro) getArguments().getSerializable(Filtro.class.getSimpleName() +this.getIdFragment());
-        }
-        if(this.filtro == null){
-            filtro = new Filtro(((RunningApplication) this.getActivity().getApplication()).getDefaultSettings());
-        }
-        List<CarreraCabecera> resultados = carrerasProvider.getCarrerasByFiltro(this.filtro);
-        // TODO: Change Adapter to display your content
-
+        List<CarreraCabecera> resultados = carrerasProvider.getCarrerasByFiltro(this.getFiltro());
         setListAdapter(new CarreraListAdapter(this.getActivity(),
                 resultados));
 
 
-
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        getListView().setDividerHeight(0);
-        getListView().setDivider(null);
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        CarreraCabecera c = (CarreraCabecera)l.getItemAtPosition(position);
+        CarreraCabecera c = (CarreraCabecera) l.getItemAtPosition(position);
         Intent intent = new Intent(this.getActivity(), DetalleCarreraActivity.class);
         Bundle b = new Bundle();
         b.putInt(UsuarioCarrera.class.getSimpleName(), c.getCodigoCarrera()); //Your id
@@ -87,16 +67,5 @@ public class CarrerasResultadoFragment extends ListFragment {
         startActivity(intent);
 
     }
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(this.filtro != null){
-            ICarreraCabeceraProvider cp = new CarreraCabeceraProvider(this.getActivity());
-            List<CarreraCabecera> resultados = cp.getCarrerasByFiltro(this.filtro);
 
-            this.setListAdapter(new CarreraListAdapter(this.getActivity(),resultados));
-            this.getListView().invalidateViews();
-
-        }
-    }
-   }
+}

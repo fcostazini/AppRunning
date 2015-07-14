@@ -24,20 +24,12 @@ import studios.thinkup.com.apprunning.provider.ICarreraCabeceraProvider;
  * Created by fcostazini on 26/05/2015.
  * Fragmento Recomendados
  */
-public class RecomendadosFragment extends ListFragment {
-
-    private ICarreraCabeceraProvider carrerasProvider;
-    private Filtro filtro;
-    private ListAdapter adapter;
-
+public class RecomendadosFragment extends FilteredFragment {
 
 
     public static RecomendadosFragment newInstance() {
-
         RecomendadosFragment fragment = new RecomendadosFragment();
-
         Bundle args = new Bundle();
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,10 +45,9 @@ public class RecomendadosFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.carrerasProvider = new CarreraCabeceraProvider(this.getActivity());
-        filtro = new Filtro(((RunningApplication)this.getActivity().getApplication()).getDefaultSettings());
+        CarreraCabeceraProvider carrerasProvider = new CarreraCabeceraProvider(this.getActivity());
         List<CarreraCabecera> resultados = carrerasProvider.getCarrerasRecomendadas();
-        adapter =new CarreraListAdapter(this.getActivity(),resultados);
+        ListAdapter adapter = new CarreraListAdapter(this.getActivity(), resultados);
 
         setListAdapter(adapter);
 
@@ -64,33 +55,19 @@ public class RecomendadosFragment extends ListFragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        getListView().setDividerHeight(0);
-        getListView().setDivider(null);
+    public String getIdFragment() {
+        return "recomendados";
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-
-        Intent i = new Intent(this.getActivity(), DetalleCarreraActivity.class);
-        CarreraCabecera c = (CarreraCabecera)l.getItemAtPosition(position);
+        CarreraCabecera c = (CarreraCabecera) l.getItemAtPosition(position);
         Intent intent = new Intent(this.getActivity(), DetalleCarreraActivity.class);
         Bundle b = new Bundle();
         b.putInt(UsuarioCarrera.class.getSimpleName(), c.getCodigoCarrera()); //Your id
         intent.putExtras(b); //Put your id to your next Intent
         startActivity(intent);
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-            List<CarreraCabecera> resultados = this.carrerasProvider.getCarrerasRecomendadas();
-            this.adapter = new CarreraListAdapter(this.getActivity(),resultados);
-            this.setListAdapter(this.adapter);
-            this.getListView().invalidateViews();
 
     }
 }

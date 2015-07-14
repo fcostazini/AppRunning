@@ -19,18 +19,20 @@ public class TiemposCarrerasActivity extends MainNavigationActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Get the ViewPager and set it's PagerAdapter so that it can display items
-        if( getIntent().getExtras() != null && getIntent().getSerializableExtra(Filtro.class.getSimpleName()) != null) {
-            this.filtro = (Filtro) getIntent().getExtras().getSerializable(Filtro.class.getSimpleName());
-        }else{
-            this.filtro = new Filtro(((RunningApplication)this.getApplication()).getDefaultSettings());
+        if(savedInstanceState == null) {
+            // Get the ViewPager and set it's PagerAdapter so that it can display items
+            if (getIntent().getExtras() != null && getIntent().getSerializableExtra(Filtro.class.getSimpleName()) != null) {
+                this.filtro = (Filtro) getIntent().getExtras().getSerializable(Filtro.class.getSimpleName());
+            } else {
+                this.filtro = new Filtro(((RunningApplication) this.getApplication()).getDefaultSettings());
+            }
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            this.filtro.setIdUsuario(((RunningApplication) getApplication()).getUsuario().getId());
+            TiemposCarrerasFragment fragment = TiemposCarrerasFragment.newInstance(this.filtro);
+            fragmentTransaction.add(R.id.content_fragment, fragment);
+            fragmentTransaction.commit();
         }
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        this.filtro.setIdUsuario(((RunningApplication)getApplication()).getUsuario().getId());
-        TiemposCarrerasFragment fragment = TiemposCarrerasFragment.newInstance(this.filtro);
-        fragmentTransaction.add(R.id.content_fragment, fragment);
-        fragmentTransaction.commit();
 
     }
 
