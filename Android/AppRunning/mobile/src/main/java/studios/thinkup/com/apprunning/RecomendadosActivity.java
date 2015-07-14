@@ -14,14 +14,16 @@ public class RecomendadosActivity extends DrawerPagerActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new RecomendadosPagerAdapter(getSupportFragmentManager()));
-        viewPager.setBackgroundResource(R.drawable.path);
-        viewPager.getBackground().setAlpha(130);
-        // Give the PagerSlidingTabStrip the ViewPager
-        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        // Attach the view pager to the tab strip
-        tabsStrip.setViewPager(viewPager);
+        if(savedInstanceState == null) {
+            viewPager = (ViewPager) findViewById(R.id.viewpager);
+            viewPager.setAdapter(new RecomendadosPagerAdapter(getSupportFragmentManager()));
+            viewPager.setBackgroundResource(R.drawable.path);
+            viewPager.getBackground().setAlpha(130);
+            // Give the PagerSlidingTabStrip the ViewPager
+            PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+            // Attach the view pager to the tab strip
+            tabsStrip.setViewPager(viewPager);
+        }
     }
 
     @Override

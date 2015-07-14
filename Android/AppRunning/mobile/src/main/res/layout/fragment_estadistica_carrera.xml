@@ -23,11 +23,12 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imageView"
-            android:layout_marginBottom="10dp"
             android:gravity="center_vertical|center"
             android:orientation="horizontal"
             android:paddingBottom="5dp"
-            android:paddingTop="5dp">
+            android:paddingTop="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
 
             <ImageView
                 android:layout_width="50dp"
@@ -37,23 +38,192 @@
                 android:layout_marginRight="10dp"
                 android:src="@drawable/ic_cronometro" />
 
-            <TextView
-                android:id="@+id/txt_tiempo"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:gravity="center_vertical"
-                android:text="00:00:00"
+                android:layout_height="wrap_content">
 
-                android:textAlignment="center"
-                android:textSize="32sp"
-                android:typeface="sans" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00"
+                    android:id="@+id/txt_hs"
+                    android:textSize="32sp"
+                    android:textAlignment="center"
+                    android:typeface="sans"
+                    android:layout_marginRight="5dp"
+                    android:layout_alignParentStart="false"
+                    android:layout_alignParentLeft="false"
+                    android:layout_alignParentTop="false"
+                    android:layout_below="@+id/icon_plus_hs"
+                    android:gravity="center"
+                    android:padding="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:id="@+id/txt_1"
+                    android:textSize="32sp"
+                    android:textAlignment="center"
+                    android:typeface="sans"
+                    android:layout_toRightOf="@+id/txt_hs"
+                    android:layout_alignBottom="@+id/txt_hs"
+                    android:layout_alignTop="@+id/txt_hs" />
+
+                <TextView
+                    android:id="@+id/txt_min"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|center"
+                    android:text="00"
+
+                    android:textAlignment="center"
+                    android:textSize="32sp"
+                    android:typeface="sans"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_toRightOf="@+id/txt_1"
+                    android:layout_alignBottom="@+id/txt_hs"
+                    android:padding="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:id="@+id/txt_2"
+                    android:textSize="32sp"
+                    android:textAlignment="center"
+                    android:typeface="sans"
+                    android:layout_toRightOf="@+id/txt_min"
+                    android:layout_alignBottom="@+id/txt_hs" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00"
+                    android:id="@+id/txt_sec"
+                    android:textSize="32sp"
+                    android:textAlignment="center"
+                    android:typeface="sans"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/txt_2"
+                    android:layout_alignBottom="@+id/txt_hs"
+                    android:gravity="center"
+                    android:padding="5dp" />
+                <studios.thinkup.com.apprunning.IconTextView
+                    android:id="@+id/icon_plus_hs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/icon_plus_square"
+                    android:textColor="#00AAFF"
+                    android:textSize="32dp"
+                    android:typeface="monospace"
+                    android:visibility="invisible"
+                    android:layout_alignLeft="@+id/txt_hs"
+                    android:layout_alignRight="@+id/txt_hs"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:textAlignment="center">
+
+                </studios.thinkup.com.apprunning.IconTextView>
+                <studios.thinkup.com.apprunning.IconTextView
+                    android:id="@+id/icon_plus_min"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/icon_plus_square"
+                    android:textColor="#00AAFF"
+                    android:textSize="32dp"
+                    android:typeface="monospace"
+                    android:visibility="invisible"
+                    android:layout_alignRight="@+id/txt_min"
+                    android:layout_alignLeft="@+id/txt_min"
+                    android:padding="5dp"
+                    android:gravity="center">
+
+                </studios.thinkup.com.apprunning.IconTextView>
+                <studios.thinkup.com.apprunning.IconTextView
+                    android:id="@+id/icon_plus_sec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@string/icon_plus_square"
+                    android:textColor="#00AAFF"
+                    android:textSize="32dp"
+                    android:typeface="monospace"
+                    android:visibility="invisible"
+                    android:gravity="center"
+                    android:layout_alignLeft="@+id/txt_sec"
+                    android:layout_alignRight="@+id/txt_sec">
+
+                </studios.thinkup.com.apprunning.IconTextView>
+                <studios.thinkup.com.apprunning.IconTextView
+                    android:id="@+id/icon_minus_hs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/icon_minus_square"
+                    android:textColor="#00AAFF"
+                    android:textSize="32dp"
+                    android:typeface="monospace"
+                    android:visibility="invisible"
+                    android:layout_alignLeft="@+id/txt_hs"
+                    android:layout_alignRight="@+id/txt_hs"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="false"
+                    android:layout_alignParentLeft="false"
+                    android:textAlignment="center"
+                    android:layout_below="@+id/txt_hs"
+                    android:textStyle="bold"
+                    android:layout_marginTop="5dp">
+
+                </studios.thinkup.com.apprunning.IconTextView>
+                <studios.thinkup.com.apprunning.IconTextView
+                    android:id="@+id/icon_minus_min"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/icon_minus_square"
+                    android:textColor="#00AAFF"
+                    android:textSize="32dp"
+                    android:typeface="monospace"
+                    android:visibility="invisible"
+                    android:layout_alignRight="@+id/txt_min"
+                    android:layout_alignLeft="@+id/txt_min"
+                    android:padding="5dp"
+                    android:gravity="center"
+                    android:layout_below="@+id/txt_min"
+                    android:textStyle="bold"
+                    android:layout_marginTop="5dp">
+
+                </studios.thinkup.com.apprunning.IconTextView>
+                <studios.thinkup.com.apprunning.IconTextView
+                    android:id="@+id/icon_minus_sec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@string/icon_minus_square"
+                    android:textColor="#00AAFF"
+                    android:textSize="32dp"
+                    android:typeface="monospace"
+                    android:visibility="invisible"
+                    android:gravity="center"
+                    android:layout_alignLeft="@+id/txt_sec"
+                    android:layout_alignRight="@+id/txt_sec"
+                    android:layout_below="@+id/txt_sec"
+                    android:textStyle="bold"
+                    android:layout_marginTop="5dp">
+
+                </studios.thinkup.com.apprunning.IconTextView>
+            </RelativeLayout>
 
             <studios.thinkup.com.apprunning.IconTextView
                 android:id="@+id/icon_edit_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"
                 android:gravity="bottom"
                 android:padding="5dp"
                 android:text="@string/icon_edit"
@@ -61,6 +231,21 @@
                 android:textSize="25sp"
                 android:typeface="monospace"
                 android:visibility="invisible">
+
+            </studios.thinkup.com.apprunning.IconTextView>
+            <studios.thinkup.com.apprunning.IconTextView
+                android:id="@+id/icon_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:gravity="bottom"
+                android:padding="5dp"
+                android:text="@string/icon_cancel"
+                android:textColor="#00AAFF"
+                android:textSize="25sp"
+                android:typeface="monospace"
+                android:visibility="gone"
+                android:layout_marginRight="10dp">
 
             </studios.thinkup.com.apprunning.IconTextView>
         </LinearLayout>

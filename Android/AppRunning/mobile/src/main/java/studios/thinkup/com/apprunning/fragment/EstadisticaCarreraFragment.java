@@ -39,15 +39,17 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
     private LinearLayout aCorrer;
     private UsuarioProvider usuarioProvider;
     private Dialog dialog;
-    private TextView tiempo;
     private IconTextView editar;
     private IUsuarioCarreraObservable usuarioObservable;
+
     public EstadisticaCarreraFragment() {
         // Required empty public constructor
     }
-    public void setObservable(IUsuarioCarreraObservable usuarioObservable){
+
+    public void setObservable(IUsuarioCarreraObservable usuarioObservable) {
         this.usuarioObservable = usuarioObservable;
     }
+
     public static EstadisticaCarreraFragment newInstance(int idCarrera) {
         EstadisticaCarreraFragment fragment = new EstadisticaCarreraFragment();
         Bundle args = new Bundle();
@@ -69,7 +71,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         View rootView = inflater.inflate(R.layout.fragment_estadistica_carrera, container, false);
 
 
-        if(this.usuarioObservable == null){
+        if (this.usuarioObservable == null) {
             this.usuarioObservable = (IUsuarioCarreraObservable) this.getActivity();
         }
         initView(rootView);
@@ -115,20 +117,39 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         this.aCorrer = (LinearLayout) rootView.findViewById(R.id.lb_a_correr);
         editar.setOnClickListener(this);
         updateEstadoEdicionTiempo();
-
+        actualizarValores(rootView);
         Typeface type = TypefaceProvider.getInstance(this.getActivity()).getTypeface(TypefaceProvider.DIGIT);
-        this.tiempo = (TextView) rootView.findViewById(R.id.txt_tiempo);
+        TextView hsText = (TextView) rootView.findViewById(R.id.txt_hs);
+        TextView secText = (TextView) rootView.findViewById(R.id.txt_sec);
+        TextView minText = (TextView) rootView.findViewById(R.id.txt_min);
 
-        actualizarValores();
-        tiempo.setTypeface(type);
+        IconTextView plusHsText = (IconTextView) rootView.findViewById(R.id.icon_plus_hs);
+        IconTextView plusMinText = (IconTextView) rootView.findViewById(R.id.icon_plus_min);
+        IconTextView plusSecText = (IconTextView) rootView.findViewById(R.id.icon_plus_sec);
+        IconTextView minusHsText = (IconTextView) rootView.findViewById(R.id.icon_minus_hs);
+        IconTextView minusMinText = (IconTextView) rootView.findViewById(R.id.icon_minus_min);
+        IconTextView minusSecText = (IconTextView) rootView.findViewById(R.id.icon_minus_sec);
+
+        plusHsText.setOnTouchListener(new AddTimeListener(hsText, 99, false));
+        plusMinText.setOnTouchListener(new AddTimeListener(minText));
+        plusSecText.setOnTouchListener(new AddTimeListener(secText));
+        minusHsText.setOnTouchListener(new AddTimeListener(hsText, 99, true));
+        minusMinText.setOnTouchListener(new AddTimeListener(minText, 60, true));
+        minusSecText.setOnTouchListener(new AddTimeListener(secText, 60, true));
+
+        hsText.setTypeface(type);
+        secText.setTypeface(type);
+        minText.setTypeface(type);
+
+
     }
 
     private void updateEstadoEdicionTiempo() {
         editar.setVisibility(View.INVISIBLE);
         aCorrer.setVisibility(View.GONE);
-        if (this.usuarioObservable.getUsuarioCarrera().isAnotado()){
-            if(!this.usuarioObservable.getUsuarioCarrera().isCorrida() &&
-                    this.usuarioObservable.getUsuarioCarrera().getTiempo() <= 0){
+        if (this.usuarioObservable.getUsuarioCarrera().isAnotado()) {
+            if (!this.usuarioObservable.getUsuarioCarrera().isCorrida() &&
+                    this.usuarioObservable.getUsuarioCarrera().getTiempo() <= 0) {
                 aCorrer.setVisibility(View.VISIBLE);
             }
             editar.setVisibility(View.VISIBLE);
@@ -147,66 +168,33 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
 
     @Override
     public void onClick(View v) {
-// custom dialog
 
-        this.dialog = new Dialog(this.getActivity());
-        dialog.setContentView(R.layout.time_picker_fragment);
-        dialog.setTitle("Ingrese su tiempo");
-        dialog.getWindow().setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        
 
 
-        // set the custom dialog components - text, image and button
-        CustomNumberPickerView hr = (CustomNumberPickerView) dialog.findViewById(R.id.np_hr);
-
-        CustomNumberPickerView min = (CustomNumberPickerView) dialog.findViewById(R.id.np_min);
-        CustomNumberPickerView sec = (CustomNumberPickerView) dialog.findViewById(R.id.np_sec);
-
-        hr.setNumeroVal((int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() / 3600000));
-        min.setNumeroVal((int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - hr.getNumeroVal() * 3600000) / 60000);
-        sec.setNumeroVal((int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - hr.getNumeroVal() * 3600000 - min.getNumeroVal() * 60000) / 1000);
-
-
-
-        IconTextView dialogOk = (IconTextView) dialog.findViewById(R.id.ic_save);
-        IconTextView dialogCancel = (IconTextView) dialog.findViewById(R.id.ic_cancel);
-        dialogCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        // if button is clicked, close the custom dialog
-        dialogOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int h = ((CustomNumberPickerView) dialog.findViewById(R.id.np_hr)).getNumeroVal();
-                int m = ((CustomNumberPickerView) dialog.findViewById(R.id.np_min)).getNumeroVal();
-                int s = ((CustomNumberPickerView) dialog.findViewById(R.id.np_sec)).getNumeroVal();
-
-                long tiempo = (s * 1000) + (m * 60000) + (h * 3600000);
-                EstadisticaCarreraFragment.this.usuarioObservable.getUsuarioCarrera().setTiempo(tiempo);
-                actualizarValores();
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
     }
 
-    private void actualizarValores() {
+    private void actualizarValores(View view) {
         if (this.usuarioObservable.getUsuarioCarrera().getTiempo() >= 0) {
             int h = (int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() / 3600000);
             int m = (int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - h * 3600000) / 60000;
             int s = (int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - h * 3600000 - m * 60000) / 1000;
 
-            String tiempoStr = (h < 10 ? "0" + h : h + "");
-            tiempoStr += ":" + (m < 10 ? "0" + m : m + "");
-            tiempoStr += ":" + (s < 10 ? "0" + s : s + "");
-
-            tiempo.setText(tiempoStr);
+            TextView hsText = (TextView) view.findViewById(R.id.txt_hs);
+            TextView secText = (TextView) view.findViewById(R.id.txt_sec);
+            TextView minText = (TextView) view.findViewById(R.id.txt_min);
+            toStringNum(m, minText);
+            toStringNum(h, hsText);
+            toStringNum(s, secText);
             updateEstadoEdicionTiempo();
+        }
+    }
+
+    private void toStringNum(int val, TextView minText) {
+        if(val <10){
+            minText.setText("0" + String.valueOf(val));
+        }else{
+            minText.setText(String.valueOf(val));
         }
     }
 
@@ -214,7 +202,72 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
     @Override
     public void actuliazarUsuarioCarrera(UsuarioCarrera usuario, EstadoCarrera estado) {
         updateEstadoEdicionTiempo();
-        actualizarValores();
+        if (getView() != null) {
+            actualizarValores(getView());
+        }
 
+    }
+
+    private class AddTimeListener implements View.OnTouchListener {
+        private TextView textToUpdate;
+        private Integer topLimit = 60;
+        private Integer laps = 1;
+        private Integer count = 0;
+        private Integer val;
+
+        public AddTimeListener(TextView txtToUpdate) {
+            init(txtToUpdate, 60, false);
+
+        }
+
+        public AddTimeListener(TextView txtToUpdate, Integer topLimit) {
+            init(txtToUpdate, topLimit, false);
+        }
+
+        public AddTimeListener(TextView txtToUpdate, Integer topLimit, Boolean isNegative) {
+            init(txtToUpdate, topLimit, isNegative);
+        }
+
+        private void init(TextView txtToUpdate, Integer topLimit, Boolean isNegative) {
+            this.textToUpdate = txtToUpdate;
+            this.val = Integer.valueOf(txtToUpdate.getText().toString());
+            this.topLimit = topLimit;
+            this.laps = isNegative ? -1 : 1;
+            this.count = 0;
+        }
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            switch (event.getAction() & MotionEvent.ACTION_MASK) {
+
+                case MotionEvent.ACTION_DOWN:
+                    v.setPressed(true);
+                    if (this.val + laps < topLimit || this.val + laps <= 0) {
+                        this.val += laps;
+                        toStringNum(this.val,this.textToUpdate);
+                        count++;
+                    }
+                    if (count > 7) {
+                        laps = laps * 2;
+                        count = 0;
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_OUTSIDE:
+                case MotionEvent.ACTION_CANCEL:
+                    v.setPressed(false);
+                    count = 0;
+                    laps = 1;
+                    break;
+                case MotionEvent.ACTION_POINTER_DOWN:
+                    break;
+                case MotionEvent.ACTION_POINTER_UP:
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    break;
+            }
+
+            return true;
+        }
     }
 }
