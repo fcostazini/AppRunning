@@ -49,6 +49,12 @@ public class QueryGenerator {
         if(filtro.getCorrida()!=null){
             query += " AND corrida = " + this.getIntFromBool(filtro.getCorrida());
         }
+        if(filtro.getIdUsuario() >= 0 && filtro.getCorrida()==null &&filtro.getInscripto()==null
+                &&filtro.getMeGusta()==null){
+            query += " AND ( corrida = 1" +
+                     " OR  anotado = 1" +
+                     " OR  me_gusta = 1 )";
+        }
         return query;
     }
 
@@ -79,7 +85,7 @@ public class QueryGenerator {
 
     private String getFechaRange(String field, Date min, Date max) {
         String resultado = "";
-        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
         if(min == null && max == null){
             return resultado;
         }

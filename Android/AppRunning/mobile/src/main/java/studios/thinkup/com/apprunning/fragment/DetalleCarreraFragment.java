@@ -49,7 +49,9 @@ public class DetalleCarreraFragment extends Fragment implements IUsuarioCarreraO
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detalle_carrera, container, false);
         IUsuarioCarreraProvider cp = new UsuarioCarreraProvider(this.getActivity(), ((RunningApplication) this.getActivity().getApplication()).getUsuario().getId());
-
+        if(this.usuarioObservable == null){
+            this.usuarioObservable = (IUsuarioCarreraObservable) this.getActivity();
+        }
         TextView txtNombre = (TextView) rootView.findViewById(R.id.txt_nombre_carrera);
         if (this.usuarioObservable.getUsuarioCarrera() == null) {
             //Sin RESULTADO
@@ -82,7 +84,7 @@ public class DetalleCarreraFragment extends Fragment implements IUsuarioCarreraO
 
 
         TextView genero = (TextView) rootView.findViewById(R.id.txt_modalidad);
-        genero.setText(this.usuarioObservable.getUsuarioCarrera().getModalidad());
+        genero.setText(this.usuarioObservable.getUsuarioCarrera().getCarrera().getModalidades());
 
         TextView direccion = (TextView) rootView.findViewById(R.id.txt_direccion);
 

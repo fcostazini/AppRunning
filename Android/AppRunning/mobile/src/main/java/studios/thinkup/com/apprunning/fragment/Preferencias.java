@@ -14,6 +14,8 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.github.gorbin.asne.googleplus.GooglePlusSocialNetwork;
+
 import studios.thinkup.com.apprunning.MainActivity;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.model.DefaultSettings;
@@ -21,7 +23,7 @@ import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.Modalidad;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.FiltrosProvider;
-import studios.thinkup.com.apprunning.provider.LoginGoogleProvider;
+
 
 /**
  * Created by fcostazini on 27/05/2015.
@@ -39,7 +41,7 @@ private Spinner spProvincia;
         View rootView = inflater.inflate(R.layout.filtros_activity, container, false);
         Button logout = (Button) rootView.findViewById(R.id.btn_logout);
         UsuarioApp ua = ((RunningApplication) this.getActivity().getApplication()).getUsuario();
-        if (!ua.getTipoCuenta().equals(String.valueOf(LoginGoogleProvider.ID))) {
+        if (!ua.getTipoCuenta().equals(String.valueOf(GooglePlusSocialNetwork.ID))) {
             logout.setBackgroundColor(this.getActivity().getResources().getColor(R.color.com_facebook_blue));
             logout.setTextColor(this.getActivity().getResources().getColor(R.color.common_signin_btn_text_dark));
         } else {

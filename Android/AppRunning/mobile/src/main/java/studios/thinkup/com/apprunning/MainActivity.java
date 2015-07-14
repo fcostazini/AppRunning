@@ -55,7 +55,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     protected static void hideProgress() {
-        pd.dismiss();
+        if( pd!= null){pd.dismiss();}
     }
 
     @Override

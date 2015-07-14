@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.List;
 import java.util.Vector;
 
+import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.IObservadorCarrera;
 import studios.thinkup.com.apprunning.model.entity.IEntity;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
@@ -49,6 +50,31 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
 
     }
 
+    @Override
+    public List<UsuarioCarrera> findTiemposByFiltro(Filtro filtro) {
+        SQLiteDatabase db = null;
+        Cursor c = null;
+
+        try {
+            db = this.dbProvider.getReadableDatabase();
+            String fields = getStringFields();
+            String[] params = { String.valueOf(this.idUsuario)};
+            c = db.rawQuery("SELECT " + fields + " FROM CARRERA c JOIN USUARIO_CARRERA uc ON c.ID_CARRERA = uc.CARRERA AND uc.ANOTADO = 1 AND " +
+                    " uc.USUARIO = ? and uc.TIEMPO > 0", params);
+
+            return this.toList(c);
+        } catch (Exception e) {
+            return null;
+        } finally {
+            if (db != null && db.isOpen()) {
+                db.close();
+            }
+            if (c != null && !c.isClosed()) {
+                c.close();
+            }
+        }
+    }
+
     private String getStringFields() {
         String fields = "c.NOMBRE";
         fields += ", c.DISTANCIA_DISPONIBLE";
@@ -68,6 +94,8 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
         fields += ", uc.ANOTADO";
         fields += ", uc.ME_GUSTA";
         fields += ", uc.CORRIDA";
+        fields += ", uc.DISTANCIA";
+        fields += ", uc.MODALIDAD";
         fields += ", uc.ID_USUARIO_CARRERA";
         fields += ", uc.USUARIO";
         return fields;
@@ -157,6 +185,8 @@ UsuarioCarrera uc = null;
                 UsuarioCarrera.CARRERA,
                 UsuarioCarrera.ID,
                 UsuarioCarrera.ME_GUSTA,
+                UsuarioCarrera.DISTANCIA,
+                UsuarioCarrera.MODALIDAD,
                 UsuarioCarrera.TIEMPO,
                 UsuarioCarrera.ID_USUARIO
         };

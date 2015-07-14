@@ -26,8 +26,8 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
     public static final String CORRIDA      =  "CORRIDA"     ;
     public static final String ID           =  "ID_USUARIO_CARRERA"          ;
     public static final String ID_USUARIO           =  "USUARIO"          ;
-    public static final String DISTANCIA           =  "DISTANCIA_DISPONIBLE";
-    public static final String MODALIDAD           =  "MODALIDADES"          ;
+    public static final String DISTANCIA           =  "DISTANCIA";
+    public static final String MODALIDAD           =  "MODALIDAD"          ;
 
 
 
@@ -39,7 +39,7 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
     private boolean meGusta;
     private boolean anotado;
     private Integer usuario;
-    private long tiempo;
+    private Long tiempo;
 
     private long velocidad;
 
@@ -53,6 +53,16 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
 
     public void setUsuario(Integer usuario) {
         this.usuario = usuario;
+    }
+
+    public void setDistancia(Integer distancia) {
+        this.distancia = distancia;
+        this.actualizarObservadores();
+    }
+
+    public void setModalidad(String modalidad) {
+        this.modalidad = modalidad;
+        this.actualizarObservadores();
     }
 
     public UsuarioCarrera() {
@@ -110,11 +120,11 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
         this.actualizarObservadores();
     }
 
-    public long getTiempo() {
+    public Long getTiempo() {
         return tiempo;
     }
 
-    public void setTiempo(long tiempo) {
+    public void setTiempo(Long tiempo) {
         this.tiempo = tiempo;
         this.actualizarObservadores();
     }

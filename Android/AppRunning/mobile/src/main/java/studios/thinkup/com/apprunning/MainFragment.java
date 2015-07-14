@@ -2,12 +2,14 @@ package studios.thinkup.com.apprunning;
 
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.github.gorbin.asne.core.SocialNetwork;
@@ -16,6 +18,7 @@ import com.github.gorbin.asne.core.listener.OnLoginCompleteListener;
 import com.github.gorbin.asne.core.listener.OnRequestSocialPersonCompleteListener;
 import com.github.gorbin.asne.core.persons.SocialPerson;
 import com.github.gorbin.asne.facebook.FacebookSocialNetwork;
+import com.github.gorbin.asne.googleplus.GooglePlusSocialNetwork;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +27,7 @@ import java.util.List;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
-import studios.thinkup.com.apprunning.provider.LoginGoogleProvider;
+
 import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 
@@ -57,7 +60,10 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
         googleplus = (Button) rootView.findViewById(R.id.googleplus);
         googleplus.setOnClickListener(loginClick);
 
-
+        rootView.findViewById(R.id.login_buttons).setVisibility(View.VISIBLE);
+        ImageView i = (ImageView)rootView.findViewById(R.id.background);
+        i.setImageResource(R.drawable.loggin_bg);
+        i.setAlpha(0.25f);
         //Chose permissions
         ArrayList<String> fbScope = new ArrayList<String>();
         fbScope.addAll(Arrays.asList("public_profile, email, user_friends"));
@@ -66,7 +72,7 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
         mSocialNetworkManager = (SocialNetworkManager) getFragmentManager().findFragmentByTag(MainActivity.SOCIAL_NETWORK_TAG);
 
         //Check if manager exist
-        if (mSocialNetworkManager == null) {
+        if (mSocialNetworkManager == null || mSocialNetworkManager.getInitializedSocialNetworks().isEmpty()) {
             mSocialNetworkManager = new SocialNetworkManager();
 
             //Init and add to manager FacebookSocialNetwork
@@ -74,7 +80,7 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
             mSocialNetworkManager.addSocialNetwork(fbNetwork);
 
             //Init and add to manager LinkedInSocialNetwork
-            LoginGoogleProvider gpNetwork = new LoginGoogleProvider(this);
+            GooglePlusSocialNetwork gpNetwork = new GooglePlusSocialNetwork(this);
             mSocialNetworkManager.addSocialNetwork(gpNetwork);
 
             //Initiate every network from mSocialNetworkManager
@@ -96,10 +102,13 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
     private void initSocialNetwork(SocialNetwork socialNetwork) {
 
             if (socialNetwork.isConnected()) {
-
-                MainActivity.showProgress("Cargando...");
+                if(getView()!=null){
+                    getView().findViewById(R.id.login_buttons).setVisibility(View.GONE);
+                    ImageView i = (ImageView) getView().findViewById(R.id.background);
+                    i.setImageResource(R.drawable.app_logo);
+                    i.setAlpha(1f);
+                }
                 startProfile(socialNetwork.getID());
-
             }
 
     }
@@ -124,22 +133,29 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
                     networkId = FacebookSocialNetwork.ID;
                     break;
                 case R.id.googleplus:
-                    networkId = LoginGoogleProvider.ID;
+                    networkId = GooglePlusSocialNetwork.ID;
                     break;
             }
-            SocialNetwork socialNetwork = mSocialNetworkManager.getSocialNetwork(networkId);
-            if (!socialNetwork.isConnected()) {
-                if (networkId != 0) {
-                    socialNetwork.requestLogin();
-                    MainActivity.showProgress("Cargando...");
-                } else {
-                    Toast.makeText(getActivity(), "Wrong networkId", Toast.LENGTH_LONG).show();
-                }
-            } else {
 
-                startProfile(socialNetwork.getID());
+                SocialNetwork socialNetwork = mSocialNetworkManager.getSocialNetwork(networkId);
+                if (!socialNetwork.isConnected()) {
+                    if (networkId != 0) {
+                        socialNetwork.requestLogin();
+                        if (getView() != null) {
+                            getView().findViewById(R.id.login_buttons).setVisibility(View.GONE);
+                            ImageView i = (ImageView) getView().findViewById(R.id.background);
+                            i.setImageResource(R.drawable.app_logo);
+                            i.setAlpha(1f);
+                        }
+                    } else {
+                        Toast.makeText(getActivity(), "Wrong networkId", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+
+                    startProfile(socialNetwork.getID());
+                }
             }
-        }
+
     };
 
     @Override
@@ -158,6 +174,12 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
 
     private void startProfile(int networkId) {
         socialNetwork = MainFragment.mSocialNetworkManager.getSocialNetwork(networkId);
+            socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
+            socialNetwork.requestCurrentPerson();
+    }
+
+    @Override
+    public void onRequestSocialPersonSuccess(int i, SocialPerson socialPerson) {
         if (this.getActivity() != null &&
                 this.getActivity().getIntent() != null &&
                 this.getActivity().getIntent().getExtras() != null &&
@@ -166,44 +188,35 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
             this.getActivity().getIntent().getExtras().remove("LOGOUT");
             MainActivity.hideProgress();
             socialNetwork.logout();
-            Intent i = new Intent(this.getActivity(), MainActivity.class);
-            this.getActivity().startActivity(i);
+            Intent intent = new Intent(this.getActivity(), MainActivity.class);
+            this.getActivity().startActivity(intent);
             this.getActivity().finish();
 
         } else {
 
-            socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
-            socialNetwork.requestCurrentPerson();
-        }
+            MainActivity.hideProgress();
+            if (socialPerson == null) {
 
-    }
-
-    @Override
-    public void onRequestSocialPersonSuccess(int i, SocialPerson socialPerson) {
-
-        MainActivity.hideProgress();
-        if (socialPerson == null) {
-
-        } else {
-            IUsuarioProvider usuarioPovider = new UsuarioProvider(this.getActivity());
-            UsuarioApp u = usuarioPovider.getUsuarioByEmail(socialPerson.email);
-            if (u == null) {
-                u = new UsuarioApp();
-                u.setNombre(socialPerson.name);
-                u.setEmail(socialPerson.email);
-                u.setTipoCuenta(String.valueOf(socialNetwork.getID()));
-                try {
-                    usuarioPovider.grabar(u);
-                } catch (EntidadNoGuardadaException e) {
-                    socialNetwork.cancelAll();
-                    socialNetwork.logout();
-                    Toast.makeText(this.getActivity(), "No se puede crear un usuario", Toast.LENGTH_LONG);
+            } else {
+                IUsuarioProvider usuarioPovider = new UsuarioProvider(this.getActivity());
+                UsuarioApp u = usuarioPovider.getUsuarioByEmail(socialPerson.email);
+                if (u == null) {
+                    u = new UsuarioApp();
+                    u.setNombre(socialPerson.name);
+                    u.setEmail(socialPerson.email);
+                    u.setTipoCuenta(String.valueOf(socialNetwork.getID()));
+                    try {
+                        usuarioPovider.grabar(u);
+                    } catch (EntidadNoGuardadaException e) {
+                        socialNetwork.cancelAll();
+                        socialNetwork.logout();
+                        Toast.makeText(this.getActivity(), "No se puede crear un usuario", Toast.LENGTH_LONG);
+                    }
                 }
+                Intent intent = new Intent(this.getActivity(), RecomendadosActivity.class);
+                ((RunningApplication) this.getActivity().getApplication()).setUsuario(u);
+                startActivity(intent);
             }
-            Intent intent = new Intent(this.getActivity(), RecomendadosActivity.class);
-            ((RunningApplication) this.getActivity().getApplication()).setUsuario(u);
-            startActivity(intent);
         }
-
     }
 }

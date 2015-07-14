@@ -4,14 +4,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/background"
+        android:src="@drawable/detalle_bg"
+        android:alpha="0.25"
+        android:scaleType="fitCenter" />
+
     <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="20dp"
+        android:fillViewport="false"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+        >
 
             <ImageView
                 android:id="@+id/img_logo"
@@ -39,11 +51,12 @@
                 android:text="Carrera de StarWars"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
+
             <TextView
                 android:id="@+id/lbl_fecha_largada"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/lbl_distancia"
+                android:layout_alignLeft="@+id/lbl_modalidad"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/lbl_modalidad"

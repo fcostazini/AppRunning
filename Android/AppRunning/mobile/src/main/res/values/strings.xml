@@ -20,6 +20,7 @@
 
     <string name="title_activity_detalle_carrera">Detalle</string>
     <string name="title_activity_mis_datos">Mis Carreras</string>
+    <string name="title_activity_mis_tiempos">Mis Tiempos</string>
     <string name="lbl_nombre_carrera">Nombre Carrera </string>
     <string name="lbl_fecha_desde">Fecha Desde</string>
     <string name="lbl_fecha_hasta">Hasta</string>
@@ -33,6 +34,7 @@
     <string name="action_example">Example action</string>
     <string name="nav_menu_mis_datos">Mis Datos</string>
     <string name="nav_menu_mis_carreras">Mis Carreras</string>
+    <string name="nav_menu_mis_tiempos">Mis Tiempos</string>
     <string name="nav_menu_buscar">Buscar Carreras</string>
     <string name="nav_menu_recomendados">Recomendadas</string>
     <string name="nav_menu_preferencias">Preferencias</string>
@@ -46,5 +48,11 @@
     <string name="btn_revoke_access">Revoke Access</string>
     <string name="nav_menu_logout">Logout</string>
     <string name="face_key">930000867023317</string>
-    <string name="icon_web">r</string>
+
+    <string name="lbl_tiempo">Tiempo</string>
+    <string name="lbl_tiempo_km">Tiempo/Km</string>
+    <string name="que_distancia_recorres">Que distancia vas a ReCorrer?</string>
+    <string name="confirmar_Desanotar">Está seguro que desea borrar la inscripción de la carrera?</string>
+    <string name="confirmar_no_corrida">Está por desmarcar la carrera como \"Corrida\". Se borrarán todos los datos asociados a la carrera. Desea continuar?</string>
+    <string name="app_version">Versión 0.1.0</string>
 </resources>

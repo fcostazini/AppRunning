@@ -1,6 +1,7 @@
 package studios.thinkup.com.apprunning.fragment;
 
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -65,9 +67,12 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_estadistica_carrera, container, false);
+
+
+        if(this.usuarioObservable == null){
+            this.usuarioObservable = (IUsuarioCarreraObservable) this.getActivity();
+        }
         initView(rootView);
-
-
         //aCorrer.setOnClickListener(this);
         aCorrer.setOnTouchListener(new View.OnTouchListener() {
             private static final int MAX_CLICK_DURATION = 200;
@@ -109,17 +114,25 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
 
         this.aCorrer = (LinearLayout) rootView.findViewById(R.id.lb_a_correr);
         editar.setOnClickListener(this);
-        if (this.usuarioObservable.getUsuarioCarrera().isAnotado() && !this.usuarioObservable.getUsuarioCarrera().isCorrida()) {
-            aCorrer.setVisibility(View.VISIBLE);
+        updateEstadoEdicionTiempo();
 
-        } else {
-            aCorrer.setVisibility(View.GONE);
-        }
         Typeface type = TypefaceProvider.getInstance(this.getActivity()).getTypeface(TypefaceProvider.DIGIT);
         this.tiempo = (TextView) rootView.findViewById(R.id.txt_tiempo);
 
         actualizarValores();
         tiempo.setTypeface(type);
+    }
+
+    private void updateEstadoEdicionTiempo() {
+        editar.setVisibility(View.INVISIBLE);
+        aCorrer.setVisibility(View.GONE);
+        if (this.usuarioObservable.getUsuarioCarrera().isAnotado()){
+            if(!this.usuarioObservable.getUsuarioCarrera().isCorrida() &&
+                    this.usuarioObservable.getUsuarioCarrera().getTiempo() <= 0){
+                aCorrer.setVisibility(View.VISIBLE);
+            }
+            editar.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -135,22 +148,25 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
     @Override
     public void onClick(View v) {
 // custom dialog
+
         this.dialog = new Dialog(this.getActivity());
         dialog.setContentView(R.layout.time_picker_fragment);
         dialog.setTitle("Ingrese su tiempo");
+        dialog.getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 
         // set the custom dialog components - text, image and button
         CustomNumberPickerView hr = (CustomNumberPickerView) dialog.findViewById(R.id.np_hr);
 
         CustomNumberPickerView min = (CustomNumberPickerView) dialog.findViewById(R.id.np_min);
         CustomNumberPickerView sec = (CustomNumberPickerView) dialog.findViewById(R.id.np_sec);
-        CustomNumberPickerView ms = (CustomNumberPickerView) dialog.findViewById(R.id.np_ms);
 
         hr.setNumeroVal((int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() / 3600000));
         min.setNumeroVal((int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - hr.getNumeroVal() * 3600000) / 60000);
         sec.setNumeroVal((int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - hr.getNumeroVal() * 3600000 - min.getNumeroVal() * 60000) / 1000);
-        ms.setNumeroVal((int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - hr.getNumeroVal() * 3600000 - min.getNumeroVal() * 60000 -
-                sec.getNumeroVal() * 1000) / 10);
+
 
 
         IconTextView dialogOk = (IconTextView) dialog.findViewById(R.id.ic_save);
@@ -168,8 +184,8 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
                 int h = ((CustomNumberPickerView) dialog.findViewById(R.id.np_hr)).getNumeroVal();
                 int m = ((CustomNumberPickerView) dialog.findViewById(R.id.np_min)).getNumeroVal();
                 int s = ((CustomNumberPickerView) dialog.findViewById(R.id.np_sec)).getNumeroVal();
-                int ms = ((CustomNumberPickerView) dialog.findViewById(R.id.np_ms)).getNumeroVal();
-                long tiempo = ms * 10 + (s * 1000) + (m * 60000) + (h * 3600000);
+
+                long tiempo = (s * 1000) + (m * 60000) + (h * 3600000);
                 EstadisticaCarreraFragment.this.usuarioObservable.getUsuarioCarrera().setTiempo(tiempo);
                 actualizarValores();
                 dialog.dismiss();
@@ -184,44 +200,21 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
             int h = (int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() / 3600000);
             int m = (int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - h * 3600000) / 60000;
             int s = (int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - h * 3600000 - m * 60000) / 1000;
-            int ms = (int) (this.usuarioObservable.getUsuarioCarrera().getTiempo() - h * 3600000 - m * 60000 - s * 1000) / 10;
+
             String tiempoStr = (h < 10 ? "0" + h : h + "");
             tiempoStr += ":" + (m < 10 ? "0" + m : m + "");
             tiempoStr += ":" + (s < 10 ? "0" + s : s + "");
-            tiempoStr += ":" + (ms < 10 ? "0" + ms : ms + "");
+
             tiempo.setText(tiempoStr);
-            if (this.usuarioObservable.getUsuarioCarrera().getTiempo() > 0) {
-                aCorrer.setVisibility(View.GONE);
-            } else if (this.usuarioObservable.getUsuarioCarrera().isAnotado()) {
-                aCorrer.setVisibility(View.VISIBLE);
-            }
-            editar.setVisibility(View.VISIBLE);
+            updateEstadoEdicionTiempo();
         }
     }
 
 
     @Override
     public void actuliazarUsuarioCarrera(UsuarioCarrera usuario, EstadoCarrera estado) {
-        switch (estado) {
-            case ANOTADO:
+        updateEstadoEdicionTiempo();
+        actualizarValores();
 
-                this.aCorrer.setVisibility(View.VISIBLE);
-                break;
-            case NO_ANOTADO:
-                this.aCorrer.setVisibility(View.GONE);
-                break;
-
-            case CORRIDA:
-
-                this.aCorrer.setVisibility(View.GONE);
-                break;
-            case NO_CORRIDA:
-                if (this.usuarioObservable.getUsuarioCarrera().isAnotado() &&
-                        this.usuarioObservable.getUsuarioCarrera().getTiempo() <= 0) {
-                    this.aCorrer.setVisibility(View.VISIBLE);
-                }
-
-                break;
-        }
     }
 }
