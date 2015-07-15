@@ -1,8 +1,5 @@
 package studios.thinkup.com.apprunning.fragment;
 
-
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -12,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,13 +17,9 @@ import java.util.Calendar;
 import studios.thinkup.com.apprunning.IconTextView;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.TemporizadorActivity;
-import studios.thinkup.com.apprunning.components.CustomNumberPickerView;
 import studios.thinkup.com.apprunning.model.EstadoCarrera;
-import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
-import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.TypefaceProvider;
-import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 
 /**
@@ -38,7 +30,7 @@ import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 public class EstadisticaCarreraFragment extends Fragment implements View.OnClickListener, IUsuarioCarreraObserver {
     private LinearLayout aCorrer;
     private UsuarioProvider usuarioProvider;
-    private Dialog dialog;
+
     private IconTextView editar;
     private IUsuarioCarreraObservable usuarioObservable;
 
@@ -116,6 +108,8 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
 
         this.aCorrer = (LinearLayout) rootView.findViewById(R.id.lb_a_correr);
         editar.setOnClickListener(this);
+        IconTextView cancelar = (IconTextView)rootView.findViewById(R.id.icon_cancel);
+        cancelar.setOnClickListener(this);
         updateEstadoEdicionTiempo();
         actualizarValores(rootView);
         Typeface type = TypefaceProvider.getInstance(this.getActivity()).getTypeface(TypefaceProvider.DIGIT);
@@ -169,7 +163,54 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
     @Override
     public void onClick(View v) {
 
-        
+        IconTextView plusHsText = (IconTextView) getView().findViewById(R.id.icon_plus_hs);
+        IconTextView plusMinText = (IconTextView) getView().findViewById(R.id.icon_plus_min);
+        IconTextView plusSecText = (IconTextView) getView().findViewById(R.id.icon_plus_sec);
+        IconTextView minusHsText = (IconTextView) getView().findViewById(R.id.icon_minus_hs);
+        IconTextView minusMinText = (IconTextView) getView().findViewById(R.id.icon_minus_min);
+        IconTextView minusSecText = (IconTextView) getView().findViewById(R.id.icon_minus_sec);
+        IconTextView editIcon = (IconTextView)getView().findViewById(R.id.icon_edit_time);
+        IconTextView cancelIcon = (IconTextView)getView().findViewById(R.id.icon_cancel);
+
+        if(v.getId()== R.id.icon_cancel){
+            editIcon.setPressed(false);
+            cancelIcon.setPressed(true);
+        }else{
+            if(plusHsText.getVisibility() == View.VISIBLE){
+                TextView hs = (TextView) getView().findViewById(R.id.txt_hs);
+                TextView min = (TextView) getView().findViewById(R.id.txt_min);
+                TextView sec = (TextView) getView().findViewById(R.id.txt_sec);
+
+                long tiempo = Integer.valueOf(hs.getText().toString()) * 3600000;
+                tiempo += Integer.valueOf(min.getText().toString()) * 60000;
+                tiempo += Integer.valueOf(sec.getText().toString()) * 1000;
+                this.usuarioObservable.getUsuarioCarrera().setTiempo(tiempo);
+                editIcon.setPressed(false);
+            }
+        }
+        if(!editIcon.isPressed()){
+            plusHsText.setVisibility(View.INVISIBLE);
+            plusMinText.setVisibility(View.INVISIBLE);
+            plusSecText.setVisibility(View.INVISIBLE);
+            minusHsText.setVisibility(View.INVISIBLE);
+            minusMinText.setVisibility(View.INVISIBLE);
+            minusSecText.setVisibility(View.INVISIBLE);
+            editIcon.setText(getString(R.string.icon_edit));
+            cancelIcon.setVisibility(View.GONE);
+            editIcon.setPressed(false);
+
+        }else{
+            plusHsText.setVisibility(View.VISIBLE);
+            plusMinText.setVisibility(View.VISIBLE);
+            plusSecText.setVisibility(View.VISIBLE);
+            minusHsText.setVisibility(View.VISIBLE);
+            minusMinText.setVisibility(View.VISIBLE);
+            minusSecText.setVisibility(View.VISIBLE);
+            editIcon.setText(getString(R.string.icon_save));
+            cancelIcon.setVisibility(View.VISIBLE);
+            editIcon.setPressed(true);
+
+        }
 
 
     }
@@ -212,6 +253,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         private TextView textToUpdate;
         private Integer topLimit = 60;
         private Integer laps = 1;
+        private Integer initLaps = 1;
         private Integer count = 0;
         private Integer val;
 
@@ -233,16 +275,18 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
             this.val = Integer.valueOf(txtToUpdate.getText().toString());
             this.topLimit = topLimit;
             this.laps = isNegative ? -1 : 1;
+            this.initLaps = this.laps;
             this.count = 0;
         }
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
+            this.val = Integer.valueOf(this.textToUpdate.getText().toString());
             switch (event.getAction() & MotionEvent.ACTION_MASK) {
 
                 case MotionEvent.ACTION_DOWN:
                     v.setPressed(true);
-                    if (this.val + laps < topLimit || this.val + laps <= 0) {
+                    if (this.val + laps <= topLimit && this.val + laps >= 0) {
                         this.val += laps;
                         toStringNum(this.val,this.textToUpdate);
                         count++;
@@ -257,7 +301,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
                 case MotionEvent.ACTION_CANCEL:
                     v.setPressed(false);
                     count = 0;
-                    laps = 1;
+                    laps = initLaps;
                     break;
                 case MotionEvent.ACTION_POINTER_DOWN:
                     break;

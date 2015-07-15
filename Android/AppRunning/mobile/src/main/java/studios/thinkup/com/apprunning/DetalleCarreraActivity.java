@@ -37,32 +37,34 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(((RunningApplication) this.getApplication()).getUsuario()==null){
-            Intent intent = new Intent(this,MainActivity.class);
-            this.startActivity(intent);
-            this.finish();
-        }else {
-            IUsuarioCarreraProvider provider = new UsuarioCarreraProvider(this, ((RunningApplication) this.getApplication()).getUsuario().getId());
-            this.observadoresUsuario = new Vector<>();
-            Bundle b = getIntent().getExtras();
-            int codigo;
-            if (b != null) {
-                if (b.containsKey(UsuarioCarrera.class.getSimpleName())) {
-                    this.idCarrera = b.getInt(UsuarioCarrera.class.getSimpleName());
-                    this.carrera = provider.getByIdCarrera(this.idCarrera);
-                    ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-                    viewPager.setAdapter(new DetalleCarreraPagerAdapter(getSupportFragmentManager(), this.idCarrera, this));
-                    // Give the PagerSlidingTabStrip the ViewPager
-                    PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-                    // Attach the view pager to the tab strip
-                    tabsStrip.setViewPager(viewPager);
+        if(savedInstanceState == null) {
+            if (((RunningApplication) this.getApplication()).getUsuario() == null) {
+                Intent intent = new Intent(this, MainActivity.class);
+                this.startActivity(intent);
+                this.finish();
+            } else {
+                IUsuarioCarreraProvider provider = new UsuarioCarreraProvider(this, ((RunningApplication) this.getApplication()).getUsuario().getId());
+                this.observadoresUsuario = new Vector<>();
+                Bundle b = getIntent().getExtras();
+                int codigo;
+                if (b != null) {
+                    if (b.containsKey(UsuarioCarrera.class.getSimpleName())) {
+                        this.idCarrera = b.getInt(UsuarioCarrera.class.getSimpleName());
+                        this.carrera = provider.getByIdCarrera(this.idCarrera);
+                        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+                        viewPager.setAdapter(new DetalleCarreraPagerAdapter(getSupportFragmentManager(), this.idCarrera, this));
+                        // Give the PagerSlidingTabStrip the ViewPager
+                        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+                        // Attach the view pager to the tab strip
+                        tabsStrip.setViewPager(viewPager);
+                    } else {
+                        setContentView(R.layout.sin_resultados);
+                    }
+
                 } else {
                     setContentView(R.layout.sin_resultados);
+
                 }
-
-            } else {
-                setContentView(R.layout.sin_resultados);
-
             }
         }
     }

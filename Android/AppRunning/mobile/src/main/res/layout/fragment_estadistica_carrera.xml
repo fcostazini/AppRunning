@@ -67,8 +67,9 @@
                     android:textAlignment="center"
                     android:typeface="sans"
                     android:layout_toRightOf="@+id/txt_hs"
-                    android:layout_alignBottom="@+id/txt_hs"
-                    android:layout_alignTop="@+id/txt_hs" />
+                    android:layout_alignTop="@+id/txt_hs"
+                    android:gravity="center"
+                    android:layout_alignBottom="@+id/txt_hs" />
 
                 <TextView
                     android:id="@+id/txt_min"
@@ -95,6 +96,8 @@
                     android:textAlignment="center"
                     android:typeface="sans"
                     android:layout_toRightOf="@+id/txt_min"
+                    android:gravity="center"
+                    android:layout_alignTop="@+id/txt_hs"
                     android:layout_alignBottom="@+id/txt_hs" />
 
                 <TextView
@@ -126,7 +129,9 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
-                    android:textAlignment="center">
+                    android:textAlignment="center"
+                    android:alpha="1"
+                    android:background="@drawable/button_bg">
 
                 </studios.thinkup.com.apprunning.IconTextView>
                 <studios.thinkup.com.apprunning.IconTextView
@@ -141,7 +146,9 @@
                     android:layout_alignRight="@+id/txt_min"
                     android:layout_alignLeft="@+id/txt_min"
                     android:padding="5dp"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:alpha="1"
+                    android:background="@drawable/button_bg">
 
                 </studios.thinkup.com.apprunning.IconTextView>
                 <studios.thinkup.com.apprunning.IconTextView
@@ -156,7 +163,9 @@
                     android:visibility="invisible"
                     android:gravity="center"
                     android:layout_alignLeft="@+id/txt_sec"
-                    android:layout_alignRight="@+id/txt_sec">
+                    android:layout_alignRight="@+id/txt_sec"
+                    android:alpha="1"
+                    android:background="@drawable/button_bg">
 
                 </studios.thinkup.com.apprunning.IconTextView>
                 <studios.thinkup.com.apprunning.IconTextView
@@ -178,7 +187,9 @@
                     android:textAlignment="center"
                     android:layout_below="@+id/txt_hs"
                     android:textStyle="bold"
-                    android:layout_marginTop="5dp">
+                    android:layout_marginTop="5dp"
+                    android:alpha="1"
+                    android:background="@drawable/button_bg">
 
                 </studios.thinkup.com.apprunning.IconTextView>
                 <studios.thinkup.com.apprunning.IconTextView
@@ -196,7 +207,9 @@
                     android:gravity="center"
                     android:layout_below="@+id/txt_min"
                     android:textStyle="bold"
-                    android:layout_marginTop="5dp">
+                    android:layout_marginTop="5dp"
+                    android:alpha="1"
+                    android:background="@drawable/button_bg">
 
                 </studios.thinkup.com.apprunning.IconTextView>
                 <studios.thinkup.com.apprunning.IconTextView
@@ -214,7 +227,9 @@
                     android:layout_alignRight="@+id/txt_sec"
                     android:layout_below="@+id/txt_sec"
                     android:textStyle="bold"
-                    android:layout_marginTop="5dp">
+                    android:layout_marginTop="5dp"
+                    android:alpha="1"
+                    android:background="@drawable/button_bg">
 
                 </studios.thinkup.com.apprunning.IconTextView>
             </RelativeLayout>
@@ -230,7 +245,8 @@
                 android:textColor="#00AAFF"
                 android:textSize="25sp"
                 android:typeface="monospace"
-                android:visibility="invisible">
+                android:visibility="invisible"
+                android:background="@drawable/button_bg">
 
             </studios.thinkup.com.apprunning.IconTextView>
             <studios.thinkup.com.apprunning.IconTextView
@@ -245,7 +261,9 @@
                 android:textSize="25sp"
                 android:typeface="monospace"
                 android:visibility="gone"
-                android:layout_marginRight="10dp">
+                android:layout_marginRight="10dp"
+                android:autoText="false"
+                android:background="@drawable/button_bg">
 
             </studios.thinkup.com.apprunning.IconTextView>
         </LinearLayout>
