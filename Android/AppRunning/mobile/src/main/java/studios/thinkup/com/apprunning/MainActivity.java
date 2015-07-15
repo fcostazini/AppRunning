@@ -9,12 +9,16 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import studios.thinkup.com.apprunning.model.RunningApplication;
+import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
+import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 
 
 public class MainActivity extends FragmentActivity {
     public static final String SOCIAL_NETWORK_TAG = "SocialIntegrationMain.SOCIAL_NETWORK_TAG";
     private static ProgressDialog pd;
     static Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,13 +29,17 @@ public class MainActivity extends FragmentActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new MainFragment())
                     .commit();
+
         }
+
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
     }
+
 
 
 
@@ -55,7 +63,9 @@ public class MainActivity extends FragmentActivity {
     }
 
     protected static void hideProgress() {
-        if( pd!= null){pd.dismiss();}
+        if (pd != null) {
+            pd.dismiss();
+        }
     }
 
     @Override

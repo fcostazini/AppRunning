@@ -18,7 +18,7 @@ import studios.thinkup.com.apprunning.provider.helper.Ignore;
  * Created by FaQ on 08/06/2015.
  */
 public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity {
-
+    private static final long serialVersionUID = 24474114445126838L;
     public static final String CARRERA      =  "CARRERA"     ;
     public static final String TIEMPO       =  "TIEMPO"      ;
     public static final String ANOTADO      =  "ANOTADO"     ;

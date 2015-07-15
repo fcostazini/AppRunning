@@ -13,6 +13,8 @@ import java.util.Date;
  */
 public class Carrera implements Serializable, IEntity {
 
+    private static final long serialVersionUID = 24474119433126838L;
+
     public static final String NOMBRE = "NOMBRE";
     public static final String MODALIDADES = "MODALIDADES";
     public static final String PROVINCIA = "PROVINCIA";

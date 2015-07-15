@@ -114,6 +114,10 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         actualizarValores(rootView);
         Typeface type = TypefaceProvider.getInstance(this.getActivity()).getTypeface(TypefaceProvider.DIGIT);
         TextView hsText = (TextView) rootView.findViewById(R.id.txt_hs);
+        TextView puntos = (TextView) rootView.findViewById(R.id.txt_1);
+        puntos.setTypeface(type);
+        puntos = (TextView) rootView.findViewById(R.id.txt_2);
+        puntos.setTypeface(type);
         TextView secText = (TextView) rootView.findViewById(R.id.txt_sec);
         TextView minText = (TextView) rootView.findViewById(R.id.txt_min);
 
@@ -175,6 +179,8 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         if(v.getId()== R.id.icon_cancel){
             editIcon.setPressed(false);
             cancelIcon.setPressed(true);
+            actualizarValores(this.getView());
+
         }else{
             if(plusHsText.getVisibility() == View.VISIBLE){
                 TextView hs = (TextView) getView().findViewById(R.id.txt_hs);
@@ -314,4 +320,6 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
             return true;
         }
     }
+
+
 }

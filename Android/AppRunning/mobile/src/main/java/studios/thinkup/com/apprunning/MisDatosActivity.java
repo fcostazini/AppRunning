@@ -22,18 +22,22 @@ public class MisDatosActivity extends DrawerPagerActivity implements AdapterView
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
-            this.viewPager = (ViewPager) findViewById(R.id.viewpager);
-            Filtro filtro = new Filtro();
-            long id = ((RunningApplication) this.getApplication()).getUsuario().getId();
-            filtro.setIdUsuario(id);
-            viewPager.setAdapter(new ResultadoCarrerasPagerAdapter(getSupportFragmentManager(), filtro));
-            viewPager.setBackgroundResource(R.drawable.path);
-            viewPager.getBackground().setAlpha(130);
-            // Give the PagerSlidingTabStrip the ViewPager
-            PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-            // Attach the view pager to the tab strip
-            tabsStrip.setViewPager(viewPager);
+            initView();
         }
+    }
+
+    private void initView() {
+        this.viewPager = (ViewPager) findViewById(R.id.viewpager);
+        Filtro filtro = new Filtro();
+        long id = ((RunningApplication) this.getApplication()).getUsuario().getId();
+        filtro.setIdUsuario(id);
+        viewPager.setAdapter(new ResultadoCarrerasPagerAdapter(getSupportFragmentManager(), filtro));
+        viewPager.setBackgroundResource(R.drawable.path);
+        viewPager.getBackground().setAlpha(130);
+        // Give the PagerSlidingTabStrip the ViewPager
+        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        // Attach the view pager to the tab strip
+        tabsStrip.setViewPager(viewPager);
     }
 
     @Override
@@ -62,6 +66,9 @@ public class MisDatosActivity extends DrawerPagerActivity implements AdapterView
     @Override
     protected void onResume() {
         super.onResume();
+        if(this.viewPager == null){
+            initView();
+        }
         this.viewPager.getAdapter().notifyDataSetChanged();
 
     }

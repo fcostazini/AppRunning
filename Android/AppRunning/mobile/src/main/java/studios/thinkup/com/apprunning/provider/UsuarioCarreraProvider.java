@@ -22,8 +22,10 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
 
     private Integer idUsuario;
     public UsuarioCarreraProvider(Context c, Integer usuarioId) {
-        super(c);this.idUsuario = usuarioId;
+        super(c);
+        this.idUsuario = usuarioId;
     }
+
 
     @Override
 
@@ -156,7 +158,7 @@ UsuarioCarrera uc = null;
         return "USUARIO_CARRERA";
     }
 
-    @Override
+   @Override
     public UsuarioCarrera findById(Class<UsuarioCarrera> clazz, Integer id) {
         SQLiteDatabase db = null;
         Cursor c = null;
@@ -178,7 +180,6 @@ UsuarioCarrera uc = null;
             }
         }
     }
-
     protected String[] getFields(Class<? extends IEntity> clazz) {
         String[] fields = {
                 UsuarioCarrera.ANOTADO,
