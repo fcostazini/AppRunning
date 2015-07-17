@@ -67,7 +67,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
                 this.idCarrera = savedInstanceState.getInt("usuarioCarrera");
                 IUsuarioCarreraProvider provider = new UsuarioCarreraProvider(this,
                         ((RunningApplication)this.getApplication()).getUsuario().getId());
-                this.carrera = provider.findById(UsuarioCarrera.class, this.idCarrera);
+                this.carrera = provider.getByIdCarrera(this.idCarrera);
                 initView();
                 savedInstanceState.remove("usuarioCarrera");
 
@@ -309,7 +309,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (this.getUsuarioCarrera() != null) {
-            outState.putInt("usuarioCarrera", this.getUsuarioCarrera().getId());
+            outState.putInt("usuarioCarrera", this.getUsuarioCarrera().getCarrera().getId());
         }
     }
 

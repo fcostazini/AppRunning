@@ -150,12 +150,14 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         }
         editar.setVisibility(View.INVISIBLE);
         aCorrer.setVisibility(View.GONE);
-        if (this.usuarioObservable.getUsuarioCarrera().isAnotado()) {
-            if (!this.usuarioObservable.getUsuarioCarrera().isCorrida() &&
-                    this.usuarioObservable.getUsuarioCarrera().getTiempo() <= 0) {
-                aCorrer.setVisibility(View.VISIBLE);
+        if(this.usuarioObservable.getUsuarioCarrera()!= null) {
+            if (this.usuarioObservable.getUsuarioCarrera().isAnotado()) {
+                if (!this.usuarioObservable.getUsuarioCarrera().isCorrida() &&
+                        this.usuarioObservable.getUsuarioCarrera().getTiempo() <= 0) {
+                    aCorrer.setVisibility(View.VISIBLE);
+                }
+                editar.setVisibility(View.VISIBLE);
             }
-            editar.setVisibility(View.VISIBLE);
         }
     }
 

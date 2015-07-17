@@ -70,14 +70,26 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
     }
     public UsuarioCarrera(Cursor c){
         this();
-        this.idUsuarioCarrera = c.getInt(c.getColumnIndex(UsuarioCarrera.ID));
-        this.anotado = c.getInt(c.getColumnIndex(UsuarioCarrera.ANOTADO)) == 1;
-        this.corrida = c.getInt(c.getColumnIndex(UsuarioCarrera.CORRIDA)) == 1;
-        this.meGusta = c.getInt(c.getColumnIndex(UsuarioCarrera.ME_GUSTA)) == 1;
-        this.tiempo = c.getLong(c.getColumnIndex(UsuarioCarrera.TIEMPO));
+        if( c.getInt(c.getColumnIndex(UsuarioCarrera.ID) )== 0){
+            this.idUsuarioCarrera =null;
+            this.anotado = false;
+            this.corrida = false;
+            this.meGusta = false;
+            this.tiempo = 0l;
+
+            this.distancia = 0;
+            this.modalidad = "";
+        }else{
+            this.idUsuarioCarrera = c.getInt(c.getColumnIndex(UsuarioCarrera.ID));
+            this.anotado = c.getInt(c.getColumnIndex(UsuarioCarrera.ANOTADO)) == 1;
+            this.corrida = c.getInt(c.getColumnIndex(UsuarioCarrera.CORRIDA)) == 1;
+            this.meGusta = c.getInt(c.getColumnIndex(UsuarioCarrera.ME_GUSTA)) == 1;
+            this.tiempo = c.getLong(c.getColumnIndex(UsuarioCarrera.TIEMPO));
+
+            this.distancia = c.getInt(c.getColumnIndex(UsuarioCarrera.DISTANCIA));
+            this.modalidad = c.getString(c.getColumnIndex(UsuarioCarrera.MODALIDAD));
+        }
         this.usuario = c.getInt(c.getColumnIndex(UsuarioCarrera.ID_USUARIO));
-        this.distancia = c.getInt(c.getColumnIndex(UsuarioCarrera.DISTANCIA));
-        this.modalidad = c.getString(c.getColumnIndex(UsuarioCarrera.MODALIDAD));
         this.setCarrera(new Carrera(c));
     }
 
