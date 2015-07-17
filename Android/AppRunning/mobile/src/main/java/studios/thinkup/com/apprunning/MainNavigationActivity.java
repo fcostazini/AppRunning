@@ -78,14 +78,19 @@ public abstract class MainNavigationActivity extends FragmentActivity {
         };
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
+        recuperarUsuario(savedInstanceState);
+
+    }
+
+    private void recuperarUsuario(Bundle savedInstanceState) {
         if (savedInstanceState!= null && savedInstanceState.containsKey("usuario")) {
             UsuarioProvider up = new UsuarioProvider(this);
             ((RunningApplication) this.getApplication())
                     .setUsuario(up.findById(UsuarioApp.class, savedInstanceState.getInt("usuario")));
             savedInstanceState.remove("usuario");
         }
-
     }
+
 
 
     @Override

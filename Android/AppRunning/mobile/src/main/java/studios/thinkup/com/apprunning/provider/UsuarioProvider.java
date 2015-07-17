@@ -93,6 +93,33 @@ public class UsuarioProvider extends GenericProvider<UsuarioApp> implements IUsu
     }
 
     @Override
+    public UsuarioApp findById(Class<UsuarioApp> clazz, Integer id) {
+        SQLiteDatabase db = null;
+        Cursor c = null;
+        try {
+            db = this.dbProvider.getReadableDatabase();
+            String[] params = {id.toString()};
+            c = null;
+
+            c = db.query(this.getTableName(clazz), this.getFields(clazz), "ID = ?", params, null, null, "ID");
+
+            return  this.toEntity(c);
+
+
+        } catch (Exception e) {
+            return null;
+        } finally {
+            if (c != null && !c.isClosed()) {
+                c.close();
+            }
+            if (db != null && db.isOpen()) {
+                db.close();
+            }
+
+        }
+    }
+
+    @Override
     protected List<UsuarioApp> toList(Cursor c) {
         List<UsuarioApp> results = new Vector<>();
 

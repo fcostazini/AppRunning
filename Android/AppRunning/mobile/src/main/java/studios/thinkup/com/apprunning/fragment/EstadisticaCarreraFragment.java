@@ -54,6 +54,8 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
     }
 
     @Override
@@ -63,9 +65,6 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         View rootView = inflater.inflate(R.layout.fragment_estadistica_carrera, container, false);
 
 
-        if (this.usuarioObservable == null) {
-            this.usuarioObservable = (IUsuarioCarreraObservable) this.getActivity();
-        }
         initView(rootView);
         //aCorrer.setOnClickListener(this);
         aCorrer.setOnTouchListener(new View.OnTouchListener() {
@@ -104,6 +103,9 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
     }
 
     private void initView(View rootView) {
+        if (this.usuarioObservable == null) {
+            this.usuarioObservable = (IUsuarioCarreraObservable) this.getActivity();
+        }
         this.editar = (IconTextView) rootView.findViewById(R.id.icon_edit_time);
 
         this.aCorrer = (LinearLayout) rootView.findViewById(R.id.lb_a_correr);
@@ -143,6 +145,9 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
     }
 
     private void updateEstadoEdicionTiempo() {
+        if (this.usuarioObservable == null) {
+            this.usuarioObservable = (IUsuarioCarreraObservable) this.getActivity();
+        }
         editar.setVisibility(View.INVISIBLE);
         aCorrer.setVisibility(View.GONE);
         if (this.usuarioObservable.getUsuarioCarrera().isAnotado()) {
