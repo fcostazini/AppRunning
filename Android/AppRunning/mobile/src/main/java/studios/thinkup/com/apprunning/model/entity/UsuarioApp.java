@@ -2,6 +2,7 @@ package studios.thinkup.com.apprunning.model.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 import studios.thinkup.com.apprunning.provider.helper.Id;
 
@@ -19,8 +20,12 @@ public class UsuarioApp implements Serializable, IEntity {
     @Id
     private Integer id;
     private String nombre;
+    private String apellido;
+    private String nick;
     private String email;
+    private Date fechaNacimiento;
     private String tipoCuenta;
+    private String fotoPerfilUrl;
 
     public UsuarioApp() {
 
@@ -50,6 +55,30 @@ public class UsuarioApp implements Serializable, IEntity {
         this.nombre = nombre;
     }
 
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
+    }
+
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
     @Override
     public Integer getId() {
         return this.id;
@@ -63,6 +92,14 @@ public class UsuarioApp implements Serializable, IEntity {
     @Override
     public String getNombreId() {
         return "id";
+    }
+
+    public String getFotoPerfilUrl() {
+        return fotoPerfilUrl;
+    }
+
+    public void setFotoPerfilUrl(String fotoPerfilUrl) {
+        this.fotoPerfilUrl = fotoPerfilUrl;
     }
 
     @Override

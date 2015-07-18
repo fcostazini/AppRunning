@@ -202,20 +202,20 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
                 UsuarioApp u = usuarioPovider.getUsuarioByEmail(socialPerson.email);
                 if (u == null) {
                     u = new UsuarioApp();
-                    u.setNombre(socialPerson.name);
+                    u.setNick(socialPerson.name);
                     u.setEmail(socialPerson.email);
+                    u.setFotoPerfilUrl(socialPerson.avatarURL);
                     u.setTipoCuenta(String.valueOf(socialNetwork.getID()));
-                    try {
-                        usuarioPovider.grabar(u);
-                    } catch (EntidadNoGuardadaException e) {
-                        socialNetwork.cancelAll();
-                        socialNetwork.logout();
-                        Toast.makeText(this.getActivity(), "No se puede crear un usuario", Toast.LENGTH_LONG);
-                    }
+                    Intent intent = new Intent(this.getActivity(), NuevoUsuario.class);
+                    intent.getExtras().putSerializable("usuario",u);
+                    intent.getExtras().putBoolean("nuevoUsuario",true);
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(this.getActivity(), RecomendadosActivity.class);
+                    ((RunningApplication) this.getActivity().getApplication()).setUsuario(u);
+                    startActivity(intent);
                 }
-                Intent intent = new Intent(this.getActivity(), RecomendadosActivity.class);
-                ((RunningApplication) this.getActivity().getApplication()).setUsuario(u);
-                startActivity(intent);
+
             }
         }
     }
