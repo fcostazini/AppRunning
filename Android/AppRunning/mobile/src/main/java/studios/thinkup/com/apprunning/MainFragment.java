@@ -15,14 +15,21 @@ import android.widget.Toast;
 import com.github.gorbin.asne.core.SocialNetwork;
 import com.github.gorbin.asne.core.SocialNetworkManager;
 import com.github.gorbin.asne.core.listener.OnLoginCompleteListener;
-import com.github.gorbin.asne.core.listener.OnRequestSocialPersonCompleteListener;
+import com.github.gorbin.asne.core.listener.OnRequestDetailedSocialPersonCompleteListener;
+
 import com.github.gorbin.asne.core.persons.SocialPerson;
+import com.github.gorbin.asne.facebook.FacebookPerson;
 import com.github.gorbin.asne.facebook.FacebookSocialNetwork;
+import com.github.gorbin.asne.googleplus.GooglePlusPerson;
 import com.github.gorbin.asne.googleplus.GooglePlusSocialNetwork;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
@@ -31,7 +38,7 @@ import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 
-public class MainFragment extends Fragment implements OnRequestSocialPersonCompleteListener, SocialNetworkManager.OnInitializationCompleteListener, OnLoginCompleteListener {
+public class MainFragment extends Fragment implements SocialNetworkManager.OnInitializationCompleteListener, OnLoginCompleteListener, OnRequestDetailedSocialPersonCompleteListener {
     public static SocialNetworkManager mSocialNetworkManager;
     /**
      * SocialNetwork Ids in ASNE:
@@ -66,7 +73,7 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
         i.setAlpha(0.35f);
         //Chose permissions
         ArrayList<String> fbScope = new ArrayList<String>();
-        fbScope.addAll(Arrays.asList("public_profile, email, user_friends"));
+        fbScope.addAll(Arrays.asList("public_profile, email, user_friends,user_birthday"));
 
         //Use manager to manage SocialNetworks
         mSocialNetworkManager = (SocialNetworkManager) getFragmentManager().findFragmentByTag(MainActivity.SOCIAL_NETWORK_TAG);
@@ -174,12 +181,12 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
 
     private void startProfile(int networkId) {
         socialNetwork = MainFragment.mSocialNetworkManager.getSocialNetwork(networkId);
-            socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
-            socialNetwork.requestCurrentPerson();
+            socialNetwork.setOnRequestDetailedSocialPersonCompleteListener(this);
+            socialNetwork.requestDetailedCurrentPerson();
     }
 
     @Override
-    public void onRequestSocialPersonSuccess(int i, SocialPerson socialPerson) {
+    public void onRequestDetailedSocialPersonSuccess(int i, SocialPerson socialPerson) {
         if (this.getActivity() != null &&
                 this.getActivity().getIntent() != null &&
                 this.getActivity().getIntent().getExtras() != null &&
@@ -201,11 +208,7 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
                 IUsuarioProvider usuarioPovider = new UsuarioProvider(this.getActivity());
                 UsuarioApp u = usuarioPovider.getUsuarioByEmail(socialPerson.email);
                 if (u == null) {
-                    u = new UsuarioApp();
-                    u.setNick(socialPerson.name);
-                    u.setEmail(socialPerson.email);
-                    u.setFotoPerfilUrl(socialPerson.avatarURL);
-                    u.setTipoCuenta(String.valueOf(socialNetwork.getID()));
+                    u = getUsuarioApp(socialNetwork,socialPerson);
 
                     Bundle extras = new Bundle();
                     extras.putSerializable("usuario", u);
@@ -222,4 +225,49 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
             }
         }
     }
+
+    private UsuarioApp getUsuarioApp(SocialNetwork socialNetwork, SocialPerson socialPerson) {
+        UsuarioApp u;
+
+        u = new UsuarioApp();
+
+        u.setEmail(socialPerson.email);
+        u.setFotoPerfilUrl(socialPerson.avatarURL);
+        u.setTipoCuenta(String.valueOf(this.socialNetwork.getID()));
+
+        if(socialNetwork.getID() == GooglePlusSocialNetwork.ID){
+            GooglePlusPerson gp = (GooglePlusPerson)socialPerson;
+            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            Date bd;
+            try {
+                bd =  sf.parse(gp.birthday);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                bd = new Date();
+            }
+            sf = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
+            u.setNombre(gp.name);
+            u.setNick(gp.nickname);
+            u.setFechaNacimiento(sf.format(bd));
+        }
+        if(socialNetwork.getID()==FacebookSocialNetwork.ID){
+            FacebookPerson fp = (FacebookPerson)socialPerson;
+            u.setNombre(fp.firstName);
+            u.setApellido(fp.lastName);
+            u.setNick(fp.name);
+            SimpleDateFormat sf = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
+            Date bd;
+            try {
+               bd =  sf.parse(fp.birthday);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                bd = new Date();
+            }
+            sf = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
+            u.setFechaNacimiento(sf.format(bd));
+        }
+        return u;
+    }
+
+
 }

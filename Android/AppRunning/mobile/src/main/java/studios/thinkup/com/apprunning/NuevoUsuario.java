@@ -112,15 +112,12 @@ private UsuarioApp ua;
             public View getView(int position, View convertView, ViewGroup parent) {
 
                 View v = super.getView(position, convertView, parent);
-                if (position == getCount()) {
-                    ((TextView)v.findViewById(android.R.id.text1)).setText(getItem(getCount()));
-                }
                 return v;
             }
 
             @Override
             public int getCount() {
-                return super.getCount()-1; // you dont display last item. It is used as hint.
+                return super.getCount(); // you dont display last item. It is used as hint.
             }
 
         };
@@ -139,13 +136,13 @@ private UsuarioApp ua;
             }
         count++;
         }
-        adapter.add(getString(R.string.corres_grupo));
+
         Spinner spinner = (Spinner)findViewById(R.id.sp_grupo);
         spinner.setAdapter(adapter);
         if(selection >=0){
             spinner.setSelection(selection); //display hint
         }else{
-            spinner.setSelection(adapter.getCount()); //display hint
+            spinner.setSelection(0); //display hint
         }
 
 
