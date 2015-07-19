@@ -2,13 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="studios.thinkup.com.apprunning.NuevoUsuario">
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:src="@drawable/loggin_bg"
-        android:alpha="0.25"
-        android:padding="0dp"
-        />
 
     <Button
         android:layout_width="fill_parent"
@@ -93,7 +86,7 @@
             android:layout_marginBottom="7dp" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:ems="10"
@@ -103,34 +96,51 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:hint="Email" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:ems="10"
-            android:id="@+id/txt_fecha_nac"
-            android:layout_below="@+id/txt_email"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:hint="Email"
             android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:hint="Fecha de Nacimiento" />
+            android:layout_marginBottom="7dp" />
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:ems="10"
+                android:id="@+id/txt_fecha_nac"
+                android:layout_below="@+id/txt_email"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:hint="Fecha de Nacimiento"
+                android:focusableInTouchMode="false"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
+                 />
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/img_calendario"
+                android:src="@drawable/ic_calendar"
+                android:layout_gravity="center"
+                android:scaleType="center"
+                android:layout_alignTop="@+id/txt_fecha_nac"
+                android:layout_alignRight="@+id/txt_fecha_nac"
+                android:layout_alignEnd="@+id/txt_fecha_nac"
+                android:layout_alignBottom="@+id/txt_fecha_nac" />
 
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner"
+            android:id="@+id/sp_grupo"
             android:layout_below="@+id/txt_fecha_nac"
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:spinnerMode="dropdown" />
 
     </RelativeLayout>
     </ScrollView>

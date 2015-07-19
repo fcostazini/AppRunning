@@ -2,8 +2,6 @@ package studios.thinkup.com.apprunning.model.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
-
 import studios.thinkup.com.apprunning.provider.helper.Id;
 
 /**
@@ -15,21 +13,23 @@ public class UsuarioApp implements Serializable, IEntity {
     public static final String NOMBRE = "NOMBRE";
     public static final String EMAIL = "EMAIL";
     public static final String TIPO_CUENTA = "TIPO_CUENTA";
+    public static final String APELLIDO = "APELLIDO";
+    public static final String FOTO_PERFIL_URL = "FOTO_PERFIL_URL";
+    public static final String FECHA_NACIMIENTO = "FECHA_NACIMIENTO";
+    public static final String NICK = "NICK";
+    public static final String GRUPO_ID ="GRUPO_ID";
 
 
     @Id
     private Integer id;
-    private String nombre;
-    private String apellido;
-    private String nick;
-    private String email;
-    private Date fechaNacimiento;
-    private String tipoCuenta;
+    private String nombre ="";
+    private String apellido ="";
+    private String nick ="";
+    private String email ="";
+    private String fechaNacimiento = new String();
+    private String tipoCuenta ="";
     private String fotoPerfilUrl;
-
-    public UsuarioApp() {
-
-    }
+    private String grupoId;
 
     public String getTipoCuenta() {
         return tipoCuenta;
@@ -71,11 +71,11 @@ public class UsuarioApp implements Serializable, IEntity {
         this.nick = nick;
     }
 
-    public Date getFechaNacimiento() {
+    public String getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
@@ -105,5 +105,13 @@ public class UsuarioApp implements Serializable, IEntity {
     @Override
     public ArrayList<String> getIgnoredFields() {
         return new ArrayList<>();
+    }
+
+    public String getGrupoId() {
+        return grupoId;
+    }
+
+    public void setGrupoId(String grupo) {
+        this.grupoId = grupo;
     }
 }

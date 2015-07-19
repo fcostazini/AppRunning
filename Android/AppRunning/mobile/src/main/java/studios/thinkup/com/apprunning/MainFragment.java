@@ -206,9 +206,12 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
                     u.setEmail(socialPerson.email);
                     u.setFotoPerfilUrl(socialPerson.avatarURL);
                     u.setTipoCuenta(String.valueOf(socialNetwork.getID()));
+
+                    Bundle extras = new Bundle();
+                    extras.putSerializable("usuario", u);
+                    extras.putBoolean("nuevoUsuario",true);
                     Intent intent = new Intent(this.getActivity(), NuevoUsuario.class);
-                    intent.getExtras().putSerializable("usuario",u);
-                    intent.getExtras().putBoolean("nuevoUsuario",true);
+                    intent.putExtras(extras);
                     startActivity(intent);
                 }else{
                     Intent intent = new Intent(this.getActivity(), RecomendadosActivity.class);

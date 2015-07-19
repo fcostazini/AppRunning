@@ -102,7 +102,8 @@
         <activity
             android:name=".NuevoUsuario"
             android:label="@string/title_activity_nuevo_usuario"
-            android:parentActivityName=".MainActivity" >
+            android:windowSoftInputMode="stateHidden">
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="studios.thinkup.com.apprunning.MainActivity" />

@@ -44,7 +44,7 @@ public abstract class GenericProvider<T  extends IEntity> implements IProvider<T
         String[] params = {id.toString()};
         c = null;
 
-            c = db.query(this.getTableName(clazz), this.getFields(clazz), "ID_USUARIO_CARRERA = ?", params, null, null, "ID_USUARIO_CARRERA");
+            c = db.query(this.getTableName(clazz), this.getFields(clazz), "ID = ?", params, null, null, "ID");
 
             return  this.toEntity(c);
 
@@ -73,7 +73,7 @@ public abstract class GenericProvider<T  extends IEntity> implements IProvider<T
         SQLiteDatabase db = this.dbProvider.getReadableDatabase();
         Cursor c = null;
         try {
-            c = db.query(this.getTableName(clazz), this.getFields(clazz), null, null, null, null, "ID_USUARIO_CARRERA");
+            c = db.query(this.getTableName(clazz), this.getFields(clazz), null, null, null, null, "ID");
             List<T> ent = this.toList(c);
             c.close();
             db.close();

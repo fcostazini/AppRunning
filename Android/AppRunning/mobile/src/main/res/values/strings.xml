@@ -58,4 +58,5 @@
     <string name="title_activity_nuevo_usuario">Nuevo Usuario</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="corres_grupo">Corres con un grupo?</string>
 </resources>
