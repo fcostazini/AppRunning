@@ -2,7 +2,6 @@ package studios.thinkup.com.apprunning;
 
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,24 +14,27 @@ import android.widget.Toast;
 import com.github.gorbin.asne.core.SocialNetwork;
 import com.github.gorbin.asne.core.SocialNetworkManager;
 import com.github.gorbin.asne.core.listener.OnLoginCompleteListener;
-import com.github.gorbin.asne.core.listener.OnRequestSocialPersonCompleteListener;
+import com.github.gorbin.asne.core.listener.OnRequestDetailedSocialPersonCompleteListener;
 import com.github.gorbin.asne.core.persons.SocialPerson;
+import com.github.gorbin.asne.facebook.FacebookPerson;
 import com.github.gorbin.asne.facebook.FacebookSocialNetwork;
+import com.github.gorbin.asne.googleplus.GooglePlusPerson;
 import com.github.gorbin.asne.googleplus.GooglePlusSocialNetwork;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
-import studios.thinkup.com.apprunning.provider.ConfigProvider;
 import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
-
 import studios.thinkup.com.apprunning.provider.UsuarioProvider;
-import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 
-public class MainFragment extends Fragment implements OnRequestSocialPersonCompleteListener, SocialNetworkManager.OnInitializationCompleteListener, OnLoginCompleteListener {
+public class MainFragment extends Fragment implements OnRequestDetailedSocialPersonCompleteListener, SocialNetworkManager.OnInitializationCompleteListener, OnLoginCompleteListener {
     public static SocialNetworkManager mSocialNetworkManager;
     /**
      * SocialNetwork Ids in ASNE:
