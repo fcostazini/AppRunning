@@ -237,34 +237,42 @@ public class MainFragment extends Fragment implements SocialNetworkManager.OnIni
 
         if(socialNetwork.getID() == GooglePlusSocialNetwork.ID){
             GooglePlusPerson gp = (GooglePlusPerson)socialPerson;
-            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            Date bd;
-            try {
-                bd =  sf.parse(gp.birthday);
-            } catch (ParseException e) {
-                e.printStackTrace();
-                bd = new Date();
+            if(gp.birthday!= null && gp.birthday.length() == 10) {
+                SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Date bd;
+                try {
+                    bd = sf.parse(gp.birthday);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    bd = new Date();
+                }
+                sf = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
+                u.setFechaNacimiento(sf.format(bd));
             }
-            sf = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
+
             u.setNombre(gp.name);
             u.setNick(gp.nickname);
-            u.setFechaNacimiento(sf.format(bd));
+
         }
         if(socialNetwork.getID()==FacebookSocialNetwork.ID){
             FacebookPerson fp = (FacebookPerson)socialPerson;
             u.setNombre(fp.firstName);
             u.setApellido(fp.lastName);
             u.setNick(fp.name);
-            SimpleDateFormat sf = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
-            Date bd;
-            try {
-               bd =  sf.parse(fp.birthday);
-            } catch (ParseException e) {
-                e.printStackTrace();
-                bd = new Date();
+            if(fp.birthday!= null && fp.birthday.length() == 10) {
+                SimpleDateFormat sf = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
+                Date bd;
+                try {
+                    bd = sf.parse(fp.birthday);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    bd = new Date();
+                }
+                sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                u.setFechaNacimiento(sf.format(bd));
             }
-            sf = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
-            u.setFechaNacimiento(sf.format(bd));
+
+
         }
         return u;
     }
