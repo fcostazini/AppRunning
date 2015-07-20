@@ -18,6 +18,9 @@ public class RunningApplication extends Application{
     private DefaultSettings defaultSettings;
     private UsuarioApp usuario;
 
+
+
+
     public RunningApplication(){
         super();
         defaultSettings = new DefaultSettings();

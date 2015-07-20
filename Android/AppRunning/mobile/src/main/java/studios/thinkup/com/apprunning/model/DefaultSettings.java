@@ -3,6 +3,7 @@ package studios.thinkup.com.apprunning.model;
 import java.io.Serializable;
 
 import studios.thinkup.com.apprunning.model.entity.Modalidad;
+import studios.thinkup.com.apprunning.provider.QueryGenerator;
 
 /**
  * Created by FaQ on 23/05/2015.
@@ -14,7 +15,8 @@ public class DefaultSettings implements Serializable {
     private Integer distanciaMin = 0;
     private Integer distanciaMax = 100;
     private Modalidad modalidad = Modalidad.TODOS;
-    private String zona = "Buenos Aires";
+    private String provincia = Filtro.TODAS;
+    private String ciudad = Filtro.TODAS;
     private Integer diasBusqueda = 15;
 
 
@@ -50,11 +52,19 @@ public class DefaultSettings implements Serializable {
         this.modalidad = modalidad;
     }
 
-    public String getZona() {
-        return zona;
+    public String getProvincia() {
+        return provincia;
     }
 
-    public void setZona(String zona) {
-        this.zona = zona;
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
     }
 }

@@ -16,6 +16,7 @@ import studios.thinkup.com.apprunning.model.entity.Modalidad;
 public class Filtro implements Serializable {
 
     private static final long serialVersionUID = 244741194428126838L;
+    public static final String TODAS = "TODOS";
 
     private String nombreCarrera;
     private Date fechaDesde;
@@ -51,6 +52,8 @@ public class Filtro implements Serializable {
         this.maxDistancia = defaultSettings.getDistanciaMax();
         this.modalidad = defaultSettings.getModalidad();
         this.nombreCarrera = "";
+        this.ciudad = defaultSettings.getCiudad();
+        this.provincia = defaultSettings.getProvincia();
         meGusta = null;
         inscripto = null;
         corrida = null;

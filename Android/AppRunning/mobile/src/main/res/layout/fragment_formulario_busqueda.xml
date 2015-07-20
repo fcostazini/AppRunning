@@ -366,7 +366,7 @@
         android:id="@+id/btn_buscar"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:background="#90B8DD" />
+        android:background="@drawable/button" />
 
 
 </RelativeLayout>

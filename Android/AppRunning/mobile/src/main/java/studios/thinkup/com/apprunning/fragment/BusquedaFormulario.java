@@ -71,8 +71,11 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
         RangeBar sb_distancia = (RangeBar) rootView.findViewById(R.id.sb_distancia);
 
         TextView left = (TextView) rootView.findViewById(R.id.lbl_dist_desde);
+        left.setText(String.valueOf(filtro.getMinDistancia()));
         TextView right = (TextView) rootView.findViewById(R.id.lbl_dist_hasta);
-
+        right.setText(String.valueOf(filtro.getMaxDistancia()));
+        sb_distancia.setLeft(filtro.getMinDistancia());
+        sb_distancia.setRight(filtro.getMaxDistancia());
         sb_distancia.setOnRangeBarChangeListener(new DistanciaSeekBarChangeListener(this.filtro, left, right));
 
         spCiudad = (Spinner) rootView.findViewById(R.id.sp_ciudad);
@@ -105,7 +108,7 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
                             BusquedaFormulario.this.filtro.setCiudad(FiltrosProvider.TODAS_LAS_CIUDADES);
                         }
                     });
-
+                    spCiudad.setSelection(adapterZona.getPosition(filtro.getCiudad()));
                 } else {
                     spCiudad.setVisibility(View.GONE);
                     BusquedaFormulario.this.filtro.setCiudad(FiltrosProvider.TODAS_LAS_CIUDADES);
@@ -118,6 +121,7 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
                 spCiudad.setVisibility(View.GONE);
             }
         });
+        spProvincia.setSelection(adapterProvincia.getPosition(filtro.getProvincia()));
         TextView txtDesde = (TextView) rootView.findViewById(R.id.txt_fecha_desde);
         txtDesde.setOnClickListener(new DatePickerListener(txtDesde));
         if (filtro.getFechaDesde() != null)

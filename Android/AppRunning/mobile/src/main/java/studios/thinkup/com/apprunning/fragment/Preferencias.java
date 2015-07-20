@@ -10,15 +10,21 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.edmodo.rangebar.RangeBar;
 import com.github.gorbin.asne.googleplus.GooglePlusSocialNetwork;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import studios.thinkup.com.apprunning.MainActivity;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.model.DefaultSettings;
+import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.Modalidad;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
@@ -32,11 +38,14 @@ import studios.thinkup.com.apprunning.provider.FiltrosProvider;
 public class Preferencias extends Fragment {
 
 
-private Spinner spProvincia;
+
+    private Spinner spCiudad;
+    private DefaultSettings defaultSettings;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        FiltrosProvider filtrosProvider = new FiltrosProvider(this.getActivity());
-        DefaultSettings defaultSettings = ((RunningApplication) this.getActivity().getApplication()).getDefaultSettings();
+        final FiltrosProvider filtrosProvider = new FiltrosProvider(this.getActivity());
+        defaultSettings = ((RunningApplication) this.getActivity().getApplication()).getDefaultSettings();
 
         View rootView = inflater.inflate(R.layout.filtros_activity, container, false);
         Button logout = (Button) rootView.findViewById(R.id.btn_logout);
@@ -62,62 +71,80 @@ private Spinner spProvincia;
                 }
             }
         });
+
+
         Spinner spGenero = (Spinner) rootView.findViewById(R.id.sp_genero);
+
         ArrayAdapter<Modalidad> adapterGenero = new ArrayAdapter<>(this.getActivity(),
                 android.R.layout.simple_spinner_item, Modalidad.values());
         adapterGenero.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spGenero.setAdapter(adapterGenero);
-        spGenero.setOnItemSelectedListener(new GeneroSpinnerItemSelectedListener(defaultSettings));
+        spGenero.setOnItemSelectedListener(new GeneroSpinnerItemSelectedListener(this.defaultSettings));
         spGenero.setSelection(adapterGenero.getPosition(defaultSettings.getModalidad()));
 
-        Spinner spZona = (Spinner) rootView.findViewById(R.id.sp_zona);
-        ArrayAdapter<String> adapterZona = new ArrayAdapter<>(this.getActivity(),
+        spCiudad = (Spinner) rootView.findViewById(R.id.sp_ciudad);
+        spCiudad.setVisibility(View.GONE);
+        Spinner spProvincia = (Spinner) rootView.findViewById(R.id.sp_provincia);
+        ArrayAdapter<String> adapterProvincia = new ArrayAdapter<>(this.getActivity(),
                 android.R.layout.simple_spinner_item, filtrosProvider.getProvincias());
-        adapterZona.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spZona.setAdapter(adapterZona);
-        spZona.setOnItemSelectedListener(new ZonaSpinnerItemSelectedListener(defaultSettings));
-        spZona.setSelection(adapterZona.getPosition(defaultSettings.getZona()));
+        adapterProvincia.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spProvincia.setAdapter(adapterProvincia);
+        spProvincia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String provincia = parent.getItemAtPosition(position).toString();
+                Preferencias.this.defaultSettings.setProvincia(provincia);
+                if (!provincia.equals(FiltrosProvider.TODAS_LAS_PROVINCIAS)
+                        && !provincia.equals(FiltrosProvider.CAPITAL)) {
+                    spCiudad.setVisibility(View.VISIBLE);
+                    ArrayAdapter<String> adapterZona = new ArrayAdapter<>(Preferencias.this.getActivity(),
+                            android.R.layout.simple_spinner_item, filtrosProvider.getCiudades(provincia));
+                    adapterZona.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spCiudad.setAdapter(adapterZona);
+                    spCiudad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            Preferencias.this.defaultSettings.setCiudad(parent.getItemAtPosition(position).toString());
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                            Preferencias.this.defaultSettings.setCiudad(FiltrosProvider.TODAS_LAS_CIUDADES);
+                        }
+                    });
+
+                } else {
+                    spCiudad.setVisibility(View.GONE);
+                    Preferencias.this.defaultSettings.setCiudad(FiltrosProvider.TODAS_LAS_CIUDADES);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Preferencias.this.defaultSettings.setProvincia(FiltrosProvider.TODAS_LAS_PROVINCIAS);
+                spCiudad.setVisibility(View.GONE);
+            }
+        });
 
 
-        SeekBar sbMinDistancia = (SeekBar) rootView.findViewById(R.id.sb_min_distancia);
-        TextView txtMinDistancia = (TextView) rootView.findViewById(R.id.lbl_dist_desde);
-        sbMinDistancia.setProgress(defaultSettings.getDistanciaMin());
-        //txtMinDistancia.setText(Filtro.DISTANCIAS[defaultSettings.getDistanciaMin()]);
-        sbMinDistancia.setOnSeekBarChangeListener(new DistanciaSeekBarChangeListener(defaultSettings, txtMinDistancia));
+        RangeBar sb_distancia = (RangeBar) rootView.findViewById(R.id.sb_distancia);
+
+        TextView left = (TextView) rootView.findViewById(R.id.lbl_dist_desde);
+        TextView right = (TextView) rootView.findViewById(R.id.lbl_dist_hasta);
+        sb_distancia.setOnRangeBarChangeListener(new DistanciaSeekBarChangeListener(this.defaultSettings, left, right));
 
         SeekBar sbDias = (SeekBar) rootView.findViewById(R.id.sb_dias);
         TextView txtDias = (TextView) rootView.findViewById(R.id.txt_dias);
         txtDias.setText(defaultSettings.getDiasBusqueda().toString());
         sbDias.setProgress(defaultSettings.getDiasBusqueda());
         sbDias.setMax(120);
-        sbDias.setOnSeekBarChangeListener(new DistanciaSeekBarChangeListener(defaultSettings, txtDias));
+        sbDias.setOnSeekBarChangeListener(new DiasSeekBarChangeListener(defaultSettings, txtDias));
         return rootView;
 
     }
 
 
-    private class ZonaSpinnerItemSelectedListener implements AdapterView.OnItemSelectedListener {
-        private DefaultSettings defaultSettings;
-
-        ZonaSpinnerItemSelectedListener(DefaultSettings defaultSettings) {
-            this.defaultSettings = defaultSettings;
-        }
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            defaultSettings.setZona(parent.getItemAtPosition(position).toString());
-
-
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-            defaultSettings.setZona("");
-        }
-    }
-
-    private class GeneroSpinnerItemSelectedListener implements AdapterView.OnItemSelectedListener {
+      private class GeneroSpinnerItemSelectedListener implements AdapterView.OnItemSelectedListener {
         private DefaultSettings defaultSettings;
 
         GeneroSpinnerItemSelectedListener(DefaultSettings defaultSettings) {
@@ -137,12 +164,12 @@ private Spinner spProvincia;
         }
     }
 
-    private class DistanciaSeekBarChangeListener implements SeekBar.OnSeekBarChangeListener {
+    private class DiasSeekBarChangeListener implements SeekBar.OnSeekBarChangeListener {
         int progress = 0;
         DefaultSettings defaultSettings;
         TextView toUpdate;
 
-        private DistanciaSeekBarChangeListener(DefaultSettings defaultSettings, TextView toUpdate) {
+        private DiasSeekBarChangeListener(DefaultSettings defaultSettings, TextView toUpdate) {
             this.defaultSettings = defaultSettings;
             this.toUpdate = toUpdate;
         }
@@ -167,10 +194,6 @@ private Spinner spProvincia;
         public void onStopTrackingTouch(SeekBar seekBar) {
             if (seekBar != null) {
                 switch (seekBar.getId()) {
-                    case R.id.sb_min_distancia:
-                        defaultSettings.setDistanciaMin(progress);
-                        break;
-
                     case R.id.sb_dias:
                         defaultSettings.setDiasBusqueda(progress);
                         break;
@@ -182,4 +205,24 @@ private Spinner spProvincia;
     }
 
 
+    private class DistanciaSeekBarChangeListener implements RangeBar.OnRangeBarChangeListener {
+        DefaultSettings filtro;
+        TextView left;
+        TextView right;
+
+        private DistanciaSeekBarChangeListener(DefaultSettings filtro, TextView left, TextView right) {
+            this.filtro = filtro;
+            this.left = left;
+            this.right = right;
+        }
+
+        @Override
+        public void onIndexChangeListener(RangeBar rangeBar, int i, int i1) {
+            this.left.setText(String.valueOf(i * 10) + " Km");
+            this.right.setText(String.valueOf(i1 * 10)+ " Km");
+            filtro.setDistanciaMin(i*10);
+            filtro.setDistanciaMax(i1*10);
+
+        }
+    }
 }
