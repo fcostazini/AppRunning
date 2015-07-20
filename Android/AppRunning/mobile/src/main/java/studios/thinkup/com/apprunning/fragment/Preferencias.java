@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -18,17 +17,15 @@ import android.widget.TextView;
 import com.edmodo.rangebar.RangeBar;
 import com.github.gorbin.asne.googleplus.GooglePlusSocialNetwork;
 
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
 import studios.thinkup.com.apprunning.MainActivity;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.model.DefaultSettings;
-import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.Modalidad;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
+import studios.thinkup.com.apprunning.provider.ConfigProvider;
 import studios.thinkup.com.apprunning.provider.FiltrosProvider;
+import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 
 
 /**
@@ -38,18 +35,28 @@ import studios.thinkup.com.apprunning.provider.FiltrosProvider;
 public class Preferencias extends Fragment {
 
 
-
     private Spinner spCiudad;
     private DefaultSettings defaultSettings;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final FiltrosProvider filtrosProvider = new FiltrosProvider(this.getActivity());
-        defaultSettings = ((RunningApplication) this.getActivity().getApplication()).getDefaultSettings();
+        ConfigProvider cp = new ConfigProvider(this.getActivity());
+        UsuarioApp ua = ((RunningApplication) this.getActivity().getApplication()).getUsuario();
 
+        defaultSettings = cp.getByUsuario(ua.getId());
+        if (defaultSettings == null) {
+            defaultSettings = new DefaultSettings(ua.getId());
+            try {
+                cp.grabar(defaultSettings);
+            } catch (EntidadNoGuardadaException e) {
+                e.printStackTrace();
+            }
+
+        }
         View rootView = inflater.inflate(R.layout.filtros_activity, container, false);
         Button logout = (Button) rootView.findViewById(R.id.btn_logout);
-        UsuarioApp ua = ((RunningApplication) this.getActivity().getApplication()).getUsuario();
+
         if (!ua.getTipoCuenta().equals(String.valueOf(GooglePlusSocialNetwork.ID))) {
             logout.setBackgroundColor(this.getActivity().getResources().getColor(R.color.com_facebook_blue));
             logout.setTextColor(this.getActivity().getResources().getColor(R.color.common_signin_btn_text_dark));
@@ -89,6 +96,7 @@ public class Preferencias extends Fragment {
                 android.R.layout.simple_spinner_item, filtrosProvider.getProvincias());
         adapterProvincia.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spProvincia.setAdapter(adapterProvincia);
+
         spProvincia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -112,7 +120,7 @@ public class Preferencias extends Fragment {
                             Preferencias.this.defaultSettings.setCiudad(FiltrosProvider.TODAS_LAS_CIUDADES);
                         }
                     });
-
+                    spCiudad.setSelection(adapterZona.getPosition(defaultSettings.getCiudad()));
                 } else {
                     spCiudad.setVisibility(View.GONE);
                     Preferencias.this.defaultSettings.setCiudad(FiltrosProvider.TODAS_LAS_CIUDADES);
@@ -126,12 +134,16 @@ public class Preferencias extends Fragment {
             }
         });
 
-
+        spProvincia.setSelection(adapterProvincia.getPosition(defaultSettings.getProvincia()));
         RangeBar sb_distancia = (RangeBar) rootView.findViewById(R.id.sb_distancia);
 
         TextView left = (TextView) rootView.findViewById(R.id.lbl_dist_desde);
+        left.setText(String.valueOf(defaultSettings.getDistanciaMin()) + "Km");
         TextView right = (TextView) rootView.findViewById(R.id.lbl_dist_hasta);
+        right.setText(String.valueOf(defaultSettings.getDistanciaMax()) + "Km");
         sb_distancia.setOnRangeBarChangeListener(new DistanciaSeekBarChangeListener(this.defaultSettings, left, right));
+
+        sb_distancia.setThumbIndices(defaultSettings.getDistanciaMin() /10, defaultSettings.getDistanciaMax() / 10);
 
         SeekBar sbDias = (SeekBar) rootView.findViewById(R.id.sb_dias);
         TextView txtDias = (TextView) rootView.findViewById(R.id.txt_dias);
@@ -139,12 +151,13 @@ public class Preferencias extends Fragment {
         sbDias.setProgress(defaultSettings.getDiasBusqueda());
         sbDias.setMax(120);
         sbDias.setOnSeekBarChangeListener(new DiasSeekBarChangeListener(defaultSettings, txtDias));
+        sbDias.setProgress(defaultSettings.getDiasBusqueda());
         return rootView;
 
     }
 
 
-      private class GeneroSpinnerItemSelectedListener implements AdapterView.OnItemSelectedListener {
+    private class GeneroSpinnerItemSelectedListener implements AdapterView.OnItemSelectedListener {
         private DefaultSettings defaultSettings;
 
         GeneroSpinnerItemSelectedListener(DefaultSettings defaultSettings) {
@@ -177,9 +190,9 @@ public class Preferencias extends Fragment {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             this.progress = progress;
-            if(seekBar.getId()== R.id.sb_dias){
+            if (seekBar.getId() == R.id.sb_dias) {
                 this.toUpdate.setText(String.valueOf(progress));
-            }else{
+            } else {
                 //this.toUpdate.setText(Filtro.DISTANCIAS[progress]);
             }
 
@@ -219,9 +232,37 @@ public class Preferencias extends Fragment {
         @Override
         public void onIndexChangeListener(RangeBar rangeBar, int i, int i1) {
             this.left.setText(String.valueOf(i * 10) + " Km");
-            this.right.setText(String.valueOf(i1 * 10)+ " Km");
-            filtro.setDistanciaMin(i*10);
-            filtro.setDistanciaMax(i1*10);
+            this.right.setText(String.valueOf(i1 * 10) + " Km");
+            filtro.setDistanciaMin(i * 10);
+            filtro.setDistanciaMax(i1 * 10);
+
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        saveDefaultSettings();
+    }
+
+    @Override
+    public void onDestroy() {
+        saveDefaultSettings();
+        super.onDestroy();
+    }
+
+    private void saveDefaultSettings() {
+        ConfigProvider cp = new ConfigProvider(this.getActivity());
+        if (this.defaultSettings != null) {
+            try {
+                if (this.defaultSettings.getId() != null) {
+                    cp.update(this.defaultSettings);
+                } else {
+                    cp.grabar(this.defaultSettings);
+                }
+            } catch (EntidadNoGuardadaException e) {
+                e.printStackTrace();
+            }
 
         }
     }

@@ -15,7 +15,7 @@ import studios.thinkup.com.apprunning.provider.helper.DataBaseHelper;
  * Application
  */
 public class RunningApplication extends Application{
-    private DefaultSettings defaultSettings;
+
     private UsuarioApp usuario;
 
 
@@ -23,8 +23,6 @@ public class RunningApplication extends Application{
 
     public RunningApplication(){
         super();
-        defaultSettings = new DefaultSettings();
-
     }
 
     @Override
@@ -51,11 +49,9 @@ public class RunningApplication extends Application{
         return dbFile.exists();
     }
 
-    public DefaultSettings getDefaultSettings() {
-        return defaultSettings;
-    }
     public UsuarioApp getUsuario(){return this.usuario;}
     public void setUsuario(UsuarioApp usuario) {
         this.usuario = usuario;
     }
+
 }

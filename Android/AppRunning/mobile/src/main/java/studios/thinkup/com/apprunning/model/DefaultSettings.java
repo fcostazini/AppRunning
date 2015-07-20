@@ -1,7 +1,11 @@
 package studios.thinkup.com.apprunning.model;
 
-import java.io.Serializable;
+import android.database.Cursor;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import studios.thinkup.com.apprunning.model.entity.IEntity;
 import studios.thinkup.com.apprunning.model.entity.Modalidad;
 import studios.thinkup.com.apprunning.provider.QueryGenerator;
 
@@ -10,15 +14,48 @@ import studios.thinkup.com.apprunning.provider.QueryGenerator;
  * <p/>
  * Filtros preconfigurados
  */
-public class DefaultSettings implements Serializable {
+public class DefaultSettings implements Serializable, IEntity {
 
+
+    public static final String ID = "ID" ;
+    public static final String ID_USUARIO = "ID_USUARIO";
+    public static final String DISTANCIA_MIN = "DISTANCIA_MIN";
+    public static final String DISTANCIA_MAX = "DISTANCIA_MAX";
+    public static final String MODALIDAD = "MODALIDAD";
+    public static final String PROVINCIA = "PROVINCIA";
+    public static final String CIUDAD = "CIUDAD";
+    public static final String DIAS_BUSQUEDA = "DIAS_BUSQUEDA";
+
+    private Integer idUsuario;
     private Integer distanciaMin = 0;
     private Integer distanciaMax = 100;
-    private Modalidad modalidad = Modalidad.TODOS;
+    private String modalidad = Modalidad.TODOS.getNombre();
     private String provincia = Filtro.TODAS;
     private String ciudad = Filtro.TODAS;
     private Integer diasBusqueda = 15;
+    private Integer id;
 
+
+    public DefaultSettings(Integer idUsuario){
+        this.idUsuario = idUsuario;
+        distanciaMin=0;
+        distanciaMax=100;
+        modalidad= Modalidad.TODOS.getNombre();
+        provincia = Filtro.TODAS;
+        ciudad = Filtro.TODAS;
+        diasBusqueda = 15;
+    }
+
+    public DefaultSettings(Cursor c) {
+        this.setId(c.getInt(c.getColumnIndex(ID)));
+        this.setIdUsuario(c.getInt(c.getColumnIndex(ID_USUARIO)));
+        this.setDistanciaMin(c.getInt(c.getColumnIndex(DISTANCIA_MIN)));
+        this.setDistanciaMax(c.getInt(c.getColumnIndex(DISTANCIA_MAX)));
+        this.setModalidad(Modalidad.getByName(c.getString(c.getColumnIndex(MODALIDAD))));
+        this.setProvincia(c.getString(c.getColumnIndex(PROVINCIA)));
+        this.setCiudad(c.getString(c.getColumnIndex(CIUDAD)));
+        this.setDiasBusqueda(c.getInt(c.getColumnIndex(DIAS_BUSQUEDA)));
+    }
 
     public Integer getDiasBusqueda() {
         return diasBusqueda;
@@ -45,11 +82,11 @@ public class DefaultSettings implements Serializable {
     }
 
     public Modalidad getModalidad() {
-        return modalidad;
+        return Modalidad.getByName(modalidad);
     }
 
     public void setModalidad(Modalidad modalidad) {
-        this.modalidad = modalidad;
+        this.modalidad = modalidad.getNombre();
     }
 
     public String getProvincia() {
@@ -66,5 +103,33 @@ public class DefaultSettings implements Serializable {
 
     public void setCiudad(String ciudad) {
         this.ciudad = ciudad;
+    }
+
+    @Override
+    public Integer getId() {
+        return this.id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Override
+    public String getNombreId() {
+        return "ID";
+    }
+
+    @Override
+    public ArrayList<String> getIgnoredFields() {
+        return new ArrayList<>();
+    }
+
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 }

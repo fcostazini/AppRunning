@@ -27,10 +27,14 @@ import java.util.Locale;
 import studios.thinkup.com.apprunning.CarrerasActivity;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.dialogs.DatePicker;
+import studios.thinkup.com.apprunning.model.DefaultSettings;
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.Modalidad;
+import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
+import studios.thinkup.com.apprunning.provider.ConfigProvider;
 import studios.thinkup.com.apprunning.provider.FiltrosProvider;
+import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 
 /**
  * Created by FaQ on 23/05/2015.
@@ -49,7 +53,20 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final FiltrosProvider filtrosProvider = new FiltrosProvider(this.getActivity());
-        this.filtro = new Filtro(((RunningApplication) this.getActivity().getApplication()).getDefaultSettings());
+        ConfigProvider cp = new ConfigProvider(this.getActivity());
+        UsuarioApp ua = ((RunningApplication) this.getActivity().getApplication()).getUsuario();
+
+       DefaultSettings defaultSettings = cp.getByUsuario(ua.getId());
+        if (defaultSettings == null) {
+            defaultSettings = new DefaultSettings(ua.getId());
+            try {
+                cp.grabar(defaultSettings);
+            } catch (EntidadNoGuardadaException e) {
+                e.printStackTrace();
+            }
+
+        }
+        this.filtro = new Filtro(defaultSettings);
         SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
         View rootView = inflater.inflate(R.layout.fragment_formulario_busqueda, container, false);
@@ -71,12 +88,12 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
         RangeBar sb_distancia = (RangeBar) rootView.findViewById(R.id.sb_distancia);
 
         TextView left = (TextView) rootView.findViewById(R.id.lbl_dist_desde);
-        left.setText(String.valueOf(filtro.getMinDistancia()));
+        left.setText(String.valueOf(filtro.getMinDistancia()) + "Km");
         TextView right = (TextView) rootView.findViewById(R.id.lbl_dist_hasta);
-        right.setText(String.valueOf(filtro.getMaxDistancia()));
-        sb_distancia.setLeft(filtro.getMinDistancia());
-        sb_distancia.setRight(filtro.getMaxDistancia());
+        right.setText(String.valueOf(filtro.getMaxDistancia()) + "Km");
+
         sb_distancia.setOnRangeBarChangeListener(new DistanciaSeekBarChangeListener(this.filtro, left, right));
+        sb_distancia.setThumbIndices(filtro.getMinDistancia()/10,filtro.getMaxDistancia()/10);
 
         spCiudad = (Spinner) rootView.findViewById(R.id.sp_ciudad);
         spCiudad.setVisibility(View.GONE);

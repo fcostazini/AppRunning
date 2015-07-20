@@ -3,8 +3,12 @@ package studios.thinkup.com.apprunning.fragment;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 
+import studios.thinkup.com.apprunning.model.DefaultSettings;
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.RunningApplication;
+import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
+import studios.thinkup.com.apprunning.provider.ConfigProvider;
+import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 
 /**
  * Created by fcostazini on 14/07/2015.
@@ -25,7 +29,20 @@ public abstract class FilteredFragment extends ListFragment {
                 this.filtro = (Filtro) getArguments().getSerializable(Filtro.class.getSimpleName() + this.getIdFragment());
             }
             if (this.filtro == null) {
-                this.filtro = new Filtro(((RunningApplication) this.getActivity().getApplication()).getDefaultSettings());
+                ConfigProvider cp = new ConfigProvider(this.getActivity().getApplication());
+                UsuarioApp ua = ((RunningApplication) this.getActivity().getApplication()).getUsuario();
+
+                DefaultSettings defaultSettings = cp.getByUsuario(ua.getId());
+                if (defaultSettings == null) {
+                    defaultSettings = new DefaultSettings(ua.getId());
+                    try {
+                        cp.grabar(defaultSettings);
+                    } catch (EntidadNoGuardadaException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                this.filtro = new Filtro(defaultSettings);
             }
         }
     }

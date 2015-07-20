@@ -24,8 +24,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import studios.thinkup.com.apprunning.model.DefaultSettings;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
+import studios.thinkup.com.apprunning.provider.ConfigProvider;
 import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
 
 import studios.thinkup.com.apprunning.provider.UsuarioProvider;
@@ -213,6 +215,8 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
                         Toast.makeText(this.getActivity(), "No se puede crear un usuario", Toast.LENGTH_LONG);
                     }
                 }
+
+
                 Intent intent = new Intent(this.getActivity(), RecomendadosActivity.class);
                 ((RunningApplication) this.getActivity().getApplication()).setUsuario(u);
                 startActivity(intent);
