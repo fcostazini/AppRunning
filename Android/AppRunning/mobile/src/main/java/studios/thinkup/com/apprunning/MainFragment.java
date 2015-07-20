@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import studios.thinkup.com.apprunning.model.DefaultSettings;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.ConfigProvider;
@@ -68,7 +67,7 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
         i.setAlpha(0.35f);
         //Chose permissions
         ArrayList<String> fbScope = new ArrayList<String>();
-        fbScope.addAll(Arrays.asList("public_profile, email, user_friends"));
+        fbScope.addAll(Arrays.asList("public_profile, email, user_friends,user_birthday"));
 
         //Use manager to manage SocialNetworks
         mSocialNetworkManager = (SocialNetworkManager) getFragmentManager().findFragmentByTag(MainActivity.SOCIAL_NETWORK_TAG);
@@ -176,12 +175,12 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
 
     private void startProfile(int networkId) {
         socialNetwork = MainFragment.mSocialNetworkManager.getSocialNetwork(networkId);
-            socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
-            socialNetwork.requestCurrentPerson();
+            socialNetwork.setOnRequestDetailedSocialPersonCompleteListener(this);
+            socialNetwork.requestDetailedCurrentPerson();
     }
 
     @Override
-    public void onRequestSocialPersonSuccess(int i, SocialPerson socialPerson) {
+    public void onRequestDetailedSocialPersonSuccess(int i, SocialPerson socialPerson) {
         if (this.getActivity() != null &&
                 this.getActivity().getIntent() != null &&
                 this.getActivity().getIntent().getExtras() != null &&
@@ -203,24 +202,74 @@ public class MainFragment extends Fragment implements OnRequestSocialPersonCompl
                 IUsuarioProvider usuarioPovider = new UsuarioProvider(this.getActivity());
                 UsuarioApp u = usuarioPovider.getUsuarioByEmail(socialPerson.email);
                 if (u == null) {
-                    u = new UsuarioApp();
-                    u.setNombre(socialPerson.name);
-                    u.setEmail(socialPerson.email);
-                    u.setTipoCuenta(String.valueOf(socialNetwork.getID()));
-                    try {
-                        usuarioPovider.grabar(u);
-                    } catch (EntidadNoGuardadaException e) {
-                        socialNetwork.cancelAll();
-                        socialNetwork.logout();
-                        Toast.makeText(this.getActivity(), "No se puede crear un usuario", Toast.LENGTH_LONG);
-                    }
+                    u = getUsuarioApp(socialNetwork,socialPerson);
+
+                    Bundle extras = new Bundle();
+                    extras.putSerializable("usuario", u);
+                    extras.putBoolean("nuevoUsuario",true);
+                    Intent intent = new Intent(this.getActivity(), NuevoUsuario.class);
+                    intent.putExtras(extras);
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(this.getActivity(), RecomendadosActivity.class);
+                    ((RunningApplication) this.getActivity().getApplication()).setUsuario(u);
+                    startActivity(intent);
                 }
 
-
-                Intent intent = new Intent(this.getActivity(), RecomendadosActivity.class);
-                ((RunningApplication) this.getActivity().getApplication()).setUsuario(u);
-                startActivity(intent);
             }
         }
     }
+
+    private UsuarioApp getUsuarioApp(SocialNetwork socialNetwork, SocialPerson socialPerson) {
+        UsuarioApp u;
+
+        u = new UsuarioApp();
+
+        u.setEmail(socialPerson.email);
+        u.setFotoPerfilUrl(socialPerson.avatarURL);
+        u.setTipoCuenta(String.valueOf(this.socialNetwork.getID()));
+
+        if(socialNetwork.getID() == GooglePlusSocialNetwork.ID){
+            GooglePlusPerson gp = (GooglePlusPerson)socialPerson;
+            if(gp.birthday!= null && gp.birthday.length() == 10) {
+                SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Date bd;
+                try {
+                    bd = sf.parse(gp.birthday);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    bd = new Date();
+                }
+                sf = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
+                u.setFechaNacimiento(sf.format(bd));
+            }
+
+            u.setNombre(gp.name);
+            u.setNick(gp.nickname);
+
+        }
+        if(socialNetwork.getID()==FacebookSocialNetwork.ID){
+            FacebookPerson fp = (FacebookPerson)socialPerson;
+            u.setNombre(fp.firstName);
+            u.setApellido(fp.lastName);
+            u.setNick(fp.name);
+            if(fp.birthday!= null && fp.birthday.length() == 10) {
+                SimpleDateFormat sf = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
+                Date bd;
+                try {
+                    bd = sf.parse(fp.birthday);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    bd = new Date();
+                }
+                sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                u.setFechaNacimiento(sf.format(bd));
+            }
+
+
+        }
+        return u;
+    }
+
+
 }

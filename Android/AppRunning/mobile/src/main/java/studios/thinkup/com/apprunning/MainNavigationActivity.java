@@ -1,9 +1,11 @@
 package studios.thinkup.com.apprunning;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -52,7 +54,7 @@ public abstract class MainNavigationActivity extends FragmentActivity {
         this.drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         this.drawerList = (ListView) findViewById(R.id.left_drawer);
         items = new ArrayList<>();
-        items.add(new DrawerItem(getString(R.string.nav_menu_mis_datos), R.drawable.ic_mis_datos, MisDatosActivity.class));
+        items.add(new DrawerItem(getString(R.string.nav_menu_mis_datos), R.drawable.ic_mis_datos, NuevoUsuario.class));
         items.add(new DrawerItem(getString(R.string.nav_menu_mis_carreras), R.drawable.ic_mis_carreras, MisDatosActivity.class));
         items.add(new DrawerItem(getString(R.string.nav_menu_mis_tiempos), R.drawable.ic_cronometro, TiemposCarrerasActivity.class));
         items.add(new DrawerItem(getString(R.string.nav_menu_buscar), R.drawable.ic_buscar_carrera, BusquedaCarreraActivity.class));
@@ -109,18 +111,18 @@ public abstract class MainNavigationActivity extends FragmentActivity {
         }
 
     }
-
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
     protected abstract void defineContentView();
 
 
     protected void selectItem(int position) {
         drawerList.setItemChecked(position, true);
-        if (items.get(position).navigate(this)) {
-
-            drawerLayout.closeDrawer(drawerList);
-        }
-
-
+        drawerLayout.closeDrawer(drawerList);
+        items.get(position).navigate(this);
     }
 
     /* La escucha del ListView en el Drawer */
@@ -140,5 +142,14 @@ public abstract class MainNavigationActivity extends FragmentActivity {
             outState.putInt("usuario", ((RunningApplication) this.getApplication()).getUsuario().getId());
         }
     }
+    @Override
+    public void onBackPressed()
+    {
+        if (drawerLayout.isDrawerOpen(Gravity.START))
+            drawerLayout.closeDrawer(Gravity.START);
+        else
+            super.onBackPressed();
+    }
+
 
 }
