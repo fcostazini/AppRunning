@@ -6,7 +6,9 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
+import studios.thinkup.com.apprunning.model.entity.CamposOrdenEnum;
 import studios.thinkup.com.apprunning.model.entity.Modalidad;
+import studios.thinkup.com.apprunning.provider.FiltrosProvider;
 
 /**
  * Created by fcostazini on 22/05/2015.
@@ -16,8 +18,9 @@ import studios.thinkup.com.apprunning.model.entity.Modalidad;
 public class Filtro implements Serializable {
 
     private static final long serialVersionUID = 244741194428126838L;
-    public static final String TODAS = "TODOS";
-
+    public static final String FILTRO_ID = "FILTRO";
+    public static final String[] SENTIDO_ORDEN = {"Ascendente","Descendente"};
+    private Boolean recomendadas = null;
     private String nombreCarrera;
     private Date fechaDesde;
     private Date fechaHasta;
@@ -30,6 +33,32 @@ public class Filtro implements Serializable {
     private Boolean meGusta = null;
     private Boolean inscripto = null;
     private Boolean corrida = null;
+    private String ordenarPor = CamposOrdenEnum.NINGUNO.getLabel();
+    private String sentido = SENTIDO_ORDEN[0];
+
+    public Boolean getRecomendadas() {
+        return recomendadas;
+    }
+
+    public void setRecomendadas(Boolean recomendadas) {
+        this.recomendadas = recomendadas;
+    }
+
+    public String getOrdenarPor() {
+        return ordenarPor;
+    }
+
+    public void setOrdenarPor(String ordenarPor) {
+        this.ordenarPor = ordenarPor;
+    }
+
+    public String getSentido() {
+        return sentido;
+    }
+
+    public void setSentido(String sentido) {
+        this.sentido = sentido;
+    }
 
     public String getProvincia() {
         return provincia;
@@ -54,6 +83,7 @@ public class Filtro implements Serializable {
         this.nombreCarrera = "";
         this.ciudad = defaultSettings.getCiudad();
         this.provincia = defaultSettings.getProvincia();
+        recomendadas = null;
         meGusta = null;
         inscripto = null;
         corrida = null;
@@ -212,7 +242,28 @@ public class Filtro implements Serializable {
         f.setIdUsuario(this.getIdUsuario());
         f.setModalidad(this.modalidad);
         f.setNombreCarrera(this.nombreCarrera);
+        f.setOrdenarPor(this.ordenarPor);
+        f.setSentido(this.sentido);
+        f.setRecomendadas(this.recomendadas);
         return f;
 
+    }
+
+    public void clean() {
+       this.setCorrida(false);
+       this.setMeGusta(false);
+       this.setInscripto(false);
+       this.setFechaDesde(null);
+       this.setFechaHasta(null);
+       this.setCiudad(FiltrosProvider.TODAS_LAS_CIUDADES);
+       this.setProvincia(FiltrosProvider.TODAS_LAS_PROVINCIAS);
+       this.setMinDistancia(FiltrosProvider.MIN_DISTANCIA);
+       this.setMaxDistancia(FiltrosProvider.MAX_DISTANCIA);
+       this.setIdUsuario(0);
+       this.setModalidad(Modalidad.TODOS);
+       this.setNombreCarrera(null);
+       this.ordenarPor =CamposOrdenEnum.NINGUNO.getLabel();
+       this.sentido =SENTIDO_ORDEN[0];
+        this.recomendadas = null;
     }
 }

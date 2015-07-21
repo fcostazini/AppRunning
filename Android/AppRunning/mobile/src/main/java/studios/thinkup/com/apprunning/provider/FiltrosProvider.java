@@ -18,6 +18,8 @@ public class FiltrosProvider {
     public static final String TODAS_LAS_PROVINCIAS = "Todas las Provincias";
     public static final String TODAS_LAS_CIUDADES = "Todas las Ciudades";
     public static final String CAPITAL = "Capital Federal";
+    public static final Integer MIN_DISTANCIA = 0;
+    public static final Integer MAX_DISTANCIA = 100;
     private DataBaseHelper dbProvider;
 
     public FiltrosProvider(Context context) {
@@ -60,14 +62,8 @@ public class FiltrosProvider {
             db = this.dbProvider.getReadableDatabase();
             String[] param = {provincia};
             if (provincia.equals(TODAS_LAS_PROVINCIAS)) {
-                c = db.rawQuery("SELECT DISTINCT " + Carrera.CIUDAD + " FROM CARRERA ", null);
-                if (c.getCount() > 0) {
-                    c.moveToFirst();
                     resultados.add(TODAS_LAS_CIUDADES);
-                    while (!c.isAfterLast()) {
-                        resultados.add(c.getString(c.getColumnIndex(Carrera.CIUDAD)));
-                    }
-                }
+
             } else {
                 c = db.rawQuery("SELECT DISTINCT " + Carrera.CIUDAD + " FROM CARRERA Where " + Carrera.PROVINCIA + " = ? ", param);
                 if (c.getCount() > 0) {

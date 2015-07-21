@@ -88,7 +88,7 @@ public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
     }
 
     @Override
-    public List<CarreraCabecera> getCarrerasRecomendadas() {
+    public List<CarreraCabecera> getCarrerasRecomendadas(Filtro filtro) {
 
         SQLiteOpenHelper db = new DataBaseHelper(context);
 
@@ -99,7 +99,11 @@ public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
 
 
         String query = "Select " + fields + " from CARRERA  c" +
-                " left join USUARIO_CARRERA  uc on c.id_carrera = uc.carrera Where recomendada = 1";
+                " left join USUARIO_CARRERA  uc on c.id_carrera = uc.carrera";
+        QueryGenerator qGen = new QueryGenerator(filtro);
+        query += qGen.getWhereCondition();
+
+
         Cursor c = null;
         try {
             c = db.getReadableDatabase().rawQuery(query, null);

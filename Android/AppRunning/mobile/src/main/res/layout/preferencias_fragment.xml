@@ -15,7 +15,8 @@
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:layout_marginTop="10dp">
 
             <studios.thinkup.com.apprunning.IconTextView
                 android:layout_width="wrap_content"
@@ -262,19 +263,12 @@
         </RelativeLayout>
     </ScrollView>
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Desvincular Cuenta"
-        android:id="@+id/btn_logout"
-        android:layout_below="@+id/scrollView2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/app_version"
         android:id="@+id/textView8"
         android:layout_alignParentBottom="true"

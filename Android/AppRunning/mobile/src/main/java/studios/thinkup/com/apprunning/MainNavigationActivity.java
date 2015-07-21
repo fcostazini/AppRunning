@@ -16,10 +16,12 @@ import java.util.List;
 
 import studios.thinkup.com.apprunning.adapter.DrawerItem;
 import studios.thinkup.com.apprunning.adapter.DrawerListAdapter;
-import studios.thinkup.com.apprunning.model.LogOutItem;
+import studios.thinkup.com.apprunning.model.DefaultSettings;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
+import studios.thinkup.com.apprunning.provider.ConfigProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioProvider;
+import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 
 
 public abstract class MainNavigationActivity extends FragmentActivity {
@@ -29,7 +31,15 @@ public abstract class MainNavigationActivity extends FragmentActivity {
     private List<DrawerItem> items;
     ActionBarDrawerToggle mDrawerToggle;
 
+    protected long getIdUsuario() {
+        UsuarioApp ua =((RunningApplication)this.getApplication()).getUsuario();
+        if(ua!=null){
+            return ua.getId();
+        }else{
+            return 0l;
+        }
 
+    }
     public DrawerLayout getDrawerLayout() {
         return drawerLayout;
     }
@@ -54,12 +64,12 @@ public abstract class MainNavigationActivity extends FragmentActivity {
         this.drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         this.drawerList = (ListView) findViewById(R.id.left_drawer);
         items = new ArrayList<>();
-        items.add(new DrawerItem(getString(R.string.nav_menu_mis_datos), R.drawable.ic_mis_datos, NuevoUsuario.class));
-        items.add(new DrawerItem(getString(R.string.nav_menu_mis_carreras), R.drawable.ic_mis_carreras, MisDatosActivity.class));
+        items.add(new DrawerItem(getString(R.string.nav_menu_mis_datos), R.drawable.ic_mis_datos, DatosUsuarioActivity.class));
+        items.add(new DrawerItem(getString(R.string.nav_menu_mis_carreras), R.drawable.ic_mis_carreras, MisCarrerasActivity.class));
         items.add(new DrawerItem(getString(R.string.nav_menu_mis_tiempos), R.drawable.ic_cronometro, TiemposCarrerasActivity.class));
         items.add(new DrawerItem(getString(R.string.nav_menu_buscar), R.drawable.ic_buscar_carrera, BusquedaCarreraActivity.class));
         items.add(new DrawerItem(getString(R.string.nav_menu_recomendados), R.drawable.ic_recomendadas, RecomendadosActivity.class));
-        items.add(new DrawerItem(getString(R.string.nav_menu_preferencias), R.drawable.ic_preferencias, FiltrosPorDefectoActivity.class));
+        items.add(new DrawerItem(getString(R.string.nav_menu_preferencias), R.drawable.ic_preferencias, PreferenciasActivity.class));
 
 
         drawerList.setAdapter(new DrawerListAdapter(this, items));
@@ -123,6 +133,23 @@ public abstract class MainNavigationActivity extends FragmentActivity {
         drawerList.setItemChecked(position, true);
         drawerLayout.closeDrawer(drawerList);
         items.get(position).navigate(this);
+    }
+
+    public DefaultSettings getDefaultSettings() {
+        ConfigProvider cp = new ConfigProvider(this);
+        UsuarioApp ua = ((RunningApplication) this.getApplication()).getUsuario();
+
+        DefaultSettings defaultSettings = cp.getByUsuario(ua.getId());
+        if (defaultSettings == null) {
+            defaultSettings = new DefaultSettings(ua.getId());
+            try {
+                cp.grabar(defaultSettings);
+            } catch (EntidadNoGuardadaException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return defaultSettings;
     }
 
     /* La escucha del ListView en el Drawer */

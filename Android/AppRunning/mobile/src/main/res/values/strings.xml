@@ -57,7 +57,25 @@
     <string name="confirmar_no_corrida">Está por desmarcar la carrera como \"Corrida\". Se borrarán todos los datos asociados a la carrera. Desea continuar?</string>
     <string name="app_version">Versión 0.1.2</string>
     <string name="title_activity_nuevo_usuario">Nuevo Usuario</string>
+    <string name="title_activity_datos_usuario">Mi Info</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="corres_grupo">Corres con un grupo?</string>
+    <string name="title_activity_filtro_carrera">Filtrar Carreras</string>
+    <string name="lbl_ordenamiento">Ordenamiento</string>
+    <string name="lbl_campo">Campo</string>
+    <string name="lbl_forma">Sentido</string>
+    <string name="lbl_filtros_disponibles" >Filtros disponibles</string>
+    <string name="lbl_modalidad">Modalidad</string>
+    <string name="lbl_provincia">Provincia</string>
+    <string name="lbl_ciudad">Ciudad</string>
+    <string name="lbl_rango_de_fechas">Rango de fechas</string>
+    <string name="filtrar">Filtrar</string>
+    <string name="lbl_filtrar">Filtrar</string>
+    <string name="title_elija_opcion">Elija una opción</string>
+    <string name="ok">OK</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="sin_carreras">No se encontraron carreras</string>
+    <string name="confirmacion_desvinculacion_cuenta">Se desvinculará su cuenta. Desde continuar?</string>
+    <string name="desvincular_cuenta">Desvincular Cuenta</string>
 </resources>

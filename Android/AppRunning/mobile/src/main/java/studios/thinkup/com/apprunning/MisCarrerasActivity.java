@@ -15,9 +15,19 @@ import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 
 
-public class MisDatosActivity extends DrawerPagerActivity implements AdapterView.OnItemClickListener {
+public class MisCarrerasActivity extends DrawerPagerActivity implements AdapterView.OnItemClickListener {
     private ViewPager viewPager;
-
+    @Override
+    protected void initFiltro() {
+        // Get the ViewPager and set it's PagerAdapter so that it can display items
+        if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(Filtro.FILTRO_ID)) {
+            this.filtro = (Filtro) getIntent().getExtras().getSerializable(Filtro.FILTRO_ID);
+        } else {
+            this.filtro = new Filtro(getDefaultSettings());
+            this.filtro.clean();
+            this.filtro.setIdUsuario(getIdUsuario());
+        }
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +38,7 @@ public class MisDatosActivity extends DrawerPagerActivity implements AdapterView
 
     private void initView() {
         this.viewPager = (ViewPager) findViewById(R.id.viewpager);
-        Filtro filtro = new Filtro();
+        initFiltro();
         long id = ((RunningApplication) this.getApplication()).getUsuario().getId();
         filtro.setIdUsuario(id);
         viewPager.setAdapter(new ResultadoCarrerasPagerAdapter(getSupportFragmentManager(), filtro));
@@ -72,4 +82,5 @@ public class MisDatosActivity extends DrawerPagerActivity implements AdapterView
         this.viewPager.getAdapter().notifyDataSetChanged();
 
     }
+
 }

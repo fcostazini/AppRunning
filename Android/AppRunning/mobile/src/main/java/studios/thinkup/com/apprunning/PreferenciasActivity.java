@@ -3,7 +3,7 @@ package studios.thinkup.com.apprunning;
 import android.os.Bundle;
 
 
-public class FiltrosPorDefectoActivity extends MainNavigationActivity{
+public class PreferenciasActivity extends MainNavigationActivity{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

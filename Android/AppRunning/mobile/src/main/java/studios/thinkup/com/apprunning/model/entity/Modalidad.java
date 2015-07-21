@@ -29,4 +29,7 @@ public enum Modalidad {
         }
         return null;
     }
+    public static String[] getNombres(){
+        return new String[]{"Todas las Modalidades","Equipos","Individual","Kids"};
+    }
 }

@@ -37,11 +37,10 @@ import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 
 public class NuevoUsuario extends Activity implements View.OnClickListener {
 private UsuarioApp ua;
-    private boolean esNuevoUsuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nuevo_usuario);
+        setContentView(R.layout.fragment_datos_usuario);
 
         initActivity(savedInstanceState);
         initView();
@@ -52,23 +51,11 @@ private UsuarioApp ua;
             if(savedInstanceState.containsKey("usuario")) {
                 this.ua = (UsuarioApp) savedInstanceState.getSerializable("usuario");
             }
-            if(savedInstanceState.containsKey("nuevoUsuario")){
-                this.esNuevoUsuario = true;
-            }else{
-                this.esNuevoUsuario = false;
-            }
         }else {
             if (this.getIntent().getExtras() != null) {
                 if (this.getIntent().getExtras().containsKey("usuario")) {
                     this.ua = (UsuarioApp) this.getIntent().getExtras().getSerializable("usuario");
                 }
-
-                if (this.getIntent().getExtras().containsKey("nuevoUsuario")) {
-                    this.esNuevoUsuario = true;
-                } else {
-                    this.esNuevoUsuario = false;
-                }
-
             }
         }
         if(this.ua == null){
@@ -81,6 +68,8 @@ private UsuarioApp ua;
     }
 
     private void initView() {
+        Button logout = (Button)findViewById(R.id.btn_logout);
+        logout.setVisibility(View.GONE);
         TextView txtNickname = (TextView)findViewById(R.id.txt_nick);
         txtNickname.setText(this.ua.getNick());
         TextView txtNombre = (TextView)findViewById(R.id.txt_nombre);
@@ -165,14 +154,7 @@ private UsuarioApp ua;
         if(this.ua != null){
             outState.putSerializable("usuario",this.ua);
         }
-        if(this.esNuevoUsuario){
-            outState.putBoolean("nuevoUsuario",true);
-        }else {
-            if (outState.containsKey("nuevoUsuario")) {
-                outState.remove("nuevoUsuario");
 
-            }
-        }
     }
 
     @Override
@@ -186,11 +168,6 @@ private UsuarioApp ua;
 
     @Override
     public void onClick(View v) {
-        InputMethodManager inputManager = (InputMethodManager)
-                getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
     if(this.ua == null){
         this.ua = new UsuarioApp();
     }
@@ -217,14 +194,10 @@ private UsuarioApp ua;
                 up.update(this.ua);
             }
 
-            ((RunningApplication) this.getApplication()).setUsuario(this.ua);
-            if(this.esNuevoUsuario){
-                Intent intent = new Intent(this,RecomendadosActivity.class);
-                this.startActivity(intent);
-            }else{
-                Toast.makeText(this, "Datos de Usuario Guardados", Toast.LENGTH_LONG).show();
+         ((RunningApplication) this.getApplication()).setUsuario(this.ua);
+         Intent intent = new Intent(this,RecomendadosActivity.class);
+         this.startActivity(intent);
 
-            }
 
         }catch (Exception e){
             e.printStackTrace();
@@ -264,16 +237,6 @@ private UsuarioApp ua;
             },c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DATE));
             newFragment.show();
 
-        }
-    }
-    @Override
-    public void onBackPressed() {
-        if(this.esNuevoUsuario){
-            Intent setIntent = new Intent(this,MainActivity.class);
-            startActivity(setIntent);
-            this.finish();
-        }else{
-            super.onBackPressed();
         }
     }
 

@@ -20,7 +20,8 @@ public interface ICarreraCabeceraProvider {
 
     /**
      * Carreras recomendadas por el administrador
+     * @param filtro filtros
       * @return lista vacia en caso de no haber resultados
      */
-    List<CarreraCabecera> getCarrerasRecomendadas();
+    List<CarreraCabecera> getCarrerasRecomendadas(Filtro filtro);
 }

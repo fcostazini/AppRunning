@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import com.astuetz.PagerSlidingTabStrip;
 
 import studios.thinkup.com.apprunning.adapter.RecomendadosPagerAdapter;
+import studios.thinkup.com.apprunning.model.Filtro;
 
 
 public class RecomendadosActivity extends DrawerPagerActivity {
@@ -18,10 +19,10 @@ public class RecomendadosActivity extends DrawerPagerActivity {
             initView();
         }
     }
-
+ 
     private void initView() {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new RecomendadosPagerAdapter(getSupportFragmentManager()));
+        viewPager.setAdapter(new RecomendadosPagerAdapter(this.filtro, getSupportFragmentManager()));
         viewPager.setBackgroundResource(R.drawable.path);
         viewPager.getBackground().setAlpha(130);
         // Give the PagerSlidingTabStrip the ViewPager

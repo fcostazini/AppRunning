@@ -60,10 +60,10 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
         try {
             db = this.dbProvider.getReadableDatabase();
             String fields = getStringFields();
-            String[] params = { String.valueOf(this.idUsuario)};
-            c = db.rawQuery("SELECT " + fields + " FROM CARRERA c JOIN USUARIO_CARRERA uc ON c.ID_CARRERA = uc.CARRERA AND uc.ANOTADO = 1 AND " +
-                    " uc.USUARIO = ? and uc.TIEMPO > 0", params);
-
+            QueryGenerator qGen = new QueryGenerator(filtro);
+            String query = "SELECT " + fields + " FROM CARRERA c JOIN USUARIO_CARRERA uc ON c.ID_CARRERA = uc.CARRERA and uc.TIEMPO > 0 ";
+            query += qGen.getWhereCondition();
+            c = db.rawQuery(query, null);
             return this.toList(c);
         } catch (Exception e) {
             return null;

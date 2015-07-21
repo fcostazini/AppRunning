@@ -30,15 +30,6 @@ public class TiemposCarrerasFragment extends FilteredFragment {
         return "TODOS";
     }
 
-    public static TiemposCarrerasFragment newInstance(Filtro filtro) {
-        TiemposCarrerasFragment fragment = new TiemposCarrerasFragment();
-        Bundle args = new Bundle();
-        args.putSerializable(Filtro.class.getSimpleName() + fragment.getIdFragment(), filtro);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).

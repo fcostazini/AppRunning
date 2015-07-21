@@ -1,7 +1,6 @@
 package studios.thinkup.com.apprunning.fragment;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,15 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.edmodo.rangebar.RangeBar;
-import com.github.gorbin.asne.googleplus.GooglePlusSocialNetwork;
 
-import studios.thinkup.com.apprunning.MainActivity;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.model.DefaultSettings;
 import studios.thinkup.com.apprunning.model.RunningApplication;
@@ -54,30 +50,7 @@ public class Preferencias extends Fragment {
             }
 
         }
-        View rootView = inflater.inflate(R.layout.filtros_activity, container, false);
-        Button logout = (Button) rootView.findViewById(R.id.btn_logout);
-
-        if (!ua.getTipoCuenta().equals(String.valueOf(GooglePlusSocialNetwork.ID))) {
-            logout.setBackgroundColor(this.getActivity().getResources().getColor(R.color.com_facebook_blue));
-            logout.setTextColor(this.getActivity().getResources().getColor(R.color.common_signin_btn_text_dark));
-        } else {
-            logout.setBackgroundColor(this.getActivity().getResources().getColor(R.color.rojo_google));
-            logout.setTextColor(this.getActivity().getResources().getColor(R.color.common_signin_btn_text_dark));
-        }
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Preferencias.this.getActivity() != null) {
-
-                    Intent i = new Intent(Preferencias.this.getActivity(), MainActivity.class);
-                    i.putExtra("LOGOUT", true);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    Preferencias.this.getActivity().startActivity(i);
-                    Preferencias.this.getActivity().finish();
-
-                }
-            }
-        });
+        View rootView = inflater.inflate(R.layout.preferencias_fragment, container, false);
 
 
         Spinner spGenero = (Spinner) rootView.findViewById(R.id.sp_genero);

@@ -9,7 +9,7 @@ import com.astuetz.PagerSlidingTabStrip;
  * Created by fcostazini on 21/05/2015.
  * Activity con Drawer y Pager
  */
-public abstract class DrawerPagerActivity extends MainNavigationActivity {
+public abstract class DrawerPagerActivity extends ResultadosFiltrablesActivity {
 
     @Override
     protected void defineContentView() {

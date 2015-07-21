@@ -93,7 +93,7 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
         right.setText(String.valueOf(filtro.getMaxDistancia()) + "Km");
 
         sb_distancia.setOnRangeBarChangeListener(new DistanciaSeekBarChangeListener(this.filtro, left, right));
-        sb_distancia.setThumbIndices(filtro.getMinDistancia()/10,filtro.getMaxDistancia()/10);
+        sb_distancia.setThumbIndices(filtro.getMinDistancia() / 10, filtro.getMaxDistancia() / 10);
 
         spCiudad = (Spinner) rootView.findViewById(R.id.sp_ciudad);
         spCiudad.setVisibility(View.GONE);
@@ -173,7 +173,7 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
 
         if (v != null && v.getId() == R.id.btn_buscar) {
             Intent i = new Intent(this.getActivity(), CarrerasActivity.class);
-            i.putExtra(Filtro.class.getSimpleName(), this.filtro);
+            i.putExtra(Filtro.FILTRO_ID, this.filtro);
             this.getActivity().startActivity(i);
         }
 

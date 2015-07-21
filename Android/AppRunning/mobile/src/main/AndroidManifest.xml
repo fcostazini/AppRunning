@@ -47,7 +47,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FiltrosPorDefectoActivity"
+            android:name=".PreferenciasActivity"
             android:label="@string/title_activity_filtros"
             android:parentActivityName=".BusquedaCarreraActivity" >
             <meta-data
@@ -79,7 +79,7 @@
                 android:value="studios.thinkup.com.apprunning.CarrerasActivity" />
         </activity>
         <activity
-            android:name=".MisDatosActivity"
+            android:name=".MisCarrerasActivity"
             android:label="@string/title_activity_mis_datos"
             android:parentActivityName=".CarrerasActivity" >
             <meta-data
@@ -102,11 +102,22 @@
         <activity
             android:name=".NuevoUsuario"
             android:label="@string/title_activity_nuevo_usuario"
-            android:windowSoftInputMode="stateHidden">
-
+            android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="studios.thinkup.com.apprunning.MainActivity" />
+        </activity>
+        <activity
+            android:name=".DatosUsuarioActivity"
+            android:label="@string/title_activity_datos_usuario"
+            android:windowSoftInputMode="stateHidden" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="studios.thinkup.com.apprunning.RecomendadosActivity" />
+        </activity>
+        <activity
+            android:name=".FiltroCarreraActivity"
+            android:label="@string/title_activity_filtro_carrera" >
         </activity>
     </application>
 

@@ -1,5 +1,6 @@
 package studios.thinkup.com.apprunning.adapter;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -14,8 +15,9 @@ import studios.thinkup.com.apprunning.model.Filtro;
  */
 public class RecomendadosPagerAdapter extends FragmentPagerAdapter {
     private Filtro filtro;
-    public RecomendadosPagerAdapter(FragmentManager fm) {
+    public RecomendadosPagerAdapter(Filtro filtro, FragmentManager fm) {
         super(fm);
+        this.filtro = filtro;
 
     }
 
@@ -37,12 +39,14 @@ public class RecomendadosPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int i) {
         Fragment fragment;
         // Crear un FoodFragment con el nombre como argumento
+        Bundle b = new Bundle();
+        b.putSerializable(Filtro.FILTRO_ID,this.filtro);
         if(i==0){
             fragment = RecomendadosFragment.newInstance();
         }else{
             fragment = RecomendadosFragment.newInstance();
         }
-
+        fragment.setArguments(b);
         return fragment;
 
 

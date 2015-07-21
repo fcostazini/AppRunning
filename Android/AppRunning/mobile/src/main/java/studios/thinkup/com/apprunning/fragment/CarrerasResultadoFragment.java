@@ -29,13 +29,6 @@ public class CarrerasResultadoFragment extends FilteredFragment {
         return "TODOS";
     }
 
-    public static CarrerasResultadoFragment newInstance(Filtro filtro) {
-        CarrerasResultadoFragment fragment = new CarrerasResultadoFragment();
-        Bundle args = new Bundle();
-        args.putSerializable(Filtro.class.getSimpleName() + fragment.getIdFragment(), filtro);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
 
     /**
@@ -44,7 +37,6 @@ public class CarrerasResultadoFragment extends FilteredFragment {
      */
     public CarrerasResultadoFragment() {
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

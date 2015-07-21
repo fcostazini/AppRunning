@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import studios.thinkup.com.apprunning.model.entity.IEntity;
 import studios.thinkup.com.apprunning.model.entity.Modalidad;
-import studios.thinkup.com.apprunning.provider.QueryGenerator;
+import studios.thinkup.com.apprunning.provider.FiltrosProvider;
 
 /**
  * Created by FaQ on 23/05/2015.
@@ -30,8 +30,8 @@ public class DefaultSettings implements Serializable, IEntity {
     private Integer distanciaMin = 0;
     private Integer distanciaMax = 100;
     private String modalidad = Modalidad.TODOS.getNombre();
-    private String provincia = Filtro.TODAS;
-    private String ciudad = Filtro.TODAS;
+    private String provincia = FiltrosProvider.TODAS_LAS_PROVINCIAS;
+    private String ciudad = FiltrosProvider.TODAS_LAS_CIUDADES;
     private Integer diasBusqueda = 15;
     private Integer id;
 
@@ -41,8 +41,8 @@ public class DefaultSettings implements Serializable, IEntity {
         distanciaMin=0;
         distanciaMax=100;
         modalidad= Modalidad.TODOS.getNombre();
-        provincia = Filtro.TODAS;
-        ciudad = Filtro.TODAS;
+        provincia = FiltrosProvider.TODAS_LAS_PROVINCIAS;
+        ciudad = FiltrosProvider.TODAS_LAS_CIUDADES;
         diasBusqueda = 15;
     }
 
