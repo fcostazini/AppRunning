@@ -78,4 +78,5 @@
     <string name="sin_carreras">No se encontraron carreras</string>
     <string name="confirmacion_desvinculacion_cuenta">Se desvinculará su cuenta. Desde continuar?</string>
     <string name="desvincular_cuenta">Desvincular Cuenta</string>
+    <string name="title_meses_busqueda">Meses de Búsqueda</string>
 </resources>

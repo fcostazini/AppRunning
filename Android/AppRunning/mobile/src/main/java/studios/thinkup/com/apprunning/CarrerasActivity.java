@@ -26,7 +26,6 @@ public class CarrerasActivity extends ResultadosFiltrablesActivity {
         b.putSerializable(Filtro.FILTRO_ID, this.filtro);
         fragment.setArguments(b);
         fragmentTransaction.replace(R.id.content_fragment, fragment);
-        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
     }

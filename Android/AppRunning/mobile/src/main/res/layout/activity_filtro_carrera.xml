@@ -479,7 +479,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -491,7 +491,7 @@
                 android:layout_below="@id/imageView9"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:visibility="gone" />
+                android:visibility="visible" />
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -502,7 +502,7 @@
                 android:layout_toEndOf="@id/lbl_fechas"
                 android:layout_alignBottom="@id/lbl_fechas"
                 android:layout_alignTop="@id/lbl_fechas"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <studios.thinkup.com.apprunning.IconTextView
                     android:layout_width="wrap_content"

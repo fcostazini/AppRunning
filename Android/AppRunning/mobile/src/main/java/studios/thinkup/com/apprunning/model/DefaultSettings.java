@@ -24,7 +24,7 @@ public class DefaultSettings implements Serializable, IEntity {
     public static final String MODALIDAD = "MODALIDAD";
     public static final String PROVINCIA = "PROVINCIA";
     public static final String CIUDAD = "CIUDAD";
-    public static final String DIAS_BUSQUEDA = "DIAS_BUSQUEDA";
+    public static final String MESES_BUSQUEDA = "MESES_BUSQUEDA";
 
     private Integer idUsuario;
     private Integer distanciaMin = 0;
@@ -32,7 +32,7 @@ public class DefaultSettings implements Serializable, IEntity {
     private String modalidad = Modalidad.TODOS.getNombre();
     private String provincia = FiltrosProvider.TODAS_LAS_PROVINCIAS;
     private String ciudad = FiltrosProvider.TODAS_LAS_CIUDADES;
-    private Integer diasBusqueda = 15;
+    private Integer mesesBusqueda = 6;
     private Integer id;
 
 
@@ -43,7 +43,7 @@ public class DefaultSettings implements Serializable, IEntity {
         modalidad= Modalidad.TODOS.getNombre();
         provincia = FiltrosProvider.TODAS_LAS_PROVINCIAS;
         ciudad = FiltrosProvider.TODAS_LAS_CIUDADES;
-        diasBusqueda = 15;
+        mesesBusqueda = 6;
     }
 
     public DefaultSettings(Cursor c) {
@@ -54,15 +54,15 @@ public class DefaultSettings implements Serializable, IEntity {
         this.setModalidad(Modalidad.getByName(c.getString(c.getColumnIndex(MODALIDAD))));
         this.setProvincia(c.getString(c.getColumnIndex(PROVINCIA)));
         this.setCiudad(c.getString(c.getColumnIndex(CIUDAD)));
-        this.setDiasBusqueda(c.getInt(c.getColumnIndex(DIAS_BUSQUEDA)));
+        this.setMesesBusqueda(c.getInt(c.getColumnIndex(MESES_BUSQUEDA)));
     }
 
-    public Integer getDiasBusqueda() {
-        return diasBusqueda;
+    public Integer getMesesBusqueda() {
+        return mesesBusqueda;
     }
 
-    public void setDiasBusqueda(Integer diasBusqueda) {
-        this.diasBusqueda = diasBusqueda;
+    public void setMesesBusqueda(Integer mesesBusqueda) {
+        this.mesesBusqueda = mesesBusqueda;
     }
 
     public Integer getDistanciaMin() {

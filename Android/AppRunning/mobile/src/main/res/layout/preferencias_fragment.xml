@@ -217,7 +217,7 @@
                         android:layout_height="wrap_content"
                         android:padding="10dp"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Días de Búsqueda"
+                        android:text="@string/title_meses_busqueda"
                         android:layout_toRightOf="@id/icon_calendario"
                         android:id="@+id/lbl_dias" />
 
@@ -243,7 +243,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="1"
-                        android:id="@+id/txt_dias"
+                        android:id="@+id/txt_meses"
                         android:layout_weight=".3"
                         android:layout_marginLeft="20dp"
                         android:minWidth="20dp" />
@@ -251,7 +251,7 @@
                     <SeekBar
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/sb_dias"
+                        android:id="@+id/sb_meses"
                         android:layout_weight="5"
                         android:max="100"
                         android:indeterminate="false"

@@ -153,17 +153,6 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
         rootView.findViewById(R.id.img_fecha_hasta).setOnClickListener(new DatePickerListener(txtHasta));
         rootView.findViewById(R.id.img_close_hasta).setOnClickListener(new Cleaner(txtHasta, this.filtro));
 
-
-
-/*        // Add to layout
-        LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.seekbar_placeholder);
-        layout.addView(rangeSeekBar);
-        TextView txtMinDistancia = (TextView) rootView.findViewById(R.id.lbl_dist_desde);
-        txtMinDistancia.setText(Filtro.DISTANCIAS[filtro.getRangoDistancia()]);
-        sbMinDistancia.setProgress(filtro.getRangoDistancia());
-        sbMinDistancia.setOnSeekBarChangeListener(new DistanciaSeekBarChangeListener(filtro, txtMinDistancia));
-        */
-
         return rootView;
     }
 
@@ -173,7 +162,9 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
 
         if (v != null && v.getId() == R.id.btn_buscar) {
             Intent i = new Intent(this.getActivity(), CarrerasActivity.class);
-            i.putExtra(Filtro.FILTRO_ID, this.filtro);
+            Bundle b = new Bundle();
+            b.putSerializable(Filtro.FILTRO_ID,this.filtro);
+            i.putExtras(b);
             this.getActivity().startActivity(i);
         }
 

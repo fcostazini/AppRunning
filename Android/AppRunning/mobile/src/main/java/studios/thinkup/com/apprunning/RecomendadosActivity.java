@@ -19,7 +19,7 @@ public class RecomendadosActivity extends DrawerPagerActivity {
             initView();
         }
     }
- 
+
     private void initView() {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new RecomendadosPagerAdapter(this.filtro, getSupportFragmentManager()));

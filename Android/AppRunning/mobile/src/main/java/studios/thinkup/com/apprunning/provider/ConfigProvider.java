@@ -12,7 +12,6 @@ import studios.thinkup.com.apprunning.model.DefaultSettings;
 import studios.thinkup.com.apprunning.model.entity.IEntity;
 import studios.thinkup.com.apprunning.provider.exceptions.CampoNoMapeableException;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
-import studios.thinkup.com.apprunning.provider.helper.DataBaseHelper;
 
 
 /**
@@ -42,7 +41,7 @@ public class ConfigProvider extends GenericProvider<DefaultSettings> implements 
                 DefaultSettings.MODALIDAD,
                 DefaultSettings.PROVINCIA,
                 DefaultSettings.CIUDAD,
-                DefaultSettings.DIAS_BUSQUEDA};
+                DefaultSettings.MESES_BUSQUEDA};
     }
 
 

@@ -118,13 +118,13 @@ public class Preferencias extends Fragment {
 
         sb_distancia.setThumbIndices(defaultSettings.getDistanciaMin() /10, defaultSettings.getDistanciaMax() / 10);
 
-        SeekBar sbDias = (SeekBar) rootView.findViewById(R.id.sb_dias);
-        TextView txtDias = (TextView) rootView.findViewById(R.id.txt_dias);
-        txtDias.setText(defaultSettings.getDiasBusqueda().toString());
-        sbDias.setProgress(defaultSettings.getDiasBusqueda());
-        sbDias.setMax(120);
-        sbDias.setOnSeekBarChangeListener(new DiasSeekBarChangeListener(defaultSettings, txtDias));
-        sbDias.setProgress(defaultSettings.getDiasBusqueda());
+        SeekBar sbMeses = (SeekBar) rootView.findViewById(R.id.sb_meses);
+        TextView txtMeses = (TextView) rootView.findViewById(R.id.txt_meses);
+        txtMeses.setText(defaultSettings.getMesesBusqueda().toString());
+        sbMeses.setProgress(defaultSettings.getMesesBusqueda());
+        sbMeses.setMax(12);
+        sbMeses.setOnSeekBarChangeListener(new MesesSeekBarChangeListener(defaultSettings, txtMeses));
+        sbMeses.setProgress(defaultSettings.getMesesBusqueda());
         return rootView;
 
     }
@@ -150,12 +150,12 @@ public class Preferencias extends Fragment {
         }
     }
 
-    private class DiasSeekBarChangeListener implements SeekBar.OnSeekBarChangeListener {
+    private class MesesSeekBarChangeListener implements SeekBar.OnSeekBarChangeListener {
         int progress = 0;
         DefaultSettings defaultSettings;
         TextView toUpdate;
 
-        private DiasSeekBarChangeListener(DefaultSettings defaultSettings, TextView toUpdate) {
+        private MesesSeekBarChangeListener(DefaultSettings defaultSettings, TextView toUpdate) {
             this.defaultSettings = defaultSettings;
             this.toUpdate = toUpdate;
         }
@@ -163,7 +163,7 @@ public class Preferencias extends Fragment {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             this.progress = progress;
-            if (seekBar.getId() == R.id.sb_dias) {
+            if (seekBar.getId() == R.id.sb_meses) {
                 this.toUpdate.setText(String.valueOf(progress));
             } else {
                 //this.toUpdate.setText(Filtro.DISTANCIAS[progress]);
@@ -180,8 +180,8 @@ public class Preferencias extends Fragment {
         public void onStopTrackingTouch(SeekBar seekBar) {
             if (seekBar != null) {
                 switch (seekBar.getId()) {
-                    case R.id.sb_dias:
-                        defaultSettings.setDiasBusqueda(progress);
+                    case R.id.sb_meses:
+                        defaultSettings.setMesesBusqueda(progress);
                         break;
 
                 }

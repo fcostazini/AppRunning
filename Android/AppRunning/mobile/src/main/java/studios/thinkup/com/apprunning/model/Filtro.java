@@ -1,7 +1,5 @@
 package studios.thinkup.com.apprunning.model;
 
-import android.os.Parcelable;
-
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -74,7 +72,7 @@ public class Filtro implements Serializable {
         this.fechaDesde = new Date();
         Calendar c = Calendar.getInstance();
         c.setTime(this.fechaDesde);
-        c.add(Calendar.DATE, defaultSettings.getDiasBusqueda());
+        c.add(Calendar.MONTH, defaultSettings.getMesesBusqueda());
         this.fechaHasta = c.getTime();
         //this.ciudad = defaultSettings.getZona();
         this.minDistancia = defaultSettings.getDistanciaMin();
