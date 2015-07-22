@@ -4,6 +4,7 @@ package studios.thinkup.com.apprunning.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -165,6 +166,8 @@ public class Preferencias extends Fragment {
             this.progress = progress;
             if (seekBar.getId() == R.id.sb_meses) {
                 this.toUpdate.setText(String.valueOf(progress));
+                this.defaultSettings.setMesesBusqueda(progress);
+                saveDefaultSettings();
             } else {
                 //this.toUpdate.setText(Filtro.DISTANCIAS[progress]);
             }
@@ -209,8 +212,11 @@ public class Preferencias extends Fragment {
             filtro.setDistanciaMin(i * 10);
             filtro.setDistanciaMax(i1 * 10);
 
+
         }
     }
+
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

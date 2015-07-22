@@ -18,7 +18,7 @@ import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaExcep
 public abstract class FilteredFragment extends ListFragment {
 
 
-    private Filtro filtro;
+    protected Filtro filtro;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {

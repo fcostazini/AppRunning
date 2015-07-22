@@ -41,22 +41,35 @@ import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaExcep
  * Formulario de Busqueda de Carreras
  */
 public class BusquedaFormulario extends Fragment implements View.OnClickListener, TextWatcher {
-    private Filtro filtro;
+
     private Spinner spCiudad;
+
+    protected Filtro filtro;
 
     public static BusquedaFormulario newInstance() {
         return new BusquedaFormulario();
     }
 
+private void initFilter(Bundle savedInstanceState){
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        final FiltrosProvider filtrosProvider = new FiltrosProvider(this.getActivity());
-        ConfigProvider cp = new ConfigProvider(this.getActivity());
+    if (savedInstanceState != null) {
+        this.filtro = (Filtro) savedInstanceState.getSerializable(Filtro.FILTRO_ID);
+    } else {
+        if (getArguments() != null) {
+            this.filtro = (Filtro) getArguments().getSerializable(Filtro.FILTRO_ID);
+        }
+
+    }
+    if (this.filtro == null) {
+        this.filtro = new Filtro(getDefaultSettings());
+    }
+}
+
+    protected DefaultSettings getDefaultSettings() {
+        ConfigProvider cp = new ConfigProvider(this.getActivity().getApplication());
         UsuarioApp ua = ((RunningApplication) this.getActivity().getApplication()).getUsuario();
 
-       DefaultSettings defaultSettings = cp.getByUsuario(ua.getId());
+        DefaultSettings defaultSettings = cp.getByUsuario(ua.getId());
         if (defaultSettings == null) {
             defaultSettings = new DefaultSettings(ua.getId());
             try {
@@ -66,7 +79,14 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
             }
 
         }
-        this.filtro = new Filtro(defaultSettings);
+        return defaultSettings;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        final FiltrosProvider filtrosProvider = new FiltrosProvider(this.getActivity());
+        initFilter(savedInstanceState);
         SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
         View rootView = inflater.inflate(R.layout.fragment_formulario_busqueda, container, false);
@@ -184,6 +204,7 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
     public void afterTextChanged(Editable s) {
         this.filtro.setNombreCarrera(s.toString());
     }
+
 
     private class GeneroSpinnerItemSelectedListener implements AdapterView.OnItemSelectedListener {
         private Filtro filtro;

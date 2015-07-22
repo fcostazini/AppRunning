@@ -3,6 +3,8 @@ package studios.thinkup.com.apprunning.provider;
 import android.content.Context;
 import android.database.Cursor;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
@@ -50,7 +52,15 @@ public class GrupoRunningProvider extends GenericProvider<GrupoRunning> implemen
                 results.add(new GrupoRunning(c));
                 c.moveToNext();
             }
+           Comparator<GrupoRunning> comp =  new Comparator<GrupoRunning>(){
 
+                @Override
+                public int compare(GrupoRunning grupoRunning, GrupoRunning t1) {
+                    return grupoRunning.getNombre().compareTo(t1.getNombre());
+                }
+            };
+            Collections.sort(results,comp);
+            results.add(0,new GrupoRunning(999,"Ninguno"));
             return results;
         }
     }
