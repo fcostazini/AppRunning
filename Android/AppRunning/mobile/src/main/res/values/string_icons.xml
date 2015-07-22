@@ -17,10 +17,8 @@
     <string name="icon_direccion">L</string>
     <string name="icon_ganador">W</string>
     <string name="icon_distancia">L</string>
-
-
-
-
+    <string name="icon_campo">F</string>
+    <string name="icon_orden">O</string>
 
 
 </resources>
