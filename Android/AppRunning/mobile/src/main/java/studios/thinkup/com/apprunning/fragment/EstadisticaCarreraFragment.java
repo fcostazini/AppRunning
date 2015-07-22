@@ -20,7 +20,6 @@ import studios.thinkup.com.apprunning.TemporizadorActivity;
 import studios.thinkup.com.apprunning.model.EstadoCarrera;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 import studios.thinkup.com.apprunning.provider.TypefaceProvider;
-import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,12 +27,7 @@ import studios.thinkup.com.apprunning.provider.UsuarioProvider;
  * create an instance of this fragment.
  */
 public class EstadisticaCarreraFragment extends Fragment implements View.OnClickListener, IUsuarioCarreraObserver {
-    private LinearLayout aCorrer;
-    private UsuarioProvider usuarioProvider;
-
-    private IconTextView editar;
     private IUsuarioCarreraObservable usuarioObservable;
-
     public EstadisticaCarreraFragment() {
         // Required empty public constructor
     }
@@ -66,7 +60,8 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
 
 
         initView(rootView);
-        //aCorrer.setOnClickListener(this);
+             final LinearLayout aCorrer = (LinearLayout)rootView.findViewById(R.id.lb_a_correr);
+        
         aCorrer.setOnTouchListener(new View.OnTouchListener() {
             private static final int MAX_CLICK_DURATION = 200;
             private long startClickTime;
@@ -77,11 +72,11 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
 
                     case MotionEvent.ACTION_DOWN: {
                         startClickTime = Calendar.getInstance().getTimeInMillis();
-                        EstadisticaCarreraFragment.this.aCorrer.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+                        aCorrer.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
                         return true;
                     }
                     case MotionEvent.ACTION_UP: {
-                        EstadisticaCarreraFragment.this.aCorrer.getBackground().clearColorFilter();
+                        aCorrer.getBackground().clearColorFilter();
                         long clickDuration = Calendar.getInstance().getTimeInMillis() - startClickTime;
                         if (clickDuration < MAX_CLICK_DURATION) {
                             EstadisticaCarreraFragment.this.onClickACorrer();
@@ -89,7 +84,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
                         return true;
                     }
                     case MotionEvent.ACTION_CANCEL: {
-                        EstadisticaCarreraFragment.this.aCorrer.getBackground().clearColorFilter();
+                        aCorrer.getBackground().clearColorFilter();
                         return true;
                     }
 
@@ -106,9 +101,8 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         if (this.usuarioObservable == null) {
             this.usuarioObservable = (IUsuarioCarreraObservable) this.getActivity();
         }
-        this.editar = (IconTextView) rootView.findViewById(R.id.icon_edit_time);
+        IconTextView editar = (IconTextView)rootView.findViewById(R.id.icon_edit_time);
 
-        this.aCorrer = (LinearLayout) rootView.findViewById(R.id.lb_a_correr);
         editar.setOnClickListener(this);
         IconTextView cancelar = (IconTextView)rootView.findViewById(R.id.icon_cancel);
         cancelar.setOnClickListener(this);
@@ -148,15 +142,20 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         if (this.usuarioObservable == null) {
             this.usuarioObservable = (IUsuarioCarreraObservable) this.getActivity();
         }
-        editar.setVisibility(View.INVISIBLE);
-        aCorrer.setVisibility(View.GONE);
-        if(this.usuarioObservable.getUsuarioCarrera()!= null) {
-            if (this.usuarioObservable.getUsuarioCarrera().isAnotado()) {
-                if (!this.usuarioObservable.getUsuarioCarrera().isCorrida() &&
-                        this.usuarioObservable.getUsuarioCarrera().getTiempo() <= 0) {
-                    aCorrer.setVisibility(View.VISIBLE);
+        if(getView()!=null) {
+            IconTextView editar = (IconTextView) getView().findViewById(R.id.icon_edit_time);
+            LinearLayout aCorrer = (LinearLayout) getView().findViewById(R.id.lb_a_correr);
+
+            editar.setVisibility(View.INVISIBLE);
+            aCorrer.setVisibility(View.GONE);
+            if (this.usuarioObservable.getUsuarioCarrera() != null) {
+                if (this.usuarioObservable.getUsuarioCarrera().isAnotado()) {
+                    if (!this.usuarioObservable.getUsuarioCarrera().isCorrida() &&
+                            this.usuarioObservable.getUsuarioCarrera().getTiempo() <= 0) {
+                        aCorrer.setVisibility(View.VISIBLE);
+                    }
+                    editar.setVisibility(View.VISIBLE);
                 }
-                editar.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -182,6 +181,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         IconTextView minusSecText = (IconTextView) getView().findViewById(R.id.icon_minus_sec);
         IconTextView editIcon = (IconTextView)getView().findViewById(R.id.icon_edit_time);
         IconTextView cancelIcon = (IconTextView)getView().findViewById(R.id.icon_cancel);
+        LinearLayout aCorrer = (LinearLayout)getView().findViewById(R.id.lb_a_correr);
 
         if(v.getId()== R.id.icon_cancel){
             editIcon.setPressed(false);

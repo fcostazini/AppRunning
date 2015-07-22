@@ -38,6 +38,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.observadoresUsuario = new Vector<>();
         if (savedInstanceState == null) {
             if (((RunningApplication) this.getApplication()).getUsuario() == null) {
                 Intent intent = new Intent(this, MainActivity.class);
@@ -45,7 +46,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
                 this.finish();
             } else {
                 IUsuarioCarreraProvider provider = new UsuarioCarreraProvider(this, ((RunningApplication) this.getApplication()).getUsuario().getId());
-                this.observadoresUsuario = new Vector<>();
+
                 Bundle b = getIntent().getExtras();
                 int codigo;
                 if (b != null) {

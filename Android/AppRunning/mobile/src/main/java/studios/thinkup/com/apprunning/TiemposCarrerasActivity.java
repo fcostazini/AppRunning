@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentTransaction;
 
 import studios.thinkup.com.apprunning.fragment.TiemposCarrerasFragment;
 import studios.thinkup.com.apprunning.model.Filtro;
-import studios.thinkup.com.apprunning.model.RunningApplication;
 
 
 public class TiemposCarrerasActivity extends ResultadosFiltrablesActivity {

@@ -109,7 +109,7 @@ public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
             c = db.getReadableDatabase().rawQuery(query, null);
             if (c.getCount() > 0) {
 
-                return this.toCarrerasCabecera(c);
+                return getCarreraCabecerasFiltradasPorDistancia(filtro,this.toCarrerasCabecera(c));
 
 
             }
