@@ -76,6 +76,7 @@ public class Preferencias extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String provincia = parent.getItemAtPosition(position).toString();
                 Preferencias.this.defaultSettings.setProvincia(provincia);
+                saveDefaultSettings();
                 if (!provincia.equals(FiltrosProvider.TODAS_LAS_PROVINCIAS)
                         && !provincia.equals(FiltrosProvider.CAPITAL)) {
                     spCiudad.setVisibility(View.VISIBLE);
@@ -87,23 +88,27 @@ public class Preferencias extends Fragment {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             Preferencias.this.defaultSettings.setCiudad(parent.getItemAtPosition(position).toString());
+                            saveDefaultSettings();
                         }
 
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
                             Preferencias.this.defaultSettings.setCiudad(FiltrosProvider.TODAS_LAS_CIUDADES);
+                            saveDefaultSettings();
                         }
                     });
                     spCiudad.setSelection(adapterZona.getPosition(defaultSettings.getCiudad()));
                 } else {
                     spCiudad.setVisibility(View.GONE);
                     Preferencias.this.defaultSettings.setCiudad(FiltrosProvider.TODAS_LAS_CIUDADES);
+                    saveDefaultSettings();
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 Preferencias.this.defaultSettings.setProvincia(FiltrosProvider.TODAS_LAS_PROVINCIAS);
+                saveDefaultSettings();
                 spCiudad.setVisibility(View.GONE);
             }
         });
@@ -142,6 +147,7 @@ public class Preferencias extends Fragment {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
             defaultSettings.setModalidad((Modalidad) parent.getItemAtPosition(position));
+            saveDefaultSettings();
 
         }
 
@@ -153,11 +159,10 @@ public class Preferencias extends Fragment {
 
     private class MesesSeekBarChangeListener implements SeekBar.OnSeekBarChangeListener {
         int progress = 0;
-        DefaultSettings defaultSettings;
         TextView toUpdate;
 
         private MesesSeekBarChangeListener(DefaultSettings defaultSettings, TextView toUpdate) {
-            this.defaultSettings = defaultSettings;
+            //this.defaultSettings = defaultSettings;
             this.toUpdate = toUpdate;
         }
 
@@ -166,7 +171,7 @@ public class Preferencias extends Fragment {
             this.progress = progress;
             if (seekBar.getId() == R.id.sb_meses) {
                 this.toUpdate.setText(String.valueOf(progress));
-                this.defaultSettings.setMesesBusqueda(progress);
+                defaultSettings.setMesesBusqueda(progress);
                 saveDefaultSettings();
             } else {
                 //this.toUpdate.setText(Filtro.DISTANCIAS[progress]);
@@ -211,7 +216,7 @@ public class Preferencias extends Fragment {
             this.right.setText(String.valueOf(i1 * 10) + " Km");
             filtro.setDistanciaMin(i * 10);
             filtro.setDistanciaMax(i1 * 10);
-
+            saveDefaultSettings();
 
         }
     }
@@ -220,8 +225,9 @@ public class Preferencias extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
         saveDefaultSettings();
+        super.onSaveInstanceState(outState);
+
     }
 
     @Override
