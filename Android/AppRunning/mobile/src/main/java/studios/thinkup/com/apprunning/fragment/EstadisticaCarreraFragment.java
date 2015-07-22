@@ -187,6 +187,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
             editIcon.setPressed(false);
             cancelIcon.setPressed(true);
             actualizarValores(this.getView());
+            updateEstadoEdicionTiempo();
 
         }else{
             if(plusHsText.getVisibility() == View.VISIBLE){
@@ -198,6 +199,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
                 tiempo += Integer.valueOf(min.getText().toString()) * 60000;
                 tiempo += Integer.valueOf(sec.getText().toString()) * 1000;
                 this.usuarioObservable.getUsuarioCarrera().setTiempo(tiempo);
+                updateEstadoEdicionTiempo();
                 editIcon.setPressed(false);
             }
         }
@@ -211,6 +213,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
             editIcon.setText(getString(R.string.icon_edit));
             cancelIcon.setVisibility(View.GONE);
             editIcon.setPressed(false);
+            aCorrer.setVisibility(View.GONE);
 
         }else{
             plusHsText.setVisibility(View.VISIBLE);
