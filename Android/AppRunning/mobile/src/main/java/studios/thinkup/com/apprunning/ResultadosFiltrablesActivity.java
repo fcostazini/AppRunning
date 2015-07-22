@@ -14,13 +14,13 @@ import studios.thinkup.com.apprunning.provider.ConfigProvider;
  * Created by Facundo on 21/07/2015.
  * Funcionalidad para filtrar carreras
  */
-public abstract class ResultadosFiltrablesActivity extends MainNavigationActivity  {
+public abstract class ResultadosFiltrablesActivity extends MainNavigationActivity {
     protected Filtro filtro;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initFiltro();
+        initFiltro(savedInstanceState);
     }
 
     @Override
@@ -41,12 +41,12 @@ public abstract class ResultadosFiltrablesActivity extends MainNavigationActivit
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.mnu_filtrar) {
-            if(this.filtro == null){
+            if (this.filtro == null) {
 
                 DefaultSettings ds = this.getDefaultSettings();
                 this.filtro = new Filtro(ds);
             }
-            Intent intent = new Intent(this,FiltroCarreraActivity.class);
+            Intent intent = new Intent(this, FiltroCarreraActivity.class);
             Bundle b = new Bundle();
             b.putSerializable(Filtro.FILTRO_ID, filtro);
             b.putString("caller", this.getClass().getName());
@@ -59,12 +59,27 @@ public abstract class ResultadosFiltrablesActivity extends MainNavigationActivit
 
         return super.onOptionsItemSelected(item);
     }
-    protected void initFiltro() {
-        // Get the ViewPager and set it's PagerAdapter so that it can display items
-        if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(Filtro.FILTRO_ID)) {
+
+    protected void initFiltro(Bundle savedInstance) {
+        if (savedInstance != null) {
+            if (savedInstance.containsKey(Filtro.FILTRO_ID)) {
+                this.filtro = (Filtro) savedInstance.getSerializable(Filtro.FILTRO_ID);
+            }
+        }
+        if (this.filtro == null && getIntent().getExtras() != null && getIntent().getExtras().containsKey(Filtro.FILTRO_ID)) {
             this.filtro = (Filtro) getIntent().getExtras().getSerializable(Filtro.FILTRO_ID);
         } else {
             this.filtro = new Filtro(getDefaultSettings());
+        }
+
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (this.filtro != null) {
+            outState.putSerializable(Filtro.FILTRO_ID, this.filtro);
         }
     }
 }

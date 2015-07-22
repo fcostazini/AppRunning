@@ -18,9 +18,13 @@ import studios.thinkup.com.apprunning.model.RunningApplication;
 public class MisCarrerasActivity extends DrawerPagerActivity implements AdapterView.OnItemClickListener {
     private ViewPager viewPager;
     @Override
-    protected void initFiltro() {
-        // Get the ViewPager and set it's PagerAdapter so that it can display items
-        if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(Filtro.FILTRO_ID)) {
+    protected void initFiltro(Bundle savedInstance) {
+        if (savedInstance != null) {
+            if (savedInstance.containsKey(Filtro.FILTRO_ID)) {
+                this.filtro = (Filtro) savedInstance.getSerializable(Filtro.FILTRO_ID);
+            }
+        }
+        if (this.filtro == null && getIntent().getExtras() != null && getIntent().getExtras().containsKey(Filtro.FILTRO_ID)) {
             this.filtro = (Filtro) getIntent().getExtras().getSerializable(Filtro.FILTRO_ID);
         } else {
             this.filtro = new Filtro(getDefaultSettings());
@@ -31,14 +35,12 @@ public class MisCarrerasActivity extends DrawerPagerActivity implements AdapterV
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState == null) {
-            initView();
-        }
+            initView(savedInstanceState);
     }
 
-    private void initView() {
+    private void initView(Bundle savedInstance) {
         this.viewPager = (ViewPager) findViewById(R.id.viewpager);
-        initFiltro();
+        initFiltro(savedInstance);
         long id = ((RunningApplication) this.getApplication()).getUsuario().getId();
         filtro.setIdUsuario(id);
         viewPager.setAdapter(new ResultadoCarrerasPagerAdapter(getSupportFragmentManager(), filtro));
@@ -77,7 +79,7 @@ public class MisCarrerasActivity extends DrawerPagerActivity implements AdapterV
     protected void onResume() {
         super.onResume();
         if(this.viewPager == null){
-            initView();
+            initView(null);
         }
         this.viewPager.getAdapter().notifyDataSetChanged();
 

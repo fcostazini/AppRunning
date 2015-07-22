@@ -51,9 +51,6 @@ public class FiltroCarreraActivity extends ResultadosFiltrablesActivity implemen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initCaller();
-
-        if (savedInstanceState == null) {
-
             Button btn = (Button) findViewById(R.id.btn_filtrar);
             btn.setOnClickListener(this);
             ChangeManager cm = new ChangeManager(this.filtro);
@@ -101,7 +98,6 @@ public class FiltroCarreraActivity extends ResultadosFiltrablesActivity implemen
             fechas.setOnClickListener(fechasFiltro);
 
 
-        }
     }
 
     private String getDistanciaString(Filtro filtro) {

@@ -248,9 +248,9 @@ public class Filtro implements Serializable {
     }
 
     public void clean() {
-       this.setCorrida(false);
-       this.setMeGusta(false);
-       this.setInscripto(false);
+       this.setCorrida(null);
+       this.setMeGusta(null);
+       this.setInscripto(null);
        this.setFechaDesde(null);
        this.setFechaHasta(null);
        this.setCiudad(FiltrosProvider.TODAS_LAS_CIUDADES);

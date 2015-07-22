@@ -48,7 +48,23 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginRight="-5dp"
                 android:layout_marginLeft="-5dp" />
+            <studios.thinkup.com.apprunning.IconTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:text="@string/icon_velocidad"
+                android:id="@+id/icon_campo"
+                android:typeface="monospace"
+                android:textColor="#33B5E5"
+                android:gravity="center_vertical"
+                android:layout_below="@+id/imageView2"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:paddingRight="2dp">
 
+            </studios.thinkup.com.apprunning.IconTextView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -56,8 +72,10 @@
                 android:text="@string/lbl_campo"
                 android:id="@+id/lbl_campo"
                 android:layout_below="@+id/imageView2"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
+                android:layout_toRightOf="@+id/icon_campo"
+                android:layout_toEndOf="@+id/icon_campo"
+                android:layout_alignBottom="@+id/icon_campo"
+                android:layout_alignTop="@+id/icon_campo"
                 android:padding="5dp" />
 
             <RelativeLayout
@@ -79,7 +97,7 @@
                     android:text="@string/icon_edit"
                     android:id="@+id/icon_next_campo"
                     android:typeface="monospace"
-                    android:textColor="@color/link_text_material_light"
+                    android:textColor="#33B5E5"
                     android:gravity="center_vertical"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
@@ -98,7 +116,7 @@
                     android:padding="5dp"
                     android:layout_toLeftOf="@id/icon_next_campo"
                     android:layout_toStartOf="@id/icon_next_campo"
-                    android:textColor="@color/link_text_material_light"
+                    android:textColor="#33B5E5"
                     />
             </RelativeLayout>
 
@@ -116,7 +134,23 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginRight="-20dp"
                 android:layout_marginLeft="-20dp" />
+            <studios.thinkup.com.apprunning.IconTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:text="@string/icon_cancel"
+                android:id="@+id/icon_sentido"
+                android:typeface="monospace"
+                android:textColor="#33B5E5"
+                android:gravity="center_vertical"
+                android:layout_below="@+id/imageView3"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:paddingRight="2dp">
 
+            </studios.thinkup.com.apprunning.IconTextView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -125,9 +159,11 @@
                 android:id="@+id/lbl_sentido"
                 android:padding="5dp"
                 android:layout_below="@+id/imageView3"
-                android:layout_alignLeft="@+id/lbl_campo"
-                android:layout_alignStart="@+id/lbl_campo"
-                android:layout_alignParentLeft="true" />
+                android:layout_toRightOf="@+id/icon_sentido"
+                android:layout_toEndOf="@+id/icon_sentido"
+                android:layout_alignBottom="@+id/icon_sentido"
+                android:layout_alignTop="@+id/icon_sentido"
+                />
 
 
             <RelativeLayout
@@ -149,7 +185,7 @@
                     android:text="@string/icon_edit"
                     android:id="@+id/icon_next_sentido"
                     android:typeface="monospace"
-                    android:textColor="@color/link_text_material_light"
+                    android:textColor="#33B5E5"
                     android:gravity="center_vertical"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
@@ -167,7 +203,7 @@
                     android:padding="5dp"
                     android:layout_toLeftOf="@id/icon_next_sentido"
                     android:layout_toStartOf="@id/icon_next_sentido"
-                    android:textColor="@color/link_text_material_light"
+                    android:textColor="#33B5E5"
                     />
             </RelativeLayout>
 
@@ -211,6 +247,23 @@
                 android:layout_marginRight="-5dp"
                 android:layout_marginLeft="-5dp" />
 
+            <studios.thinkup.com.apprunning.IconTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:text="@string/icon_ganador"
+                android:id="@+id/icon_modalidad"
+                android:typeface="monospace"
+                android:textColor="#33B5E5"
+                android:gravity="center_vertical"
+                android:layout_below="@+id/imageView5"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:paddingRight="2dp">
+
+            </studios.thinkup.com.apprunning.IconTextView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -219,9 +272,11 @@
                 android:id="@+id/lbl_modalidad"
                 android:padding="5dp"
                 android:layout_below="@+id/imageView5"
-                android:layout_alignLeft="@+id/lbl_campo"
-                android:layout_alignStart="@+id/lbl_campo"
-                android:layout_alignParentLeft="true" />
+                android:layout_toRightOf="@+id/icon_modalidad"
+                android:layout_toEndOf="@+id/icon_modalidad"
+                android:layout_alignBottom="@+id/icon_modalidad"
+                android:layout_alignTop="@+id/icon_modalidad"
+/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -242,7 +297,7 @@
                     android:text="@string/icon_edit"
                     android:id="@+id/icon_next_modalidad"
                     android:typeface="monospace"
-                    android:textColor="@color/link_text_material_light"
+                    android:textColor="#33B5E5"
                     android:gravity="center_vertical"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
@@ -260,7 +315,7 @@
                     android:padding="5dp"
                     android:layout_toLeftOf="@id/icon_next_modalidad"
                     android:layout_toStartOf="@id/icon_next_modalidad"
-                    android:textColor="@color/link_text_material_light"
+                    android:textColor="#33B5E5"
                     />
             </RelativeLayout>
             <ImageView
@@ -276,6 +331,23 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp" />
 
+            <studios.thinkup.com.apprunning.IconTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:text="@string/icon_ciudad"
+                android:id="@+id/icon_provincia"
+                android:typeface="monospace"
+                android:textColor="#33B5E5"
+                android:gravity="center_vertical"
+                android:layout_below="@+id/imageView6"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:paddingRight="2dp">
+
+            </studios.thinkup.com.apprunning.IconTextView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -284,8 +356,10 @@
                 android:id="@+id/lbl_provincia"
                 android:padding="5dp"
                 android:layout_below="@+id/imageView6"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_toRightOf="@+id/icon_provincia"
+                android:layout_toEndOf="@+id/icon_provincia"
+                android:layout_alignBottom="@+id/icon_provincia"
+                android:layout_alignTop="@+id/icon_provincia" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -306,7 +380,7 @@
                     android:text="@string/icon_edit"
                     android:id="@+id/icon_next_provincia"
                     android:typeface="monospace"
-                    android:textColor="@color/link_text_material_light"
+                    android:textColor="#33B5E5"
                     android:gravity="center_vertical"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
@@ -324,7 +398,7 @@
                     android:padding="5dp"
                     android:layout_toLeftOf="@id/icon_next_provincia"
                     android:layout_toStartOf="@id/icon_next_provincia"
-                    android:textColor="@color/link_text_material_light"
+                    android:textColor="#33B5E5"
                     />
             </RelativeLayout>
             <ImageView
@@ -346,7 +420,20 @@
                 android:layout_below="@+id/imageView7"
                 android:id="@+id/ly_ciudad"
                 android:visibility="gone">
-
+                <studios.thinkup.com.apprunning.IconTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="22sp"
+                    android:text="@string/icon_ciudad"
+                    android:id="@+id/icon_ciudad"
+                    android:typeface="monospace"
+                    android:textColor="#FFFFFF"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:paddingRight="2dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -354,8 +441,10 @@
                 android:text="@string/lbl_ciudad"
                 android:id="@+id/lbl_ciudad"
                 android:padding="5dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_toRightOf="@+id/icon_ciudad"
+                android:layout_toEndOf="@+id/icon_ciudad"
+                android:layout_alignBottom="@+id/icon_ciudad"
+                android:layout_alignTop="@+id/icon_ciudad"  />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -376,7 +465,7 @@
                         android:text="@string/icon_edit"
                         android:id="@+id/icon_next_ciudad"
                         android:typeface="monospace"
-                        android:textColor="@color/link_text_material_light"
+                        android:textColor="#33B5E5"
                         android:gravity="center_vertical"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
@@ -394,7 +483,7 @@
                         android:padding="5dp"
                         android:layout_toLeftOf="@id/icon_next_ciudad"
                         android:layout_toStartOf="@id/icon_next_ciudad"
-                        android:textColor="@color/link_text_material_light"
+                        android:textColor="#33B5E5"
                         />
                 </RelativeLayout>
 
@@ -411,7 +500,23 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp" />
             </RelativeLayout>
+            <studios.thinkup.com.apprunning.IconTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:text="@string/icon_distancia"
+                android:id="@+id/icon_distancia"
+                android:typeface="monospace"
+                android:textColor="#33B5E5"
+                android:gravity="center_vertical"
+                android:layout_below="@+id/ly_ciudad"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:paddingRight="2dp">
 
+            </studios.thinkup.com.apprunning.IconTextView>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -420,9 +525,12 @@
                 android:text="@string/distancia"
                 android:id="@+id/lbl_distancia"
                 android:padding="5dp"
-                android:layout_below="@id/ly_ciudad"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_below="@+id/ly_ciudad"
+                android:layout_toRightOf="@+id/icon_distancia"
+                android:layout_toEndOf="@+id/icon_distancia"
+                android:layout_alignBottom="@+id/icon_distancia"
+                android:layout_alignTop="@+id/icon_distancia"/>
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -442,7 +550,7 @@
                 android:text="@string/icon_edit"
                 android:id="@+id/icon_next_distancia"
                 android:typeface="monospace"
-                android:textColor="@color/link_text_material_light"
+                android:textColor="#33B5E5"
                 android:gravity="center_vertical"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
@@ -462,7 +570,7 @@
                 android:padding="5dp"
                 android:layout_toLeftOf="@id/icon_next_distancia"
                 android:layout_toStartOf="@id/icon_next_distancia"
-                android:textColor="@color/link_text_material_light"
+                android:textColor="#33B5E5"
                 />
             </RelativeLayout>
 
@@ -479,7 +587,23 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:visibility="visible" />
+            <studios.thinkup.com.apprunning.IconTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:text="@string/icon_calendario"
+                android:id="@+id/icon_calendario"
+                android:typeface="monospace"
+                android:textColor="#33B5E5"
+                android:gravity="center_vertical"
+                android:layout_below="@+id/imageView9"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:paddingRight="2dp">
 
+            </studios.thinkup.com.apprunning.IconTextView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -488,9 +612,10 @@
                 android:id="@+id/lbl_fechas"
                 android:padding="5dp"
                 android:layout_below="@id/imageView9"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:visibility="visible" />
+                android:layout_toRightOf="@+id/icon_calendario"
+                android:layout_toEndOf="@+id/icon_calendario"
+                android:layout_alignBottom="@+id/icon_calendario"
+                android:layout_alignTop="@+id/icon_calendario"/>
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -511,7 +636,7 @@
                     android:text="@string/icon_edit"
                     android:id="@+id/icon_next_fecha"
                     android:typeface="monospace"
-                    android:textColor="@color/link_text_material_light"
+                    android:textColor="#33B5E5"
                     android:gravity="center_vertical"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
@@ -531,7 +656,7 @@
                     android:padding="5dp"
                     android:layout_toLeftOf="@id/icon_next_fecha"
                     android:layout_toStartOf="@id/icon_next_fecha"
-                    android:textColor="@color/link_text_material_light"
+                    android:textColor="#33B5E5"
                     />
             </RelativeLayout>
 
@@ -548,8 +673,7 @@
         android:background="@drawable/button"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_margin="10dp" />
+        android:layout_marginRight="10dp" />
 </RelativeLayout>
 
 
