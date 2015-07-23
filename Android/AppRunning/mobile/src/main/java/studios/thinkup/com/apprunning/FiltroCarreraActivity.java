@@ -20,6 +20,7 @@ import com.edmodo.rangebar.RangeBar;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
@@ -350,8 +351,16 @@ public class FiltroCarreraActivity extends ResultadosFiltrablesActivity implemen
 
         @Override
         public void onIndexChangeListener(RangeBar rangeBar, int i, int i1) {
-            this.left.setText(String.valueOf(i * 10) + " Km");
-            this.right.setText(String.valueOf(i1 * 10) + " Km");
+            if(i>= FiltrosProvider.MIN_DISTANCIA && i<=FiltrosProvider.MAX_DISTANCIA){
+                this.left.setText(String.valueOf(i * 10) + " Km");
+            }else{
+                this.left.setText(String.valueOf(FiltrosProvider.MIN_DISTANCIA) + " Km");
+            }
+            if(i1>= FiltrosProvider.MIN_DISTANCIA && i1<=FiltrosProvider.MAX_DISTANCIA) {
+                this.right.setText(String.valueOf(i1 * 10) + " Km");
+            }else{
+                this.right.setText(String.valueOf(FiltrosProvider.MAX_DISTANCIA) + " Km");
+            }
         }
     }
 

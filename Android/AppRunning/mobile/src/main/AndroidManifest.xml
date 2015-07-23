@@ -119,6 +119,10 @@
             android:name=".FiltroCarreraActivity"
             android:label="@string/title_activity_filtro_carrera" >
         </activity>
+        <activity
+            android:name=".AcecaDeNosotrosActivity"
+            android:label="@string/title_activity_aceca_de_nosotros" >
+        </activity>
     </application>
 
 </manifest>

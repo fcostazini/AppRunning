@@ -225,10 +225,20 @@ public class Preferencias extends Fragment {
 
         @Override
         public void onIndexChangeListener(RangeBar rangeBar, int i, int i1) {
-            this.left.setText(String.valueOf(i * 10) + " Km");
-            this.right.setText(String.valueOf(i1 * 10) + " Km");
-            filtro.setDistanciaMin(i * 10);
-            filtro.setDistanciaMax(i1 * 10);
+            if(i >= FiltrosProvider.MIN_DISTANCIA && i <= FiltrosProvider.MAX_DISTANCIA){
+                this.left.setText(String.valueOf(i * 10) + " Km");
+                filtro.setDistanciaMin(i * 10);
+            }else{
+                this.left.setText(String.valueOf(FiltrosProvider.MIN_DISTANCIA) + " Km");
+                filtro.setDistanciaMin(FiltrosProvider.MIN_DISTANCIA);
+            }
+            if(i1 >= FiltrosProvider.MIN_DISTANCIA && i1 <= FiltrosProvider.MAX_DISTANCIA){
+                this.right.setText(String.valueOf(i1 * 10) + " Km");
+                filtro.setDistanciaMax(i1 * 10);
+            }else{
+                this.right.setText(String.valueOf(FiltrosProvider.MAX_DISTANCIA) + " Km");
+                filtro.setDistanciaMax(FiltrosProvider.MAX_DISTANCIA);
+            }
 
 
         }

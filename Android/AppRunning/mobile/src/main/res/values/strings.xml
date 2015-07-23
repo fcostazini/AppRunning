@@ -38,6 +38,7 @@
     <string name="nav_menu_buscar">Buscar Carreras</string>
     <string name="nav_menu_recomendados">Recomendadas</string>
     <string name="nav_menu_preferencias">Preferencias</string>
+    <string name="nav_menu_acerca_de">Acerca de Nosotros</string>
     <string name="sin_resultados">Sin Resultados</string>
     <string name="lbl_mas_info">Mas Información</string>
 
@@ -79,4 +80,6 @@
     <string name="confirmacion_desvinculacion_cuenta">Se desvinculará su cuenta. Desde continuar?</string>
     <string name="desvincular_cuenta">Desvincular Cuenta</string>
     <string name="title_meses_busqueda">Meses de Búsqueda</string>
+    <string name="title_activity_aceca_de_nosotros">Acerca de Nosotros</string>
+    <string name="seguinos_en_facebook">Seguinos en Facebook</string>
 </resources>

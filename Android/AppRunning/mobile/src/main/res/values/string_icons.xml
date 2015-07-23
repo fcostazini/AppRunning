@@ -19,6 +19,9 @@
     <string name="icon_distancia">L</string>
     <string name="icon_campo">F</string>
     <string name="icon_orden">O</string>
+    <string name="icon_facebook">Q</string>
+    <string name="icon_contactanos">O</string>
+    <string name="icon_puntuar"></string>
 
 
 </resources>
