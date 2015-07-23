@@ -69,6 +69,7 @@ private UsuarioApp ua;
 
     private void initView() {
         Button logout = (Button)findViewById(R.id.btn_logout);
+        
         logout.setVisibility(View.GONE);
         TextView txtNickname = (TextView)findViewById(R.id.txt_nick);
         txtNickname.setText(this.ua.getNick());

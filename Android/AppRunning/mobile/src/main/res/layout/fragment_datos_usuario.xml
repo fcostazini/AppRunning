@@ -13,7 +13,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
         android:padding="5dp"
-        android:id="@+id/btn_guardar" />
+        android:id="@+id/btn_guardar"
+        android:enabled="false" />
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -141,7 +142,8 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:spinnerMode="dropdown" />
+            android:spinnerMode="dropdown"
+            android:visibility="visible" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -162,9 +164,30 @@
                 android:text="Desvincular Cuenta"
                 android:layout_marginTop="10dp"
                 android:id="@+id/btn_logout"
-                android:layout_below="@+id/sp_grupo"
+                android:layout_below="@+id/acepto_terminos"
+                android:enabled="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
+
+            <CheckBox
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Acepto los terminos y condiciones"
+                android:id="@+id/acepto_terminos"
+                android:layout_below="@+id/sp_grupo"
+                android:layout_marginBottom="7dp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/img_terminos"
+                android:src="@drawable/ic_anotado"
+                android:layout_gravity="center"
+                android:scaleType="center"
+                android:layout_alignTop="@+id/acepto_terminos"
+                android:layout_alignRight="@+id/acepto_terminos"
+                android:layout_alignEnd="@+id/acepto_terminos"
+                android:layout_alignBottom="@+id/acepto_terminos" />
+
         </RelativeLayout>
     </ScrollView>
 
