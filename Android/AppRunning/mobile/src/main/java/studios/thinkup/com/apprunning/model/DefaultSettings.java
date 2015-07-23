@@ -27,8 +27,8 @@ public class DefaultSettings implements Serializable, IEntity {
     public static final String MESES_BUSQUEDA = "MESES_BUSQUEDA";
 
     private Integer idUsuario;
-    private Integer distanciaMin = 0;
-    private Integer distanciaMax = 100;
+    private Integer distanciaMin = FiltrosProvider.MIN_DISTANCIA;
+    private Integer distanciaMax = FiltrosProvider.MAX_DISTANCIA;
     private String modalidad = Modalidad.TODOS.getNombre();
     private String provincia = FiltrosProvider.TODAS_LAS_PROVINCIAS;
     private String ciudad = FiltrosProvider.TODAS_LAS_CIUDADES;

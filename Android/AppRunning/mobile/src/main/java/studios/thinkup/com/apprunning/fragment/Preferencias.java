@@ -4,7 +4,6 @@ package studios.thinkup.com.apprunning.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -31,26 +30,14 @@ import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaExcep
  */
 public class Preferencias extends Fragment {
 
-
-    private Spinner spCiudad;
     private DefaultSettings defaultSettings;
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
         final FiltrosProvider filtrosProvider = new FiltrosProvider(this.getActivity());
-        ConfigProvider cp = new ConfigProvider(this.getActivity());
-        UsuarioApp ua = ((RunningApplication) this.getActivity().getApplication()).getUsuario();
 
-        defaultSettings = cp.getByUsuario(ua.getId());
-        if (defaultSettings == null) {
-            defaultSettings = new DefaultSettings(ua.getId());
-            try {
-                cp.grabar(defaultSettings);
-            } catch (EntidadNoGuardadaException e) {
-                e.printStackTrace();
-            }
-
-        }
+        defaultSettings = getDefaultSettings(savedInstanceState);
         View rootView = inflater.inflate(R.layout.preferencias_fragment, container, false);
 
 
@@ -60,10 +47,10 @@ public class Preferencias extends Fragment {
                 android.R.layout.simple_spinner_item, Modalidad.values());
         adapterGenero.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spGenero.setAdapter(adapterGenero);
-        spGenero.setOnItemSelectedListener(new GeneroSpinnerItemSelectedListener(this.defaultSettings));
+        spGenero.setOnItemSelectedListener(new GeneroSpinnerItemSelectedListener(defaultSettings));
         spGenero.setSelection(adapterGenero.getPosition(defaultSettings.getModalidad()));
 
-        spCiudad = (Spinner) rootView.findViewById(R.id.sp_ciudad);
+        final Spinner spCiudad = (Spinner) rootView.findViewById(R.id.sp_ciudad);
         spCiudad.setVisibility(View.GONE);
         Spinner spProvincia = (Spinner) rootView.findViewById(R.id.sp_provincia);
         ArrayAdapter<String> adapterProvincia = new ArrayAdapter<>(this.getActivity(),
@@ -75,7 +62,8 @@ public class Preferencias extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String provincia = parent.getItemAtPosition(position).toString();
-                Preferencias.this.defaultSettings.setProvincia(provincia);
+                defaultSettings.setProvincia(provincia);
+                saveDefaultSettings(defaultSettings);
                 if (!provincia.equals(FiltrosProvider.TODAS_LAS_PROVINCIAS)
                         && !provincia.equals(FiltrosProvider.CAPITAL)) {
                     spCiudad.setVisibility(View.VISIBLE);
@@ -86,25 +74,29 @@ public class Preferencias extends Fragment {
                     spCiudad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            Preferencias.this.defaultSettings.setCiudad(parent.getItemAtPosition(position).toString());
+                            defaultSettings.setCiudad(parent.getItemAtPosition(position).toString());
+                            saveDefaultSettings(defaultSettings);
                         }
 
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
-                            Preferencias.this.defaultSettings.setCiudad(FiltrosProvider.TODAS_LAS_CIUDADES);
+                            defaultSettings.setCiudad(FiltrosProvider.TODAS_LAS_CIUDADES);
+                            saveDefaultSettings(defaultSettings);
                         }
                     });
                     spCiudad.setSelection(adapterZona.getPosition(defaultSettings.getCiudad()));
                 } else {
                     spCiudad.setVisibility(View.GONE);
-                    Preferencias.this.defaultSettings.setCiudad(FiltrosProvider.TODAS_LAS_CIUDADES);
+                    defaultSettings.setCiudad(FiltrosProvider.TODAS_LAS_CIUDADES);
+                    saveDefaultSettings(defaultSettings);
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Preferencias.this.defaultSettings.setProvincia(FiltrosProvider.TODAS_LAS_PROVINCIAS);
+                defaultSettings.setProvincia(FiltrosProvider.TODAS_LAS_PROVINCIAS);
                 spCiudad.setVisibility(View.GONE);
+                saveDefaultSettings(defaultSettings);
             }
         });
 
@@ -115,9 +107,9 @@ public class Preferencias extends Fragment {
         left.setText(String.valueOf(defaultSettings.getDistanciaMin()) + "Km");
         TextView right = (TextView) rootView.findViewById(R.id.lbl_dist_hasta);
         right.setText(String.valueOf(defaultSettings.getDistanciaMax()) + "Km");
-        sb_distancia.setOnRangeBarChangeListener(new DistanciaSeekBarChangeListener(this.defaultSettings, left, right));
+        sb_distancia.setOnRangeBarChangeListener(new DistanciaSeekBarChangeListener(defaultSettings, left, right));
 
-        sb_distancia.setThumbIndices(defaultSettings.getDistanciaMin() /10, defaultSettings.getDistanciaMax() / 10);
+        sb_distancia.setThumbIndices(defaultSettings.getDistanciaMin() / 10, defaultSettings.getDistanciaMax() / 10);
 
         SeekBar sbMeses = (SeekBar) rootView.findViewById(R.id.sb_meses);
         TextView txtMeses = (TextView) rootView.findViewById(R.id.txt_meses);
@@ -128,6 +120,29 @@ public class Preferencias extends Fragment {
         sbMeses.setProgress(defaultSettings.getMesesBusqueda());
         return rootView;
 
+    }
+
+    private DefaultSettings getDefaultSettings(Bundle savedInstance) {
+        DefaultSettings defaultSettings = null;
+        if (savedInstance != null && savedInstance.containsKey("default")) {
+            defaultSettings = (DefaultSettings) savedInstance.getSerializable("default");
+        }
+        if(defaultSettings == null){
+            ConfigProvider cp = new ConfigProvider(this.getActivity());
+            UsuarioApp ua = ((RunningApplication) this.getActivity().getApplication()).getUsuario();
+
+            defaultSettings = cp.getByUsuario(ua.getId());
+            if (defaultSettings == null) {
+                defaultSettings = new DefaultSettings(ua.getId());
+                try {
+                    cp.grabar(defaultSettings);
+                } catch (EntidadNoGuardadaException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+        return defaultSettings;
     }
 
 
@@ -142,12 +157,14 @@ public class Preferencias extends Fragment {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
             defaultSettings.setModalidad((Modalidad) parent.getItemAtPosition(position));
+            saveDefaultSettings(defaultSettings);
 
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
             defaultSettings.setModalidad(Modalidad.TODOS);
+            saveDefaultSettings(defaultSettings);
         }
     }
 
@@ -166,8 +183,8 @@ public class Preferencias extends Fragment {
             this.progress = progress;
             if (seekBar.getId() == R.id.sb_meses) {
                 this.toUpdate.setText(String.valueOf(progress));
-                this.defaultSettings.setMesesBusqueda(progress);
-                saveDefaultSettings();
+                defaultSettings.setMesesBusqueda(progress);
+                saveDefaultSettings(defaultSettings);
             } else {
                 //this.toUpdate.setText(Filtro.DISTANCIAS[progress]);
             }
@@ -185,6 +202,7 @@ public class Preferencias extends Fragment {
                 switch (seekBar.getId()) {
                     case R.id.sb_meses:
                         defaultSettings.setMesesBusqueda(progress);
+                        saveDefaultSettings(defaultSettings);
                         break;
 
                 }
@@ -217,27 +235,22 @@ public class Preferencias extends Fragment {
     }
 
 
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        saveDefaultSettings();
+        if (this.defaultSettings != null && outState != null) {
+            outState.putSerializable("default", this.defaultSettings);
+        }
     }
 
-    @Override
-    public void onDestroy() {
-        saveDefaultSettings();
-        super.onDestroy();
-    }
-
-    private void saveDefaultSettings() {
+    private void saveDefaultSettings(DefaultSettings defaultSettings) {
         ConfigProvider cp = new ConfigProvider(this.getActivity());
-        if (this.defaultSettings != null) {
+        if (defaultSettings != null) {
             try {
-                if (this.defaultSettings.getId() != null) {
-                    cp.update(this.defaultSettings);
+                if (defaultSettings.getId() != null) {
+                    cp.update(defaultSettings);
                 } else {
-                    cp.grabar(this.defaultSettings);
+                    cp.grabar(defaultSettings);
                 }
             } catch (EntidadNoGuardadaException e) {
                 e.printStackTrace();

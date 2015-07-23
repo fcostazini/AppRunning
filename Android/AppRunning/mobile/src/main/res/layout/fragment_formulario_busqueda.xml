@@ -17,7 +17,7 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
-            <studios.thinkup.com.apprunning.IconTextView
+            <studios.thinkup.com.apprunning.view.IconTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
@@ -35,7 +35,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp">
 
-            </studios.thinkup.com.apprunning.IconTextView>
+            </studios.thinkup.com.apprunning.view.IconTextView>
             <Spinner
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
                 android:layout_marginTop="10dp"
                 android:prompt="@id/txt_modalidad"
                 android:layout_marginBottom="10dp" />
-            <studios.thinkup.com.apprunning.IconTextView
+            <studios.thinkup.com.apprunning.view.IconTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
@@ -67,7 +67,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp">
 
-            </studios.thinkup.com.apprunning.IconTextView>
+            </studios.thinkup.com.apprunning.view.IconTextView>
             <Spinner
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -110,7 +110,7 @@
                 <RelativeLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content">
-                    <studios.thinkup.com.apprunning.IconTextView
+                    <studios.thinkup.com.apprunning.view.IconTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="22sp"
@@ -130,7 +130,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginLeft="10dp">
 
-                    </studios.thinkup.com.apprunning.IconTextView>
+                    </studios.thinkup.com.apprunning.view.IconTextView>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -254,7 +254,7 @@
                 <RelativeLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content">
-                    <studios.thinkup.com.apprunning.IconTextView
+                    <studios.thinkup.com.apprunning.view.IconTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="22sp"
@@ -274,7 +274,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginLeft="10dp">
 
-                    </studios.thinkup.com.apprunning.IconTextView>
+                    </studios.thinkup.com.apprunning.view.IconTextView>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -327,7 +327,7 @@
                 </LinearLayout>
 
             </LinearLayout>
-            <studios.thinkup.com.apprunning.IconTextView
+            <studios.thinkup.com.apprunning.view.IconTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
@@ -345,7 +345,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp">
 
-            </studios.thinkup.com.apprunning.IconTextView>
+            </studios.thinkup.com.apprunning.view.IconTextView>
 
             <EditText
                 android:layout_width="fill_parent"

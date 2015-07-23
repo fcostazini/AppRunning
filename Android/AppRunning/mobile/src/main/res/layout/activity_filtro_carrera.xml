@@ -48,7 +48,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginRight="-5dp"
                 android:layout_marginLeft="-5dp" />
-            <studios.thinkup.com.apprunning.IconTextView
+            <studios.thinkup.com.apprunning.view.IconTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
@@ -64,7 +64,7 @@
                 android:paddingBottom="3dp"
                 android:paddingRight="2dp">
 
-            </studios.thinkup.com.apprunning.IconTextView>
+            </studios.thinkup.com.apprunning.view.IconTextView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                 android:layout_alignBottom="@id/lbl_campo"
                 android:layout_alignTop="@id/lbl_campo">
 
-                <studios.thinkup.com.apprunning.IconTextView
+                <studios.thinkup.com.apprunning.view.IconTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -105,7 +105,7 @@
                     android:layout_alignTop="@+id/txt_campo"
                     android:layout_marginLeft="10dp">
 
-                </studios.thinkup.com.apprunning.IconTextView>
+                </studios.thinkup.com.apprunning.view.IconTextView>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -134,7 +134,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginRight="-20dp"
                 android:layout_marginLeft="-20dp" />
-            <studios.thinkup.com.apprunning.IconTextView
+            <studios.thinkup.com.apprunning.view.IconTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
@@ -150,7 +150,7 @@
                 android:paddingBottom="3dp"
                 android:paddingRight="2dp">
 
-            </studios.thinkup.com.apprunning.IconTextView>
+            </studios.thinkup.com.apprunning.view.IconTextView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -177,7 +177,7 @@
                 android:layout_alignBottom="@id/lbl_sentido"
                 android:layout_alignTop="@id/lbl_sentido">
 
-                <studios.thinkup.com.apprunning.IconTextView
+                <studios.thinkup.com.apprunning.view.IconTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -191,7 +191,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="10dp">
 
-                </studios.thinkup.com.apprunning.IconTextView>
+                </studios.thinkup.com.apprunning.view.IconTextView>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -247,7 +247,7 @@
                 android:layout_marginRight="-5dp"
                 android:layout_marginLeft="-5dp" />
 
-            <studios.thinkup.com.apprunning.IconTextView
+            <studios.thinkup.com.apprunning.view.IconTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
@@ -263,7 +263,7 @@
                 android:paddingBottom="3dp"
                 android:paddingRight="2dp">
 
-            </studios.thinkup.com.apprunning.IconTextView>
+            </studios.thinkup.com.apprunning.view.IconTextView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -289,7 +289,7 @@
                 android:layout_alignBottom="@id/lbl_modalidad"
                 android:layout_alignTop="@id/lbl_modalidad">
 
-                <studios.thinkup.com.apprunning.IconTextView
+                <studios.thinkup.com.apprunning.view.IconTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -303,7 +303,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="10dp">
 
-                </studios.thinkup.com.apprunning.IconTextView>
+                </studios.thinkup.com.apprunning.view.IconTextView>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -331,7 +331,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp" />
 
-            <studios.thinkup.com.apprunning.IconTextView
+            <studios.thinkup.com.apprunning.view.IconTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
@@ -347,7 +347,7 @@
                 android:paddingBottom="3dp"
                 android:paddingRight="2dp">
 
-            </studios.thinkup.com.apprunning.IconTextView>
+            </studios.thinkup.com.apprunning.view.IconTextView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -372,7 +372,7 @@
                 android:layout_alignBottom="@id/lbl_provincia"
                 android:layout_alignTop="@id/lbl_provincia">
 
-                <studios.thinkup.com.apprunning.IconTextView
+                <studios.thinkup.com.apprunning.view.IconTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -386,7 +386,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="10dp">
 
-                </studios.thinkup.com.apprunning.IconTextView>
+                </studios.thinkup.com.apprunning.view.IconTextView>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -420,7 +420,7 @@
                 android:layout_below="@+id/imageView7"
                 android:id="@+id/ly_ciudad"
                 android:visibility="gone">
-                <studios.thinkup.com.apprunning.IconTextView
+                <studios.thinkup.com.apprunning.view.IconTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="22sp"
@@ -457,7 +457,7 @@
                     android:layout_alignBottom="@id/lbl_ciudad"
                     android:layout_alignTop="@id/lbl_ciudad">
 
-                    <studios.thinkup.com.apprunning.IconTextView
+                    <studios.thinkup.com.apprunning.view.IconTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
@@ -471,7 +471,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginLeft="10dp">
 
-                    </studios.thinkup.com.apprunning.IconTextView>
+                    </studios.thinkup.com.apprunning.view.IconTextView>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -500,7 +500,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp" />
             </RelativeLayout>
-            <studios.thinkup.com.apprunning.IconTextView
+            <studios.thinkup.com.apprunning.view.IconTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
@@ -516,7 +516,7 @@
                 android:paddingBottom="3dp"
                 android:paddingRight="2dp">
 
-            </studios.thinkup.com.apprunning.IconTextView>
+            </studios.thinkup.com.apprunning.view.IconTextView>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -542,7 +542,7 @@
                 android:layout_alignBottom="@id/lbl_distancia"
                 android:layout_alignTop="@id/lbl_distancia">
 
-            <studios.thinkup.com.apprunning.IconTextView
+            <studios.thinkup.com.apprunning.view.IconTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -558,7 +558,7 @@
                 android:layout_alignTop="@+id/txt_distancia"
                 android:layout_marginLeft="10dp">
 
-            </studios.thinkup.com.apprunning.IconTextView>
+            </studios.thinkup.com.apprunning.view.IconTextView>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -587,7 +587,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:visibility="visible" />
-            <studios.thinkup.com.apprunning.IconTextView
+            <studios.thinkup.com.apprunning.view.IconTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
@@ -603,7 +603,7 @@
                 android:paddingBottom="3dp"
                 android:paddingRight="2dp">
 
-            </studios.thinkup.com.apprunning.IconTextView>
+            </studios.thinkup.com.apprunning.view.IconTextView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -628,7 +628,7 @@
                 android:layout_alignTop="@id/lbl_fechas"
                 android:visibility="visible">
 
-                <studios.thinkup.com.apprunning.IconTextView
+                <studios.thinkup.com.apprunning.view.IconTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -644,7 +644,7 @@
                     android:layout_alignTop="@+id/txt_fecha"
                     android:layout_marginLeft="10dp">
 
-                </studios.thinkup.com.apprunning.IconTextView>
+                </studios.thinkup.com.apprunning.view.IconTextView>
 
                 <TextView
                     android:layout_width="wrap_content"

@@ -5,7 +5,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center">
-        <studios.thinkup.com.apprunning.IconTextView
+        <studios.thinkup.com.apprunning.view.IconTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="25sp"
@@ -20,7 +20,7 @@
             android:gravity="center"
             android:padding="10dp">
 
-        </studios.thinkup.com.apprunning.IconTextView>
+        </studios.thinkup.com.apprunning.view.IconTextView>
 
         <TextView
             android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
             android:paddingTop="7dp"
             android:paddingBottom="7dp" />
 
-        <studios.thinkup.com.apprunning.IconTextView
+        <studios.thinkup.com.apprunning.view.IconTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="25sp"
@@ -60,7 +60,7 @@
             android:gravity="center"
             android:padding="10dp">
 
-        </studios.thinkup.com.apprunning.IconTextView>
+        </studios.thinkup.com.apprunning.view.IconTextView>
 
     </RelativeLayout>
 

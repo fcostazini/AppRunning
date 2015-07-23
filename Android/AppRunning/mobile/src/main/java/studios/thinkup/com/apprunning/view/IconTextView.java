@@ -1,4 +1,4 @@
-package studios.thinkup.com.apprunning;
+package studios.thinkup.com.apprunning.view;
 
 import android.content.Context;
 import android.graphics.Typeface;

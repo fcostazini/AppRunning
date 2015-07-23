@@ -240,9 +240,21 @@ private void initFilter(Bundle savedInstanceState){
 
         @Override
         public void onIndexChangeListener(RangeBar rangeBar, int i, int i1) {
-            this.left.setText(String.valueOf(i * 10) + " Km");
-            this.right.setText(String.valueOf(i1 * 10)+ " Km");
-            filtro.setMinDistancia(i*10);
+            if(i >= FiltrosProvider.MIN_DISTANCIA && i <= FiltrosProvider.MAX_DISTANCIA){
+                this.left.setText(String.valueOf(i * 10) + " Km");
+                filtro.setMinDistancia(i * 10);
+            }else{
+                this.left.setText(String.valueOf(0) + " Km");
+                filtro.setMinDistancia(0);
+            }
+            if(i1 >= FiltrosProvider.MIN_DISTANCIA && i1 <= FiltrosProvider.MAX_DISTANCIA){
+                this.right.setText(String.valueOf(i1 * 10) + " Km");
+                filtro.setMaxDistancia(i1 * 10);
+            }else{
+                this.right.setText(String.valueOf(0) + " Km");
+                filtro.setMaxDistancia(0);
+            }
+
             filtro.setMaxDistancia(i1*10);
 
         }

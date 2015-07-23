@@ -17,7 +17,7 @@ import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.TypefaceProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
-import studios.thinkup.com.apprunning.provider.UsuarioProvider;
+import studios.thinkup.com.apprunning.view.IconTextView;
 
 /**
  * Created by fcostazini on 21/05/2015.

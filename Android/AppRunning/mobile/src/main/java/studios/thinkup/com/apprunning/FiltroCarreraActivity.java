@@ -20,7 +20,6 @@ import com.edmodo.rangebar.RangeBar;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
@@ -50,52 +49,52 @@ public class FiltroCarreraActivity extends ResultadosFiltrablesActivity implemen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initCaller();
-            Button btn = (Button) findViewById(R.id.btn_filtrar);
-            btn.setOnClickListener(this);
-            ChangeManager cm = new ChangeManager(this.filtro);
+        initCaller(savedInstanceState);
+        Button btn = (Button) findViewById(R.id.btn_filtrar);
+        btn.setOnClickListener(this);
+        ChangeManager cm = new ChangeManager(this.filtro);
 
-            RelativeLayout campoOrden = (RelativeLayout) findViewById(R.id.campo_click);
-            TextView txtCampo = (TextView) campoOrden.findViewById(R.id.txt_campo);
-            txtCampo.setText(this.filtro.getOrdenarPor());
-            campoOrden.setOnClickListener(new DropDownFilter(this, txtCampo, CamposOrdenEnum.getLabels(), cm));
+        RelativeLayout campoOrden = (RelativeLayout) findViewById(R.id.campo_click);
+        TextView txtCampo = (TextView) campoOrden.findViewById(R.id.txt_campo);
+        txtCampo.setText(this.filtro.getOrdenarPor());
+        campoOrden.setOnClickListener(new DropDownFilter(this, txtCampo, CamposOrdenEnum.getLabels(), cm));
 
-            RelativeLayout sentidoOrden = (RelativeLayout) findViewById(R.id.sentido_click);
-            TextView txtSentido = (TextView) sentidoOrden.findViewById(R.id.txt_sentido);
-            txtSentido.setText(this.filtro.getSentido());
-            sentidoOrden.setOnClickListener(new DropDownFilter(this, txtSentido, Filtro.SENTIDO_ORDEN, cm));
+        RelativeLayout sentidoOrden = (RelativeLayout) findViewById(R.id.sentido_click);
+        TextView txtSentido = (TextView) sentidoOrden.findViewById(R.id.txt_sentido);
+        txtSentido.setText(this.filtro.getSentido());
+        sentidoOrden.setOnClickListener(new DropDownFilter(this, txtSentido, Filtro.SENTIDO_ORDEN, cm));
 
-            RelativeLayout modalidad = (RelativeLayout) findViewById(R.id.modalidad_click);
-            TextView txtModalidad = (TextView) modalidad.findViewById(R.id.txt_modalidad);
-            txtModalidad.setText(this.filtro.getModalidad().getNombre());
-            modalidad.setOnClickListener(new DropDownFilter(this, txtModalidad, Modalidad.getNombres(), cm));
+        RelativeLayout modalidad = (RelativeLayout) findViewById(R.id.modalidad_click);
+        TextView txtModalidad = (TextView) modalidad.findViewById(R.id.txt_modalidad);
+        txtModalidad.setText(this.filtro.getModalidad().getNombre());
+        modalidad.setOnClickListener(new DropDownFilter(this, txtModalidad, Modalidad.getNombres(), cm));
 
-            FiltrosProvider fp = new FiltrosProvider(this);
+        FiltrosProvider fp = new FiltrosProvider(this);
 
-            RelativeLayout provincia = (RelativeLayout) findViewById(R.id.provincia_click);
-            TextView txtProvincia = (TextView) provincia.findViewById(R.id.txt_provincia);
-            txtProvincia.setText(this.filtro.getProvincia());
-            DropDownFilter provinciaFilter = new DropDownFilter(this, txtProvincia, fp.getProvincias(), cm);
-            provincia.setOnClickListener(provinciaFilter);
+        RelativeLayout provincia = (RelativeLayout) findViewById(R.id.provincia_click);
+        TextView txtProvincia = (TextView) provincia.findViewById(R.id.txt_provincia);
+        txtProvincia.setText(this.filtro.getProvincia());
+        DropDownFilter provinciaFilter = new DropDownFilter(this, txtProvincia, fp.getProvincias(), cm);
+        provincia.setOnClickListener(provinciaFilter);
 
-            RelativeLayout ciudad = (RelativeLayout) findViewById(R.id.ciudad_click);
-            TextView txtCiudad = (TextView) ciudad.findViewById(R.id.txt_ciudad);
-            txtCiudad.setText(this.filtro.getCiudad());
-            CiudadDropDownFilter ciudadFilter = new CiudadDropDownFilter(this, txtCiudad, fp.getCiudades(this.filtro.getProvincia()), cm);
-            provinciaFilter.registrar(ciudadFilter);
-            ciudad.setOnClickListener(ciudadFilter);
-            updateVisibilidadCiudad();
+        RelativeLayout ciudad = (RelativeLayout) findViewById(R.id.ciudad_click);
+        TextView txtCiudad = (TextView) ciudad.findViewById(R.id.txt_ciudad);
+        txtCiudad.setText(this.filtro.getCiudad());
+        CiudadDropDownFilter ciudadFilter = new CiudadDropDownFilter(this, txtCiudad, fp.getCiudades(this.filtro.getProvincia()), cm);
+        provinciaFilter.registrar(ciudadFilter);
+        ciudad.setOnClickListener(ciudadFilter);
+        updateVisibilidadCiudad();
 
-            RelativeLayout distancia = (RelativeLayout) findViewById(R.id.distancia_clickable);
-            TextView txtDistancia = (TextView) distancia.findViewById(R.id.txt_distancia);
-            txtDistancia.setText(getDistanciaString(this.filtro));
-            distancia.setOnClickListener(new DistanciaFiltro(this, txtDistancia, cm, filtro));
+        RelativeLayout distancia = (RelativeLayout) findViewById(R.id.distancia_clickable);
+        TextView txtDistancia = (TextView) distancia.findViewById(R.id.txt_distancia);
+        txtDistancia.setText(getDistanciaString(this.filtro));
+        distancia.setOnClickListener(new DistanciaFiltro(this, txtDistancia, cm, filtro));
 
-            RelativeLayout fechas = (RelativeLayout) findViewById(R.id.fechas_clickable);
-            TextView txtFechas = (TextView) fechas.findViewById(R.id.txt_fechas);
-            txtFechas.setText(getFechasString(filtro));
-            FechasFiltro fechasFiltro = new FechasFiltro(this, txtFechas, cm, filtro);
-            fechas.setOnClickListener(fechasFiltro);
+        RelativeLayout fechas = (RelativeLayout) findViewById(R.id.fechas_clickable);
+        TextView txtFechas = (TextView) fechas.findViewById(R.id.txt_fechas);
+        txtFechas.setText(getFechasString(filtro));
+        FechasFiltro fechasFiltro = new FechasFiltro(this, txtFechas, cm, filtro);
+        fechas.setOnClickListener(fechasFiltro);
 
 
     }
@@ -104,18 +103,24 @@ public class FiltroCarreraActivity extends ResultadosFiltrablesActivity implemen
         return filtro.getMinDistancia() + " a " + filtro.getMaxDistancia() + " Km";
     }
 
-    private void initCaller() {
+    private void initCaller(Bundle savedInstance) {
+        String strCaller = "";
+        if (savedInstance != null && savedInstance.containsKey("caller")) {
+            strCaller = savedInstance.getString("caller");
+        }
+        if (strCaller.isEmpty() && this.getIntent().getExtras().containsKey("caller")) {
+            strCaller = this.getIntent().getExtras().getString("caller");
 
-        if (this.getIntent().getExtras().containsKey("caller")) {
-            String strCaller = this.getIntent().getExtras().getString("caller");
+        }
+        if (strCaller.isEmpty()) {
+            this.caller = MainActivity.class;
+        } else {
             try {
                 this.caller = (Class<? extends Activity>) Class.forName(strCaller);
             } catch (Exception e) {
                 e.printStackTrace();
                 this.caller = MainActivity.class;
             }
-        } else {
-            this.caller = MainActivity.class;
         }
     }
 
@@ -243,7 +248,7 @@ public class FiltroCarreraActivity extends ResultadosFiltrablesActivity implemen
                     this.filtro.setMaxDistancia(Integer.valueOf(textView.getText().toString().replace(" Km", "").trim()));
                     break;
                 case R.id.txt_fecha_desde:
-                    if(!textView.getText().toString().isEmpty()) {
+                    if (!textView.getText().toString().isEmpty()) {
                         SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                         try {
                             this.filtro.setFechaDesde(sf.parse(textView.getText().toString()));
@@ -251,12 +256,12 @@ public class FiltroCarreraActivity extends ResultadosFiltrablesActivity implemen
                             e.printStackTrace();
                             this.filtro.setFechaDesde(null);
                         }
-                    }else{
+                    } else {
                         this.filtro.setFechaDesde(null);
                     }
                     break;
                 case R.id.txt_fecha_hasta:
-                    if(!textView.getText().toString().isEmpty()) {
+                    if (!textView.getText().toString().isEmpty()) {
                         SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                         try {
                             this.filtro.setFechaHasta(sf.parse(textView.getText().toString()));
@@ -264,7 +269,7 @@ public class FiltroCarreraActivity extends ResultadosFiltrablesActivity implemen
                             e.printStackTrace();
                             this.filtro.setFechaHasta(null);
                         }
-                    }else{
+                    } else {
                         this.filtro.setFechaHasta(null);
                     }
                     break;
@@ -305,7 +310,7 @@ public class FiltroCarreraActivity extends ResultadosFiltrablesActivity implemen
             right = (TextView) rootView.findViewById(R.id.lbl_dist_hasta);
             right.setText(String.valueOf(filtro.getMaxDistancia()) + " Km");
             RangeBar rb = (RangeBar) rootView.findViewById(R.id.sb_distancia);
-            rb.setThumbIndices(filtro.getMinDistancia()/10,filtro.getMaxDistancia()/10);
+            rb.setThumbIndices(filtro.getMinDistancia() / 10, filtro.getMaxDistancia() / 10);
             // Inflate and set the layout for the dialog
             // Pass null as the parent view because its going in the dialog layout
             builder.setView(rootView).setTitle(getString(R.string.distancia))
@@ -351,11 +356,6 @@ public class FiltroCarreraActivity extends ResultadosFiltrablesActivity implemen
     }
 
 
-
-
-
-
-
     private class FechasFiltro implements View.OnClickListener {
         private FiltroCarreraActivity context;
         private TextView txtToUpdate;
@@ -383,22 +383,22 @@ public class FiltroCarreraActivity extends ResultadosFiltrablesActivity implemen
             // Get the layout inflater
             LayoutInflater inflater = context.getLayoutInflater();
             final View rootView = inflater.inflate(R.layout.seleccion_rango_fechas, null);
-            SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
-            
+            SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
             txtDesde = (TextView) rootView.findViewById(R.id.txt_fecha_desde);
             txtDesde.setOnClickListener(new DatePickerListener(txtDesde, this.filtro, cm, context));
             if (filtro.getFechaDesde() != null)
                 txtDesde.setText(sf.format(filtro.getFechaDesde()));
-            rootView.findViewById(R.id.img_fecha_desde).setOnClickListener(new DatePickerListener(txtDesde,this.filtro,cm,context));
+            rootView.findViewById(R.id.img_fecha_desde).setOnClickListener(new DatePickerListener(txtDesde, this.filtro, cm, context));
             rootView.findViewById(R.id.img_close_desde).setOnClickListener(new Cleaner(txtDesde, this.filtro));
 
             txtHasta = (TextView) rootView.findViewById(R.id.txt_fecha_hasta);
             txtHasta.setOnClickListener(new DatePickerListener(txtHasta, this.filtro, cm, context));
             if (filtro.getFechaHasta() != null)
                 txtHasta.setText(sf.format(filtro.getFechaHasta()));
-            rootView.findViewById(R.id.img_fecha_hasta).setOnClickListener(new DatePickerListener(txtHasta,this.filtro,cm,context));
+            rootView.findViewById(R.id.img_fecha_hasta).setOnClickListener(new DatePickerListener(txtHasta, this.filtro, cm, context));
             rootView.findViewById(R.id.img_close_hasta).setOnClickListener(new Cleaner(txtHasta, this.filtro));
-            
+
             builder.setView(rootView).setTitle(getString(R.string.distancia))
                     // Add action buttons
                     .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
@@ -416,21 +416,21 @@ public class FiltroCarreraActivity extends ResultadosFiltrablesActivity implemen
                         }
                     });
             this.d = builder.create();
-           this.d.show();
+            this.d.show();
         }
     }
 
     private String getFechasString(Filtro filtro) {
         String s = "";
         SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
-        if(filtro.getFechaDesde()!= null){
+        if (filtro.getFechaDesde() != null) {
             s += sf.format(filtro.getFechaDesde());
         }
 
-        if(filtro.getFechaHasta()!=null){
+        if (filtro.getFechaHasta() != null) {
             s += " a " + sf.format(filtro.getFechaHasta());
         }
-        if(s.isEmpty()){
+        if (s.isEmpty()) {
             s = "Sin Filtro";
         }
         return s;
@@ -442,7 +442,8 @@ public class FiltroCarreraActivity extends ResultadosFiltrablesActivity implemen
         private Filtro filtro;
         private ChangeManager cm;
         private FiltroCarreraActivity context;
-        DatePickerListener(TextView fecha, Filtro filtro, ChangeManager cm,FiltroCarreraActivity context) {
+
+        DatePickerListener(TextView fecha, Filtro filtro, ChangeManager cm, FiltroCarreraActivity context) {
             this.fechaToUpdate = fecha;
             this.filtro = filtro;
             this.cm = cm;
@@ -544,4 +545,11 @@ public class FiltroCarreraActivity extends ResultadosFiltrablesActivity implemen
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (this.caller != null) {
+            outState.putSerializable("caller", this.caller.getName());
+        }
+    }
 }

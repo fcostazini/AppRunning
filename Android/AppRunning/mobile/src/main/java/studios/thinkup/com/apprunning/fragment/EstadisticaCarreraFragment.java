@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
-import studios.thinkup.com.apprunning.IconTextView;
+import studios.thinkup.com.apprunning.view.IconTextView;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.TemporizadorActivity;
 import studios.thinkup.com.apprunning.model.EstadoCarrera;
