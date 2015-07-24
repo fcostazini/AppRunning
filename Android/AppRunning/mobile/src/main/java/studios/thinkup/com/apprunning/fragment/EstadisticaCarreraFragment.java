@@ -109,7 +109,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         editar.setOnClickListener(this);
         IconTextView cancelar = (IconTextView)rootView.findViewById(R.id.icon_cancel);
         cancelar.setOnClickListener(this);
-        updateEstadoEdicionTiempo();
+        updateEstadoEdicionTiempo(rootView);
         actualizarValores(rootView);
         Typeface type = TypefaceProvider.getInstance(this.getActivity()).getTypeface(TypefaceProvider.DIGIT);
         TextView hsText = (TextView) rootView.findViewById(R.id.txt_hs);
@@ -141,13 +141,13 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
 
     }
 
-    private void updateEstadoEdicionTiempo() {
+    private void updateEstadoEdicionTiempo(View view) {
         if (this.usuarioObservable == null) {
             this.usuarioObservable = (IUsuarioCarreraObservable) this.getActivity();
         }
-        if(getView()!=null) {
-            IconTextView editar = (IconTextView) getView().findViewById(R.id.icon_edit_time);
-            LinearLayout aCorrer = (LinearLayout) getView().findViewById(R.id.lb_a_correr);
+        if(view!=null) {
+            IconTextView editar = (IconTextView) view.findViewById(R.id.icon_edit_time);
+            LinearLayout aCorrer = (LinearLayout) view.findViewById(R.id.lb_a_correr);
 
             editar.setVisibility(View.INVISIBLE);
             aCorrer.setVisibility(View.GONE);
@@ -161,6 +161,12 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
                 }
             }
         }
+    }
+
+    private void updateEstadoEdicionTiempo() {
+       if(this.getView()!=null){
+           this.updateEstadoEdicionTiempo(this.getView());
+       }
     }
 
 
