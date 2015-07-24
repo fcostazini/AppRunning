@@ -1,13 +1,19 @@
 package com.thinkup.ranning.entities;
 
 import java.io.Serializable;
-import java.lang.Boolean;
-import java.lang.Integer;
-import java.lang.String;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -19,13 +25,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries(value = {
 		@NamedQuery(name = Carrera.QUERY_ALL, query = "Select c FROM Carrera c"),
 		@NamedQuery(name = Carrera.QUERY_BY_NOMBRE, query = "Select c FROM Carrera c WHERE c.nombre = :"
-				+ Carrera.PARAM_NOMBRE),
+				+ Carrera.PARAM_NOMBRE),		
 		@NamedQuery(name = Carrera.QUERY_BY_NRO_CARRERA, query = "Select c FROM Carrera c WHERE c.id = :"
 				+ Carrera.PARAM_NRO_CARRERA) })
 @XmlRootElement
 public class Carrera implements Serializable {
 
-	
 	// Parametros
 	public static final String PARAM_NOMBRE = "nombre";
 	public static final String PARAM_NRO_CARRERA = "nroCarrera";
@@ -37,6 +42,7 @@ public class Carrera implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Integer id;
 
 	@Column(name = "nombre")
@@ -71,8 +77,8 @@ public class Carrera implements Serializable {
 
 	@Column(name = "distancia_disponible")
 	private String distanciaDisponible;
-	
-	@OneToMany(mappedBy="carrera", fetch = FetchType.EAGER)
+
+	@OneToMany(mappedBy = "carrera", fetch = FetchType.EAGER)
 	private List<UsuarioCarrera> usuarioCarrera;
 
 	private static final long serialVersionUID = 1L;
@@ -184,5 +190,5 @@ public class Carrera implements Serializable {
 	public void setUsuarioCarrera(List<UsuarioCarrera> usuarioCarrera) {
 		this.usuarioCarrera = usuarioCarrera;
 	}
-	
+
 }

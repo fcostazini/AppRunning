@@ -1,17 +1,14 @@
 package com.thinkup.ranning.entities;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -52,8 +49,9 @@ public class GruposRunning implements Serializable {
 	@Column(name = "nombre")
 	private String nombre;
 	
-	@OneToMany(mappedBy="grupo", fetch = FetchType.LAZY)
-	private List<Usuario> usuarios;
+//	@OneToMany(mappedBy="grupo", fetch = FetchType.LAZY)
+//	@JsonIgnore
+//	private List<Usuario> usuarios;
 
 	public Integer getId() {
 		return id;
@@ -71,13 +69,14 @@ public class GruposRunning implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public List<Usuario> getUsuarios() {
-		return usuarios;
-	}
-
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
+//	@JsonIgnore
+//	public List<Usuario> getUsuarios() {
+//		return usuarios;
+//	}
+//
+//	public void setUsuarios(List<Usuario> usuarios) {
+//		this.usuarios = usuarios;
+//	}
 	
 	public GruposRunning() {
 		super();

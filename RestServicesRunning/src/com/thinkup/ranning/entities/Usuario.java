@@ -28,18 +28,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries(value = {
 		@NamedQuery(name = Usuario.QUERY_ALL, query = "Select u FROM Usuario u"),
 		@NamedQuery(name = Usuario.QUERY_BY_NOMBRE, query = "Select u FROM Usuario u WHERE u.nombre = :"
-				+ Usuario.PARAM_NOMBRE)})
+				+ Usuario.PARAM_NOMBRE),
+		@NamedQuery(name = Usuario.QUERY_BY_EMAIL, query = "Select u FROM Usuario u WHERE u.email = :"
+				+ Usuario.PARAM_EMAIL),
+		@NamedQuery(name = Usuario.QUERY_USUARIO_BY_ID, query = "Select u FROM Usuario u WHERE u.id = :"
+				+ Usuario.PARAM_USUARIO_ID) })
 @XmlRootElement
 public class Usuario implements Serializable {
 
 	// Parametros
+	public static final String PARAM_USUARIO_ID = "usuario_ID";
 	public static final String PARAM_NOMBRE = "nombre";
-	public static final String PARAM_NRO_CARRERA = "nroCarrera";
+	public static final String PARAM_EMAIL = "email";
 
 	// Named Queries
-	public static final String QUERY_ALL = "getAllUsuarios";
+	public static final String QUERY_ALL = "getUsuariosById";
+	public static final String QUERY_USUARIO_BY_ID = "getAllUsuarios";
 	public static final String QUERY_BY_NOMBRE = "getUsuarioByNombre";
-	
+	public static final String QUERY_BY_EMAIL = "getUsuarioByEmail";
+
 	/**
 	 * 
 	 */
