@@ -87,6 +87,20 @@ public class AcercaDeNosotrosFragment extends Fragment implements View.OnClickLi
 
         });
 
+        RelativeLayout playstore = (RelativeLayout) rootView.findViewById(R.id.playstore);
+        playstore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //final String appPackageName = getActivity().getPackageName(); // getPackageName() from Context or Activity object
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.facebook.katana")));
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=com.facebook.katana")));
+                }
+            }
+
+        });
+
 
     }
 
