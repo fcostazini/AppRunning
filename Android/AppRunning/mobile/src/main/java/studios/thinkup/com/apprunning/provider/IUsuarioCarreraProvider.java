@@ -4,6 +4,7 @@ import java.util.List;
 
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
+import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 import studios.thinkup.com.apprunning.provider.exceptions.EntityNotFoundException;
 
 /**
@@ -20,4 +21,6 @@ public interface IUsuarioCarreraProvider extends IProvider<UsuarioCarrera>{
      * @return lista vacia en caso de no haber resultados
      */
     List<UsuarioCarrera> findTiemposByFiltro(Filtro filtro);
+
+    UsuarioCarrera actualizarCarrera(UsuarioCarrera usuarioCarrera) throws EntidadNoGuardadaException;
 }

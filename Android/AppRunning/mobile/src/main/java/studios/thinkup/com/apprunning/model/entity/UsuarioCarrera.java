@@ -5,19 +5,11 @@ import android.database.Cursor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Vector;
-
-import studios.thinkup.com.apprunning.model.IObservableCarrera;
-import studios.thinkup.com.apprunning.model.IObservadorCarrera;
-import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
-import studios.thinkup.com.apprunning.provider.helper.Id;
-import studios.thinkup.com.apprunning.provider.helper.Ignore;
 
 /**
  * Created by FaQ on 08/06/2015.
  */
-public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity {
+public class UsuarioCarrera implements Serializable, IEntity {
     private static final long serialVersionUID = 24474114445126838L;
     public static final String CARRERA      =  "CARRERA"     ;
     public static final String TIEMPO       =  "TIEMPO"      ;
@@ -45,8 +37,6 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
 
     private String recorrido;
 
-    private List<IObservadorCarrera> observadores;
-
     public Integer getUsuario() {
         return usuario;
     }
@@ -57,19 +47,13 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
 
     public void setDistancia(Integer distancia) {
         this.distancia = distancia;
-        this.actualizarObservadores();
     }
 
     public void setModalidad(String modalidad) {
         this.modalidad = modalidad;
-        this.actualizarObservadores();
     }
 
-    public UsuarioCarrera() {
-        this.observadores = new Vector<>();
-    }
     public UsuarioCarrera(Cursor c){
-        this();
         if( c.getInt(c.getColumnIndex(UsuarioCarrera.ID) )== 0){
             this.idUsuarioCarrera =null;
             this.anotado = false;
@@ -111,7 +95,6 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
 
     public void setCorrida(boolean corrida) {
         this.corrida = corrida;
-        this.actualizarObservadores();
     }
 
     public boolean isMeGusta() {
@@ -120,7 +103,6 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
 
     public void setMeGusta(boolean meGusta) {
         this.meGusta = meGusta;
-        this.actualizarObservadores();
     }
 
     public boolean isAnotado() {
@@ -129,7 +111,6 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
 
     public void setAnotado(boolean anotado) {
         this.anotado = anotado;
-        this.actualizarObservadores();
     }
 
     public Long getTiempo() {
@@ -138,7 +119,6 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
 
     public void setTiempo(Long tiempo) {
         this.tiempo = tiempo;
-        this.actualizarObservadores();
     }
 
     public long getVelocidad() {
@@ -147,7 +127,6 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
 
     public void setVelocidad(long velocidad) {
         this.velocidad = velocidad;
-        this.actualizarObservadores();
     }
 
     public String getRecorrido() {
@@ -156,25 +135,10 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
 
     public void setRecorrido(String recorrido) {
         this.recorrido = recorrido;
-        this.actualizarObservadores();
     }
 
-    @Override
-    public void registrarObservador(IObservadorCarrera observador) {
-        this.observadores.add(observador);
-    }
 
-    @Override
-    public void actualizarObservadores() {
-        UsuarioCarrera uc = null;
-        try {
-            for (IObservadorCarrera ob : this.observadores) {
-                uc = ob.actualizarCarrera(this);
-            }
-        } catch (EntidadNoGuardadaException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     public Integer getCodigoCarrera() {
         return carrera.getCodigo();

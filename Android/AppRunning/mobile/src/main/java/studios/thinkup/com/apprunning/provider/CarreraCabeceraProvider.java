@@ -76,9 +76,13 @@ public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
             for (CarreraCabecera cc : resultados) {
                 distancias = cc.getDistanciaDisponible().split("/");
                 for (String s : distancias) {
-                    if (Double.valueOf(s.trim()) >= filtro.getMinDistancia() && Double.valueOf(s.trim()) <= filtro.getMaxDistancia()) {
-                        resultadosFinales.add(cc);
-                        break;
+                    try {
+                        if (Double.valueOf(s.trim()) >= filtro.getMinDistancia() && Double.valueOf(s.trim()) <= filtro.getMaxDistancia()) {
+                            resultadosFinales.add(cc);
+                            break;
+                        }
+                    }catch (Exception e){
+                        continue;
                     }
                 }
             }

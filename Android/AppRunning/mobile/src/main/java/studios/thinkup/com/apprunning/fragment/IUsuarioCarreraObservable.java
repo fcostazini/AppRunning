@@ -8,4 +8,6 @@ import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 public interface IUsuarioCarreraObservable {
     void registrarObservadorUsuario(IUsuarioCarreraObserver ob);
     UsuarioCarrera getUsuarioCarrera();
+
+    void updateUsuarioCarrera();
 }

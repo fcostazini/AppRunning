@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Vector;
 
 import studios.thinkup.com.apprunning.model.Filtro;
-import studios.thinkup.com.apprunning.model.IObservadorCarrera;
 import studios.thinkup.com.apprunning.model.entity.IEntity;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
@@ -18,7 +17,7 @@ import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaExcep
  * <p/>
  * Provider de las carreras
  */
-public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> implements IUsuarioCarreraProvider, IObservadorCarrera {
+public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> implements IUsuarioCarreraProvider {
 
     private Integer idUsuario;
     public UsuarioCarreraProvider(Context c, Integer usuarioId) {
@@ -124,7 +123,6 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
             UsuarioCarrera uc = null;
             c.moveToFirst();
             uc = new UsuarioCarrera(c);
-            uc.registrarObservador(this);
             return uc;
 
         }
@@ -143,7 +141,6 @@ UsuarioCarrera uc = null;
             c.moveToFirst();
             while (!c.isAfterLast()) {
                 uc = new UsuarioCarrera(c);
-                uc.registrarObservador(this);
                 results.add(uc);
                 c.moveToNext();
             }

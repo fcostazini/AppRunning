@@ -14,6 +14,9 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
+import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
+import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
+import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 import studios.thinkup.com.apprunning.view.IconTextView;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.TemporizadorActivity;
@@ -163,7 +166,9 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
 
     protected void onClickACorrer() {
         Intent i = new Intent(this.getActivity().getApplicationContext(), TemporizadorActivity.class);
-        i.putExtra(UsuarioCarrera.class.getSimpleName(), this.usuarioObservable.getUsuarioCarrera().getId());
+        Bundle b = new Bundle();
+        b.putSerializable("carrera",this.usuarioObservable.getUsuarioCarrera());
+        i.putExtras(b);
         this.getActivity().startActivity(i);
         this.getActivity().finish();
 
@@ -199,6 +204,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
                 tiempo += Integer.valueOf(min.getText().toString()) * 60000;
                 tiempo += Integer.valueOf(sec.getText().toString()) * 1000;
                 this.usuarioObservable.getUsuarioCarrera().setTiempo(tiempo);
+                this.usuarioObservable.updateUsuarioCarrera();
                 updateEstadoEdicionTiempo();
                 editIcon.setPressed(false);
             }

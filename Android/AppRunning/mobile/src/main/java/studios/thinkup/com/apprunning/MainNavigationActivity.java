@@ -31,12 +31,12 @@ public abstract class MainNavigationActivity extends FragmentActivity {
     private List<DrawerItem> items;
     ActionBarDrawerToggle mDrawerToggle;
 
-    protected long getIdUsuario() {
+    protected Integer getIdUsuario() {
         UsuarioApp ua =((RunningApplication)this.getApplication()).getUsuario();
         if(ua!=null){
             return ua.getId();
         }else{
-            return 0l;
+            return 0;
         }
 
     }

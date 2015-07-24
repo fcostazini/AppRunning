@@ -22,12 +22,13 @@ import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
+import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 
 /**
  * Created by fcostazini on 21/05/2015.
  * Detalle de Carrera
  */
-public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsuarioCarreraObservable {
+public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsuarioCarreraObservable {
     private int idCarrera;
     private UsuarioCarrera carrera;
     private ViewPager viewPager;
@@ -39,40 +40,34 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.observadoresUsuario = new Vector<>();
-        if (savedInstanceState == null) {
-            if (((RunningApplication) this.getApplication()).getUsuario() == null) {
-                Intent intent = new Intent(this, MainActivity.class);
-                this.startActivity(intent);
-                this.finish();
-            } else {
-                IUsuarioCarreraProvider provider = new UsuarioCarreraProvider(this, ((RunningApplication) this.getApplication()).getUsuario().getId());
-
-                Bundle b = getIntent().getExtras();
-                int codigo;
-                if (b != null) {
-                    if (b.containsKey(UsuarioCarrera.class.getSimpleName())) {
-                        this.idCarrera = b.getInt(UsuarioCarrera.class.getSimpleName());
-                        this.carrera = provider.getByIdCarrera(this.idCarrera);
-                        initView();
-                    } else {
-                        setContentView(R.layout.sin_resultados);
-                    }
-
-                } else {
-                    setContentView(R.layout.sin_resultados);
-
-                }
-            }
+        if (((RunningApplication) this.getApplication()).getUsuario() == null) {
+            Intent intent = new Intent(this, MainActivity.class);
+            this.startActivity(intent);
+            this.finish();
+        }
+        startUp(savedInstanceState);
+        if (this.carrera == null) {
+            setContentView(R.layout.sin_resultados);
         } else {
-            if (savedInstanceState.containsKey("usuarioCarrera")) {
-                this.idCarrera = savedInstanceState.getInt("usuarioCarrera");
-                IUsuarioCarreraProvider provider = new UsuarioCarreraProvider(this,
-                        ((RunningApplication)this.getApplication()).getUsuario().getId());
-                this.carrera = provider.getByIdCarrera(this.idCarrera);
-                initView();
-                savedInstanceState.remove("usuarioCarrera");
+            initView();
+        }
 
+    }
+
+    private void startUp(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey("carrera")) {
+                this.carrera = (UsuarioCarrera) savedInstanceState.getSerializable("carrera");
             }
+        }
+        if (this.carrera == null && this.getIntent().getExtras().containsKey("carrera")) {
+            this.carrera = (UsuarioCarrera) this.getIntent().getExtras().getSerializable("carrera");
+
+        }
+        if (this.carrera == null && this.getIntent().getExtras().containsKey(UsuarioCarrera.class.getSimpleName())) {
+            IUsuarioCarreraProvider provider = new UsuarioCarreraProvider(this, ((RunningApplication) this.getApplication()).getUsuario().getId());
+            this.idCarrera = this.getIntent().getExtras().getInt(UsuarioCarrera.class.getSimpleName());
+            this.carrera = provider.getByIdCarrera(this.idCarrera);
         }
     }
 
@@ -144,7 +139,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
                     this.carrera.setMeGusta(false);
                     this.actualizarUsuarioCarrera(this.carrera, EstadoCarrera.NO_ME_GUSTA);
                 }
-
+                updateUsuarioCarrera();
                 return true;
             case R.id.mnu_inscripto:
                 if (this.carrera.isAnotado()) {
@@ -163,7 +158,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
 
                 }
 
-
+                updateUsuarioCarrera();
                 return true;
             case R.id.mnu_corrida:
                 if (this.carrera.isCorrida()) {
@@ -181,12 +176,23 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
                         this.carrera.setCorrida(true);
                     }
                 }
-
+                updateUsuarioCarrera();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
 
+
+    }
+
+    @Override
+    public void updateUsuarioCarrera() {
+        try {
+            IUsuarioCarreraProvider up = new UsuarioCarreraProvider(this, this.getIdUsuario());
+            up.actualizarCarrera(this.carrera);
+        } catch (EntidadNoGuardadaException e) {
+            e.printStackTrace();
+        }
     }
 
     private void confirmarNoCorrida(final MenuItem item) {
@@ -227,6 +233,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
                     item.setIcon(R.drawable.ic_no_anotado);
                     carrera.setAnotado(false);
                     carrera.setTiempo(0l);
+                    updateUsuarioCarrera();
                     actualizarUsuarioCarrera(carrera, EstadoCarrera.NO_ANOTADO);
                 }
             });
@@ -244,7 +251,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
     @Override
     protected void onResume() {
         super.onResume();
-        if(this.viewPager == null){
+        if (this.viewPager == null) {
             this.initView();
         }
     }
@@ -295,6 +302,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
                     carrera.setDistancia(distancia);
                     menuItem.setIcon(R.drawable.ic_anotado);
                     carrera.setAnotado(true);
+                    updateUsuarioCarrera();
                     actualizarUsuarioCarrera(carrera, EstadoCarrera.ANOTADO);
                 }
                 distanciaDialog.dismiss();
@@ -310,7 +318,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (this.getUsuarioCarrera() != null) {
-            outState.putInt("usuarioCarrera", this.getUsuarioCarrera().getCarrera().getId());
+            outState.putSerializable("carrera", this.carrera);
         }
     }
 
