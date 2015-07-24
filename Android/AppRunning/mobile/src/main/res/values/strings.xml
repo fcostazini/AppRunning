@@ -82,4 +82,10 @@
     <string name="title_meses_busqueda">Meses de Búsqueda</string>
     <string name="title_activity_aceca_de_nosotros">Acerca de Nosotros</string>
     <string name="seguinos_en_facebook">Seguinos en Facebook</string>
+    <string name="terminos_y_condiciones">Acepto los terminos y condiciones</string>
+    <string name="title_activity_terminos_ycondiciones">Terminos y Condiciones</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="acepto_los_terminos">Acepto los Terminos</string>
 </resources>

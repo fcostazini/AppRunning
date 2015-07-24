@@ -14,13 +14,14 @@
         android:layout_marginBottom="10dp"
         android:padding="5dp"
         android:id="@+id/btn_guardar"
-        android:enabled="false" />
+        android:enabled="true" />
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:id="@+id/scrollView"
-        android:layout_marginBottom="60dp">
+        android:layout_above="@+id/btn_guardar"
+        android:layout_marginBottom="5dp">
 
         <RelativeLayout
         android:layout_width="fill_parent"
@@ -156,7 +157,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="7dp"
                 android:layout_alignLeft="@+id/txt_fecha_nac"
-                android:layout_marginLeft="10dp" />
+                android:layout_marginLeft="10dp"
+                android:visibility="visible" />
 
             <Button
                 android:layout_width="fill_parent"
@@ -164,29 +166,58 @@
                 android:text="Desvincular Cuenta"
                 android:layout_marginTop="10dp"
                 android:id="@+id/btn_logout"
-                android:layout_below="@+id/acepto_terminos"
                 android:enabled="true"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/ly_terminos" />
 
-            <CheckBox
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Acepto los terminos y condiciones"
-                android:id="@+id/acepto_terminos"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_below="@+id/sp_grupo"
-                android:layout_marginBottom="7dp" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/img_terminos"
-                android:src="@drawable/ic_anotado"
-                android:layout_gravity="center"
-                android:scaleType="center"
-                android:layout_alignTop="@+id/acepto_terminos"
-                android:layout_alignRight="@+id/acepto_terminos"
-                android:layout_alignEnd="@+id/acepto_terminos"
-                android:layout_alignBottom="@+id/acepto_terminos" />
+                android:id="@+id/ly_terminos"
+                android:layout_marginTop="5dp"
+                android:visibility="gone">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/acepto_terminos"
+                    android:layout_marginBottom="7dp"
+                    android:layout_marginTop="5dp" />
+
+                <studios.thinkup.com.apprunning.view.IconTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/link_text_material_light"
+                    android:text="@string/icon_plus_square"
+                    android:textSize="22sp"
+                    android:id="@+id/icon_ver"
+                    android:gravity="center_vertical"
+
+                    android:layout_marginEnd="10dp"
+                    android:layout_alignBottom="@+id/lbl_terminos"
+                    android:layout_alignRight="@+id/lbl_terminos"
+                    android:layout_alignEnd="@+id/lbl_terminos"
+                    android:layout_alignTop="@+id/lbl_terminos"
+                    android:layout_marginRight="5dp">
+
+                </studios.thinkup.com.apprunning.view.IconTextView>
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/terminos_y_condiciones"
+                    android:id="@+id/lbl_terminos"
+                    android:layout_alignBottom="@+id/acepto_terminos"
+                    android:layout_toRightOf="@+id/acepto_terminos"
+                    android:layout_toEndOf="@+id/acepto_terminos"
+                    android:layout_alignTop="@+id/acepto_terminos"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/link_text_material_light" />
+            </RelativeLayout>
 
         </RelativeLayout>
     </ScrollView>

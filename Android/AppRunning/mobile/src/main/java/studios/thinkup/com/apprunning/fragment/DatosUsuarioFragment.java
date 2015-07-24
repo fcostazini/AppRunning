@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,7 +79,8 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
 
     private void initView(View rootView) {
         Button logout = (Button) rootView.findViewById(R.id.btn_logout);
-
+        RelativeLayout terminos = (RelativeLayout)rootView.findViewById(R.id.ly_terminos);
+        terminos.setVisibility(View.GONE);
         if (!ua.getTipoCuenta().equals(String.valueOf(GooglePlusSocialNetwork.ID))) {
             logout.setBackgroundColor(this.getActivity().getResources().getColor(R.color.com_facebook_blue));
             logout.setTextColor(this.getActivity().getResources().getColor(R.color.common_signin_btn_text_dark));

@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 
 import studios.thinkup.com.apprunning.AcecaDeNosotrosActivity;
 import studios.thinkup.com.apprunning.R;
+import studios.thinkup.com.apprunning.VerTerminosYCondiciones;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 
@@ -67,14 +68,25 @@ public class AcercaDeNosotrosFragment extends Fragment implements View.OnClickLi
                 try {
                     AcercaDeNosotrosFragment.this.getActivity().getPackageManager().getPackageInfo("com.facebook.katana", 0);
                     // http://stackoverflow.com/a/24547437/1048340
-                    uri = Uri.parse("fb://facewebmodal/f?href=" + "https://www.facebook.com/fusionbarclub");
+                    uri = Uri.parse("fb://facewebmodal/f?href=" + "https://www.facebook.com/clubdecorredores");
                 } catch (PackageManager.NameNotFoundException e) {
-                    uri = Uri.parse("https://www.facebook.com/fusionbarclub");
+                    uri = Uri.parse("https://www.facebook.com/clubdecorredores");
                 }
                 startActivity(new Intent(Intent.ACTION_VIEW, uri));
             }
 
         });
+        RelativeLayout condiciones = (RelativeLayout) rootView.findViewById(R.id.terminos);
+        condiciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(AcercaDeNosotrosFragment.this.getActivity(), VerTerminosYCondiciones.class);
+                startActivity(i);
+
+            }
+
+        });
+
 
     }
 

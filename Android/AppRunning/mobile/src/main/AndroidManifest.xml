@@ -115,6 +115,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="studios.thinkup.com.apprunning.RecomendadosActivity" />
         </activity>
+
+        <activity
+            android:name=".VerTerminosYCondiciones"
+            android:label="@string/title_activity_terminos_ycondiciones"
+            android:windowSoftInputMode="stateHidden" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="studios.thinkup.com.apprunning.AcecaDeNosotrosActivity" />
+        </activity>
         <activity
             android:name=".FiltroCarreraActivity"
             android:label="@string/title_activity_filtro_carrera" >
@@ -122,6 +131,10 @@
         <activity
             android:name=".AcecaDeNosotrosActivity"
             android:label="@string/title_activity_aceca_de_nosotros" >
+        </activity>
+        <activity
+            android:name=".TerminosYCondicionesActivity"
+            android:label="@string/title_activity_terminos_ycondiciones" >
         </activity>
     </application>
 
