@@ -1,17 +1,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="studios.thinkup.com.apprunning.fragment.TerminosYCondicionesFragment">
-<ScrollView
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:layout_above="@+id/btn_aceptar"
-    android:layout_margin="10dp"
-    android:padding="10dp">
+    tools:context="studios.thinkup.com.apprunning.fragment.TerminosYCondicionesFragment">SS
+   <WebView
+       android:layout_above="@+id/btn_aceptar"
+       android:layout_width="fill_parent"
+       android:layout_margin="10dp"
+       android:layout_alignParentLeft="true"
+       android:layout_alignParentRight="true"
+       android:layout_alignParentEnd="true"
+       android:layout_alignParentStart="true"
+       android:layout_alignParentTop="true"
+       android:layout_height="wrap_content"
+       android:scrollbars="vertical"
+       android:id="@+id/content_terminos">
 
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="Aca van los Terminos y condiciones" />
-</ScrollView>
+   </WebView>
+
     <!-- TODO: Update blank fragment layout -->
 
     <Button

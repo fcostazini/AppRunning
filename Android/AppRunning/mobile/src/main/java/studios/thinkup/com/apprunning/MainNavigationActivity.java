@@ -70,7 +70,7 @@ public abstract class MainNavigationActivity extends FragmentActivity {
         items.add(new DrawerItem(getString(R.string.nav_menu_buscar), R.drawable.ic_buscar_carrera, BusquedaCarreraActivity.class));
         items.add(new DrawerItem(getString(R.string.nav_menu_recomendados), R.drawable.ic_recomendadas, RecomendadosActivity.class));
         items.add(new DrawerItem(getString(R.string.nav_menu_preferencias), R.drawable.ic_preferencias, PreferenciasActivity.class));
-        items.add(new DrawerItem(getString(R.string.nav_menu_acerca_de), R.mipmap.ic_launcher, AcecaDeNosotrosActivity.class));
+        items.add(new DrawerItem(getString(R.string.nav_menu_acerca_de), R.mipmap.ic_logo_menu, AcecaDeNosotrosActivity.class));
 
 
         drawerList.setAdapter(new DrawerListAdapter(this, items));

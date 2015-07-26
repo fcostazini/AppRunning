@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.TextView;
 
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 
@@ -28,6 +31,8 @@ public class TerminosYCondicionesActivity extends Activity implements View.OnCli
         }
         Button aceptar = (Button)findViewById(R.id.btn_aceptar);
         aceptar.setOnClickListener(this);
+        WebView terminos = (WebView) findViewById(R.id.content_terminos);
+        terminos.loadUrl("file:///android_asset/terminosycondiciones.html");
     }
 
     @Override
