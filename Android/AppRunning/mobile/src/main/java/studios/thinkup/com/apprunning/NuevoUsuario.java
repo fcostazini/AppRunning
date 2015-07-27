@@ -77,9 +77,12 @@ public class NuevoUsuario extends Activity implements View.OnClickListener {
     private void initView() {
 
         CheckBox cbAcepto = (CheckBox) findViewById(R.id.acepto_terminos);
-        if(this.getIntent().getExtras() != null && this.getIntent().getExtras().containsKey("aceptado")){
+       /* if(this.getIntent().getExtras() != null && this.getIntent().getExtras().containsKey("aceptado")){
             cbAcepto.setChecked(true);
         }
+        */
+        cbAcepto.setVisibility(View.INVISIBLE);
+        cbAcepto.setChecked(true);
         RelativeLayout terminos = (RelativeLayout)findViewById(R.id.ly_terminos);
         TextView lblTerminos = (TextView)findViewById(R.id.lbl_terminos);
         View.OnClickListener listener = new View.OnClickListener() {
