@@ -100,7 +100,7 @@ CREATE TABLE usuario_carrera
   anotado boolean,
   me_gusta boolean,
   corrida boolean,
-  distancia character(3),
+  distancia integer,
   modalidad text,
   usuario_id integer,
   carrera_id integer,
