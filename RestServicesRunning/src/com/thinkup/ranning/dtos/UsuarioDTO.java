@@ -30,7 +30,7 @@ public class UsuarioDTO implements Serializable {
 
 	private String fechaNacimiento;
 
-	private String fotoPerfil;
+	private String fotoPerfilUrl;
 
 	private String nick;
 
@@ -93,11 +93,11 @@ public class UsuarioDTO implements Serializable {
 	}
 
 	public String getFotoPerfil() {
-		return fotoPerfil;
+		return fotoPerfilUrl;
 	}
 
 	public void setFotoPerfil(String fotoPerfil) {
-		this.fotoPerfil = fotoPerfil;
+		this.fotoPerfilUrl = fotoPerfil;
 	}
 
 	public String getNick() {
@@ -126,7 +126,7 @@ public class UsuarioDTO implements Serializable {
 		SimpleDateFormat format = new SimpleDateFormat(UsuarioDTO.FORMAT_DATE);
 		String dateToStr = format.format(usuario.getFechaNacimiento());
 		this.fechaNacimiento = dateToStr;
-		this.fotoPerfil = usuario.getFotoPerfil();
+		this.fotoPerfilUrl = usuario.getFotoPerfil();
 		this.grupoId = usuario.getGrupo() != null ? usuario.getGrupo()
 				.getId().toString() : "";
 		this.id = usuario.getId();
