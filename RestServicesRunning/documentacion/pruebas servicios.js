@@ -1,4 +1,4 @@
-//************ CONSULTAS USUARIOS *****************
+//******************************** CONSULTAS USUARIOS ******************************
 
 //findById
 http://localhost:8080/RestServicesRunning/running/usuarios/usuariosById/1
@@ -20,10 +20,14 @@ http://localhost:8080/RestServicesRunning/running/usuarios/usuariosByEmail/dario
 //getUsuarioByEmail No encuentra
 http://localhost:8080/RestServicesRunning/running/usuarios/usuariosByEmail/pirulo@gmail.com
 	
-// ************ CONSULTAS CARRERAS DETALLE *******************
+// ******************************** CONSULTAS CARRERAS DETALLE ****************************
 
-//findAll
+//findAll Esta va de regalo!
 http://localhost:8080/RestServicesRunning/running/carreras/carrerasDtoAll
 
-//findAll by filtro (provisorio... objeto filtro incompleto)
+//findAll by filtro... Varios ejemplos para probar los distintos filtros.
 $.ajax({ type: "POST", url: "http://localhost:8080/RestServicesRunning/running/carreras/carrerasDtoAll",data: '{"nombreCarrera": "Nike 10K"}' ,dataType: "application/json", contentType:"application/json; charset=UTF-8", success: function(r){console.log(r)}});
+$.ajax({ type: "POST", url: "http://localhost:8080/RestServicesRunning/running/carreras/carrerasDtoAll",data: '{"modalidad":"Todas las Modalidades","meGusta":true, "fechaDesde":"17/07/2015","fechaHasta":"21/07/2015"}' ,dataType: "application/json", contentType:"application/json; charset=UTF-8", success: function(r){console.log(r)}});
+$.ajax({ type: "POST", url: "http://localhost:8080/RestServicesRunning/running/carreras/carrerasDtoAll",data: '{"modalidad":"Equipos","meGusta":true, "fechaDesde":"17/07/2015","fechaHasta":"21/07/2015"}' ,dataType: "application/json", contentType:"application/json; charset=UTF-8", success: function(r){console.log(r)}});
+$.ajax({ type: "POST", url: "http://localhost:8080/RestServicesRunning/running/carreras/carrerasDtoAll",data: '{"modalidad":"Todas las Modalidades","meGusta":true, "fechaDesde":"17/07/2015","fechaHasta":"21/07/2015","ordenarPor":"Nombre"}' ,dataType: "application/json", contentType:"application/json; charset=UTF-8", success: function(r){console.log(r)}});
+$.ajax({ type: "POST", url: "http://localhost:8080/RestServicesRunning/running/carreras/carrerasDtoAll",data: '{"modalidad":"Todas las Modalidades","meGusta":true, "fechaDesde":"17/07/2015","fechaHasta":"21/07/2015","ordenarPor":"Distancia", "sentido":"Descendente"}' ,dataType: "application/json", contentType:"application/json; charset=UTF-8", success: function(r){console.log(r)}});
