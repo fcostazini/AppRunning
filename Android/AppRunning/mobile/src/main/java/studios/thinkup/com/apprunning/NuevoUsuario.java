@@ -2,9 +2,8 @@ package studios.thinkup.com.apprunning;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -77,13 +75,10 @@ public class NuevoUsuario extends Activity implements View.OnClickListener {
     private void initView() {
 
         CheckBox cbAcepto = (CheckBox) findViewById(R.id.acepto_terminos);
-       /* if(this.getIntent().getExtras() != null && this.getIntent().getExtras().containsKey("aceptado")){
+        if(this.getIntent().getExtras() != null && this.getIntent().getExtras().containsKey("aceptado")){
             cbAcepto.setChecked(true);
         }
-        */
-        cbAcepto.setVisibility(View.INVISIBLE);
-        cbAcepto.setChecked(true);
-        RelativeLayout terminos = (RelativeLayout)findViewById(R.id.ly_terminos);
+       RelativeLayout terminos = (RelativeLayout)findViewById(R.id.ly_terminos);
         TextView lblTerminos = (TextView)findViewById(R.id.lbl_terminos);
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -235,24 +230,8 @@ public class NuevoUsuario extends Activity implements View.OnClickListener {
             if (!grupo.getSelectedItem().equals(getString(R.string.corres_grupo))) {
                 this.ua.setGrupoId((String) grupo.getSelectedItem());
             }
-            IUsuarioProvider up = new UsuarioProvider(this);
-            try {
-                if (this.ua.getId() == null) {
-                    up.grabar(this.ua);
-                } else {
-                    up.update(this.ua);
-                }
-
-                ((RunningApplication) this.getApplication()).setUsuario(this.ua);
-                Intent intent = new Intent(this, RecomendadosActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                this.startActivity(intent);
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(this, "No se puede guardar el usuario", Toast.LENGTH_LONG).show();
-            }
+            UsuarioProviderTask usuarioProviderTask = new UsuarioProviderTask();
+            usuarioProviderTask.execute(this.ua);
         }
 
     }
@@ -292,4 +271,48 @@ public class NuevoUsuario extends Activity implements View.OnClickListener {
         }
     }
 
-}
+    private class UsuarioProviderTask extends AsyncTask<UsuarioApp, Integer, UsuarioApp> {
+
+        @Override
+        protected void onPostExecute(UsuarioApp usuarioApp) {
+            super.onPostExecute(usuarioApp);
+            if(usuarioApp == null) {
+                Toast.makeText(NuevoUsuario.this, "No se puede guardar el usuario", Toast.LENGTH_LONG).show();
+            }else {
+                ((RunningApplication) NuevoUsuario.this.getApplication()).setUsuario(usuarioApp);
+                Intent intent = new Intent(NuevoUsuario.this, RecomendadosActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                NuevoUsuario.this.startActivity(intent);
+            }
+
+        }
+
+        @Override
+        protected void onCancelled(UsuarioApp usuarioApp) {
+            super.onCancelled(usuarioApp);
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+
+        @Override
+        protected UsuarioApp doInBackground(UsuarioApp... params) {
+
+            IUsuarioProvider up = new UsuarioProvider(NuevoUsuario.this);
+            try {
+                if (params[0].getId() == null) {
+                    return up.grabar(params[0]);
+                } else {
+                    return up.update(params[0]);
+                }
+            }catch (Exception e){
+                return null;
+            }
+
+        }
+    }
+
+
+    }

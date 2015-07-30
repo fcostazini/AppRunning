@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import studios.thinkup.com.apprunning.fragment.BusquedaFormulario;
 import studios.thinkup.com.apprunning.fragment.RecomendadosFragment;
 import studios.thinkup.com.apprunning.model.Filtro;
 

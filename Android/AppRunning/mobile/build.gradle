@@ -40,17 +40,16 @@ repositories { mavenCentral() }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     wearApp project(':wear')
-    compile 'com.android.support:support-v4:22.1.1'
-    compile 'com.android.support:appcompat-v7:22.1.+'
+    compile 'com.android.support:support-v4:22.2.0'
+    compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.asne:asne-facebook:0.3.3'
     compile 'com.github.asne:asne-googleplus:0.3.3'
-    compile 'com.google.guava:guava:14.0.1'
+    compile 'com.google.guava:guava:18.0'
     compile 'com.loopj.android:android-async-http:1.4.8'
     compile 'com.edmodo:rangebar:1.0.0'
-    compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.3.2'
+
     // guava 14.0.1
 }
 

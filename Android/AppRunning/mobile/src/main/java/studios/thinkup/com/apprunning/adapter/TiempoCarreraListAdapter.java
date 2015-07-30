@@ -33,7 +33,7 @@ public class TiempoCarreraListAdapter extends BaseAdapter {
     public TiempoCarreraListAdapter(Context context, List<UsuarioCarrera> carreras) {
         this.carreras = carreras;
         this.context = context;
-        this.inflater = (LayoutInflater) this.getContext()
+        this.inflater = (LayoutInflater) context
                 .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
     }
 

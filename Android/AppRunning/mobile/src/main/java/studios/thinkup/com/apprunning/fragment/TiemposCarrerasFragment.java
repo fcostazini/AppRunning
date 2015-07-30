@@ -1,8 +1,8 @@
 package studios.thinkup.com.apprunning.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
 
@@ -10,11 +10,9 @@ import java.util.List;
 
 import studios.thinkup.com.apprunning.DetalleCarreraActivity;
 import studios.thinkup.com.apprunning.adapter.TiempoCarreraListAdapter;
-import studios.thinkup.com.apprunning.model.Filtro;
-import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
-import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
-import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
+import studios.thinkup.com.apprunning.provider.restProviders.OnResultHandler;
+import studios.thinkup.com.apprunning.provider.restProviders.TiemposService;
 
 /**
  * A fragment representing a list of Items.
@@ -22,7 +20,7 @@ import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
  * <p/>
  * interface.
  */
-public class TiemposCarrerasFragment extends FilteredFragment {
+public class TiemposCarrerasFragment extends FilteredFragment implements OnResultHandler<UsuarioCarrera> {
 
 
     @Override
@@ -41,10 +39,25 @@ public class TiemposCarrerasFragment extends FilteredFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        IUsuarioCarreraProvider carrerasProvider = new UsuarioCarreraProvider(getActivity(), (int) this.getFiltro().getIdUsuario());
-        List<UsuarioCarrera> resultados = carrerasProvider.findTiemposByFiltro(this.getFiltro());
-        TiempoCarreraListAdapter adapter = new TiempoCarreraListAdapter(this.getActivity(),
-                resultados);
+
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        TiemposService ts = new TiemposService(this,this.getActivity());
+        ts.execute(this.getFiltro());
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+    }
+
+    @Override
+    public void actualizarResultados(List<UsuarioCarrera> resultados) {
+        TiempoCarreraListAdapter adapter = new TiempoCarreraListAdapter(this.getActivity(),resultados);
         setListAdapter(adapter);
     }
 
@@ -60,4 +73,6 @@ public class TiemposCarrerasFragment extends FilteredFragment {
         startActivity(intent);
 
     }
+
+
 }

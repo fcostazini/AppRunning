@@ -2,29 +2,29 @@ package studios.thinkup.com.apprunning.fragment;
 
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Vector;
 
 import studios.thinkup.com.apprunning.DetalleCarreraActivity;
 import studios.thinkup.com.apprunning.adapter.CarreraListAdapter;
 import studios.thinkup.com.apprunning.model.Filtro;
-import studios.thinkup.com.apprunning.model.RunningApplication;
-import studios.thinkup.com.apprunning.model.entity.Carrera;
 import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 import studios.thinkup.com.apprunning.provider.CarreraCabeceraProvider;
-import studios.thinkup.com.apprunning.provider.ICarreraCabeceraProvider;
+import studios.thinkup.com.apprunning.provider.restProviders.CarreraCabeceraService;
 
 /**
  * Created by fcostazini on 26/05/2015.
  * Fragmento Recomendados
  */
-public class RecomendadosFragment extends FilteredFragment {
+public class RecomendadosFragment extends FilteredFragment implements CarreraCabeceraService.OnResultsHandler {
 
 
     public static RecomendadosFragment newInstance() {
@@ -45,13 +45,10 @@ public class RecomendadosFragment extends FilteredFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CarreraCabeceraProvider carrerasProvider = new CarreraCabeceraProvider(this.getActivity());
+
         this.getFiltro().setRecomendadas(true);
-        List<CarreraCabecera> resultados = carrerasProvider.getCarrerasRecomendadas(this.getFiltro());
-        ListAdapter adapter = new CarreraListAdapter(this.getActivity(), resultados);
-
-        setListAdapter(adapter);
-
+        CarreraCabeceraService cp = new CarreraCabeceraService(this, this.getActivity());
+        cp.execute(this.getFiltro());
 
     }
 
@@ -71,4 +68,12 @@ public class RecomendadosFragment extends FilteredFragment {
         startActivity(intent);
 
     }
+
+
+    @Override
+    public void actualizarResultados(List<CarreraCabecera> resultados) {
+        ListAdapter adapter = new CarreraListAdapter(this.getActivity(), resultados);
+        setListAdapter(adapter);
+    }
+
 }
