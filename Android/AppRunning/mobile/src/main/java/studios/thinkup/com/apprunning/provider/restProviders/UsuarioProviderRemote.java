@@ -26,7 +26,7 @@ public class UsuarioProviderRemote extends RemoteService implements IUsuarioProv
     private static final String GET_BY_EMAIL_SERVICE = "/usuariosByEmail/";
     private static final String GET_BY_ID = "/usuariosById/";
     private static final String SAVE_USUARIO = "/saveUsuario";
-    private static final String UPDATE_USUARIO = "/saveUsuario";
+    private static final String UPDATE_USUARIO = "/updateUsuario";
 
     public UsuarioProviderRemote(Context context) {
         super(context);
@@ -112,7 +112,7 @@ public class UsuarioProviderRemote extends RemoteService implements IUsuarioProv
             Respuesta<UsuarioApp> r = g.fromJson(new BufferedReader(
                     new InputStreamReader(conn.getInputStream())), new TypeToken<Respuesta<UsuarioApp>>(){}.getType());
 
-            if (r.getCodigoRespuesta().equals(Respuesta.CODIGO_OK) && r.getDto() != null) {
+            if (r.getCodigoRespuesta().equals(Respuesta.CODIGO_CREACION_MODIFICACION_OK) && r.getDto() != null) {
                 return r.getDto();
             } else {
                 return null;

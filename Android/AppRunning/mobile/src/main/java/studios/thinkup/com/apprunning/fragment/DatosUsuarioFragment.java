@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
@@ -29,6 +30,7 @@ import java.util.List;
 
 import studios.thinkup.com.apprunning.MainActivity;
 import studios.thinkup.com.apprunning.R;
+import studios.thinkup.com.apprunning.RecomendadosActivity;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.GrupoRunning;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
@@ -36,6 +38,7 @@ import studios.thinkup.com.apprunning.provider.GrupoRunningProvider;
 import studios.thinkup.com.apprunning.provider.IGrupoRunningProvider;
 import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioProvider;
+import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemote;
 
 /**
  * Fragment de datos de usuario
@@ -209,20 +212,8 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
         if (!grupo.getSelectedItem().equals(getString(R.string.corres_grupo))) {
             this.ua.setGrupoId((String) grupo.getSelectedItem());
         }
-        IUsuarioProvider up = new UsuarioProvider(this.getActivity());
-        try {
-            if (this.ua.getId() == null) {
-                up.grabar(this.ua);
-            } else {
-                up.update(this.ua);
-            }
-
-            ((RunningApplication) this.getActivity().getApplication()).setUsuario(this.ua);
-            Toast.makeText(this.getActivity(), "Datos de Usuario Guardados", Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(this.getActivity(), "No se puede guardar el usuario", Toast.LENGTH_LONG).show();
-        }
+        UsuarioProviderTask usuarioProviderTask = new UsuarioProviderTask();
+        usuarioProviderTask.execute(this.ua);
 
     }
 
@@ -284,4 +275,50 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
             }
         }
     };
+
+    private class UsuarioProviderTask extends AsyncTask<UsuarioApp, Integer, UsuarioApp> {
+
+        @Override
+        protected void onPostExecute(UsuarioApp usuarioApp) {
+            super.onPostExecute(usuarioApp);
+            if(usuarioApp == null) {
+                Toast.makeText(DatosUsuarioFragment.this.getActivity(), "No se puede guardar el usuario", Toast.LENGTH_LONG).show();
+            }else {
+                ((RunningApplication) DatosUsuarioFragment.this.getActivity().getApplication()).setUsuario(usuarioApp);
+                Intent intent = new Intent(DatosUsuarioFragment.this.getActivity(), RecomendadosActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                DatosUsuarioFragment.this.getActivity().startActivity(intent);
+            }
+
+        }
+
+        @Override
+        protected void onCancelled(UsuarioApp usuarioApp) {
+            super.onCancelled(usuarioApp);
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+
+        @Override
+        protected UsuarioApp doInBackground(UsuarioApp... params) {
+
+            IUsuarioProvider up = new UsuarioProviderRemote(DatosUsuarioFragment.this.getActivity());
+            try {
+                if (params[0].getId() == null) {
+                    return up.grabar(params[0]);
+                } else {
+                    return up.update(params[0]);
+                }
+            }catch (Exception e){
+                return null;
+            }
+
+        }
+    }
+
+
+
 }
