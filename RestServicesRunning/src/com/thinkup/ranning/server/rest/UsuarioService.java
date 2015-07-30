@@ -179,8 +179,8 @@ public class UsuarioService {
 		try {
 			if(this.service.getByEmail(usuariosDTO.getEmail())!=null){
 				Respuesta<UsuarioDTO> r = new Respuesta<UsuarioDTO>();
-				r.addMensaje(e.getMessage());
-				r.setCodigoRespuesta(Respuesta.CODIGO_USUARIO_EXISTENTE);
+				r.addMensaje("Usuario Existente");
+				r.setCodigoRespuesta(Respuesta.CODIGO_SOLICITUD_INCORRECTA);
 				return r;
 			}
 			service.saveUsuario(usuariosDTO);
