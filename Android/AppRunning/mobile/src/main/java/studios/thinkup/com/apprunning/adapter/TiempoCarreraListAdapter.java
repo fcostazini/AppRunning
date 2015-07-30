@@ -13,10 +13,8 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 import studios.thinkup.com.apprunning.R;
-import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 
 /**
@@ -30,11 +28,10 @@ public class TiempoCarreraListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private SimpleDateFormat sf;
 
-    public TiempoCarreraListAdapter(Context context, List<UsuarioCarrera> carreras) {
+    public TiempoCarreraListAdapter(Activity context, List<UsuarioCarrera> carreras) {
         this.carreras = carreras;
         this.context = context;
-        this.inflater = (LayoutInflater) context
-                .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+        this.inflater = context.getLayoutInflater();
     }
 
     public Context getContext() {

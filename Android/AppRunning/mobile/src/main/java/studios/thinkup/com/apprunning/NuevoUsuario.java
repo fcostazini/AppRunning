@@ -6,9 +6,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -29,6 +29,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.GrupoRunning;
@@ -127,8 +128,8 @@ public class NuevoUsuario extends Activity implements View.OnClickListener {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
 
-                View v = super.getView(position, convertView, parent);
-                return v;
+
+                return super.getView(position, convertView, parent);
             }
 
             @Override
@@ -172,7 +173,7 @@ public class NuevoUsuario extends Activity implements View.OnClickListener {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState( @NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         if (this.ua != null) {
             outState.putSerializable("usuario", this.ua);
@@ -180,14 +181,6 @@ public class NuevoUsuario extends Activity implements View.OnClickListener {
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onClick(View v) {
@@ -246,7 +239,7 @@ public class NuevoUsuario extends Activity implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             Calendar c = Calendar.getInstance();
-            SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             if (fechaToUpdate.getText() != null && !fechaToUpdate.getText().toString().isEmpty()) {
                 try {
                     c.setTime(sf.parse(ua.getFechaNacimiento()));
@@ -262,7 +255,7 @@ public class NuevoUsuario extends Activity implements View.OnClickListener {
                 public void onDateSet(android.widget.DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                     Calendar c = Calendar.getInstance();
                     c.set(year, monthOfYear, dayOfMonth);
-                    SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
+                    SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
                     fechaToUpdate.setText(sf.format(c.getTime()));
                 }
             }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE));

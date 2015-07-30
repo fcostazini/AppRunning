@@ -1,6 +1,5 @@
 package studios.thinkup.com.apprunning.fragment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -45,20 +44,20 @@ public class TiemposCarrerasFragment extends FilteredFragment implements OnResul
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        TiemposService ts = new TiemposService(this,this.getActivity());
-        ts.execute(this.getFiltro());
-    }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+            TiemposService ts = new TiemposService(this,this.getActivity());
+            ts.execute(this.getFiltro());
+
 
     }
+
 
     @Override
     public void actualizarResultados(List<UsuarioCarrera> resultados) {
-        TiempoCarreraListAdapter adapter = new TiempoCarreraListAdapter(this.getActivity(),resultados);
-        setListAdapter(adapter);
+        if (isAdded()) {
+            TiempoCarreraListAdapter adapter = new TiempoCarreraListAdapter(this.getActivity(), resultados);
+            setListAdapter(adapter);
+        }
     }
 
 
@@ -68,11 +67,12 @@ public class TiemposCarrerasFragment extends FilteredFragment implements OnResul
         UsuarioCarrera c = (UsuarioCarrera) l.getItemAtPosition(position);
         Intent intent = new Intent(this.getActivity(), DetalleCarreraActivity.class);
         Bundle b = new Bundle();
-        b.putInt(UsuarioCarrera.class.getSimpleName(), c.getCodigoCarrera()); //Your id
+        b.putSerializable("carrera",c);
         intent.putExtras(b); //Put your id to your next Intent
         startActivity(intent);
 
     }
+
 
 
 }

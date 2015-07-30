@@ -20,7 +20,6 @@ import com.edmodo.rangebar.RangeBar;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
@@ -32,7 +31,7 @@ import studios.thinkup.com.apprunning.model.entity.Modalidad;
 import studios.thinkup.com.apprunning.provider.FiltrosProvider;
 
 
-public class FiltroCarreraActivity extends ResultadosFiltrablesActivity implements View.OnClickListener {
+public class FiltroCarreraActivity extends ActivityConFiltro implements View.OnClickListener {
     private Class<? extends Activity> caller;
 
     public void updateVisibilidadCiudad() {
@@ -50,6 +49,7 @@ public class FiltroCarreraActivity extends ResultadosFiltrablesActivity implemen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         initCaller(savedInstanceState);
         Button btn = (Button) findViewById(R.id.btn_filtrar);
         btn.setOnClickListener(this);
@@ -368,8 +368,6 @@ public class FiltroCarreraActivity extends ResultadosFiltrablesActivity implemen
     private class FechasFiltro implements View.OnClickListener {
         private FiltroCarreraActivity context;
         private TextView txtToUpdate;
-        private TextView left;
-        private TextView right;
 
         private ChangeManager cm;
         private Filtro filtro;

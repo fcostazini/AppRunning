@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -22,34 +23,34 @@ import studios.thinkup.com.apprunning.view.IconTextView;
 
 /**
  * Created by fcostazini on 21/05/2015.
+ * Temporizador de la carrera
  */
 public class TemporizadorActivity extends Activity implements View.OnClickListener {
     private TextView horas;
     private TextView minutos;
     private TextView segundos;
     private TextView millisec;
-    private boolean editando;
 
     private ImageButton pause;
     private ImageButton play;
     private IconTextView save;
     private boolean isRunning;
     long init, now, time, paused;
-private UsuarioCarrera uc;
+    private UsuarioCarrera uc;
     private Runnable updater;
 
     private Handler handler;
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        if(this.uc != null){
+        if (this.uc != null) {
             outState.putSerializable("carrera", this.uc);
         }
-        if(this.time >= 0){
-            outState.putLong("tiempo",this.time);
+        if (this.time >= 0) {
+            outState.putLong("tiempo", this.time);
         }
-           outState.putBoolean("isRunning", this.isRunning);
+        outState.putBoolean("isRunning", this.isRunning);
 
 
     }
@@ -59,8 +60,8 @@ private UsuarioCarrera uc;
         super.onCreate(savedInstanceState);
 
         startUp(savedInstanceState);
-        if(this.uc == null){
-            startActivity(new Intent(this,MainActivity.class));
+        if (this.uc == null) {
+            startActivity(new Intent(this, MainActivity.class));
             finish();
         }
         setContentView(R.layout.fragment_temporizador);
@@ -117,23 +118,19 @@ private UsuarioCarrera uc;
     }
 
     private void startUp(Bundle savedInstanceState) {
-        if(savedInstanceState != null){
-            if(savedInstanceState.containsKey("carrera")){
-                this.uc = (UsuarioCarrera)savedInstanceState.getSerializable("carrera");
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey("carrera")) {
+                this.uc = (UsuarioCarrera) savedInstanceState.getSerializable("carrera");
             }
-            if(savedInstanceState.containsKey("tiempo")){
+            if (savedInstanceState.containsKey("tiempo")) {
                 this.time = savedInstanceState.getLong("tiempo");
-            }else{
+            } else {
                 this.time = 0l;
             }
-            if(savedInstanceState.containsKey("isRunning")){
-                this.isRunning = savedInstanceState.getBoolean("isRunning");
-            }else{
-                this.isRunning = false;
-            }
+            this.isRunning = savedInstanceState.containsKey("isRunning") && savedInstanceState.getBoolean("isRunning");
         }
-        if(this.uc == null && this.getIntent().getExtras()!= null && this.getIntent().getExtras().containsKey("carrera")){
-            this.uc = (UsuarioCarrera)this.getIntent().getExtras().getSerializable("carrera");
+        if (this.uc == null && this.getIntent().getExtras() != null && this.getIntent().getExtras().containsKey("carrera")) {
+            this.uc = (UsuarioCarrera) this.getIntent().getExtras().getSerializable("carrera");
         }
 
 
@@ -148,6 +145,7 @@ private UsuarioCarrera uc;
             e.printStackTrace();
         }
     }
+
     @Override
     public void onClick(View v) {
 
@@ -184,7 +182,7 @@ private UsuarioCarrera uc;
                 updateUsuarioCarrera();
                 Intent i = new Intent(this, DetalleCarreraActivity.class);
                 Bundle b = new Bundle();
-                b.putSerializable("carrera",this.uc);
+                b.putSerializable("carrera", this.uc);
                 i.putExtras(b);
                 startActivity(i);
                 finish();

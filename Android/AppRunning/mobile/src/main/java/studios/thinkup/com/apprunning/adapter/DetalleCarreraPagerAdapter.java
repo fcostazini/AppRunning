@@ -29,15 +29,14 @@ public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter implements 
         this.carrera = idCarrera;
         this.observable = observable;
         fragmentMap = new HashMap<>();
-        DetalleCarreraFragment df = DetalleCarreraFragment.newInstance(this.carrera);
+        DetalleCarreraFragment df = new DetalleCarreraFragment();
         fragmentMap.put(0,df);
 
         if( observable!= null){
-            observable.registrarObservadorUsuario(df);
             df.setUsuarioObsercable(observable);
 
         }
-         EstadisticaCarreraFragment ef = EstadisticaCarreraFragment.newInstance(this.carrera);
+         EstadisticaCarreraFragment ef = new EstadisticaCarreraFragment();
 
         if( observable!= null){
             observable.registrarObservadorUsuario(ef);

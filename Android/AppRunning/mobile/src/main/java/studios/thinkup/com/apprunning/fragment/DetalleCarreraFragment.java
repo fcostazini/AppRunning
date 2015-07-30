@@ -17,17 +17,12 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import studios.thinkup.com.apprunning.R;
-import studios.thinkup.com.apprunning.model.EstadoCarrera;
-import studios.thinkup.com.apprunning.model.RunningApplication;
-import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
-import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
-import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
 
 /**
  * Created by fcostazini on 21/05/2015.
  * Detalle de la carrera
  */
-public class DetalleCarreraFragment extends Fragment implements IUsuarioCarreraObserver {
+public class DetalleCarreraFragment extends Fragment{
 
     private IUsuarioCarreraObservable usuarioObservable;
 
@@ -36,19 +31,11 @@ public class DetalleCarreraFragment extends Fragment implements IUsuarioCarreraO
 
     }
 
-    public static DetalleCarreraFragment newInstance(int idCarrera) {
-        DetalleCarreraFragment fragment = new DetalleCarreraFragment();
-        Bundle args = new Bundle();
-        args.putInt(UsuarioCarrera.class.getSimpleName(), idCarrera);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detalle_carrera, container, false);
-        IUsuarioCarreraProvider cp = new UsuarioCarreraProvider(this.getActivity(), ((RunningApplication) this.getActivity().getApplication()).getUsuario().getId());
+
         if(this.usuarioObservable == null){
             this.usuarioObservable = (IUsuarioCarreraObservable) this.getActivity();
         }
@@ -112,8 +99,5 @@ public class DetalleCarreraFragment extends Fragment implements IUsuarioCarreraO
         setHasOptionsMenu(true);
     }
 
-    @Override
-    public void actuliazarUsuarioCarrera(UsuarioCarrera usuario, EstadoCarrera estado) {
 
-    }
 }

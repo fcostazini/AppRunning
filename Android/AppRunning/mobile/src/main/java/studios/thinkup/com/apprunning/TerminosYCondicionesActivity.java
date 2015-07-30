@@ -2,15 +2,11 @@ package studios.thinkup.com.apprunning;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.Html;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.TextView;
 
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 
@@ -36,7 +32,7 @@ public class TerminosYCondicionesActivity extends Activity implements View.OnCli
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         if(this.ua != null){
             outState.putSerializable("usuario",ua);

@@ -4,11 +4,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.astuetz.PagerSlidingTabStrip;
 
 import java.util.Date;
 import java.util.List;
@@ -28,13 +27,17 @@ import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaExcep
  * Created by fcostazini on 21/05/2015.
  * Detalle de Carrera
  */
-public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsuarioCarreraObservable {
+public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsuarioCarreraObservable{
     private int idCarrera;
     private UsuarioCarrera carrera;
-    private ViewPager viewPager;
     private Menu menu;
     AlertDialog distanciaDialog;
     private List<IUsuarioCarreraObserver> observadoresUsuario;
+
+    @Override
+    protected PagerAdapter getAdapter() {
+        return new DetalleCarreraPagerAdapter(getSupportFragmentManager(), this.idCarrera, this);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,11 +49,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
             this.finish();
         }
         startUp(savedInstanceState);
-        if (this.carrera == null) {
-            setContentView(R.layout.sin_resultados);
-        } else {
-            initView();
-        }
+
 
     }
 
@@ -64,22 +63,8 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
             this.carrera = (UsuarioCarrera) this.getIntent().getExtras().getSerializable("carrera");
 
         }
-        if (this.carrera == null && this.getIntent().getExtras().containsKey(UsuarioCarrera.class.getSimpleName())) {
-            IUsuarioCarreraProvider provider = new UsuarioCarreraProvider(this, ((RunningApplication) this.getApplication()).getUsuario().getId());
-            this.idCarrera = this.getIntent().getExtras().getInt(UsuarioCarrera.class.getSimpleName());
-            this.carrera = provider.getByIdCarrera(this.idCarrera);
-        }
-    }
 
-    private void initView() {
-        this.viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new DetalleCarreraPagerAdapter(getSupportFragmentManager(), this.idCarrera, this));
-        // Give the PagerSlidingTabStrip the ViewPager
-        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        // Attach the view pager to the tab strip
-        tabsStrip.setViewPager(viewPager);
     }
-
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -120,9 +105,6 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
         if (this.carrera == null) {
             return super.onOptionsItemSelected(item);
         }
-
-        long usuarioId = ((RunningApplication) this
-                .getApplication()).getUsuario().getId();
         switch (item.getItemId()) {
             case R.id.mnu_me_gusta:
 
@@ -145,7 +127,6 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                 if (this.carrera.isAnotado()) {
                     desanotarCarrera(item);
                 } else {
-                    Integer distancia = 0;
                     if (this.carrera.getDistancias().contains("/")) {
                         this.seleccionarCarrera(item);
                     } else {
@@ -248,16 +229,12 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (this.viewPager == null) {
-            this.initView();
-        }
-    }
 
     @Override
     public void registrarObservadorUsuario(IUsuarioCarreraObserver ob) {
+        if(this.observadoresUsuario == null){
+            this.observadoresUsuario = new Vector<>();
+        }
         this.observadoresUsuario.add(ob);
     }
 
@@ -321,6 +298,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
             outState.putSerializable("carrera", this.carrera);
         }
     }
+
 
 
 }

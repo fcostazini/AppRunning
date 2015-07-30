@@ -1,9 +1,11 @@
 package studios.thinkup.com.apprunning.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 
+import studios.thinkup.com.apprunning.MainActivity;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.model.DefaultSettings;
 import studios.thinkup.com.apprunning.model.Filtro;
@@ -29,16 +31,13 @@ public abstract class FilteredFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null && savedInstanceState.containsKey(Filtro.FILTRO_ID)) {
             this.filtro = (Filtro) savedInstanceState.getSerializable(Filtro.FILTRO_ID);
-        } else {
-            if (getArguments() != null) {
-                this.filtro = (Filtro) getArguments().getSerializable(Filtro.FILTRO_ID);
-            }
-
         }
+        if (filtro == null && getArguments() != null && getArguments().containsKey(Filtro.FILTRO_ID)) {
+            this.filtro = (Filtro) getArguments().getSerializable(Filtro.FILTRO_ID);
+        }
+
         if (this.filtro == null) {
             this.filtro = new Filtro(getDefaultSettings());
         }
@@ -64,7 +63,8 @@ public abstract class FilteredFragment extends ListFragment {
     @Override
     public void onSaveInstanceState(Bundle savedState) {
         super.onSaveInstanceState(savedState);
-        savedState.putSerializable(Filtro.FILTRO_ID, this.filtro);
+        if(this.filtro != null)
+            savedState.putSerializable(Filtro.FILTRO_ID, this.filtro);
 
     }
 
@@ -77,4 +77,13 @@ public abstract class FilteredFragment extends ListFragment {
     }
 
     public abstract String getIdFragment();
+
+    public Integer getIdUsuario() {
+
+        if(((RunningApplication)this.getActivity().getApplication()).getUsuario()== null){
+            Intent i = new Intent(this.getActivity(), MainActivity.class);
+            startActivity(i);
+        }
+        return ((RunningApplication)this.getActivity().getApplication()).getUsuario().getId();
+    }
 }
