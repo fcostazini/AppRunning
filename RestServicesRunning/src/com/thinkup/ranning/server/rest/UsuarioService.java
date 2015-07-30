@@ -177,10 +177,16 @@ public class UsuarioService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Respuesta<UsuarioDTO> saveUsuario(UsuarioDTO usuariosDTO) {
 		try {
+			if(this.service.getByEmail(usuariosDTO.getEmail())!=null){
+				Respuesta<UsuarioDTO> r = new Respuesta<UsuarioDTO>();
+				r.addMensaje(e.getMessage());
+				r.setCodigoRespuesta(Respuesta.CODIGO_USUARIO_EXISTENTE);
+				return r;
+			}
 			service.saveUsuario(usuariosDTO);
 			Respuesta<UsuarioDTO> r = new Respuesta<UsuarioDTO>();
 			r.addMensaje("El usuario se creo con éxito.");
-			r.setCodigoRespuesta(Respuesta.CODIGO_CREACION_MODIFICACION_OK);
+			r.setCodigoRespuesta(Respuesta.CODIGO_OK);
 			r.setDto(usuariosDTO);
 			return r;
 

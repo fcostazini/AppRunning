@@ -4,7 +4,7 @@ Pass: app_running	(md57d4c168e63a9e6f88d3cfb7c93a2bf10) */
 
 -- DROP DATABASE db_running;
 CREATE DATABASE db_running
-  WITH OWNER = app_running
+  WITH OWNER = postgres
        ENCODING = 'UTF8'
        TABLESPACE = pg_default
        LC_COLLATE = 'Spanish_Spain.1252'

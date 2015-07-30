@@ -19,7 +19,7 @@ import com.thinkup.ranning.exceptions.PersistenciaException;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class CarreraDAO {
 
-	@PersistenceContext(unitName = "appRunningPostgreDS")
+	@PersistenceContext(unitName = "appRunning")
 	private EntityManager entityManager;
 
 	public Carrera findCarreraWithNumero(int nro) throws PersistenciaException {

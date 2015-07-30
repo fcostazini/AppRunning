@@ -93,7 +93,7 @@ public class UsuarioProvider extends GenericProvider<UsuarioApp> implements IUsu
             ua.setNick(c.getString(c.getColumnIndex(UsuarioApp.NICK)));
             ua.setApellido(c.getString(c.getColumnIndex(UsuarioApp.APELLIDO)));
             ua.setFechaNacimiento(c.getString(c.getColumnIndex(UsuarioApp.FECHA_NACIMIENTO)));
-            ua.setFotoPerfilUrl(c.getString(c.getColumnIndex(UsuarioApp.FOTO_PERFIL_URL)));
+            ua.setFotoPerfil(c.getString(c.getColumnIndex(UsuarioApp.FOTO_PERFIL_URL)));
             ua.setGrupoId(c.getString(c.getColumnIndex(UsuarioApp.GRUPO_ID)));
             return ua;
         } catch (IllegalArgumentException e) {

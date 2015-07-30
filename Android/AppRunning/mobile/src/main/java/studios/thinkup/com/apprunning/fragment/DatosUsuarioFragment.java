@@ -114,8 +114,8 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
         txtFechaNac.setText(this.ua.getFechaNacimiento());
         txtFechaNac.setInputType(InputType.TYPE_NULL);
         ImageView perfil = (ImageView) rootView.findViewById(R.id.img_profile);
-        if (this.ua.getFotoPerfilUrl() != null) {
-            Picasso.with(this.getActivity()).load(this.ua.getFotoPerfilUrl())
+        if (this.ua.getFotoPerfil() != null) {
+            Picasso.with(this.getActivity()).load(this.ua.getFotoPerfil())
                     .placeholder(R.mipmap.ic_launcher)
                     .error(R.mipmap.ic_launcher).into(perfil);
 

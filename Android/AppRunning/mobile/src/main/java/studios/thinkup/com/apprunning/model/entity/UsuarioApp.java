@@ -24,11 +24,12 @@ public class UsuarioApp implements Serializable, IEntity {
     private Integer id;
     private String nombre ="";
     private String apellido ="";
+    private String password ="";
     private String nick ="";
     private String email ="";
     private String fechaNacimiento = new String();
     private String tipoCuenta ="";
-    private String fotoPerfilUrl;
+    private String fotoPerfil;
     private String grupoId;
 
     public String getTipoCuenta() {
@@ -94,12 +95,12 @@ public class UsuarioApp implements Serializable, IEntity {
         return "id";
     }
 
-    public String getFotoPerfilUrl() {
-        return fotoPerfilUrl;
+    public String getFotoPerfil() {
+        return fotoPerfil;
     }
 
-    public void setFotoPerfilUrl(String fotoPerfilUrl) {
-        this.fotoPerfilUrl = fotoPerfilUrl;
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
     }
 
     @Override

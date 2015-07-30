@@ -33,7 +33,7 @@ import java.util.Locale;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
-import studios.thinkup.com.apprunning.provider.UsuarioProvider;
+import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemote;
 
 public class MainFragment extends Fragment implements OnRequestDetailedSocialPersonCompleteListener, SocialNetworkManager.OnInitializationCompleteListener, OnLoginCompleteListener {
     public static SocialNetworkManager mSocialNetworkManager;
@@ -245,7 +245,7 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
         @Override
         protected UsuarioApp doInBackground(SocialPerson... params) {
 
-            IUsuarioProvider up = new UsuarioProvider(MainFragment.this.getActivity());
+            IUsuarioProvider up = new UsuarioProviderRemote(MainFragment.this.getActivity());
             UsuarioApp u = up.getUsuarioByEmail(params[0].email);
             if (u == null) {
                 return this.getUsuarioApp(socialNetwork, params[0]);
@@ -262,7 +262,7 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
             u = new UsuarioApp();
 
             u.setEmail(socialPerson.email);
-            u.setFotoPerfilUrl(socialPerson.avatarURL);
+            u.setFotoPerfil(socialPerson.avatarURL);
             u.setTipoCuenta(String.valueOf(socialNetwork.getID()));
 
             if (socialNetwork.getID() == GooglePlusSocialNetwork.ID) {

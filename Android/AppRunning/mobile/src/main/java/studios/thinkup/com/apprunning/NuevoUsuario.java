@@ -37,7 +37,7 @@ import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.GrupoRunningProvider;
 import studios.thinkup.com.apprunning.provider.IGrupoRunningProvider;
 import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
-import studios.thinkup.com.apprunning.provider.UsuarioProvider;
+import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemote;
 
 
 public class NuevoUsuario extends Activity implements View.OnClickListener {
@@ -111,8 +111,8 @@ public class NuevoUsuario extends Activity implements View.OnClickListener {
         txtFechaNac.setText(this.ua.getFechaNacimiento());
         txtFechaNac.setInputType(InputType.TYPE_NULL);
         ImageView perfil = (ImageView) findViewById(R.id.img_profile);
-        if (this.ua.getFotoPerfilUrl() != null) {
-            Picasso.with(this).load(this.ua.getFotoPerfilUrl())
+        if (this.ua.getFotoPerfil() != null) {
+            Picasso.with(this).load(this.ua.getFotoPerfil())
                     .placeholder(R.mipmap.ic_launcher)
                     .error(R.mipmap.ic_launcher).into(perfil);
 
@@ -293,7 +293,7 @@ public class NuevoUsuario extends Activity implements View.OnClickListener {
         @Override
         protected UsuarioApp doInBackground(UsuarioApp... params) {
 
-            IUsuarioProvider up = new UsuarioProvider(NuevoUsuario.this);
+            IUsuarioProvider up = new UsuarioProviderRemote(NuevoUsuario.this);
             try {
                 if (params[0].getId() == null) {
                     return up.grabar(params[0]);

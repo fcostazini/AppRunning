@@ -20,7 +20,7 @@ import com.thinkup.ranning.exceptions.PersistenciaException;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class UsuarioDAO {
 
-	@PersistenceContext(unitName = "appRunningPostgreDS")
+	@PersistenceContext(unitName = "appRunning")
 	private EntityManager entityManager;
 
 	public List<Usuario> getAllUsuarios() {
@@ -66,6 +66,8 @@ public class UsuarioDAO {
 		Usuario usuario = new Usuario();
 		this.updateDatosUsuario(usuario, usuarioDTO);
 		this.entityManager.persist(usuario);
+		
+		usuarioDTO.setId(usuario.getId());
 	}
 
 	private void updateDatosUsuario(Usuario usuario, UsuarioDTO usuariosDTO) throws PersistenciaException {
