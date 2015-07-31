@@ -63,7 +63,7 @@ public class CarreraService {
 	 * 
 	 * @return Lista de carreras de la base de datos.
 	 */
-	@Path("/carrerasDtoAll")
+	@Path("/carreraByFiltro")
 	@POST()
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

@@ -8,13 +8,14 @@ import java.util.Vector;
 
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
+import studios.thinkup.com.apprunning.provider.CarreraCabeceraProvider;
 import studios.thinkup.com.apprunning.provider.ICarreraCabeceraProvider;
 
 /**
  * Created by Facundo on 29/07/2015.
- *
+ * Service para recuperar carrerasCabecera
  */
-public class CarreraCabeceraService extends AsyncTask<Filtro, Integer, List<CarreraCabecera>>{
+public class CarreraCabeceraService extends AsyncTask<Filtro, Integer, List<CarreraCabecera>> {
 
     private OnResultsHandler handler;
     private Context context;
@@ -26,12 +27,24 @@ public class CarreraCabeceraService extends AsyncTask<Filtro, Integer, List<Carr
 
     @Override
     protected List<CarreraCabecera> doInBackground(Filtro... params) {
-        ICarreraCabeceraProvider carrerasProvider = new CarreraProviderRemote(this.context);
-        List<CarreraCabecera> resultados = carrerasProvider.getCarrerasByFiltro(params[0]);
-        if (resultados == null) {
-            resultados = new Vector<>();
+        List<CarreraCabecera> resultados = new Vector<>();
+        ICarreraCabeceraProvider carrerasProvider = null;
+        if (params[0].getIdUsuario() >= 0) {
+            carrerasProvider = new CarreraCabeceraProvider(context);
+            carrerasProvider.getCarrerasByFiltro(params[0]);
+            if (resultados == null) {
+                resultados = new Vector<>();
+            }
+            return resultados;
+        } else {
+            carrerasProvider = new CarreraCabeceraProviderRemote(this.context);
+            resultados = carrerasProvider.getCarrerasByFiltro(params[0]);
+            if (resultados == null) {
+                resultados = new Vector<>();
+            }
+            return resultados;
         }
-        return resultados;
+
     }
 
     @Override

@@ -48,7 +48,7 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         CarreraCabecera c = (CarreraCabecera) l.getItemAtPosition(position);
-        UsuarioCarreraService uc = new UsuarioCarreraService(this, this.getActivity());
+        UsuarioCarreraService uc = new UsuarioCarreraService(this, this.getActivity(),getIdUsuario());
         uc.execute(c.getCodigoCarrera());
 
     }
