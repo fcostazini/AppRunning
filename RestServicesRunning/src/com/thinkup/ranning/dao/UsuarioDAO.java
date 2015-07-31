@@ -11,8 +11,10 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import com.thinkup.ranning.dtos.UsuarioDTO;
+import com.thinkup.ranning.entities.GruposRunning;
 import com.thinkup.ranning.entities.Usuario;
 import com.thinkup.ranning.exceptions.PersistenciaException;
 
@@ -20,7 +22,7 @@ import com.thinkup.ranning.exceptions.PersistenciaException;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class UsuarioDAO {
 
-	@PersistenceContext(unitName = "appRunning")
+	@PersistenceContext(name="appRunning")
 	private EntityManager entityManager;
 
 	public List<Usuario> getAllUsuarios() {
@@ -41,15 +43,14 @@ public class UsuarioDAO {
 		}
 	}
 
-	public Usuario getByEmail(String email) throws PersistenciaException {
+	public Usuario getByEmail(String email) {
 		try {
 			Usuario usuario = this.entityManager
 					.createNamedQuery(Usuario.QUERY_BY_EMAIL, Usuario.class)
 					.setParameter(Usuario.PARAM_EMAIL, email).getSingleResult();
 			return usuario;
 		} catch (NoResultException e) {
-			String mensaje = "No existe usuario con el email "+ email;
-			throw new PersistenciaException(mensaje, e);
+			return null;
 		}
 	}
 	
@@ -86,7 +87,9 @@ public class UsuarioDAO {
 		usuario.setNombre(usuariosDTO.getNombre());
 		usuario.setPassword(usuariosDTO.getPassword());
 		usuario.setTipoCuenta(usuariosDTO.getTipoCuenta());
-		//TODO: No estamos mapeando los datos del grupo.
+		TypedQuery<GruposRunning> q = entityManager.createNamedQuery(GruposRunning.QUERY_BY_NOMBRE,GruposRunning.class);
+		q.setParameter(GruposRunning.PARAM_NOMBRE, usuariosDTO.getGrupoId());
+		usuario.setGrupo(q.getSingleResult());
 	}
 
 	

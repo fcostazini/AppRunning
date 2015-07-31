@@ -13,8 +13,6 @@ import studios.thinkup.com.apprunning.DetalleCarreraActivity;
 import studios.thinkup.com.apprunning.adapter.CarreraListAdapter;
 import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
-import studios.thinkup.com.apprunning.provider.CarreraCabeceraProvider;
-import studios.thinkup.com.apprunning.provider.ICarreraCabeceraProvider;
 import studios.thinkup.com.apprunning.provider.restProviders.CarreraCabeceraService;
 import studios.thinkup.com.apprunning.provider.restProviders.OnSingleResultHandler;
 import studios.thinkup.com.apprunning.provider.restProviders.UsuarioCarreraService;
@@ -50,7 +48,7 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         CarreraCabecera c = (CarreraCabecera) l.getItemAtPosition(position);
-        UsuarioCarreraService uc = new UsuarioCarreraService(this, this.getActivity(), this.getIdUsuario());
+        UsuarioCarreraService uc = new UsuarioCarreraService(this, this.getActivity());
         uc.execute(c.getCodigoCarrera());
 
     }

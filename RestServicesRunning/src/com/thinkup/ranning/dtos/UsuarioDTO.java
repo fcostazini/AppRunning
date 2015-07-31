@@ -14,7 +14,7 @@ public class UsuarioDTO implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static final String FORMAT_DATE = "yyyy/MM/dd";
+	public static final String FORMAT_DATE = "dd/MM/yyyy";
 
 	private Integer id;
 

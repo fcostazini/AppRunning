@@ -126,7 +126,7 @@ public class UsuarioService {
 			r.setCodigoRespuesta(Respuesta.CODIGO_OK);
 			r.setDto(usuarioDto);
 			return r;
-		} catch (PersistenciaException e) {
+		} catch (Exception e) {
 			Respuesta<UsuarioDTO> r = new Respuesta<UsuarioDTO>();
 			r.addMensaje(e.getMessage());
 			r.setCodigoRespuesta(Respuesta.CODIGO_SIN_RESULTADOS);
@@ -176,14 +176,15 @@ public class UsuarioService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Respuesta<UsuarioDTO> saveUsuario(UsuarioDTO usuariosDTO) {
-		try {
+		try{
 			if(this.service.getByEmail(usuariosDTO.getEmail())!=null){
 				Respuesta<UsuarioDTO> r = new Respuesta<UsuarioDTO>();
 				r.addMensaje("Usuario Existente");
 				r.setCodigoRespuesta(Respuesta.CODIGO_SOLICITUD_INCORRECTA);
 				return r;
 			}
-			service.saveUsuario(usuariosDTO);
+			
+				service.saveUsuario(usuariosDTO);
 			Respuesta<UsuarioDTO> r = new Respuesta<UsuarioDTO>();
 			r.addMensaje("El usuario se creo con éxito.");
 			r.setCodigoRespuesta(Respuesta.CODIGO_OK);

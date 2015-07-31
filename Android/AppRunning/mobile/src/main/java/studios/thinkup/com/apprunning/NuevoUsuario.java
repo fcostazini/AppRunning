@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -40,7 +41,7 @@ import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
 import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemote;
 
 
-public class NuevoUsuario extends Activity implements View.OnClickListener {
+public class NuevoUsuario extends Activity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private UsuarioApp ua;
 
     @Override
@@ -161,7 +162,7 @@ public class NuevoUsuario extends Activity implements View.OnClickListener {
         } else {
             spinner.setSelection(0); //display hint
         }
-
+        spinner.setOnItemSelectedListener(this);
 
     }
 
@@ -227,6 +228,16 @@ public class NuevoUsuario extends Activity implements View.OnClickListener {
             usuarioProviderTask.execute(this.ua);
         }
 
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        this.ua.setGrupoId(parent.getItemAtPosition(position).toString());
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        this.ua.setGrupoId("Ninguno");
     }
 
     private class DatePickerListener implements View.OnClickListener {

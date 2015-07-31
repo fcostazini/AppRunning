@@ -13,9 +13,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
 import studios.thinkup.com.apprunning.R;
 
 /**
@@ -46,7 +43,7 @@ public class DetalleCarreraFragment extends Fragment{
             return rootView;
         }
 
-        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        //SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         if (this.usuarioObservable.getUsuarioCarrera().getUrlImage() != null && !this.usuarioObservable.getUsuarioCarrera().getUrlImage().isEmpty()) {
             ImageView logo = (ImageView) rootView.findViewById(R.id.img_logo);
             Picasso.with(this.getActivity()).load(this.usuarioObservable.getUsuarioCarrera().getUrlImage())
@@ -58,9 +55,9 @@ public class DetalleCarreraFragment extends Fragment{
         txtNombre.setText(this.usuarioObservable.getUsuarioCarrera().getNombre());
         TextView fecha = (TextView) rootView.findViewById(R.id.txt_fecha_largada);
         if(this.usuarioObservable.getUsuarioCarrera().getHora()!= null && !this.usuarioObservable.getUsuarioCarrera().getHora().isEmpty()) {
-            fecha.setText(sf.format(this.usuarioObservable.getUsuarioCarrera().getFechaInicio()) + "   " + this.usuarioObservable.getUsuarioCarrera().getHora() + " hs.");
+            fecha.setText(this.usuarioObservable.getUsuarioCarrera().getFechaInicio() + "   " + this.usuarioObservable.getUsuarioCarrera().getHora() + " hs.");
         }else {
-            fecha.setText(sf.format(this.usuarioObservable.getUsuarioCarrera().getFechaInicio()));
+            fecha.setText(this.usuarioObservable.getUsuarioCarrera().getFechaInicio());
         }
 
         TextView descripcion = (TextView) rootView.findViewById(R.id.txt_descripcion);

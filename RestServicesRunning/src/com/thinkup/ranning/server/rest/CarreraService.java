@@ -13,7 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.thinkup.ranning.dao.CarreraDAO;
-import com.thinkup.ranning.dtos.CarreraDTO;
+import com.thinkup.ranning.dtos.CarreraCabeceraDTO;
 import com.thinkup.ranning.dtos.Filtro;
 import com.thinkup.ranning.dtos.Respuesta;
 import com.thinkup.ranning.entities.Carrera;
@@ -41,9 +41,9 @@ public class CarreraService {
 	@GET()
 	@Produces(MediaType.APPLICATION_JSON)
 	@PermitAll
-	public Respuesta<List<CarreraDTO>> getAllDto() {
-		Respuesta<List<CarreraDTO>> r = new Respuesta<List<CarreraDTO>>();
-		List<CarreraDTO> carrerasDto = this.service.getCarrerasDTO(null);
+	public Respuesta<List<CarreraCabeceraDTO>> getAllDto() {
+		Respuesta<List<CarreraCabeceraDTO>> r = new Respuesta<List<CarreraCabeceraDTO>>();
+		List<CarreraCabeceraDTO> carrerasDto = this.service.getCarrerasDTO(null);
 		if(carrerasDto.isEmpty()){
 			r.addMensaje("No se encontraron resultados");
 			r.setCodigoRespuesta(Respuesta.CODIGO_SIN_RESULTADOS);
@@ -68,9 +68,9 @@ public class CarreraService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@PermitAll
-	public Respuesta<List<CarreraDTO>> getCarrerasByFiltro(Filtro filtro) {
-		Respuesta<List<CarreraDTO>> r = new Respuesta<List<CarreraDTO>>();
-		List<CarreraDTO> carrerasDto = this.service.getCarrerasDTO(filtro);
+	public Respuesta<List<CarreraCabeceraDTO>> getCarrerasByFiltro(Filtro filtro) {
+		Respuesta<List<CarreraCabeceraDTO>> r = new Respuesta<List<CarreraCabeceraDTO>>();
+		List<CarreraCabeceraDTO> carrerasDto = this.service.getCarrerasDTO(filtro);
 		if(carrerasDto.isEmpty()){
 			r.addMensaje("No se encontraron resultados");
 			r.setCodigoRespuesta(Respuesta.CODIGO_SIN_RESULTADOS);

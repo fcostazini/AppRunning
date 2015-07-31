@@ -9,7 +9,6 @@ import java.util.List;
 
 import studios.thinkup.com.apprunning.DetalleCarreraActivity;
 import studios.thinkup.com.apprunning.adapter.CarreraListAdapter;
-import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 import studios.thinkup.com.apprunning.provider.restProviders.CarreraCabeceraService;
@@ -40,7 +39,7 @@ public class CarrerasResultadoFragment extends FilteredFragment implements Carre
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         CarreraCabecera c = (CarreraCabecera) l.getItemAtPosition(position);
-        UsuarioCarreraService uc = new UsuarioCarreraService(this, this.getActivity(), this.getIdUsuario());
+        UsuarioCarreraService uc = new UsuarioCarreraService(this, this.getActivity());
         uc.execute(c.getCodigoCarrera());
 
 

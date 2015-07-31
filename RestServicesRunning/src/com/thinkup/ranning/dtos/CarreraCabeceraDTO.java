@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
-public class CarreraDTO implements Serializable {
+public class CarreraCabeceraDTO implements Serializable {
 
 
 	/**
@@ -68,7 +68,7 @@ public class CarreraDTO implements Serializable {
 	/**
 	 * ID del usuario carrera
 	 */
-	private int usuarioCarrera;
+	private Integer usuarioCarrera;
 	
 	/**
 	 * Distancia corrida por el usuario.
@@ -90,7 +90,11 @@ public class CarreraDTO implements Serializable {
 	 */
 	private Boolean corrida;
 	
-	public CarreraDTO() {
+	
+	
+	
+	
+	public CarreraCabeceraDTO() {
 		super();
 	}
 
@@ -166,11 +170,11 @@ public class CarreraDTO implements Serializable {
 		this.ciudad = ciudad;
 	}
 
-	public int getUsuarioCarrera() {
+	public Integer getUsuarioCarrera() {
 		return usuarioCarrera;
 	}
 
-	public void setUsuarioCarrera(int usuarioCarrera) {
+	public void setUsuarioCarrera(Integer usuarioCarrera) {
 		this.usuarioCarrera = usuarioCarrera;
 	}
 

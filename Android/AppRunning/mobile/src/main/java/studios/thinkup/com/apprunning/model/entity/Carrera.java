@@ -5,15 +5,12 @@ import android.database.Cursor;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by fcostazini on 22/05/2015.
  * Entidad de Modelo CARRERA
  */
 public class Carrera implements Serializable, IEntity {
-
-    private static final long serialVersionUID = 24474119433126838L;
 
     public static final String NOMBRE = "NOMBRE";
     public static final String MODALIDADES = "MODALIDADES";
@@ -28,14 +25,14 @@ public class Carrera implements Serializable, IEntity {
     public static final String URL_IMAGEN = "URL_IMAGEN";
     public static final String DISTANCIAS_DISPONIBLE = "DISTANCIA_DISPONIBLE";
     public static final String ID = "ID_CARRERA";
-
+    private static final long serialVersionUID = 24474119433126838L;
     private Integer id;
     private String nombre;
 
     private String provincia;
     private String ciudad;
     private String direccion;
-    private Date fechaInicio;
+    private String fechaInicio;
     private String hora;
     private String descripcion;
 
@@ -59,7 +56,7 @@ public class Carrera implements Serializable, IEntity {
             this.provincia = c.getString(c.getColumnIndex(PROVINCIA));
             this.ciudad = c.getString(c.getColumnIndex(CIUDAD));
             this.direccion = c.getString(c.getColumnIndex(DIRECCION));
-            this.fechaInicio = sf.parse(c.getString(c.getColumnIndex(FECHA_INICIO)));
+            this.fechaInicio = c.getString(c.getColumnIndex(FECHA_INICIO));
             this.hora = c.getString(c.getColumnIndex(HORA_INICIO));
             this.descripcion = c.getString(c.getColumnIndex(DESCRIPCION));
             this.distancias = c.getString(c.getColumnIndex(DISTANCIAS_DISPONIBLE));
@@ -80,7 +77,7 @@ public class Carrera implements Serializable, IEntity {
         return nombre;
     }
 
-    public Date getFechaInicio() {
+    public String getFechaInicio() {
         return fechaInicio;
     }
 

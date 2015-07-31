@@ -4,13 +4,11 @@ import android.database.Cursor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by FaQ on 08/06/2015.
  */
 public class UsuarioCarrera implements Serializable, IEntity {
-    private static final long serialVersionUID = 24474114445126838L;
     public static final String CARRERA      =  "CARRERA"     ;
     public static final String TIEMPO       =  "TIEMPO"      ;
     public static final String ANOTADO      =  "ANOTADO"     ;
@@ -20,9 +18,7 @@ public class UsuarioCarrera implements Serializable, IEntity {
     public static final String ID_USUARIO           =  "USUARIO"          ;
     public static final String DISTANCIA           =  "DISTANCIA";
     public static final String MODALIDAD           =  "MODALIDAD"          ;
-
-
-
+    private static final long serialVersionUID = 24474114445126838L;
     private Integer idUsuarioCarrera;
     private Carrera carrera;
     private boolean corrida;
@@ -37,25 +33,21 @@ public class UsuarioCarrera implements Serializable, IEntity {
 
     private String recorrido;
 
-    public Integer getUsuario() {
-        return usuario;
+    public UsuarioCarrera(Carrera c) {
+        this.idUsuarioCarrera = null;
+        this.anotado = false;
+        this.corrida = false;
+        this.meGusta = false;
+        this.tiempo = 0l;
+
+        this.distancia = 0;
+        this.modalidad = "";
+        this.carrera = c;
     }
 
-    public void setUsuario(Integer usuario) {
-        this.usuario = usuario;
-    }
-
-    public void setDistancia(Integer distancia) {
-        this.distancia = distancia;
-    }
-
-    public void setModalidad(String modalidad) {
-        this.modalidad = modalidad;
-    }
-
-    public UsuarioCarrera(Cursor c){
-        if( c.getInt(c.getColumnIndex(UsuarioCarrera.ID) )== 0){
-            this.idUsuarioCarrera =null;
+    public UsuarioCarrera(Cursor c) {
+        if (c.getInt(c.getColumnIndex(UsuarioCarrera.ID)) == 0) {
+            this.idUsuarioCarrera = null;
             this.anotado = false;
             this.corrida = false;
             this.meGusta = false;
@@ -63,7 +55,7 @@ public class UsuarioCarrera implements Serializable, IEntity {
 
             this.distancia = 0;
             this.modalidad = "";
-        }else{
+        } else {
             this.idUsuarioCarrera = c.getInt(c.getColumnIndex(UsuarioCarrera.ID));
             this.anotado = c.getInt(c.getColumnIndex(UsuarioCarrera.ANOTADO)) == 1;
             this.corrida = c.getInt(c.getColumnIndex(UsuarioCarrera.CORRIDA)) == 1;
@@ -75,6 +67,14 @@ public class UsuarioCarrera implements Serializable, IEntity {
         }
         this.usuario = c.getInt(c.getColumnIndex(UsuarioCarrera.ID_USUARIO));
         this.setCarrera(new Carrera(c));
+    }
+
+    public Integer getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Integer usuario) {
+        this.usuario = usuario;
     }
 
     public String getProvincia() {
@@ -137,14 +137,11 @@ public class UsuarioCarrera implements Serializable, IEntity {
         this.recorrido = recorrido;
     }
 
-
-
-
     public Integer getCodigoCarrera() {
         return carrera.getCodigo();
     }
 
-    public Date getFechaInicio() {
+    public String getFechaInicio() {
         return carrera.getFechaInicio();
     }
 
@@ -158,6 +155,10 @@ public class UsuarioCarrera implements Serializable, IEntity {
 
     public Integer getDistancia() {
         return this.distancia;
+    }
+
+    public void setDistancia(Integer distancia) {
+        this.distancia = distancia;
     }
 
     public String getUrlImage() {
@@ -203,6 +204,11 @@ public class UsuarioCarrera implements Serializable, IEntity {
     public String getModalidad() {
         return this.modalidad;
     }
+
+    public void setModalidad(String modalidad) {
+        this.modalidad = modalidad;
+    }
+
     public String getModalidades() { return this.getCarrera().getModalidades();}
 
     public String getDistancias() { return this.getCarrera().getDistancias();}

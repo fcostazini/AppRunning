@@ -5,11 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -28,10 +26,10 @@ import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaExcep
  * Detalle de Carrera
  */
 public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsuarioCarreraObservable{
+    AlertDialog distanciaDialog;
     private int idCarrera;
     private UsuarioCarrera carrera;
     private Menu menu;
-    AlertDialog distanciaDialog;
     private List<IUsuarioCarreraObserver> observadoresUsuario;
 
     @Override
@@ -146,7 +144,8 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                     confirmarNoCorrida(item);
 
                 } else {
-                    if (this.carrera.getFechaInicio().compareTo(new Date()) <= 0) {
+                    //TODO : Ajustar la logica de las fechas
+                    //   if (this.carrera.getFechaInicio().compareTo(new Date()) <= 0) {
 
                         if (this.menu != null) {
                             menu.getItem(1).setIcon(R.drawable.ic_anotado);
@@ -156,7 +155,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                         item.setIcon(R.drawable.ic_corrida);
                         this.carrera.setCorrida(true);
                     }
-                }
+//                }
                 updateUsuarioCarrera();
                 return true;
             default:

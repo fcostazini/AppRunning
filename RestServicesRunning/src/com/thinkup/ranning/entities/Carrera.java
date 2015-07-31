@@ -24,6 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "public.carrera")
 @NamedQueries(value = {
 		@NamedQuery(name = Carrera.QUERY_ALL, query = "Select c FROM Carrera c"),
+		@NamedQuery(name = Carrera.GET_BY_ID, query = "Select c FROM Carrera c where c.id = :" + Carrera.PARAM_ID),
 		@NamedQuery(name = Carrera.QUERY_BY_NOMBRE, query = "Select c FROM Carrera c WHERE c.nombre = :"
 				+ Carrera.PARAM_NOMBRE),		
 		@NamedQuery(name = Carrera.QUERY_BY_NRO_CARRERA, query = "Select c FROM Carrera c WHERE c.id = :"
@@ -33,10 +34,12 @@ public class Carrera implements Serializable {
 
 	// Parametros
 	public static final String PARAM_NOMBRE = "nombre";
+	public static final String PARAM_ID = "id";
 	public static final String PARAM_NRO_CARRERA = "nroCarrera";
 
 	// Named Queries
 	public static final String QUERY_ALL = "getALL";
+	public static final String GET_BY_ID = "getCarreraById";
 	public static final String QUERY_BY_NOMBRE = "getCarreraByNombre";
 	public static final String QUERY_BY_NRO_CARRERA = "getCarreraBy";
 

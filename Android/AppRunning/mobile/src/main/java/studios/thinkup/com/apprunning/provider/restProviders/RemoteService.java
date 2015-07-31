@@ -18,5 +18,6 @@ public abstract class RemoteService {
         return this.context.getString(R.string.host_url) + this.context.getString(R.string.base_service_url) + this.getModule();
     }
 
+
     protected abstract String getModule();
 }

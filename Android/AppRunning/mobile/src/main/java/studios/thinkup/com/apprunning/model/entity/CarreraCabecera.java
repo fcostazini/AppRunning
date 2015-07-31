@@ -1,7 +1,6 @@
 package studios.thinkup.com.apprunning.model.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by fcostazini on 22/05/2015.
@@ -11,11 +10,11 @@ public class CarreraCabecera implements Serializable {
 
     private Integer codigoCarrera;
     private String nombre;
-    private Date fechaInicio;
+    private String fechaInicio;
     private String hora;
     private Integer distancia;
     private String descripcion;
-    private String urlImage;
+    private String urlImagen;
     private String provincia;
     private String distanciaDisponible;
     private String zona;
@@ -28,8 +27,12 @@ public class CarreraCabecera implements Serializable {
 
     }
 
+    public static CarreraCabeceraBuilder getBuilder() {
+        return new CarreraCabeceraBuilder();
+    }
+
     public String getZona() {
-        return zona;
+        return provincia;
     }
 
     public String getDistanciaDisponible() {
@@ -40,7 +43,7 @@ public class CarreraCabecera implements Serializable {
         return nombre;
     }
 
-    public Date getFechaInicio() {
+    public String getFechaInicio() {
         return fechaInicio;
     }
 
@@ -52,8 +55,8 @@ public class CarreraCabecera implements Serializable {
         return descripcion;
     }
 
-    public String getUrlImage() {
-        return urlImage;
+    public String getUrlImagen() {
+        return urlImagen;
     }
 
     public Integer getCodigoCarrera() {
@@ -76,10 +79,6 @@ public class CarreraCabecera implements Serializable {
         return hora;
     }
 
-    public static CarreraCabeceraBuilder getBuilder() {
-        return new CarreraCabeceraBuilder();
-    }
-
     public static class CarreraCabeceraBuilder {
         private CarreraCabecera instance = new CarreraCabecera();
 
@@ -88,7 +87,7 @@ public class CarreraCabecera implements Serializable {
             return this;
         }
 
-        public CarreraCabeceraBuilder fechaInicio(Date fechaInicio) {
+        public CarreraCabeceraBuilder fechaInicio(String fechaInicio) {
             this.instance.fechaInicio = fechaInicio;
             return this;
         }
@@ -114,7 +113,7 @@ public class CarreraCabecera implements Serializable {
         }
 
         public CarreraCabeceraBuilder urlImage(String urlImage) {
-            this.instance.urlImage = urlImage;
+            this.instance.urlImagen = urlImage;
             return this;
         }
 

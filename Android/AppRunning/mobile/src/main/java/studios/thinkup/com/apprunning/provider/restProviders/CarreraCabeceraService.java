@@ -8,10 +8,11 @@ import java.util.Vector;
 
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
-import studios.thinkup.com.apprunning.provider.CarreraCabeceraProvider;
+import studios.thinkup.com.apprunning.provider.ICarreraCabeceraProvider;
 
 /**
  * Created by Facundo on 29/07/2015.
+ *
  */
 public class CarreraCabeceraService extends AsyncTask<Filtro, Integer, List<CarreraCabecera>>{
 
@@ -23,17 +24,10 @@ public class CarreraCabeceraService extends AsyncTask<Filtro, Integer, List<Carr
         this.context = context;
     }
 
-    public interface OnResultsHandler {
-
-        void actualizarResultados(List<CarreraCabecera> resultados);
-
-    }
-
-
     @Override
     protected List<CarreraCabecera> doInBackground(Filtro... params) {
-        CarreraCabeceraProvider carrerasProvider = new CarreraCabeceraProvider(this.context);
-        List<CarreraCabecera> resultados = carrerasProvider.getCarrerasRecomendadas(params[0]);
+        ICarreraCabeceraProvider carrerasProvider = new CarreraProviderRemote(this.context);
+        List<CarreraCabecera> resultados = carrerasProvider.getCarrerasByFiltro(params[0]);
         if (resultados == null) {
             resultados = new Vector<>();
         }
@@ -45,6 +39,12 @@ public class CarreraCabeceraService extends AsyncTask<Filtro, Integer, List<Carr
         super.onPostExecute(carreraCabeceras);
         this.handler.actualizarResultados(carreraCabeceras);
 
+
+    }
+
+    public interface OnResultsHandler {
+
+        void actualizarResultados(List<CarreraCabecera> resultados);
 
     }
 }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -108,9 +109,16 @@ public class CarreraListAdapter extends BaseAdapter {
             }
 
             if (p.getFechaInicio() != null) {
-                SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
+                Date d = new Date();
+                try {
+                    d = sf.parse(p.getFechaInicio());
+                    sf = new SimpleDateFormat("dd/MM/yyyy");
+                    viewHolder.fecha.setText(sf.format(d) + "   " + p.getHora());
+                } catch (Exception e) {
+                    viewHolder.fecha.setText("");
+                }
 
-                viewHolder.fecha.setText(sf.format(p.getFechaInicio())+ "   " + p.getHora());
             }
 
             if (p.isEstoyInscripto()) {
@@ -130,8 +138,8 @@ public class CarreraListAdapter extends BaseAdapter {
             }else{
                 viewHolder.meGusta.setImageResource(R.drawable.ic_no_me_gusta);
             }
-            if (p.getUrlImage() != null) {
-                Picasso.with(context).load(p.getUrlImage())
+            if (p.getUrlImagen() != null) {
+                Picasso.with(context).load(p.getUrlImagen())
                         .placeholder(R.mipmap.ic_launcher)
                         .error(R.mipmap.ic_launcher).into(viewHolder.logo);
 

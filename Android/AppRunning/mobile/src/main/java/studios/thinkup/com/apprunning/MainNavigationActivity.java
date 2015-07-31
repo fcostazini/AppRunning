@@ -20,16 +20,15 @@ import studios.thinkup.com.apprunning.model.DefaultSettings;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.ConfigProvider;
-import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 
 
 public abstract class MainNavigationActivity extends FragmentActivity {
 
+    ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout drawerLayout;
     private ListView drawerList;
     private List<DrawerItem> items;
-    ActionBarDrawerToggle mDrawerToggle;
 
     protected Integer getIdUsuario() {
         UsuarioApp ua =((RunningApplication)this.getApplication()).getUsuario();
@@ -39,21 +38,6 @@ public abstract class MainNavigationActivity extends FragmentActivity {
             return 0;
         }
 
-    }
-    public DrawerLayout getDrawerLayout() {
-        return drawerLayout;
-    }
-
-    public void setDrawerLayout(DrawerLayout drawerLayout) {
-        this.drawerLayout = drawerLayout;
-    }
-
-    public ListView getDrawerList() {
-        return drawerList;
-    }
-
-    public void setDrawerList(ListView drawerList) {
-        this.drawerList = drawerList;
     }
 
     @Override
@@ -89,18 +73,20 @@ public abstract class MainNavigationActivity extends FragmentActivity {
                 invalidateOptionsMenu();
             }
         };
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
+        if (getActionBar() != null) {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+            getActionBar().setHomeButtonEnabled(true);
+        }
         recuperarUsuario(savedInstanceState);
 
     }
 
     private void recuperarUsuario(Bundle savedInstanceState) {
         if (savedInstanceState!= null && savedInstanceState.containsKey("usuario")) {
-            UsuarioProvider up = new UsuarioProvider(this);
+
             ((RunningApplication) this.getApplication())
-                    .setUsuario(up.findById(UsuarioApp.class, savedInstanceState.getInt("usuario")));
-            savedInstanceState.remove("usuario");
+                    .setUsuario((UsuarioApp) savedInstanceState.getSerializable("usuario"));
+
         }
     }
 
@@ -108,10 +94,7 @@ public abstract class MainNavigationActivity extends FragmentActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -153,6 +136,23 @@ public abstract class MainNavigationActivity extends FragmentActivity {
         return defaultSettings;
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (((RunningApplication) this.getApplication()).getUsuario() != null) {
+            outState.putSerializable("usuario", ((RunningApplication) this.getApplication()).getUsuario());
+        }
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if (drawerLayout.isDrawerOpen(Gravity.START))
+            drawerLayout.closeDrawer(Gravity.START);
+        else
+            super.onBackPressed();
+    }
+
     /* La escucha del ListView en el Drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
@@ -161,22 +161,6 @@ public abstract class MainNavigationActivity extends FragmentActivity {
         }
 
 
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (((RunningApplication) this.getApplication()).getUsuario() != null) {
-            outState.putInt("usuario", ((RunningApplication) this.getApplication()).getUsuario().getId());
-        }
-    }
-    @Override
-    public void onBackPressed()
-    {
-        if (drawerLayout.isDrawerOpen(Gravity.START))
-            drawerLayout.closeDrawer(Gravity.START);
-        else
-            super.onBackPressed();
     }
 
 

@@ -2,7 +2,17 @@ package com.thinkup.ranning.entities;
 
 import java.io.Serializable;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -11,18 +21,28 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "public.usuario_carrera")
+@NamedQueries(value = {
+		@NamedQuery(name = UsuarioCarrera.GET_BY_ID_CARRERA, query = "Select u FROM UsuarioCarrera u "
+				+ "WHERE u.carrera.id = :" + UsuarioCarrera.PARAM_ID_CARRERA),
+		@NamedQuery(name = UsuarioCarrera.GET_ALL, query = "Select u FROM UsuarioCarrera u "),
+		@NamedQuery(name = UsuarioCarrera.GET_BY_ID, query = "Select u FROM UsuarioCarrera u WHERE u.id = :"
+				+ UsuarioCarrera.PARAM_ID) })
 @XmlRootElement
 public class UsuarioCarrera implements Serializable {
 
-	
+	public static final String GET_BY_ID = "getById";
+	public static final String PARAM_ID = "id";
 	private static final long serialVersionUID = 1L;
+	public static final String GET_ALL = "getAll";
+	public static final String GET_BY_ID_CARRERA = "getByIdCarrera";
+	public static final String PARAM_ID_CARRERA = "idCarrera";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@Column(name = "tiempo")
-	private String tiempo;
+	private long tiempo;
 	
 	@Column(name = "anotado")
 	private Boolean isAnotado;
@@ -49,21 +69,23 @@ public class UsuarioCarrera implements Serializable {
 	
 	public UsuarioCarrera() {
 		super();
+		this.tiempo = 0l;
 	}
 
 	public Integer getId() {
 		return id;
+		
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public String getTiempo() {
+	public Long getTiempo() {
 		return tiempo;
 	}
 
-	public void setTiempo(String tiempo) {
+	public void setTiempo(Long tiempo) {
 		this.tiempo = tiempo;
 	}
 
