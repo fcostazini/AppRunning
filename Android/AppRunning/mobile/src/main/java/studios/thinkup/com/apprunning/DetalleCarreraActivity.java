@@ -27,14 +27,13 @@ import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaExcep
  */
 public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsuarioCarreraObservable{
     AlertDialog distanciaDialog;
-    private int idCarrera;
     private UsuarioCarrera carrera;
     private Menu menu;
     private List<IUsuarioCarreraObserver> observadoresUsuario;
 
     @Override
     protected PagerAdapter getAdapter() {
-        return new DetalleCarreraPagerAdapter(getSupportFragmentManager(), this.idCarrera, this);
+        return new DetalleCarreraPagerAdapter(getSupportFragmentManager(), this);
     }
 
     @Override

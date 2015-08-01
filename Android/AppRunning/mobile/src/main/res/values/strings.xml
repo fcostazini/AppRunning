@@ -66,7 +66,7 @@
     <string name="lbl_ordenamiento">Ordenamiento</string>
     <string name="lbl_campo">Campo</string>
     <string name="lbl_forma">Sentido</string>
-    <string name="lbl_filtros_disponibles" >Filtros disponibles</string>
+    <string name="lbl_filtros_disponibles">Filtros disponibles</string>
     <string name="lbl_modalidad">Modalidad</string>
     <string name="lbl_provincia">Provincia</string>
     <string name="lbl_ciudad">Ciudad</string>
@@ -85,10 +85,10 @@
     <string name="terminos_y_condiciones">Acepto los términos y condiciones</string>
     <string name="title_activity_terminos_ycondiciones">Términos y Condiciones</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="acepto_los_terminos">Acepto los Términos</string>
     <string name="danos_tu_opinion">Danos tu opinión</string>
-    <string name="host_url">http://192.168.151.46:8080/</string>
+    <!--<string name="host_url">http://192.168.151.46:8080/</string>-->
+    <string name="host_url">http://192.168.0.9:8080/</string>
     <string name="base_service_url">RestServicesRunning/running</string>
 </resources>

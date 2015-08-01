@@ -17,7 +17,10 @@ import java.util.List;
 import java.util.Locale;
 
 import studios.thinkup.com.apprunning.R;
+import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
+import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
+import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
 
 /**
  * Created by fcostazini on 22/05/2015.
@@ -28,11 +31,14 @@ public class CarreraListAdapter extends BaseAdapter {
     private List<CarreraCabecera> carreras;
     private Context context;
     private LayoutInflater inflater;
+    private UsuarioCarreraProvider provider;
 
     public CarreraListAdapter(Activity context, List<CarreraCabecera> carreras) {
         this.carreras = carreras;
         this.context = context;
         this.inflater  = LayoutInflater.from(context);
+        Integer idUsuario = ((RunningApplication) context.getApplication()).getUsuario().getId();
+        this.provider = new UsuarioCarreraProvider(context, idUsuario);
 
     }
 
@@ -85,7 +91,10 @@ public class CarreraListAdapter extends BaseAdapter {
         }
 
         CarreraCabecera p = (CarreraCabecera) getItem(position);
-
+        UsuarioCarrera uc = provider.getByIdCarrera(p.getCodigoCarrera());
+        if (uc != null) {
+            p.setUsuarioCarrera(uc);
+        }
         if (p != null) {
 
             if (p.getNombre() != null) {

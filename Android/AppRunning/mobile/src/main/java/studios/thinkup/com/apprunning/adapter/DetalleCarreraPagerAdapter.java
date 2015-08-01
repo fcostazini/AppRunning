@@ -19,15 +19,13 @@ import studios.thinkup.com.apprunning.fragment.IUsuarioCarreraObservable;
  * Pager de Detalle de carrera
  */
 public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
-    private int carrera;
-    private IUsuarioCarreraObservable observable;
+
     private Map<Integer, Fragment> fragmentMap;
 
 
-    public DetalleCarreraPagerAdapter(FragmentManager fm, int idCarrera, IUsuarioCarreraObservable observable) {
+    public DetalleCarreraPagerAdapter(FragmentManager fm, IUsuarioCarreraObservable observable) {
         super(fm);
-        this.carrera = idCarrera;
-        this.observable = observable;
+
         fragmentMap = new HashMap<>();
         DetalleCarreraFragment df = new DetalleCarreraFragment();
         fragmentMap.put(0,df);

@@ -25,7 +25,7 @@ import studios.thinkup.com.apprunning.provider.ICarreraCabeceraProvider;
  */
 public class CarreraCabeceraProviderRemote extends RemoteService implements ICarreraCabeceraProvider {
     private static final String MODULO_CARRERA = "/carreras";
-    private static final String GET_BY_FILTROS = "/carrerasDtoAll/";
+    private static final String GET_BY_FILTROS = "/carreraByFiltro";
 
 
     public CarreraCabeceraProviderRemote(Context context) {

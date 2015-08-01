@@ -18,9 +18,8 @@ public class CarreraCabecera implements Serializable {
     private String provincia;
     private String distanciaDisponible;
     private String zona;
-    private boolean fueCorrida;
-    private boolean estoyInscripto;
-    private boolean meGusta;
+    private UsuarioCarrera usuarioCarrera;
+
 
     private CarreraCabecera() {
 
@@ -29,6 +28,14 @@ public class CarreraCabecera implements Serializable {
 
     public static CarreraCabeceraBuilder getBuilder() {
         return new CarreraCabeceraBuilder();
+    }
+
+    public UsuarioCarrera getUsuarioCarrera() {
+        return usuarioCarrera;
+    }
+
+    public void setUsuarioCarrera(UsuarioCarrera usuarioCarrera) {
+        this.usuarioCarrera = usuarioCarrera;
     }
 
     public String getZona() {
@@ -48,7 +55,10 @@ public class CarreraCabecera implements Serializable {
     }
 
     public Integer getDistancia() {
-        return distancia;
+        if (this.usuarioCarrera != null && this.isEstoyInscripto()) {
+            return this.usuarioCarrera.getDistancia();
+        }
+        return 0;
     }
 
     public String getDescripcion() {
@@ -64,15 +74,15 @@ public class CarreraCabecera implements Serializable {
     }
 
     public boolean isFueCorrida() {
-        return fueCorrida;
+        return usuarioCarrera != null && usuarioCarrera.isCorrida();
     }
 
     public boolean isEstoyInscripto() {
-        return estoyInscripto;
+        return usuarioCarrera != null && usuarioCarrera.isAnotado();
     }
 
     public boolean isMeGusta() {
-        return meGusta;
+        return usuarioCarrera != null && usuarioCarrera.isMeGusta();
     }
 
     public String getHora() {
@@ -114,21 +124,6 @@ public class CarreraCabecera implements Serializable {
 
         public CarreraCabeceraBuilder urlImage(String urlImage) {
             this.instance.urlImagen = urlImage;
-            return this;
-        }
-
-        public CarreraCabeceraBuilder fueCorrida(boolean flag) {
-            this.instance.fueCorrida = flag;
-            return this;
-        }
-
-        public CarreraCabeceraBuilder estoyInscripto(boolean flag) {
-            this.instance.estoyInscripto = flag;
-            return this;
-        }
-
-        public CarreraCabeceraBuilder meGusta(boolean flag) {
-            this.instance.meGusta = flag;
             return this;
         }
 
