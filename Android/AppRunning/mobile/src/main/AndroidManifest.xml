@@ -18,6 +18,7 @@
         android:name=".model.RunningApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+
         android:label="@string/app_name"
         android:theme="@style/CustomActionBarTheme"
         tool:replace="android:icon" >
@@ -40,11 +41,13 @@
         <activity
             android:name=".BusquedaCarreraActivity"
             android:label="@string/title_activity_buscar"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name=".TemporizadorActivity"
-            android:label="@string/title_temporizador" >
+            android:label="@string/title_temporizador"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".MainActivity"
@@ -60,7 +63,8 @@
         <activity
             android:name=".PreferenciasActivity"
             android:label="@string/title_activity_filtros"
-            android:parentActivityName=".BusquedaCarreraActivity" >
+            android:parentActivityName=".BusquedaCarreraActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="studios.thinkup.com.apprunning.BusquedaCarreraActivity" />
@@ -68,7 +72,8 @@
         <activity
             android:name=".CarrerasActivity"
             android:label="@string/title_activity_carreras"
-            android:parentActivityName=".BusquedaCarreraActivity" >
+            android:parentActivityName=".BusquedaCarreraActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="studios.thinkup.com.apprunning.BusquedaCarreraActivity" />
@@ -76,7 +81,8 @@
         <activity
             android:name=".RecomendadosActivity"
             android:label="@string/title_activity_carreras"
-            android:parentActivityName=".BusquedaCarreraActivity" >
+            android:parentActivityName=".BusquedaCarreraActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="studios.thinkup.com.apprunning.BusquedaCarreraActivity" />
@@ -84,7 +90,8 @@
         <activity
             android:name=".DetalleCarreraActivity"
             android:label="@string/title_activity_detalle_carrera"
-            android:parentActivityName=".CarrerasActivity" >
+            android:parentActivityName=".CarrerasActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="studios.thinkup.com.apprunning.CarrerasActivity" />
@@ -92,7 +99,8 @@
         <activity
             android:name=".MisCarrerasActivity"
             android:label="@string/title_activity_mis_datos"
-            android:parentActivityName=".CarrerasActivity" >
+            android:parentActivityName=".CarrerasActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="studios.thinkup.com.apprunning.CarrerasActivity" />
@@ -100,7 +108,8 @@
         <activity
             android:name=".TiemposCarrerasActivity"
             android:label="@string/title_activity_mis_tiempos"
-            android:parentActivityName=".CarrerasActivity" >
+            android:parentActivityName=".CarrerasActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="studios.thinkup.com.apprunning.CarrerasActivity" />
@@ -113,6 +122,7 @@
         <activity
             android:name=".NuevoUsuario"
             android:label="@string/title_activity_nuevo_usuario"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -121,6 +131,7 @@
         <activity
             android:name=".DatosUsuarioActivity"
             android:label="@string/title_activity_datos_usuario"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -137,15 +148,18 @@
         </activity>
         <activity
             android:name=".FiltroCarreraActivity"
-            android:label="@string/title_activity_filtro_carrera" >
+            android:label="@string/title_activity_filtro_carrera"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".AcecaDeNosotrosActivity"
-            android:label="@string/title_activity_aceca_de_nosotros" >
+            android:label="@string/title_activity_aceca_de_nosotros"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".TerminosYCondicionesActivity"
-            android:label="@string/title_activity_terminos_ycondiciones" >
+            android:label="@string/title_activity_terminos_ycondiciones"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

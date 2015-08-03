@@ -13,6 +13,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import studios.thinkup.com.apprunning.R;
 
 /**
@@ -54,10 +58,17 @@ public class DetalleCarreraFragment extends Fragment{
 
         txtNombre.setText(this.usuarioObservable.getUsuarioCarrera().getNombre());
         TextView fecha = (TextView) rootView.findViewById(R.id.txt_fecha_largada);
-        if(this.usuarioObservable.getUsuarioCarrera().getHora()!= null && !this.usuarioObservable.getUsuarioCarrera().getHora().isEmpty()) {
-            fecha.setText(this.usuarioObservable.getUsuarioCarrera().getFechaInicio() + "   " + this.usuarioObservable.getUsuarioCarrera().getHora() + " hs.");
-        }else {
-            fecha.setText(this.usuarioObservable.getUsuarioCarrera().getFechaInicio());
+        if (this.usuarioObservable.getUsuarioCarrera().getFechaInicio() != null &&
+                !this.usuarioObservable.getUsuarioCarrera().getFechaInicio().isEmpty()) {
+            Date d = new Date(Long.valueOf(this.usuarioObservable.getUsuarioCarrera().getFechaInicio()));
+            SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            if (this.usuarioObservable.getUsuarioCarrera().getHora() != null && !this.usuarioObservable.getUsuarioCarrera().getHora().isEmpty()) {
+
+
+                fecha.setText(sf.format(d) + "   " + this.usuarioObservable.getUsuarioCarrera().getHora() + " hs.");
+            } else {
+                fecha.setText(sf.format(d));
+            }
         }
 
         TextView descripcion = (TextView) rootView.findViewById(R.id.txt_descripcion);

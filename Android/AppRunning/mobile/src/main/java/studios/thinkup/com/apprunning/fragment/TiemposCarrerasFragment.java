@@ -9,6 +9,7 @@ import java.util.List;
 
 import studios.thinkup.com.apprunning.DetalleCarreraActivity;
 import studios.thinkup.com.apprunning.adapter.TiempoCarreraListAdapter;
+import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 import studios.thinkup.com.apprunning.provider.restProviders.OnResultHandler;
 import studios.thinkup.com.apprunning.provider.restProviders.TiemposService;
@@ -22,16 +23,16 @@ import studios.thinkup.com.apprunning.provider.restProviders.TiemposService;
 public class TiemposCarrerasFragment extends FilteredFragment implements OnResultHandler<UsuarioCarrera> {
 
 
-    @Override
-    public String getIdFragment() {
-        return "TODOS";
-    }
-
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public TiemposCarrerasFragment() {
+    }
+
+    @Override
+    public String getIdFragment() {
+        return "TODOS";
     }
 
     @Override
@@ -51,6 +52,14 @@ public class TiemposCarrerasFragment extends FilteredFragment implements OnResul
 
     }
 
+    @Override
+    public Filtro getFiltro() {
+        Filtro f = super.getFiltro();
+        f.clean();
+        f.setIdUsuario(this.getIdUsuario());
+        return f;
+
+    }
 
     @Override
     public void actualizarResultados(List<UsuarioCarrera> resultados) {

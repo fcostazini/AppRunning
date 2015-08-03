@@ -8,11 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.List;
 import java.util.Vector;
 
-import studios.thinkup.com.apprunning.model.DefaultSettings;
 import studios.thinkup.com.apprunning.model.entity.Carrera;
 import studios.thinkup.com.apprunning.model.entity.IEntity;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
-import studios.thinkup.com.apprunning.provider.exceptions.EntityNotFoundException;
 
 /**
  * Created by Facundo on 02/08/2015.
@@ -26,6 +24,7 @@ public class CarreraLocalProvider extends GenericProvider<Carrera> implements IC
     @Override
     protected String[] getFields(Class<? extends IEntity> clazz) {
         String[] fields = {
+                Carrera.ID,
                 Carrera.CIUDAD,
                 Carrera.RECOMENDADA,
                 Carrera.PROVINCIA,
@@ -46,7 +45,6 @@ public class CarreraLocalProvider extends GenericProvider<Carrera> implements IC
         if (c.getCount() <= 0) {
             return null;
         } else {
-            DefaultSettings ds = null;
             c.moveToFirst();
             return new Carrera(c);
 
@@ -55,7 +53,7 @@ public class CarreraLocalProvider extends GenericProvider<Carrera> implements IC
     }
 
     public Carrera actualizarCarrera(Carrera carrera) throws EntidadNoGuardadaException {
-        Carrera uc = this.findById(Carrera.class, carrera.getId());
+        Carrera uc = this.getById(carrera.getId());
         if (uc != null) {
             return this.update(carrera);
         } else {
@@ -83,7 +81,7 @@ public class CarreraLocalProvider extends GenericProvider<Carrera> implements IC
 
 
     @Override
-    public Carrera getById(Integer id) throws EntityNotFoundException {
+    public Carrera getById(Integer id) {
         SQLiteDatabase db = null;
         Cursor c = null;
         try {

@@ -47,6 +47,8 @@ public class Carrera implements Serializable, IEntity {
 
     public Carrera(Cursor c) {
         try {
+
+
             this.idCarrera = c.getInt(c.getColumnIndex(Carrera.ID));
             this.nombre = c.getString(c.getColumnIndex(NOMBRE));
             this.modalidades = c.getString(c.getColumnIndex(MODALIDADES));

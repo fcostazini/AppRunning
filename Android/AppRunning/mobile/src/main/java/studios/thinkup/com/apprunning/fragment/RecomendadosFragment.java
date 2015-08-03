@@ -38,9 +38,10 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
         super.onActivityCreated(savedInstanceState);
         CarreraCabeceraService cp = new CarreraCabeceraService(this, RecomendadosFragment.this.getActivity(), this.getUsuario());
         if(NetworkUtils.NETWORK_STATUS_NOT_CONNECTED == NetworkUtils.getConnectivityStatus(this.getActivity())) {
-            cp.execute(this.getFiltro());
+            this.actualizarResultados(new Vector<CarreraCabecera>());
         }else{
-           this.actualizarResultados(new Vector<CarreraCabecera>());
+            cp.execute(this.getFiltro());
+
         }
 
 

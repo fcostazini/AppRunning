@@ -40,51 +40,56 @@ public class UsuarioCarreraService extends AsyncTask<Integer, Integer, UsuarioCa
 
     @Override
     protected UsuarioCarrera doInBackground(Integer... id) {
-        IUsuarioCarreraProvider ucp = new UsuarioCarreraProvider(this.context, this.usuarioApp);
-        UsuarioCarrera uc = ucp.getByIdCarrera(id[0]);
         Carrera c = null;
-        if(NetworkUtils.getConnectivityStatus(context) == NetworkUtils.NETWORK_STATUS_NOT_CONNECTED){
+        IUsuarioCarreraProvider ucp = new UsuarioCarreraProvider(context, usuarioApp);
+        UsuarioCarrera uc = ucp.getByIdCarrera(id[0]);
+        if (NetworkUtils.getConnectivityStatus(context) == NetworkUtils.NETWORK_STATUS_NOT_CONNECTED) {
             return getUsuarioCarreraLocal(id[0]);
         }
-        Carrera cLocal = null;
-        if (uc == null) {
+        ICarreraProvider cp = new CarreraProviderRemote(context);
+        try {
+            c = cp.getById(id[0]);
+            CarreraLocalProvider local = new CarreraLocalProvider(context);
+            local.actualizarCarrera(c);
+        } catch (EntityNotFoundException e) {
+            CarreraLocalProvider local = new CarreraLocalProvider(context);
 
-            ICarreraProvider cp = new CarreraProviderRemote(context);
-
-            try {
-                c = cp.getById(id[0]);
-                CarreraLocalProvider local = new CarreraLocalProvider(context);
-                local.actualizarCarrera(c);
-            } catch (EntityNotFoundException e) {
-                CarreraLocalProvider local = new CarreraLocalProvider(context);
-                try {
-                    c = local.getById(id[0]);
-                } catch (EntityNotFoundException e1) {
-                    e1.printStackTrace();
-                    return null;
-                }
-            } catch (EntidadNoGuardadaException e) {
+            c = local.getById(id[0]);
+            if (c == null) {
                 return null;
             }
-            uc = new UsuarioCarrera(c);
-            uc.setUsuario(this.usuarioApp.getId());
+        } catch (EntidadNoGuardadaException e) {
+            return null;
         }
+        if (uc != null) {
+            uc.setCarrera(c);
+        } else {
+            uc = new UsuarioCarrera(c);
+        }
+
+        uc.setUsuario(this.usuarioApp.getId());
+
         return uc;
 
     }
 
     private UsuarioCarrera getUsuarioCarreraLocal(Integer id) {
-        Carrera c;
-        UsuarioCarrera uc;CarreraLocalProvider local = new CarreraLocalProvider(context);
-        try {
-            c = local.getById(id);
-            uc = new UsuarioCarrera(c);
-            uc.setUsuario(this.usuarioApp.getId());
-            return uc;
-        } catch (EntityNotFoundException e1) {
-            e1.printStackTrace();
+        Carrera c = null;
+        IUsuarioCarreraProvider ucp = new UsuarioCarreraProvider(context, this.usuarioApp);
+        UsuarioCarrera uc = ucp.getByIdCarrera(id);
+        CarreraLocalProvider local = new CarreraLocalProvider(context);
+        c = local.getById(id);
+        if (c == null) {
             return null;
         }
+        if (uc == null) {
+            uc = new UsuarioCarrera(c);
+        } else {
+            uc.setCarrera(c);
+        }
+        uc.setUsuario(this.usuarioApp.getId());
+        return uc;
+
     }
 }
 

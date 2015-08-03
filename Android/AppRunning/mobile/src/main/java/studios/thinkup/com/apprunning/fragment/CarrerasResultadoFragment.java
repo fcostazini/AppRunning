@@ -56,10 +56,12 @@ public class CarrerasResultadoFragment extends FilteredFragment implements Carre
 
     @Override
     public void actualizarResultado(UsuarioCarrera resultado) {
+        if (this.getActivity() != null) {
         Intent intent = new Intent(this.getActivity(), DetalleCarreraActivity.class);
         Bundle b = new Bundle();
-        b.putSerializable("carrera",resultado);
+            b.putSerializable("carrera", resultado);
         intent.putExtras(b); //Put your id to your next Intent
         startActivity(intent);
+        }
     }
 }
