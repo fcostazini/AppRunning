@@ -2,6 +2,7 @@ package studios.thinkup.com.apprunning.model.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
 import studios.thinkup.com.apprunning.provider.helper.Id;
 
 /**
@@ -14,7 +15,7 @@ public class UsuarioApp implements Serializable, IEntity {
     public static final String EMAIL = "EMAIL";
     public static final String TIPO_CUENTA = "TIPO_CUENTA";
     public static final String APELLIDO = "APELLIDO";
-    public static final String FOTO_PERFIL_URL = "FOTO_PERFIL_URL";
+    public static final String FOTO_PERFIL_URL = "FOTO_PERFIL";
     public static final String FECHA_NACIMIENTO = "FECHA_NACIMIENTO";
     public static final String NICK = "NICK";
     public static final String GRUPO_ID ="GRUPO_ID";

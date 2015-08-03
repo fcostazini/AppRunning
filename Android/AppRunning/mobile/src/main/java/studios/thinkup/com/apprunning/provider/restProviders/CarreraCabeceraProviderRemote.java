@@ -18,6 +18,7 @@ import java.util.Vector;
 
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
+import studios.thinkup.com.apprunning.model.entity.CarreraCabeceraDTO;
 import studios.thinkup.com.apprunning.provider.ICarreraCabeceraProvider;
 
 /**
@@ -44,8 +45,8 @@ public class CarreraCabeceraProviderRemote extends RemoteService implements ICar
         try {
             HttpURLConnection conn = getPostHttpURLConnection(filtro, GET_BY_FILTROS);
             Gson g = new Gson();
-            Respuesta<List<CarreraCabecera>> r = g.fromJson(new BufferedReader(
-                    new InputStreamReader(conn.getInputStream())), new TypeToken<Respuesta<List<CarreraCabecera>>>() {
+            Respuesta<List<CarreraCabeceraDTO>> r = g.fromJson(new BufferedReader(
+                    new InputStreamReader(conn.getInputStream())), new TypeToken<Respuesta<List<CarreraCabeceraDTO>>>() {
             }.getType());
 
             if (r.getCodigoRespuesta().equals(Respuesta.CODIGO_OK) && r.getDto() != null) {
@@ -80,17 +81,26 @@ public class CarreraCabeceraProviderRemote extends RemoteService implements ICar
         return conn;
     }
 
-    private List<CarreraCabecera> getCarreraCabecerasFiltradasPorDistancia(Filtro filtro, List<CarreraCabecera> resultados) {
+    private List<CarreraCabecera> getCarreraCabecerasFiltradasPorDistancia(Filtro filtro, List<CarreraCabeceraDTO> resultados) {
 
         List<CarreraCabecera> resultadosFinales = new Vector<>();
 
         String[] distancias = null;
-        for (CarreraCabecera cc : resultados) {
+        for (CarreraCabeceraDTO cc : resultados) {
             distancias = cc.getDistanciaDisponible().split("/");
             for (String s : distancias) {
                 try {
                     if (Double.valueOf(s.trim()) >= filtro.getMinDistancia() && Double.valueOf(s.trim()) <= filtro.getMaxDistancia()) {
-                        resultadosFinales.add(cc);
+                        resultadosFinales.add(CarreraCabecera.getBuilder()
+                                .codigoCarrera(cc.getCodigoCarrera())
+                                .descripcion(cc.getDescripcion())
+                                .distanciaDisponible(cc.getDistanciaDisponible())
+                                .fechaInicio(cc.getFechaInicio())
+                                .hora(cc.getHora())
+                                .nombre(cc.getNombre())
+                                .urlImage(cc.getUrlImagen())
+                                .provincia(cc.getProvincia())
+                                .zona(cc.getCiudad()).build());
                         break;
                     }
                 } catch (Exception e) {

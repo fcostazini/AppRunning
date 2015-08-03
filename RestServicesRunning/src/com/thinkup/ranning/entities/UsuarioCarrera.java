@@ -23,8 +23,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "public.usuario_carrera")
 @NamedQueries(value = {
 		@NamedQuery(name = UsuarioCarrera.GET_BY_ID_CARRERA, query = "Select u FROM UsuarioCarrera u "
-				+ "WHERE u.carrera.id = :" + UsuarioCarrera.PARAM_ID_CARRERA),
+				+ "WHERE u.carrera.idCarrera = :" + UsuarioCarrera.PARAM_ID_CARRERA),
 		@NamedQuery(name = UsuarioCarrera.GET_ALL, query = "Select u FROM UsuarioCarrera u "),
+		@NamedQuery(name = UsuarioCarrera.GET_BY_USUARIO_CARRERA, query = "Select u FROM UsuarioCarrera u "
+				+ " WHERE u.carrera.idCarrera = :"
+				+ UsuarioCarrera.PARAM_ID_CARRERA
+				+ " AND u.usuario.email = :" + UsuarioCarrera.PARAM_ID_USUARIO),
 		@NamedQuery(name = UsuarioCarrera.GET_BY_ID, query = "Select u FROM UsuarioCarrera u WHERE u.id = :"
 				+ UsuarioCarrera.PARAM_ID) })
 @XmlRootElement
@@ -36,37 +40,40 @@ public class UsuarioCarrera implements Serializable {
 	public static final String GET_ALL = "getAll";
 	public static final String GET_BY_ID_CARRERA = "getByIdCarrera";
 	public static final String PARAM_ID_CARRERA = "idCarrera";
+	public static final String PARAM_ID_USUARIO = "idUsuario";
+
+	public static final String GET_BY_USUARIO_CARRERA = "getByUsuarioCarrera";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Column(name = "tiempo")
 	private long tiempo;
-	
+
 	@Column(name = "anotado")
-	private Boolean isAnotado;
-	
+	private Boolean anotado;
+
 	@Column(name = "me_gusta")
 	private Boolean meGusta;
-	
+
 	@Column(name = "corrida")
 	private Boolean corrida;
-	
+
 	@Column(name = "distancia")
 	private Integer distancia;
-	
+
 	@Column(name = "modalidad")
 	private String modalidad;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "carrera_id", nullable = true)
 	private Carrera carrera;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "usuario_id", nullable = true)
 	private Usuario usuario;
-	
+
 	public UsuarioCarrera() {
 		super();
 		this.tiempo = 0l;
@@ -74,7 +81,7 @@ public class UsuarioCarrera implements Serializable {
 
 	public Integer getId() {
 		return id;
-		
+
 	}
 
 	public void setId(Integer id) {
@@ -90,11 +97,11 @@ public class UsuarioCarrera implements Serializable {
 	}
 
 	public Boolean getIsAnotado() {
-		return isAnotado;
+		return anotado;
 	}
 
 	public void setIsAnotado(Boolean isAnotado) {
-		this.isAnotado = isAnotado;
+		this.anotado = isAnotado;
 	}
 
 	public Boolean getMeGusta() {

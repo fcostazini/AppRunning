@@ -15,9 +15,9 @@ import studios.thinkup.com.apprunning.provider.FiltrosProvider;
  */
 public class Filtro implements Serializable {
 
-    private static final long serialVersionUID = 244741194428126838L;
     public static final String FILTRO_ID = "FILTRO";
     public static final String[] SENTIDO_ORDEN = {"Ascendente","Descendente"};
+    private static final long serialVersionUID = 244741194428126838L;
     private Boolean recomendadas = null;
     private String nombreCarrera;
     private Date fechaDesde;
@@ -27,12 +27,38 @@ public class Filtro implements Serializable {
     private Modalidad modalidad;
     private String ciudad;
     private String provincia;
-    private long idUsuario;
+    private Integer idUsuario;
     private Boolean meGusta = null;
     private Boolean inscripto = null;
     private Boolean corrida = null;
     private String ordenarPor = CamposOrdenEnum.NINGUNO.getLabel();
     private String sentido = SENTIDO_ORDEN[0];
+
+    public Filtro(DefaultSettings defaultSettings) {
+        this.idUsuario = -1;
+        this.nombreCarrera = "";
+        this.fechaDesde = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(this.fechaDesde);
+        c.add(Calendar.MONTH, defaultSettings.getMesesBusqueda());
+        this.fechaHasta = c.getTime();
+        //this.ciudad = defaultSettings.getZona();
+        this.minDistancia = defaultSettings.getDistanciaMin();
+        this.maxDistancia = defaultSettings.getDistanciaMax();
+        this.modalidad = defaultSettings.getModalidad();
+        this.nombreCarrera = "";
+        this.ciudad = defaultSettings.getCiudad();
+        this.provincia = defaultSettings.getProvincia();
+        recomendadas = null;
+        meGusta = null;
+        inscripto = null;
+        corrida = null;
+    }
+
+    public Filtro() {
+        this.minDistancia = 0;
+        this.maxDistancia = 100;
+    }
 
     public Boolean getRecomendadas() {
         return recomendadas;
@@ -66,27 +92,6 @@ public class Filtro implements Serializable {
         this.provincia = provincia;
     }
 
-    public Filtro(DefaultSettings defaultSettings) {
-        this.idUsuario = -1;
-        this.nombreCarrera = "";
-        this.fechaDesde = new Date();
-        Calendar c = Calendar.getInstance();
-        c.setTime(this.fechaDesde);
-        c.add(Calendar.MONTH, defaultSettings.getMesesBusqueda());
-        this.fechaHasta = c.getTime();
-        //this.ciudad = defaultSettings.getZona();
-        this.minDistancia = defaultSettings.getDistanciaMin();
-        this.maxDistancia = defaultSettings.getDistanciaMax();
-        this.modalidad = defaultSettings.getModalidad();
-        this.nombreCarrera = "";
-        this.ciudad = defaultSettings.getCiudad();
-        this.provincia = defaultSettings.getProvincia();
-        recomendadas = null;
-        meGusta = null;
-        inscripto = null;
-        corrida = null;
-    }
-
     public Boolean getMeGusta() {
         return meGusta;
     }
@@ -111,19 +116,13 @@ public class Filtro implements Serializable {
         this.corrida = corrida;
     }
 
-    public long getIdUsuario() {
+    public Integer getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(long idUsuario) {
+    public void setIdUsuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
     }
-
-    public Filtro() {
-        this.minDistancia = 0;
-        this.maxDistancia = 100;
-    }
-
 
     public String getNombreCarrera() {
         return nombreCarrera;
@@ -207,9 +206,8 @@ public class Filtro implements Serializable {
             return false;
         if (nombreCarrera != null ? !nombreCarrera.equals(filtro.nombreCarrera) : filtro.nombreCarrera != null)
             return false;
-        if (ciudad != null ? !ciudad.equals(filtro.ciudad) : filtro.ciudad != null) return false;
+        return !(ciudad != null ? !ciudad.equals(filtro.ciudad) : filtro.ciudad != null);
 
-        return true;
     }
 
     @Override

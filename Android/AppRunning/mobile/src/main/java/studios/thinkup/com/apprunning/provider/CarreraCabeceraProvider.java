@@ -108,7 +108,6 @@ public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
                         .provincia(cursor.getString(cursor.getColumnIndex("PROVINCIA")))
                         .zona(cursor.getString(cursor.getColumnIndex("CIUDAD")))
                         .hora(cursor.getString(cursor.getColumnIndex("HORA_INICIO")))
-                        .distancia(cursor.getInt(cursor.getColumnIndex("DISTANCIA")))
                         .build());
                 cursor.moveToNext();
             }

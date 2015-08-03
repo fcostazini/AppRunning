@@ -16,6 +16,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Entidad que representa la tabla: carrera
  *
@@ -24,10 +28,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "public.carrera")
 @NamedQueries(value = {
 		@NamedQuery(name = Carrera.QUERY_ALL, query = "Select c FROM Carrera c"),
-		@NamedQuery(name = Carrera.GET_BY_ID, query = "Select c FROM Carrera c where c.id = :" + Carrera.PARAM_ID),
+		@NamedQuery(name = Carrera.GET_BY_ID, query = "Select c FROM Carrera c where c.idCarrera = :" + Carrera.PARAM_ID),
 		@NamedQuery(name = Carrera.QUERY_BY_NOMBRE, query = "Select c FROM Carrera c WHERE c.nombre = :"
 				+ Carrera.PARAM_NOMBRE),		
-		@NamedQuery(name = Carrera.QUERY_BY_NRO_CARRERA, query = "Select c FROM Carrera c WHERE c.id = :"
+		@NamedQuery(name = Carrera.QUERY_BY_NRO_CARRERA, query = "Select c FROM Carrera c WHERE c.idCarrera = :"
 				+ Carrera.PARAM_NRO_CARRERA) })
 @XmlRootElement
 public class Carrera implements Serializable {
@@ -46,7 +50,7 @@ public class Carrera implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private Integer id;
+	private Integer idCarrera;
 
 	@Column(name = "nombre")
 	private String nombre;
@@ -79,10 +83,7 @@ public class Carrera implements Serializable {
 	private String urlImagen;
 
 	@Column(name = "distancia_disponible")
-	private String distanciaDisponible;
-
-	@OneToMany(mappedBy = "carrera", fetch = FetchType.EAGER)
-	private List<UsuarioCarrera> usuarioCarrera;
+	private String distancias;
 
 	private static final long serialVersionUID = 1L;
 
@@ -90,12 +91,12 @@ public class Carrera implements Serializable {
 		super();
 	}
 
-	public Integer getId() {
-		return this.id;
+	public Integer getIdCarrera() {
+		return this.idCarrera;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setIdCarrera(Integer id) {
+		this.idCarrera = id;
 	}
 
 	public String getNombre() {
@@ -179,19 +180,12 @@ public class Carrera implements Serializable {
 	}
 
 	public String getDistanciaDisponible() {
-		return this.distanciaDisponible;
+		return this.distancias;
 	}
 
 	public void setDistanciaDisponible(String distanciaDisponible) {
-		this.distanciaDisponible = distanciaDisponible;
+		this.distancias = distanciaDisponible;
 	}
 
-	public List<UsuarioCarrera> getUsuarioCarrera() {
-		return usuarioCarrera;
-	}
-
-	public void setUsuarioCarrera(List<UsuarioCarrera> usuarioCarrera) {
-		this.usuarioCarrera = usuarioCarrera;
-	}
 
 }

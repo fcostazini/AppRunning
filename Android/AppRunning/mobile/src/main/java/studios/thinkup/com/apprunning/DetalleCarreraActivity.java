@@ -167,7 +167,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
     @Override
     public void updateUsuarioCarrera() {
         try {
-            IUsuarioCarreraProvider up = new UsuarioCarreraProvider(this, this.getIdUsuario());
+            IUsuarioCarreraProvider up = new UsuarioCarreraProvider(this, this.getUsuario());
             up.actualizarCarrera(this.carrera);
         } catch (EntidadNoGuardadaException e) {
             e.printStackTrace();

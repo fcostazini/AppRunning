@@ -34,7 +34,7 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-            CarreraCabeceraService cp = new CarreraCabeceraService(this, RecomendadosFragment.this.getActivity());
+        CarreraCabeceraService cp = new CarreraCabeceraService(this, RecomendadosFragment.this.getActivity(), this.getUsuario());
             cp.execute(this.getFiltro());
 
 
@@ -48,7 +48,7 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         CarreraCabecera c = (CarreraCabecera) l.getItemAtPosition(position);
-        UsuarioCarreraService uc = new UsuarioCarreraService(this, this.getActivity(),getIdUsuario());
+        UsuarioCarreraService uc = new UsuarioCarreraService(this, this.getActivity(), getUsuario());
         uc.execute(c.getCodigoCarrera());
 
     }

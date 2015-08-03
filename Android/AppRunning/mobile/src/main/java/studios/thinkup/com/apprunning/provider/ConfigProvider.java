@@ -17,10 +17,10 @@ import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaExcep
 /**
  * Created by FaQ on 13/06/2015.
  * Implementacion de Provider generico
- *
- DefaultSettings
+ * <p/>
+ * DefaultSettings
  */
-public class ConfigProvider extends GenericProvider<DefaultSettings> implements  IProvider<DefaultSettings> {
+public class ConfigProvider extends GenericProvider<DefaultSettings> implements IProvider<DefaultSettings> {
 
     public ConfigProvider(Context c) {
         super(c);
@@ -50,13 +50,13 @@ public class ConfigProvider extends GenericProvider<DefaultSettings> implements 
         SQLiteDatabase db = null;
         Cursor c = null;
         try {
-        db = this.dbProvider.getReadableDatabase();
-        String[] params = {id.toString()};
-        c = null;
+            db = this.dbProvider.getReadableDatabase();
+            String[] params = {id.toString()};
+            c = null;
 
             c = db.query(this.getTableName(clazz), this.getFields(clazz), "ID = ?", params, null, null, "ID");
 
-            return  this.toEntity(c);
+            return this.toEntity(c);
 
 
         } catch (Exception e) {
@@ -73,7 +73,8 @@ public class ConfigProvider extends GenericProvider<DefaultSettings> implements 
 
 
     }
-@Override
+
+    @Override
     protected DefaultSettings toEntity(Cursor c) {
         if (c.getCount() <= 0) {
             return null;
@@ -87,6 +88,7 @@ public class ConfigProvider extends GenericProvider<DefaultSettings> implements 
 
 
     }
+
     @Override
     protected List<DefaultSettings> toList(Cursor c) {
         List<DefaultSettings> results = new Vector<>();
@@ -133,7 +135,7 @@ public class ConfigProvider extends GenericProvider<DefaultSettings> implements 
 
     @Override
     public DefaultSettings update(DefaultSettings entidad) throws EntidadNoGuardadaException {
-        if (entidad.getId() != null && entidad.getId()>0) {
+        if (entidad.getId() != null && entidad.getId() > 0) {
             SQLiteDatabase db = null;
             Cursor c = null;
             String[] params = {entidad.getId().toString()};
@@ -141,10 +143,10 @@ public class ConfigProvider extends GenericProvider<DefaultSettings> implements 
                 db = this.dbProvider.getWritableDatabase();
 
                 int result = db.update(this.getTableName(entidad.getClass()),
-                                        getUpdateFields(entidad), entidad.getNombreId() + " = ?",params);
-                if(result > 0 ){
-                    return  entidad;
-                }else{
+                        getUpdateFields(entidad), entidad.getNombreId() + " = ?", params);
+                if (result > 0) {
+                    return entidad;
+                } else {
                     throw new EntidadNoGuardadaException("No se realizó el update" + entidad.getId().toString());
                 }
             } catch (Exception e) {
@@ -165,7 +167,6 @@ public class ConfigProvider extends GenericProvider<DefaultSettings> implements 
     }
 
 
-
     private ContentValues getUpdateFields(DefaultSettings ent) {
 
         ContentValueFactory cv = new ContentValueFactory();
@@ -178,7 +179,7 @@ public class ConfigProvider extends GenericProvider<DefaultSettings> implements 
 
     @Override
     public DefaultSettings grabar(DefaultSettings entidad) throws EntidadNoGuardadaException {
-        if (entidad.getId() ==null || entidad.getId() <=0 ) {
+        if (entidad.getId() == null || entidad.getId() <= 0) {
             SQLiteDatabase db = null;
             Cursor c = null;
             try {
@@ -186,10 +187,10 @@ public class ConfigProvider extends GenericProvider<DefaultSettings> implements 
 
                 long result = db.insertOrThrow(this.getTableName(entidad.getClass()),
                         null, this.getUpdateFields(entidad));
-                if(result >= 0 ){
+                if (result >= 0) {
                     entidad.setId(new Long(result).intValue());
-                    return  entidad;
-                }else{
+                    return entidad;
+                } else {
                     throw new EntidadNoGuardadaException("No se realizó el insert" + entidad.getId().toString());
                 }
             } catch (Exception e) {
@@ -216,7 +217,7 @@ public class ConfigProvider extends GenericProvider<DefaultSettings> implements 
             db = this.dbProvider.getReadableDatabase();
 
             String[] params = {String.valueOf(idUsuario)};
-           c = db.query(this.getTableName(DefaultSettings.class), this.getFields(DefaultSettings.class), "ID = ?", params, null, null, "ID");
+            c = db.query(this.getTableName(DefaultSettings.class), this.getFields(DefaultSettings.class), "ID = ?", params, null, null, "ID");
             return this.toEntity(c);
         } catch (Exception e) {
             return null;

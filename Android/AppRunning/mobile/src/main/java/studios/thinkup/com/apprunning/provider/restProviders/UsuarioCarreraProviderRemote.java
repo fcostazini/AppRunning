@@ -13,11 +13,13 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
+import studios.thinkup.com.apprunning.model.entity.UsuarioCarreraDTO;
 import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 
@@ -32,6 +34,7 @@ public class UsuarioCarreraProviderRemote extends RemoteService implements IUsua
     private static final String GET_BY_CARRERA_ID = "/findByIdCarrera/";
     private static final String SAVE = "/save";
     private static final String UPDATE = "/update";
+    private static final String UPLOAD = "/upload";
     private static final String TIEMPOS_BY_FILTRO = "/misTiemposByFiltro";
     private static final String TODOS = "/findAll";
 
@@ -171,6 +174,27 @@ public class UsuarioCarreraProviderRemote extends RemoteService implements IUsua
         }
     }
 
+
+    public Integer syncCarreras(Collection<UsuarioCarreraDTO> entidades) throws EntidadNoGuardadaException {
+        // the request
+        try {
+            HttpURLConnection conn = getPostHttpURLConnection(entidades, UPLOAD);
+            Gson g = new Gson();
+            Respuesta<Integer> r = g.fromJson(new BufferedReader(
+                    new InputStreamReader(conn.getInputStream())), new TypeToken<Respuesta<Integer>>() {
+            }.getType());
+
+            if (r.getCodigoRespuesta().equals(Respuesta.CODIGO_OK) && r.getDto() != null) {
+                return r.getDto();
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @Override
     public UsuarioCarrera grabar(UsuarioCarrera entidad) throws EntidadNoGuardadaException {
         // the request
@@ -218,6 +242,27 @@ public class UsuarioCarreraProviderRemote extends RemoteService implements IUsua
         return conn;
     }
 
+    protected HttpURLConnection getPostHttpURLConnection(Collection<UsuarioCarreraDTO> entidad, String service) throws IOException {
+        URL url = new URL(this.getBaseURL() + service);
+        Gson g = new Gson();
+        String json = g.toJson(entidad);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setConnectTimeout(17000);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Accept", "application/json");
+        conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+        conn.connect();
+
+        OutputStream outputStream = conn.getOutputStream();
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+        writer.write(json);
+
+        writer.flush();
+        writer.close();
+        return conn;
+    }
+
     protected HttpURLConnection getPostHttpURLConnection(UsuarioCarrera entidad, String service) throws IOException {
         URL url = new URL(this.getBaseURL() + service);
         Gson g = new Gson();
@@ -244,7 +289,7 @@ public class UsuarioCarreraProviderRemote extends RemoteService implements IUsua
 
         String[] distancias = null;
         for (UsuarioCarrera cc : resultados) {
-            distancias = cc.getCarrera().getDistancias().split("/");
+            distancias = cc.getCarrera().getDistanciaDisponible().split("/");
             for (String s : distancias) {
                 try {
                     if (Double.valueOf(s.trim()) >= filtro.getMinDistancia() && Double.valueOf(s.trim()) <= filtro.getMaxDistancia()) {

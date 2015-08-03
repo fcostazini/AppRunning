@@ -211,7 +211,9 @@ public class UsuarioCarrera implements Serializable, IEntity {
 
     public String getModalidades() { return this.getCarrera().getModalidades();}
 
-    public String getDistancias() { return this.getCarrera().getDistancias();}
+    public String getDistancias() {
+        return this.getCarrera().getDistanciaDisponible();
+    }
 
     public String getUrlImagen() {
         return carrera.getUrlImagen();
@@ -220,7 +222,10 @@ public class UsuarioCarrera implements Serializable, IEntity {
     public String getDescripcion() {
         return carrera.getDescripcion();
     }
-    public String getHora(){return carrera.getHora();}
+
+    public String getHora() {
+        return carrera.getHoraInicio();
+    }
     public String getFullDireccion() {
         String direccionStr ="";
         if(this.getDireccion()!= null && !this.getDireccion().isEmpty() ){

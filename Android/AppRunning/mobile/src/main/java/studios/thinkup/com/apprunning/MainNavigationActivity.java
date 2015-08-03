@@ -40,6 +40,15 @@ public abstract class MainNavigationActivity extends FragmentActivity {
 
     }
 
+    protected UsuarioApp getUsuario() {
+        UsuarioApp ua = ((RunningApplication) this.getApplication()).getUsuario();
+        if (ua != null) {
+            return ua;
+        } else {
+            return null;
+        }
+
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,8 +156,8 @@ public abstract class MainNavigationActivity extends FragmentActivity {
     @Override
     public void onBackPressed()
     {
-        if (drawerLayout.isDrawerOpen(Gravity.START))
-            drawerLayout.closeDrawer(Gravity.START);
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT))
+            drawerLayout.closeDrawer(Gravity.LEFT);
         else
             super.onBackPressed();
     }

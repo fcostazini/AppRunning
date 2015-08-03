@@ -38,6 +38,7 @@ import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.GrupoRunningProvider;
 import studios.thinkup.com.apprunning.provider.IGrupoRunningProvider;
 import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
+import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemote;
 
 
@@ -77,17 +78,17 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
     private void initView() {
 
         CheckBox cbAcepto = (CheckBox) findViewById(R.id.acepto_terminos);
-        if(this.getIntent().getExtras() != null && this.getIntent().getExtras().containsKey("aceptado")){
+        if (this.getIntent().getExtras() != null && this.getIntent().getExtras().containsKey("aceptado")) {
             cbAcepto.setChecked(true);
         }
-       RelativeLayout terminos = (RelativeLayout)findViewById(R.id.ly_terminos);
-        TextView lblTerminos = (TextView)findViewById(R.id.lbl_terminos);
+        RelativeLayout terminos = (RelativeLayout) findViewById(R.id.ly_terminos);
+        TextView lblTerminos = (TextView) findViewById(R.id.lbl_terminos);
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(NuevoUsuario.this,TerminosYCondicionesActivity.class);
+                Intent i = new Intent(NuevoUsuario.this, TerminosYCondicionesActivity.class);
                 Bundle b = new Bundle();
-                b.putSerializable("usuario",ua);
+                b.putSerializable("usuario", ua);
                 i.putExtras(b);
                 startActivity(i);
                 finish();
@@ -174,7 +175,7 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
     }
 
     @Override
-    protected void onSaveInstanceState( @NonNull Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         if (this.ua != null) {
             outState.putSerializable("usuario", this.ua);
@@ -188,16 +189,16 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
 
         CheckBox cbAcepto = (CheckBox) findViewById(R.id.acepto_terminos);
         if (!cbAcepto.isChecked()) {
-            final TextView txCondiciones = (TextView)findViewById(R.id.lbl_terminos);
-            final ScrollView scrollView = (ScrollView)findViewById(R.id.scrollView);
+            final TextView txCondiciones = (TextView) findViewById(R.id.lbl_terminos);
+            final ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
             txCondiciones.requestFocus();
             new Handler().post(new Runnable() {
                 @Override
                 public void run() {
                     scrollView.scrollTo(0, txCondiciones.getBottom());
                     // load animation XML resource under res/anim
-                    Animation animation  = AnimationUtils.loadAnimation(NuevoUsuario.this, R.anim.scale);
-                    if(animation == null){
+                    Animation animation = AnimationUtils.loadAnimation(NuevoUsuario.this, R.anim.scale);
+                    if (animation == null) {
                         return; // here, we don't care
                     }
                     // reset initialization state
@@ -266,7 +267,7 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
                 public void onDateSet(android.widget.DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                     Calendar c = Calendar.getInstance();
                     c.set(year, monthOfYear, dayOfMonth);
-                    SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
+                    SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                     fechaToUpdate.setText(sf.format(c.getTime()));
                 }
             }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE));
@@ -280,9 +281,9 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
         @Override
         protected void onPostExecute(UsuarioApp usuarioApp) {
             super.onPostExecute(usuarioApp);
-            if(usuarioApp == null) {
+            if (usuarioApp == null) {
                 Toast.makeText(NuevoUsuario.this, "No se puede guardar el usuario", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 ((RunningApplication) NuevoUsuario.this.getApplication()).setUsuario(usuarioApp);
                 Intent intent = new Intent(NuevoUsuario.this, RecomendadosActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -304,19 +305,35 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
         @Override
         protected UsuarioApp doInBackground(UsuarioApp... params) {
 
-            IUsuarioProvider up = new UsuarioProviderRemote(NuevoUsuario.this);
+            IUsuarioProvider up = null;
+            up = new UsuarioProviderRemote(NuevoUsuario.this);
             try {
                 if (params[0].getId() == null) {
-                    return up.grabar(params[0]);
+                    up.grabar(params[0]);
+                    up = new UsuarioProvider(NuevoUsuario.this);
+                    if (up.getUsuarioByEmail(params[0].getEmail()) != null) {
+                        return up.update(params[0]);
+                    } else {
+                        return up.grabar(params[0]);
+                    }
                 } else {
-                    return up.update(params[0]);
+                    up.update(params[0]);
+                    up = new UsuarioProviderRemote(NuevoUsuario.this);
+                    if (up.getUsuarioByEmail(params[0].getEmail()) != null) {
+                        return up.update(params[0]);
+                    } else {
+                        return up.grabar(params[0]);
+                    }
+
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
+                e.printStackTrace();
                 return null;
             }
+
 
         }
     }
 
 
-    }
+}

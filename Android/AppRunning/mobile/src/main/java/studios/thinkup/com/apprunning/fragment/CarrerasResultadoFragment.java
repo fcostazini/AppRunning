@@ -30,7 +30,7 @@ public class CarrerasResultadoFragment extends FilteredFragment implements Carre
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        CarreraCabeceraService cb = new CarreraCabeceraService(this, this.getActivity());
+        CarreraCabeceraService cb = new CarreraCabeceraService(this, this.getActivity(), this.getUsuario());
         cb.execute(this.filtro);
     }
 
@@ -39,7 +39,7 @@ public class CarrerasResultadoFragment extends FilteredFragment implements Carre
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         CarreraCabecera c = (CarreraCabecera) l.getItemAtPosition(position);
-        UsuarioCarreraService uc = new UsuarioCarreraService(this, this.getActivity(),getIdUsuario());
+        UsuarioCarreraService uc = new UsuarioCarreraService(this, this.getActivity(), getUsuario());
         uc.execute(c.getCodigoCarrera());
 
 

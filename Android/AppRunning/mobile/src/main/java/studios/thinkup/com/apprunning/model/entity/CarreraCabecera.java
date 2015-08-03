@@ -12,7 +12,6 @@ public class CarreraCabecera implements Serializable {
     private String nombre;
     private String fechaInicio;
     private String hora;
-    private Integer distancia;
     private String descripcion;
     private String urlImagen;
     private String provincia;
@@ -22,8 +21,6 @@ public class CarreraCabecera implements Serializable {
 
 
     private CarreraCabecera() {
-
-
     }
 
     public static CarreraCabeceraBuilder getBuilder() {
@@ -104,11 +101,6 @@ public class CarreraCabecera implements Serializable {
 
         public CarreraCabeceraBuilder codigoCarrera(Integer codigo) {
             this.instance.codigoCarrera = codigo;
-            return this;
-        }
-
-        public CarreraCabeceraBuilder distancia(Integer distancia) {
-            this.instance.distancia = distancia;
             return this;
         }
 

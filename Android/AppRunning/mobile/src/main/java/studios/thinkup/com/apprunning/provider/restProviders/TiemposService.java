@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Vector;
 
 import studios.thinkup.com.apprunning.model.Filtro;
+import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
+import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 
 /**
  * Created by Facundo on 29/07/2015.
@@ -33,7 +35,10 @@ public class TiemposService extends AsyncTask<Filtro,Integer,List<UsuarioCarrera
 
     @Override
     protected List<UsuarioCarrera> doInBackground(Filtro... params) {
-        IUsuarioCarreraProvider carrerasProvider = new UsuarioCarreraProvider(this.context, (int) params[0].getIdUsuario());
+
+        UsuarioProvider up = new UsuarioProvider(context);
+
+        IUsuarioCarreraProvider carrerasProvider = new UsuarioCarreraProvider(this.context, up.findById(UsuarioApp.class, params[0].getIdUsuario()));
         List<UsuarioCarrera> resultados = carrerasProvider.findTiemposByFiltro(params[0]);
         if(resultados == null){
             return new Vector<>();

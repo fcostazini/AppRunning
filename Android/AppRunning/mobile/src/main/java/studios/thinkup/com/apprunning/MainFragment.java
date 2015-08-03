@@ -33,6 +33,8 @@ import java.util.Locale;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
+import studios.thinkup.com.apprunning.provider.UsuarioProvider;
+import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemote;
 
 public class MainFragment extends Fragment implements OnRequestDetailedSocialPersonCompleteListener, SocialNetworkManager.OnInitializationCompleteListener, OnLoginCompleteListener {
@@ -50,6 +52,39 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
     private Button facebook;
     private Button googleplus;
     private SocialNetwork socialNetwork;
+    private View.OnClickListener loginClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int networkId = 0;
+            switch (view.getId()) {
+                case R.id.facebook:
+                    networkId = FacebookSocialNetwork.ID;
+                    break;
+                case R.id.googleplus:
+                    networkId = GooglePlusSocialNetwork.ID;
+                    break;
+            }
+
+            SocialNetwork socialNetwork = mSocialNetworkManager.getSocialNetwork(networkId);
+            if (!socialNetwork.isConnected()) {
+                if (networkId != 0) {
+                    socialNetwork.requestLogin();
+                    if (getView() != null) {
+                        getView().findViewById(R.id.login_buttons).setVisibility(View.GONE);
+                        ImageView i = (ImageView) getView().findViewById(R.id.background);
+                        i.setImageResource(R.drawable.app_logo);
+                        i.setAlpha(1f);
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "Wrong networkId", Toast.LENGTH_LONG).show();
+                }
+            } else {
+
+                startProfile(socialNetwork.getID());
+            }
+        }
+
+    };
 
     public MainFragment() {
     }
@@ -117,6 +152,8 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
 
     }
 
+    //Login listener
+
     @Override
     public void onSocialNetworkManagerInitialized() {
         //when init SocialNetworks - get and setup login only for initialized SocialNetworks
@@ -125,42 +162,6 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
             initSocialNetwork(socialNetwork);
         }
     }
-
-    //Login listener
-
-    private View.OnClickListener loginClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            int networkId = 0;
-            switch (view.getId()) {
-                case R.id.facebook:
-                    networkId = FacebookSocialNetwork.ID;
-                    break;
-                case R.id.googleplus:
-                    networkId = GooglePlusSocialNetwork.ID;
-                    break;
-            }
-
-            SocialNetwork socialNetwork = mSocialNetworkManager.getSocialNetwork(networkId);
-            if (!socialNetwork.isConnected()) {
-                if (networkId != 0) {
-                    socialNetwork.requestLogin();
-                    if (getView() != null) {
-                        getView().findViewById(R.id.login_buttons).setVisibility(View.GONE);
-                        ImageView i = (ImageView) getView().findViewById(R.id.background);
-                        i.setImageResource(R.drawable.app_logo);
-                        i.setAlpha(1f);
-                    }
-                } else {
-                    Toast.makeText(getActivity(), "Wrong networkId", Toast.LENGTH_LONG).show();
-                }
-            } else {
-
-                startProfile(socialNetwork.getID());
-            }
-        }
-
-    };
 
     @Override
     public void onLoginSuccess(int networkId) {
@@ -202,6 +203,7 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
             if (socialPerson == null) {
 
             } else {
+
                 MainActivity.showProgress("Buscando Usuario");
                 UsuarioProviderTask task = new UsuarioProviderTask();
                 task.execute(socialPerson);
@@ -245,8 +247,35 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
         @Override
         protected UsuarioApp doInBackground(SocialPerson... params) {
 
-            IUsuarioProvider up = new UsuarioProviderRemote(MainFragment.this.getActivity());
-            UsuarioApp u = up.getUsuarioByEmail(params[0].email);
+            UsuarioApp u = null;
+
+            IUsuarioProvider up = new UsuarioProvider(MainFragment.this.getActivity());
+            u = up.getUsuarioByEmail(params[0].email);
+            if (u != null) {
+                up = new UsuarioProviderRemote(MainFragment.this.getActivity());
+                if (up.getUsuarioByEmail(params[0].email) == null) {
+                    try {
+                        up.grabar(u);
+                        return u;
+                    } catch (EntidadNoGuardadaException e) {
+                        e.printStackTrace();
+                        return getUsuarioApp(socialNetwork, params[0]);
+                    }
+                }
+            } else {
+                if (up.getUsuarioByEmail(params[0].email) != null) {
+                    try {
+                        up = new UsuarioProvider(MainFragment.this.getActivity());
+                        up.grabar(u);
+                        return u;
+                    } catch (EntidadNoGuardadaException e) {
+                        e.printStackTrace();
+                        return getUsuarioApp(socialNetwork, params[0]);
+                    }
+                }
+            }
+
+
             if (u == null) {
                 return this.getUsuarioApp(socialNetwork, params[0]);
             } else {

@@ -86,4 +86,13 @@ public abstract class FilteredFragment extends ListFragment {
         }
         return ((RunningApplication)this.getActivity().getApplication()).getUsuario().getId();
     }
+
+    public UsuarioApp getUsuario() {
+
+        if (((RunningApplication) this.getActivity().getApplication()).getUsuario() == null) {
+            Intent i = new Intent(this.getActivity(), MainActivity.class);
+            startActivity(i);
+        }
+        return ((RunningApplication) this.getActivity().getApplication()).getUsuario();
+    }
 }

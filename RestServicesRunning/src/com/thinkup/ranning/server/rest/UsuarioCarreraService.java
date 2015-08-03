@@ -1,5 +1,6 @@
 package com.thinkup.ranning.server.rest;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 
@@ -13,9 +14,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.thinkup.ranning.dao.CarreraDAO;
 import com.thinkup.ranning.dao.UsuarioCarreraDAO;
+import com.thinkup.ranning.dao.UsuarioDAO;
 import com.thinkup.ranning.dtos.Filtro;
 import com.thinkup.ranning.dtos.Respuesta;
+import com.thinkup.ranning.dtos.UsuarioCarreraDTO;
 import com.thinkup.ranning.entities.UsuarioCarrera;
 import com.thinkup.ranning.server.rest.exception.EntidadInexistenteException;
 
@@ -29,6 +33,12 @@ public class UsuarioCarreraService implements IUsuarioCarreraProvider {
 	@Inject
 	UsuarioCarreraDAO dao;
 
+	@Inject
+	CarreraDAO daoCarrera;
+
+	@Inject
+	UsuarioDAO daoUsuario;
+
 	/**
 	 * Este servicio permite obtener la lista de carreras que se encuentra en la
 	 * base de datos.
@@ -41,8 +51,7 @@ public class UsuarioCarreraService implements IUsuarioCarreraProvider {
 	@Produces(MediaType.APPLICATION_JSON)
 	@PermitAll
 	@Override
-	public Respuesta<UsuarioCarrera> findById(
-			@PathParam("id") Integer id) {
+	public Respuesta<UsuarioCarrera> findById(@PathParam("id") Integer id) {
 		UsuarioCarrera uc = null;
 		try {
 			uc = dao.getById(id);
@@ -111,6 +120,57 @@ public class UsuarioCarreraService implements IUsuarioCarreraProvider {
 
 	}
 
+	@Path("/upload")
+	@POST()
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@PermitAll
+	public Respuesta<Integer> uploadUsuarioCarreras(
+			Collection<UsuarioCarreraDTO> entidad) {
+		Respuesta<Integer> r = new Respuesta<Integer>();
+		try {
+			UsuarioCarrera uc = null;
+
+			for (UsuarioCarreraDTO usuarioCarrera : entidad) {
+				try {
+					uc = this.dao.getByUsuarioCarrera(
+							usuarioCarrera.getUsuario(),
+							usuarioCarrera.getIdCarrera());
+					fillUsuarioEntity(uc, usuarioCarrera);
+
+					this.dao.update(uc);
+				} catch (EntidadInexistenteException e) {
+					uc = new UsuarioCarrera();
+					fillUsuarioEntity(uc, usuarioCarrera);
+					uc.setUsuario(daoUsuario.getByEmail(usuarioCarrera
+							.getUsuario()));
+					uc.setCarrera(daoCarrera.getById(usuarioCarrera
+							.getIdCarrera()));
+					this.dao.save(uc);
+				}
+			}
+			r.addMensaje("Updated");
+			r.setCodigoRespuesta(Respuesta.CODIGO_OK);
+			r.setDto(Respuesta.CODIGO_OK);
+		} catch (Exception e) {
+			r.addMensaje("Entidades no guardadas");
+			r.setCodigoRespuesta(Respuesta.CODIGO_ERROR_INTERNO);
+			r.setDto(Respuesta.CODIGO_ERROR_INTERNO);
+		}
+		return r;
+
+	}
+
+	private void fillUsuarioEntity(UsuarioCarrera uc,
+			UsuarioCarreraDTO usuarioCarrera) {
+		uc.setCorrida(usuarioCarrera.isCorrida());
+		uc.setIsAnotado(usuarioCarrera.isAnotado());
+		uc.setMeGusta(usuarioCarrera.isMeGusta());
+		uc.setTiempo(usuarioCarrera.getTiempo());
+		uc.setDistancia(usuarioCarrera.getDistancia());
+		uc.setModalidad(usuarioCarrera.getModalidad());
+	}
+
 	@Path("/save")
 	@POST()
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -145,7 +205,8 @@ public class UsuarioCarreraService implements IUsuarioCarreraProvider {
 	@Produces(MediaType.APPLICATION_JSON)
 	@PermitAll
 	@Override
-	public Respuesta<UsuarioCarrera> getByIdCarrera(@PathParam("idCarrera") int id) {
+	public Respuesta<UsuarioCarrera> getByIdCarrera(
+			@PathParam("idCarrera") int id) {
 		UsuarioCarrera uc = null;
 		Respuesta<UsuarioCarrera> r = new Respuesta<>();
 		try {

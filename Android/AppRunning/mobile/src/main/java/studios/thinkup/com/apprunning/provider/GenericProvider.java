@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.List;
 
 import studios.thinkup.com.apprunning.model.entity.IEntity;
-import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.exceptions.CampoNoMapeableException;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 import studios.thinkup.com.apprunning.provider.helper.DataBaseHelper;
@@ -21,13 +20,12 @@ import studios.thinkup.com.apprunning.provider.helper.DataBaseHelper;
  */
 public abstract class GenericProvider<T  extends IEntity> implements IProvider<T> {
     protected DataBaseHelper dbProvider;
-
+    protected Context c;
 
     public GenericProvider(Context c) {
         this.dbProvider = new DataBaseHelper(c);
+        this.c = c;
     }
-
-    ;
 
     protected String getTableName(Class<? extends IEntity> clazz) {
         return clazz.getSimpleName().toUpperCase();

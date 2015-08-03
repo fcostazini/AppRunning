@@ -27,6 +27,24 @@ public class UsuarioCarreraDAO {
 
 	private QueryGenerator qGen = new QueryGenerator();
 
+	public UsuarioCarrera getByUsuarioCarrera(String idUsuario,
+			Integer idCarrera) throws EntidadInexistenteException {
+		try {
+			UsuarioCarrera uc = this.entityManager
+					.createNamedQuery(UsuarioCarrera.GET_BY_USUARIO_CARRERA,
+							UsuarioCarrera.class)
+					.setParameter(UsuarioCarrera.PARAM_ID_CARRERA, idCarrera)
+					.setParameter(UsuarioCarrera.PARAM_ID_USUARIO, idUsuario)
+					.getSingleResult();
+			return uc;
+		} catch (NoResultException e) {
+			String mensaje = "No existe UsuarioCarrera con el id " + idUsuario
+					+ "/" + idCarrera;
+			throw new EntidadInexistenteException(mensaje, e);
+		}
+
+	}
+
 	public UsuarioCarrera getById(Integer id)
 			throws EntidadInexistenteException {
 		try {
@@ -57,10 +75,7 @@ public class UsuarioCarreraDAO {
 			throws PersistenciaException {
 
 		try {
-			this.getById(entidad.getId());
 			this.entityManager.merge(entidad);
-		} catch (EntidadInexistenteException e) {
-			throw new PersistenciaException("El usuarioCarrera no existe.", e);
 		} catch (Exception e) {
 			throw new PersistenciaException("Error inesperado", e);
 		}
@@ -71,18 +86,13 @@ public class UsuarioCarreraDAO {
 	public UsuarioCarrera save(UsuarioCarrera entidad)
 			throws PersistenciaException {
 		try {
-
-			if (this.getById(entidad.getId()) != null) {
-				throw new PersistenciaException("El usuarioCarrera existe.",
-						null);
-			}
-
+			this.getById(entidad.getId());
+			throw new PersistenciaException("Ya existe la entidad", null);
+		} catch (EntidadInexistenteException e) {
 			this.entityManager.persist(entidad);
-
-		} catch (Exception e) {
-			throw new PersistenciaException("Error inesperado", e);
+			return entidad;
 		}
-		return entidad;
+
 	}
 
 	public UsuarioCarrera getByIdCarrera(Integer id) {

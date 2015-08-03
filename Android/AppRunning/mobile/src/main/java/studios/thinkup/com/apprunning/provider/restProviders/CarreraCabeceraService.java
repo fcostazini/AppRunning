@@ -8,8 +8,11 @@ import java.util.Vector;
 
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
+import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
+import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 import studios.thinkup.com.apprunning.provider.CarreraCabeceraProvider;
 import studios.thinkup.com.apprunning.provider.ICarreraCabeceraProvider;
+import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
 
 /**
  * Created by Facundo on 29/07/2015.
@@ -19,10 +22,12 @@ public class CarreraCabeceraService extends AsyncTask<Filtro, Integer, List<Carr
 
     private OnResultsHandler handler;
     private Context context;
+    private UsuarioApp usuario;
 
-    public CarreraCabeceraService(OnResultsHandler handler, Context context) {
+    public CarreraCabeceraService(OnResultsHandler handler, Context context, UsuarioApp usuario) {
         this.handler = handler;
         this.context = context;
+        this.usuario = usuario;
     }
 
     @Override
@@ -31,7 +36,7 @@ public class CarreraCabeceraService extends AsyncTask<Filtro, Integer, List<Carr
         ICarreraCabeceraProvider carrerasProvider = null;
         if (params[0].getIdUsuario() >= 0) {
             carrerasProvider = new CarreraCabeceraProvider(context);
-            carrerasProvider.getCarrerasByFiltro(params[0]);
+            resultados = carrerasProvider.getCarrerasByFiltro(params[0]);
             if (resultados == null) {
                 resultados = new Vector<>();
             }
@@ -39,8 +44,18 @@ public class CarreraCabeceraService extends AsyncTask<Filtro, Integer, List<Carr
         } else {
             carrerasProvider = new CarreraCabeceraProviderRemote(this.context);
             resultados = carrerasProvider.getCarrerasByFiltro(params[0]);
+
             if (resultados == null) {
                 resultados = new Vector<>();
+            } else {
+                UsuarioCarreraProvider up = new UsuarioCarreraProvider(context, this.usuario);
+                UsuarioCarrera uc = null;
+                for (CarreraCabecera cc : resultados) {
+                    uc = up.getByIdCarrera(cc.getCodigoCarrera());
+                    if (uc != null) {
+                        cc.setUsuarioCarrera(uc);
+                    }
+                }
             }
             return resultados;
         }

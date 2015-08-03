@@ -26,16 +26,15 @@ import studios.thinkup.com.apprunning.view.IconTextView;
  * Temporizador de la carrera
  */
 public class TemporizadorActivity extends Activity implements View.OnClickListener {
+    long init, now, time, paused;
     private TextView horas;
     private TextView minutos;
     private TextView segundos;
     private TextView millisec;
-
     private ImageButton pause;
     private ImageButton play;
     private IconTextView save;
     private boolean isRunning;
-    long init, now, time, paused;
     private UsuarioCarrera uc;
     private Runnable updater;
 
@@ -139,7 +138,7 @@ public class TemporizadorActivity extends Activity implements View.OnClickListen
     public void updateUsuarioCarrera() {
         try {
             Integer idUsuario = ((RunningApplication) this.getApplication()).getUsuario().getId();
-            IUsuarioCarreraProvider up = new UsuarioCarreraProvider(this, idUsuario);
+            IUsuarioCarreraProvider up = new UsuarioCarreraProvider(this, ((RunningApplication) this.getApplication()).getUsuario());
             up.actualizarCarrera(this.uc);
         } catch (EntidadNoGuardadaException e) {
             e.printStackTrace();

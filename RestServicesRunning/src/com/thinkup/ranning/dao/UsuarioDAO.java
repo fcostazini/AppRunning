@@ -22,7 +22,7 @@ import com.thinkup.ranning.exceptions.PersistenciaException;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class UsuarioDAO {
 
-	@PersistenceContext(name="appRunning")
+	@PersistenceContext(name = "appRunning")
 	private EntityManager entityManager;
 
 	public List<Usuario> getAllUsuarios() {
@@ -34,11 +34,13 @@ public class UsuarioDAO {
 	public Usuario getById(int id) throws PersistenciaException {
 		try {
 			Usuario usuario = this.entityManager
-					.createNamedQuery(Usuario.QUERY_USUARIO_BY_ID, Usuario.class)
-					.setParameter(Usuario.PARAM_USUARIO_ID, id).getSingleResult();
+					.createNamedQuery(Usuario.QUERY_USUARIO_BY_ID,
+							Usuario.class)
+					.setParameter(Usuario.PARAM_USUARIO_ID, id)
+					.getSingleResult();
 			return usuario;
 		} catch (NoResultException e) {
-			String mensaje = "No existe usuario con el id "+ id;
+			String mensaje = "No existe usuario con el id " + id;
 			throw new PersistenciaException(mensaje, e);
 		}
 	}
@@ -53,45 +55,50 @@ public class UsuarioDAO {
 			return null;
 		}
 	}
-	
-	public void modificarUsuario(UsuarioDTO usuarioDTO) throws PersistenciaException {
+
+	public void modificarUsuario(UsuarioDTO usuarioDTO)
+			throws PersistenciaException {
 		Usuario usuario = this.getById(usuarioDTO.getId());
-		if(usuario == null){
+		if (usuario == null) {
 			throw new PersistenciaException("El usuario no existe.", null);
 		}
 		this.updateDatosUsuario(usuario, usuarioDTO);
 		this.entityManager.persist(usuario);
 	}
-	
-	public void saveUsuario(UsuarioDTO usuarioDTO) throws PersistenciaException{
+
+	public void saveUsuario(UsuarioDTO usuarioDTO) throws PersistenciaException {
 		Usuario usuario = new Usuario();
 		this.updateDatosUsuario(usuario, usuarioDTO);
 		this.entityManager.persist(usuario);
-		
+
 		usuarioDTO.setId(usuario.getId());
 	}
 
-	private void updateDatosUsuario(Usuario usuario, UsuarioDTO usuariosDTO) throws PersistenciaException {
+	private void updateDatosUsuario(Usuario usuario, UsuarioDTO usuariosDTO)
+			throws PersistenciaException {
 		usuario.setApellido(usuariosDTO.getApellido());
 		usuario.setEmail(usuariosDTO.getEmail());
-	
+
 		try {
 			Date date = new Date();
-			date = new SimpleDateFormat(UsuarioDTO.FORMAT_DATE).parse(usuariosDTO.getFechaNacimiento());
+			date = new SimpleDateFormat(UsuarioDTO.FORMAT_DATE)
+					.parse(usuariosDTO.getFechaNacimiento());
 			usuario.setFechaNacimiento(date);
 		} catch (ParseException e) {
-			throw new PersistenciaException("El formato de la fecha es erroneo.", e);
+			throw new PersistenciaException(
+					"El formato de la fecha es erroneo.", e);
 		}
 		usuario.setFotoPerfil(usuariosDTO.getFotoPerfil());
 		usuario.setNick(usuariosDTO.getNick());
 		usuario.setNombre(usuariosDTO.getNombre());
 		usuario.setPassword(usuariosDTO.getPassword());
 		usuario.setTipoCuenta(usuariosDTO.getTipoCuenta());
-		TypedQuery<GruposRunning> q = entityManager.createNamedQuery(GruposRunning.QUERY_BY_NOMBRE,GruposRunning.class);
-		q.setParameter(GruposRunning.PARAM_NOMBRE, usuariosDTO.getGrupoId());
-		usuario.setGrupo(q.getSingleResult());
+		if (!usuariosDTO.getGrupoId().equals("Ninguno")) {
+			TypedQuery<GruposRunning> q = entityManager.createNamedQuery(
+					GruposRunning.QUERY_BY_NOMBRE, GruposRunning.class);
+			q.setParameter(GruposRunning.PARAM_NOMBRE, usuariosDTO.getGrupoId());
+			usuario.setGrupo(q.getSingleResult());
+		}
 	}
-
-	
 
 }

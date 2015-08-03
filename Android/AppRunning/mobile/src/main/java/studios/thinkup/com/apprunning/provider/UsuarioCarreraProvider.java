@@ -7,8 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.List;
 import java.util.Vector;
 
+import studios.thinkup.com.apprunning.broadcast.handler.UpdateBuffer;
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.entity.IEntity;
+import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 
@@ -19,10 +21,12 @@ import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaExcep
  */
 public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> implements IUsuarioCarreraProvider {
 
-    private Integer idUsuario;
-    public UsuarioCarreraProvider(Context c, Integer usuarioId) {
+
+    private UsuarioApp u;
+
+    public UsuarioCarreraProvider(Context c, UsuarioApp usuarioApp) {
         super(c);
-        this.idUsuario = usuarioId;
+        this.u = usuarioApp;
     }
 
 
@@ -35,7 +39,7 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
         try {
             db = this.dbProvider.getReadableDatabase();
             String fields = getStringFields();
-            String[] params = { String.valueOf(this.idUsuario),String.valueOf(carrera)};
+            String[] params = {String.valueOf(this.u.getId()), String.valueOf(carrera)};
             c = db.rawQuery("SELECT " + fields + " FROM CARRERA c LEFT JOIN USUARIO_CARRERA uc ON c.ID_CARRERA = uc.CARRERA AND uc.USUARIO = ? WHERE c.ID_CARRERA = ?", params);
             return this.toEntity(c);
         } catch (Exception e) {
@@ -104,14 +108,20 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
 
     @Override
     public UsuarioCarrera actualizarCarrera(UsuarioCarrera usuarioCarrera) throws EntidadNoGuardadaException {
-        if(usuarioCarrera.getUsuario() == null || usuarioCarrera.getUsuario() == 0){
-            usuarioCarrera.setUsuario(this.idUsuario);
+        UsuarioCarrera uc = null;
+        if (usuarioCarrera.getUsuario() == null || usuarioCarrera.getUsuario() == 0) {
+            usuarioCarrera.setUsuario(this.u.getId());
         }
-        if (usuarioCarrera.getId() !=null && usuarioCarrera.getId() >0) {
-            return this.update(usuarioCarrera);
+        if (usuarioCarrera.getId() != null && usuarioCarrera.getId() > 0) {
+            uc = this.update(usuarioCarrera);
         } else {
-            return this.grabar(usuarioCarrera);
+            uc = this.grabar(usuarioCarrera);
         }
+
+
+        UpdateBuffer.getInstance().bufferUsuarioCarrera(uc, this.u.getEmail(), this.c);
+
+        return uc;
     }
 
 
@@ -134,7 +144,7 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
     @Override
     protected List<UsuarioCarrera> toList(Cursor c) {
         List<UsuarioCarrera> results = new Vector<>();
-UsuarioCarrera uc = null;
+        UsuarioCarrera uc = null;
         if (c.getCount() <= 0) {
             return results;
         } else {
@@ -155,7 +165,7 @@ UsuarioCarrera uc = null;
         return "USUARIO_CARRERA";
     }
 
-   @Override
+    @Override
     public UsuarioCarrera findById(Class<UsuarioCarrera> clazz, Integer id) {
         SQLiteDatabase db = null;
         Cursor c = null;
@@ -163,7 +173,7 @@ UsuarioCarrera uc = null;
         try {
             db = this.dbProvider.getReadableDatabase();
             String fields = getStringFields();
-            String[] params = {String.valueOf(this.idUsuario), String.valueOf(id)};
+            String[] params = {String.valueOf(this.u.getId()), String.valueOf(id)};
             c = db.rawQuery("SELECT " + fields + " FROM CARRERA c LEFT JOIN USUARIO_CARRERA uc ON c.ID_CARRERA = uc.CARRERA AND uc.USUARIO = ? WHERE uc.ID_USUARIO_CARRERA = ?", params);
             return this.toEntity(c);
         } catch (Exception e) {
@@ -177,6 +187,7 @@ UsuarioCarrera uc = null;
             }
         }
     }
+
     protected String[] getFields(Class<? extends IEntity> clazz) {
         String[] fields = {
                 UsuarioCarrera.ANOTADO,

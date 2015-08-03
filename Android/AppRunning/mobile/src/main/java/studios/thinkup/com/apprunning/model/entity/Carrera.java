@@ -3,7 +3,6 @@ package studios.thinkup.com.apprunning.model.entity;
 import android.database.Cursor;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -26,21 +25,20 @@ public class Carrera implements Serializable, IEntity {
     public static final String DISTANCIAS_DISPONIBLE = "DISTANCIA_DISPONIBLE";
     public static final String ID = "ID_CARRERA";
     private static final long serialVersionUID = 24474119433126838L;
-    private Integer id;
+    private Integer idCarrera;
     private String nombre;
-
     private String provincia;
     private String ciudad;
     private String direccion;
     private String fechaInicio;
-    private String hora;
+    private String horaInicio;
     private String descripcion;
 
-    private String distancias;
+    private String distanciaDisponible;
     private String modalidades;
     private String urlWeb;
     private String urlImagen;
-    private String distanciasDisponibles;
+
 
 
     public Carrera() {
@@ -49,20 +47,19 @@ public class Carrera implements Serializable, IEntity {
 
     public Carrera(Cursor c) {
         try {
-            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-            this.id = c.getInt(c.getColumnIndex(Carrera.ID));
+            this.idCarrera = c.getInt(c.getColumnIndex(Carrera.ID));
             this.nombre = c.getString(c.getColumnIndex(NOMBRE));
             this.modalidades = c.getString(c.getColumnIndex(MODALIDADES));
             this.provincia = c.getString(c.getColumnIndex(PROVINCIA));
             this.ciudad = c.getString(c.getColumnIndex(CIUDAD));
             this.direccion = c.getString(c.getColumnIndex(DIRECCION));
             this.fechaInicio = c.getString(c.getColumnIndex(FECHA_INICIO));
-            this.hora = c.getString(c.getColumnIndex(HORA_INICIO));
+            this.horaInicio = c.getString(c.getColumnIndex(HORA_INICIO));
             this.descripcion = c.getString(c.getColumnIndex(DESCRIPCION));
-            this.distancias = c.getString(c.getColumnIndex(DISTANCIAS_DISPONIBLE));
+            this.distanciaDisponible = c.getString(c.getColumnIndex(DISTANCIAS_DISPONIBLE));
             this.urlWeb = c.getString(c.getColumnIndex(URL_WEB));
             this.urlImagen = c.getString(c.getColumnIndex(URL_IMAGEN));
-            this.distanciasDisponibles = c.getString(c.getColumnIndex(DISTANCIAS_DISPONIBLE));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -70,7 +67,7 @@ public class Carrera implements Serializable, IEntity {
     }
 
     public Integer getCodigo() {
-        return this.getId().intValue();
+        return this.getId();
     }
 
     public String getNombre() {
@@ -81,8 +78,8 @@ public class Carrera implements Serializable, IEntity {
         return fechaInicio;
     }
 
-    public String getDistancias() {
-        return distancias;
+    public String getDistanciaDisponible() {
+        return distanciaDisponible;
     }
 
     public String getDescripcion() {
@@ -117,18 +114,18 @@ public class Carrera implements Serializable, IEntity {
         this.provincia = provincia;
     }
 
-    public String getHora() {
-        return hora;
+    public String getHoraInicio() {
+        return horaInicio;
     }
 
     @Override
     public Integer getId() {
-        return id;
+        return idCarrera;
     }
 
     @Override
     public void setId(Integer id) {
-        this.id = id;
+        this.idCarrera = id;
     }
 
     @Override
@@ -138,6 +135,9 @@ public class Carrera implements Serializable, IEntity {
 
     @Override
     public ArrayList<String> getIgnoredFields() {
-        return new ArrayList<>();
+
+        ArrayList<String> lista = new ArrayList<>();
+        lista.add("ID");
+        return lista;
     }
 }

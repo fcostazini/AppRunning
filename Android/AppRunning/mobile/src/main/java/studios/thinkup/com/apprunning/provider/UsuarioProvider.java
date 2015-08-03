@@ -57,6 +57,7 @@ public class UsuarioProvider extends GenericProvider<UsuarioApp> implements IUsu
                     UsuarioApp.EMAIL + " = ? ", params, null, null, null);
             return toEntity(c);
         } catch (Exception e) {
+            e.printStackTrace();
             return  null;
         } finally {
             if (c != null && !c.isClosed()) {
