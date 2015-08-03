@@ -19,6 +19,7 @@ import com.thinkup.ranning.server.rest.exception.EntidadInexistenteException;
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class UsuarioCarreraDAO {
+	
 	@PersistenceContext(name = "appRunning")
 	private EntityManager entityManager;
 
