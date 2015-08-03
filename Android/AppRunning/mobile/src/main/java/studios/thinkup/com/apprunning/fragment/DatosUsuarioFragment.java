@@ -2,6 +2,7 @@ package studios.thinkup.com.apprunning.fragment;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -31,6 +32,7 @@ import java.util.List;
 import studios.thinkup.com.apprunning.MainActivity;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.RecomendadosActivity;
+import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.GrupoRunning;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
@@ -212,8 +214,12 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
         if (!grupo.getSelectedItem().equals(getString(R.string.corres_grupo))) {
             this.ua.setGrupoId((String) grupo.getSelectedItem());
         }
-        UsuarioProviderTask usuarioProviderTask = new UsuarioProviderTask();
-        usuarioProviderTask.execute(this.ua);
+        UsuarioProviderTask usuarioProviderTask = new UsuarioProviderTask(this.getActivity());
+        if(NetworkUtils.NETWORK_STATUS_NOT_CONNECTED == NetworkUtils.getConnectivityStatus(this.getActivity())){
+            Toast.makeText(DatosUsuarioFragment.this.getActivity(), "No se puede guardar el usuario sin Conexión", Toast.LENGTH_LONG).show();
+        }else {
+            usuarioProviderTask.execute(this.ua);
+        }
 
     }
 
@@ -277,6 +283,11 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
     };
 
     private class UsuarioProviderTask extends AsyncTask<UsuarioApp, Integer, UsuarioApp> {
+        private Context context;
+
+        public UsuarioProviderTask(Context context) {
+            this.context = context;
+        }
 
         @Override
         protected void onPostExecute(UsuarioApp usuarioApp) {
@@ -304,7 +315,6 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
 
         @Override
         protected UsuarioApp doInBackground(UsuarioApp... params) {
-
             IUsuarioProvider up = new UsuarioProviderRemote(DatosUsuarioFragment.this.getActivity());
             try {
                 if (params[0].getId() == null) {

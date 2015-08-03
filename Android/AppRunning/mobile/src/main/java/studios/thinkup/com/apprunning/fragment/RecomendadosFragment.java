@@ -8,9 +8,11 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.List;
+import java.util.Vector;
 
 import studios.thinkup.com.apprunning.DetalleCarreraActivity;
 import studios.thinkup.com.apprunning.adapter.CarreraListAdapter;
+import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
 import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 import studios.thinkup.com.apprunning.provider.restProviders.CarreraCabeceraService;
@@ -35,7 +37,11 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         CarreraCabeceraService cp = new CarreraCabeceraService(this, RecomendadosFragment.this.getActivity(), this.getUsuario());
+        if(NetworkUtils.NETWORK_STATUS_NOT_CONNECTED == NetworkUtils.getConnectivityStatus(this.getActivity())) {
             cp.execute(this.getFiltro());
+        }else{
+           this.actualizarResultados(new Vector<CarreraCabecera>());
+        }
 
 
     }

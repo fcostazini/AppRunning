@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
@@ -172,7 +173,7 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
     @Override
     public void onError(int networkId, String requestID, String errorMessage, Object data) {
         MainActivity.hideProgress();
-        Toast.makeText(getActivity(), "ERROR: " + errorMessage, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "ERROR: No se encontró conexión a internet" , Toast.LENGTH_LONG).show();
 
 
     }

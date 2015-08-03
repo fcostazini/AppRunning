@@ -137,7 +137,7 @@ public class Carrera implements Serializable, IEntity {
     public ArrayList<String> getIgnoredFields() {
 
         ArrayList<String> lista = new ArrayList<>();
-        lista.add("ID");
+
         return lista;
     }
 }

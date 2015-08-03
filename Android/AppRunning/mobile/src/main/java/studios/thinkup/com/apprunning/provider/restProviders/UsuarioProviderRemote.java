@@ -138,7 +138,7 @@ public class UsuarioProviderRemote extends RemoteService implements IUsuarioProv
         String json = g.toJson(entidad);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
-        conn.setConnectTimeout(10000);
+        conn.setConnectTimeout(5000);
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Accept", "application/json");
         conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");

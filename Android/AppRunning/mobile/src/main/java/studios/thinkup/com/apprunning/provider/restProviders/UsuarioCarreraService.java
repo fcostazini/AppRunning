@@ -3,6 +3,7 @@ package studios.thinkup.com.apprunning.provider.restProviders;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
 import studios.thinkup.com.apprunning.model.entity.Carrera;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
@@ -41,11 +42,15 @@ public class UsuarioCarreraService extends AsyncTask<Integer, Integer, UsuarioCa
     protected UsuarioCarrera doInBackground(Integer... id) {
         IUsuarioCarreraProvider ucp = new UsuarioCarreraProvider(this.context, this.usuarioApp);
         UsuarioCarrera uc = ucp.getByIdCarrera(id[0]);
+        Carrera c = null;
+        if(NetworkUtils.getConnectivityStatus(context) == NetworkUtils.NETWORK_STATUS_NOT_CONNECTED){
+            return getUsuarioCarreraLocal(id[0]);
+        }
         Carrera cLocal = null;
         if (uc == null) {
 
             ICarreraProvider cp = new CarreraProviderRemote(context);
-            Carrera c = null;
+
             try {
                 c = cp.getById(id[0]);
                 CarreraLocalProvider local = new CarreraLocalProvider(context);
@@ -66,6 +71,20 @@ public class UsuarioCarreraService extends AsyncTask<Integer, Integer, UsuarioCa
         }
         return uc;
 
+    }
+
+    private UsuarioCarrera getUsuarioCarreraLocal(Integer id) {
+        Carrera c;
+        UsuarioCarrera uc;CarreraLocalProvider local = new CarreraLocalProvider(context);
+        try {
+            c = local.getById(id);
+            uc = new UsuarioCarrera(c);
+            uc.setUsuario(this.usuarioApp.getId());
+            return uc;
+        } catch (EntityNotFoundException e1) {
+            e1.printStackTrace();
+            return null;
+        }
     }
 }
 

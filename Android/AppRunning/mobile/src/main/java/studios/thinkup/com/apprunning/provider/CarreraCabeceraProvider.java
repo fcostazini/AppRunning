@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Vector;
 
 import studios.thinkup.com.apprunning.model.Filtro;
+import studios.thinkup.com.apprunning.model.entity.Carrera;
 import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
 import studios.thinkup.com.apprunning.provider.dbProviders.GenericProvider;
 import studios.thinkup.com.apprunning.provider.helper.DataBaseHelper;
@@ -98,17 +99,18 @@ public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
 
         try {
             while (!cursor.isAfterLast()) {
-                resultados.add(CarreraCabecera.getBuilder()
-                        .codigoCarrera(cursor.getInt(cursor.getColumnIndex("ID_CARRERA")))
-                        .nombre(cursor.getString(cursor.getColumnIndex("NOMBRE")))
-                        .fechaInicio(cursor.getString(cursor.getColumnIndex("FECHA_INICIO")))
-                        .distanciaDisponible(cursor.getString(cursor.getColumnIndex("DISTANCIA_DISPONIBLE")))
-                        .descripcion(cursor.getString(cursor.getColumnIndex("DESCRIPCION")))
-                        .urlImage(cursor.getString(cursor.getColumnIndex("URL_IMAGEN")))
-                        .provincia(cursor.getString(cursor.getColumnIndex("PROVINCIA")))
-                        .zona(cursor.getString(cursor.getColumnIndex("CIUDAD")))
-                        .hora(cursor.getString(cursor.getColumnIndex("HORA_INICIO")))
-                        .build());
+                resultados.add(
+                        CarreraCabecera.getBuilder()
+                                .codigoCarrera(cursor.getInt(cursor.getColumnIndex(Carrera.ID)))
+                                .nombre(cursor.getString(cursor.getColumnIndex(Carrera.NOMBRE)))
+                                .fechaInicio(cursor.getString(cursor.getColumnIndex(Carrera.FECHA_INICIO)))
+                                .distanciaDisponible(cursor.getString(cursor.getColumnIndex(Carrera.DISTANCIAS_DISPONIBLE)))
+                                .descripcion(cursor.getString(cursor.getColumnIndex(Carrera.DESCRIPCION)))
+                                .urlImage(cursor.getString(cursor.getColumnIndex(Carrera.URL_IMAGEN)))
+                                .provincia(cursor.getString(cursor.getColumnIndex(Carrera.PROVINCIA)))
+                                .zona(cursor.getString(cursor.getColumnIndex(Carrera.CIUDAD)))
+                                .hora(cursor.getString(cursor.getColumnIndex(Carrera.HORA_INICIO)))
+                                .build());
                 cursor.moveToNext();
             }
         } catch (Exception e) {

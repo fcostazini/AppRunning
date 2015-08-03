@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import java.util.List;
 import java.util.Vector;
 
+import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
@@ -34,13 +35,12 @@ public class CarreraCabeceraService extends AsyncTask<Filtro, Integer, List<Carr
     protected List<CarreraCabecera> doInBackground(Filtro... params) {
         List<CarreraCabecera> resultados = new Vector<>();
         ICarreraCabeceraProvider carrerasProvider = null;
+
+        if(NetworkUtils.NETWORK_STATUS_NOT_CONNECTED == NetworkUtils.getConnectivityStatus(context)){
+            return getCarreraCabeceras(params[0]);
+        }
         if (params[0].getIdUsuario() >= 0) {
-            carrerasProvider = new CarreraCabeceraProvider(context);
-            resultados = carrerasProvider.getCarrerasByFiltro(params[0]);
-            if (resultados == null) {
-                resultados = new Vector<>();
-            }
-            return resultados;
+            return getCarreraCabeceras(params[0]);
         } else {
             carrerasProvider = new CarreraCabeceraProviderRemote(this.context);
             resultados = carrerasProvider.getCarrerasByFiltro(params[0]);
@@ -60,6 +60,17 @@ public class CarreraCabeceraService extends AsyncTask<Filtro, Integer, List<Carr
             return resultados;
         }
 
+    }
+
+    private List<CarreraCabecera> getCarreraCabeceras(Filtro param) {
+        ICarreraCabeceraProvider carrerasProvider;
+        List<CarreraCabecera> resultados;
+        carrerasProvider = new CarreraCabeceraProvider(context);
+        resultados = carrerasProvider.getCarrerasByFiltro(param);
+        if (resultados == null) {
+            resultados = new Vector<>();
+        }
+        return resultados;
     }
 
     @Override

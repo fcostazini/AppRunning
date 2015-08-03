@@ -125,7 +125,7 @@ public class CarreraCabecera implements Serializable {
         }
 
         public CarreraCabeceraBuilder hora(String hora) {
-            if (hora == null && hora.isEmpty()) {
+            if (hora == null || hora.isEmpty()) {
                 this.instance.hora = "-:-";
             } else {
                 this.instance.hora = hora;
