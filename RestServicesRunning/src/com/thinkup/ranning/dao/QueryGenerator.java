@@ -34,31 +34,36 @@ public class QueryGenerator {
 
 		query += getFechaRange("c.fecha_inicio", filtro.getFechaDesde(),
 				filtro.getFechaHasta());
-		if (filtro.getIdUsuario() > 0) {
-			query += " AND uc.id = " + filtro.getIdUsuario();
-		}
-		if (filtro.getMeGusta() != null) {
-			query += " AND uc.me_gusta is " + filtro.getMeGusta();
-		}
 
-		if (filtro.getInscripto() != null) {
-			query += " AND uc.anotado is " + filtro.getInscripto();
-		}
-
-		if (filtro.getCorrida() != null) {
-			query += " AND uc.corrida is " + filtro.getCorrida();
-		}
-		if (filtro.getIdUsuario() >= 0 && filtro.getCorrida() == null
-				&& filtro.getInscripto() == null && filtro.getMeGusta() == null) {
-			query += " AND ( uc.corrida is true " + " OR  uc.anotado is true "
-					+ " OR  uc.me_gusta is true )";
-		}
 		if (filtro.getRecomendadas() != null) {
 			query += " AND  c.recomendada  is " + filtro.getRecomendadas()
 					+ " ";
 		}
-		query += this.getIntegerRange("uc.distancia", filtro.getMinDistancia(),
-				filtro.getMaxDistancia());
+		if (filtro.getIdUsuario() >= 0) {
+			query += " AND uc.id = " + filtro.getIdUsuario();
+			if (filtro.getMeGusta() != null) {
+				query += " AND uc.me_gusta is " + filtro.getMeGusta();
+			}
+
+			if (filtro.getInscripto() != null) {
+				query += " AND uc.anotado is " + filtro.getInscripto();
+			}
+
+			if (filtro.getCorrida() != null) {
+				query += " AND uc.corrida is " + filtro.getCorrida();
+			}
+			if (filtro.getCorrida() == null && filtro.getInscripto() == null
+					&& filtro.getMeGusta() == null) {
+				query += " AND ( uc.corrida is true "
+						+ " OR  uc.anotado is true "
+						+ " OR  uc.me_gusta is true )";
+			}
+			query += this.getIntegerRange("uc.distancia",
+					filtro.getMinDistancia(), filtro.getMaxDistancia());
+
+		}
+	
+
 		query += this.getOrderBy(filtro);
 		return query;
 	}

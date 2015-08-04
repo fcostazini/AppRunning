@@ -40,7 +40,7 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
         if(NetworkUtils.NETWORK_STATUS_NOT_CONNECTED == NetworkUtils.getConnectivityStatus(this.getActivity())) {
             this.actualizarResultados(new Vector<CarreraCabecera>());
         }else{
-            cp.execute(this.getFiltro());
+            cp.execute(getFiltro());
 
         }
 

@@ -93,7 +93,7 @@ public abstract class GenericProvider<T  extends IEntity> implements IProvider<T
 
     @Override
     public T update(T entidad) throws EntidadNoGuardadaException {
-        if (entidad.getId() != null && entidad.getId()>0) {
+
             SQLiteDatabase db = null;
             Cursor c = null;
             String[] params = {entidad.getId().toString()};
@@ -118,9 +118,6 @@ public abstract class GenericProvider<T  extends IEntity> implements IProvider<T
                 }
             }
 
-        } else {
-            throw new EntidadNoGuardadaException("Entidad sin id");
-        }
 
     }
 
@@ -138,7 +135,6 @@ public abstract class GenericProvider<T  extends IEntity> implements IProvider<T
 
     @Override
     public T grabar(T entidad) throws EntidadNoGuardadaException {
-        if (entidad.getId() ==null || entidad.getId() <=0 ) {
             SQLiteDatabase db = null;
             Cursor c = null;
             try {
@@ -147,7 +143,9 @@ public abstract class GenericProvider<T  extends IEntity> implements IProvider<T
                 long result = db.insertOrThrow(this.getTableName(entidad.getClass()),
                         null, this.getUpdateFields(entidad));
                 if(result >= 0 ){
-                    entidad.setId(new Long(result).intValue());
+                    if (entidad.getId() == null || entidad.getId() <= 0) {
+                        entidad.setId(new Long(result).intValue());
+                    }
                     return  entidad;
                 }else{
                     throw new EntidadNoGuardadaException("No se realizó el insert" + entidad.getId().toString());
@@ -163,8 +161,6 @@ public abstract class GenericProvider<T  extends IEntity> implements IProvider<T
                 }
             }
 
-        } else {
-            throw new EntidadNoGuardadaException("Entidad tiene ID, usar UPDATE");
-        }
+
     }
 }

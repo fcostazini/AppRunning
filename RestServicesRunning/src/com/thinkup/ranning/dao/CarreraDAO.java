@@ -53,7 +53,7 @@ public class CarreraDAO {
 	}
 
 	public List<CarreraCabeceraDTO> getCarrerasDTO(Filtro filtro) {
-		String query = this.crearQuery();
+		String query = this.crearQuery(filtro);
 		if (filtro != null) {
 			query += this.qGen.getWhereCondition(filtro);
 		}
@@ -65,13 +65,15 @@ public class CarreraDAO {
 		return carreras;
 	}
 
-	private String crearQuery() {
+	private String crearQuery(Filtro filtro) {
 
 		StringBuffer select = new StringBuffer();
 		select.append(" SELECT c.id as codigoCarrera, c.nombre as nombre, c.fecha_inicio as fechaInicio, EXTRACT(HOUR FROM c.fecha_inicio)||':'||EXTRACT(MINUTE  FROM c.fecha_inicio) AS hora, c.distancia_disponible as distanciaDisponible, c.descripcion as descripcion, c.url_imagen as urlImagen, ");
-		select.append(" c.provincia as provincia, c.ciudad as ciudad, uc.id as usuarioCarrera, uc.distancia as distancia, uc.me_gusta as meGusta, uc.anotado as estoyAnotado, uc.corrida as corrida ");
+		select.append(" c.provincia as provincia, c.ciudad as ciudad ");
 		select.append(" FROM public.carrera c ");
-		select.append(" left join public.usuario_carrera uc on uc.carrera_id = c.id ");
+		if (filtro.getIdUsuario() > 0) {
+			select.append(" left join public.usuario_carrera uc on uc.carrera_id = c.id ");
+		}
 
 		return select.toString();
 	}

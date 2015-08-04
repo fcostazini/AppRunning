@@ -23,9 +23,20 @@ public class Filtro {
     private Boolean corrida = null;
     private String ordenarPor = CamposOrdenEnum.NINGUNO.getLabel();
     private String sentido = SENTIDO_ORDEN[0];	
+    private String email = "";
 	
+    
+    
 
-    public Boolean getRecomendadas() {
+    public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Boolean getRecomendadas() {
         return recomendadas;
     }
 

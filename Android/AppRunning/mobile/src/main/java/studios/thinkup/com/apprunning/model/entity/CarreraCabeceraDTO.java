@@ -57,33 +57,6 @@ public class CarreraCabeceraDTO implements Serializable {
      */
     private String ciudad;
 
-    //Datos de usuario carrera
-    /**
-     * ID del usuario carrera
-     */
-    private Integer usuarioCarrera;
-
-    /**
-     * Distancia corrida por el usuario.
-     */
-    private String distancia;
-
-    /**
-     * Representa al campo de meGusta del usuario_carrera.
-     */
-    private Boolean meGusta;
-
-    /**
-     * Representa el campo anotado de la tabla usuario_carrera.
-     */
-    private Boolean estoyAnotado;
-
-    /**
-     * Representa el campo corrida de la tabla usuario_carrera.
-     */
-    private Boolean corrida;
-
-
     public CarreraCabeceraDTO() {
         super();
     }
@@ -160,44 +133,6 @@ public class CarreraCabeceraDTO implements Serializable {
         this.ciudad = ciudad;
     }
 
-    public Integer getUsuarioCarrera() {
-        return usuarioCarrera;
-    }
 
-    public void setUsuarioCarrera(Integer usuarioCarrera) {
-        this.usuarioCarrera = usuarioCarrera;
-    }
-
-    public String getDistancia() {
-        return distancia;
-    }
-
-    public void setDistancia(String distancia) {
-        this.distancia = distancia;
-    }
-
-    public Boolean getMeGusta() {
-        return meGusta;
-    }
-
-    public void setMeGusta(Boolean meGusta) {
-        this.meGusta = meGusta;
-    }
-
-    public Boolean getEstoyAnotado() {
-        return estoyAnotado;
-    }
-
-    public void setEstoyAnotado(Boolean estoyAnotado) {
-        this.estoyAnotado = estoyAnotado;
-    }
-
-    public Boolean getCorrida() {
-        return corrida;
-    }
-
-    public void setCorrida(Boolean corrida) {
-        this.corrida = corrida;
-    }
 
 }

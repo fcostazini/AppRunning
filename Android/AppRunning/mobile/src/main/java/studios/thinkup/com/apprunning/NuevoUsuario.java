@@ -307,23 +307,14 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
 
             IUsuarioProvider up = null;
             up = new UsuarioProviderRemote(NuevoUsuario.this);
+            UsuarioApp u;
             try {
                 if (params[0].getId() == null) {
-                    up.grabar(params[0]);
-                    up = new UsuarioProvider(NuevoUsuario.this);
-                    if (up.getUsuarioByEmail(params[0].getEmail()) != null) {
-                        return up.update(params[0]);
-                    } else {
-                        return up.grabar(params[0]);
-                    }
+                    u = up.grabar(params[0]);
+                    return getUsuarioAppLocale(u, params[0]);
                 } else {
-                    up.update(params[0]);
-                    up = new UsuarioProviderRemote(NuevoUsuario.this);
-                    if (up.getUsuarioByEmail(params[0].getEmail()) != null) {
-                        return up.update(params[0]);
-                    } else {
-                        return up.grabar(params[0]);
-                    }
+                    u = up.update(params[0]);
+                    return getUsuarioAppLocale(u, params[0]);
 
                 }
             } catch (Exception e) {
@@ -332,6 +323,16 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
             }
 
 
+        }
+
+        private UsuarioApp getUsuarioAppLocale(UsuarioApp u, UsuarioApp param) throws studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException {
+            IUsuarioProvider up;
+            up = new UsuarioProvider(NuevoUsuario.this);
+            if (up.getUsuarioByEmail(param.getEmail()) != null) {
+                return up.update(u);
+            } else {
+                return up.grabar(u);
+            }
         }
     }
 

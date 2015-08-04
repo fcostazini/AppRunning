@@ -33,6 +33,7 @@ public class Filtro implements Serializable {
     private Boolean corrida = null;
     private String ordenarPor = CamposOrdenEnum.NINGUNO.getLabel();
     private String sentido = SENTIDO_ORDEN[0];
+    private String email = "";
 
     public Filtro(DefaultSettings defaultSettings) {
         this.idUsuario = -1;
@@ -53,6 +54,7 @@ public class Filtro implements Serializable {
         meGusta = null;
         inscripto = null;
         corrida = null;
+
     }
 
     public Filtro() {
@@ -131,6 +133,7 @@ public class Filtro implements Serializable {
     public void setNombreCarrera(String nombreCarrera) {
         this.nombreCarrera = nombreCarrera;
     }
+
 
     public Date getFechaDesde() {
 
