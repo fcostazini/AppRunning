@@ -20,6 +20,8 @@ import com.thinkup.ranning.dao.UsuarioDAO;
 import com.thinkup.ranning.dtos.Filtro;
 import com.thinkup.ranning.dtos.Respuesta;
 import com.thinkup.ranning.dtos.UsuarioCarreraDTO;
+import com.thinkup.ranning.entities.Carrera;
+import com.thinkup.ranning.entities.Usuario;
 import com.thinkup.ranning.entities.UsuarioCarrera;
 import com.thinkup.ranning.server.rest.exception.EntidadInexistenteException;
 
@@ -142,11 +144,21 @@ public class UsuarioCarreraService implements IUsuarioCarreraProvider {
 				} catch (EntidadInexistenteException e) {
 					uc = new UsuarioCarrera();
 					fillUsuarioEntity(uc, usuarioCarrera);
-					uc.setUsuario(daoUsuario.getByEmail(usuarioCarrera
-							.getUsuario()));
-					uc.setCarrera(daoCarrera.getById(usuarioCarrera
-							.getIdCarrera()));
-					this.dao.save(uc);
+					Usuario u =daoUsuario.getByEmail(usuarioCarrera
+							.getUsuario());
+					Carrera c = daoCarrera.getById(usuarioCarrera
+							.getIdCarrera());
+					if(u!= null && c!= null){
+						uc.setUsuario(u);
+						uc.setCarrera(c);
+						this.dao.save(uc);
+					}else{
+						r.addMensaje("Entidades no guardadas");
+						r.setCodigoRespuesta(Respuesta.CODIGO_ERROR_INTERNO);
+						r.setDto(Respuesta.CODIGO_ERROR_INTERNO);
+					}
+					
+					
 				}
 			}
 			r.addMensaje("Updated");
@@ -164,6 +176,7 @@ public class UsuarioCarreraService implements IUsuarioCarreraProvider {
 	private void fillUsuarioEntity(UsuarioCarrera uc,
 			UsuarioCarreraDTO usuarioCarrera) {
 		uc.setCorrida(usuarioCarrera.isCorrida());
+		
 		uc.setIsAnotado(usuarioCarrera.isAnotado());
 		uc.setMeGusta(usuarioCarrera.isMeGusta());
 		uc.setTiempo(usuarioCarrera.getTiempo());
