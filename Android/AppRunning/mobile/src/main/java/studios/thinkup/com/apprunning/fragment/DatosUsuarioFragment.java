@@ -30,6 +30,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import studios.thinkup.com.apprunning.MainActivity;
+import studios.thinkup.com.apprunning.MainFragment;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.RecomendadosActivity;
 import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
@@ -84,7 +85,7 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
 
     private void initView(View rootView) {
         Button logout = (Button) rootView.findViewById(R.id.btn_logout);
-        RelativeLayout terminos = (RelativeLayout)rootView.findViewById(R.id.ly_terminos);
+        RelativeLayout terminos = (RelativeLayout) rootView.findViewById(R.id.ly_terminos);
         terminos.setVisibility(View.GONE);
         if (!ua.getTipoCuenta().equals(String.valueOf(GooglePlusSocialNetwork.ID))) {
             logout.setBackgroundColor(this.getActivity().getResources().getColor(R.color.com_facebook_blue));
@@ -215,11 +216,8 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
             this.ua.setGrupoId((String) grupo.getSelectedItem());
         }
         UsuarioProviderTask usuarioProviderTask = new UsuarioProviderTask(this.getActivity());
-        if(NetworkUtils.NETWORK_STATUS_NOT_CONNECTED == NetworkUtils.getConnectivityStatus(this.getActivity())){
-            Toast.makeText(DatosUsuarioFragment.this.getActivity(), "No se puede guardar el usuario sin Conexión", Toast.LENGTH_LONG).show();
-        }else {
-            usuarioProviderTask.execute(this.ua);
-        }
+        usuarioProviderTask.execute(this.ua);
+
 
     }
 
@@ -258,10 +256,11 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
 
         }
     }
+
     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            switch (which){
+            switch (which) {
                 case DialogInterface.BUTTON_POSITIVE:
                     if (getActivity() != null) {
 
@@ -292,9 +291,9 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
         @Override
         protected void onPostExecute(UsuarioApp usuarioApp) {
             super.onPostExecute(usuarioApp);
-            if(usuarioApp == null) {
+            if (usuarioApp == null) {
                 Toast.makeText(DatosUsuarioFragment.this.getActivity(), "No se puede guardar el usuario", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 ((RunningApplication) DatosUsuarioFragment.this.getActivity().getApplication()).setUsuario(usuarioApp);
                 Intent intent = new Intent(DatosUsuarioFragment.this.getActivity(), RecomendadosActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -315,20 +314,22 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
 
         @Override
         protected UsuarioApp doInBackground(UsuarioApp... params) {
-            IUsuarioProvider up = new UsuarioProviderRemote(DatosUsuarioFragment.this.getActivity());
-            try {
-                if (params[0].getId() == null) {
-                    return up.grabar(params[0]);
-                } else {
-                    return up.update(params[0]);
-                }
-            }catch (Exception e){
+            if (NetworkUtils.getConnectivityStatus(DatosUsuarioFragment.this.getActivity()) == NetworkUtils.NETWORK_STATUS_NOT_CONNECTED) {
                 return null;
             }
+            IUsuarioProvider up = new UsuarioProviderRemote(DatosUsuarioFragment.this.getActivity());
+            try {
+                up.update(params[0]);
+                up = new UsuarioProvider(DatosUsuarioFragment.this.getActivity());
+                return up.update(params[0]);
 
+            } catch (Exception e) {
+
+                return null;
+            }
         }
-    }
 
+    }
 
 
 }

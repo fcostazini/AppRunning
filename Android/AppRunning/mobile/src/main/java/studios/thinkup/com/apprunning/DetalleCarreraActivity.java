@@ -8,6 +8,11 @@ import android.support.v4.view.PagerAdapter;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
+import com.github.amlcurran.showcaseview.targets.Target;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
+
 import java.util.List;
 import java.util.Vector;
 

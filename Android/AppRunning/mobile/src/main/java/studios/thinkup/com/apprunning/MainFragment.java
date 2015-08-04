@@ -30,7 +30,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
@@ -173,7 +172,7 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
     @Override
     public void onError(int networkId, String requestID, String errorMessage, Object data) {
         MainActivity.hideProgress();
-        Toast.makeText(getActivity(), "ERROR: No se encontró conexión a internet" , Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "ERROR: No se encontró conexión a internet", Toast.LENGTH_LONG).show();
 
 
     }
@@ -253,22 +252,15 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
             IUsuarioProvider up = new UsuarioProvider(MainFragment.this.getActivity());
             u = up.getUsuarioByEmail(params[0].email);
             if (u != null) {
-                up = new UsuarioProviderRemote(MainFragment.this.getActivity());
-                if (up.getUsuarioByEmail(params[0].email) == null) {
-                    try {
-                        up.grabar(u);
-                        return u;
-                    } catch (EntidadNoGuardadaException e) {
-                        e.printStackTrace();
-                        return getUsuarioApp(socialNetwork, params[0]);
-                    }
-                }
+                return u;
             } else {
-                if (up.getUsuarioByEmail(params[0].email) != null) {
+                up = new UsuarioProviderRemote(MainFragment.this.getActivity());
+                u = up.getUsuarioByEmail(params[0].email);
+                if ( u != null) {
                     try {
-                        up = new UsuarioProvider(MainFragment.this.getActivity());
-                        up.grabar(u);
-                        return u;
+                       up = new UsuarioProvider(MainFragment.this.getActivity());
+                       up.grabar(u);
+                       return u;
                     } catch (EntidadNoGuardadaException e) {
                         e.printStackTrace();
                         return getUsuarioApp(socialNetwork, params[0]);

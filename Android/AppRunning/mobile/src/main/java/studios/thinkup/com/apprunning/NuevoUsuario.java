@@ -282,7 +282,7 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
         protected void onPostExecute(UsuarioApp usuarioApp) {
             super.onPostExecute(usuarioApp);
             if (usuarioApp == null) {
-                Toast.makeText(NuevoUsuario.this, "No se puede guardar el usuario", Toast.LENGTH_LONG).show();
+                Toast.makeText(NuevoUsuario.this, "No se puede crear el usuario", Toast.LENGTH_LONG).show();
             } else {
                 ((RunningApplication) NuevoUsuario.this.getApplication()).setUsuario(usuarioApp);
                 Intent intent = new Intent(NuevoUsuario.this, RecomendadosActivity.class);
@@ -313,8 +313,7 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
                     u = up.grabar(params[0]);
                     return getUsuarioAppLocale(u, params[0]);
                 } else {
-                    u = up.update(params[0]);
-                    return getUsuarioAppLocale(u, params[0]);
+                    return null;
 
                 }
             } catch (Exception e) {
@@ -329,7 +328,7 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
             IUsuarioProvider up;
             up = new UsuarioProvider(NuevoUsuario.this);
             if (up.getUsuarioByEmail(param.getEmail()) != null) {
-                return up.update(u);
+                return null;
             } else {
                 return up.grabar(u);
             }
