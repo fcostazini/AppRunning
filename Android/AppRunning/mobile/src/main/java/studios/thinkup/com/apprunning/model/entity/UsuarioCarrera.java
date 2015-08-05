@@ -3,7 +3,11 @@ package studios.thinkup.com.apprunning.model.entity;
 import android.database.Cursor;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by FaQ on 08/06/2015.
@@ -141,8 +145,14 @@ public class UsuarioCarrera implements Serializable, IEntity {
         return carrera.getCodigo();
     }
 
-    public String getFechaInicio() {
-        return carrera.getFechaInicio();
+    public Date getFechaInicio() {
+        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        try{
+           return sf.parse(carrera.getFechaInicio());
+        } catch (ParseException e) {
+            Date d = new Date(Long.valueOf(carrera.getFechaInicio()));
+            return d;
+        }
     }
 
     public String getDireccion() {

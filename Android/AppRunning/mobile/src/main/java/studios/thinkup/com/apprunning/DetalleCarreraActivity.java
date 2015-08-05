@@ -13,6 +13,7 @@ import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
 import com.github.amlcurran.showcaseview.targets.Target;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -30,7 +31,7 @@ import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaExcep
  * Created by fcostazini on 21/05/2015.
  * Detalle de Carrera
  */
-public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsuarioCarreraObservable{
+public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsuarioCarreraObservable {
     AlertDialog distanciaDialog;
     private UsuarioCarrera carrera;
     private Menu menu;
@@ -44,7 +45,9 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.observadoresUsuario = new Vector<>();
+        if (this.observadoresUsuario == null) {
+            this.observadoresUsuario = new Vector<>();
+        }
         if (((RunningApplication) this.getApplication()).getUsuario() == null) {
             Intent intent = new Intent(this, MainActivity.class);
             this.startActivity(intent);
@@ -148,8 +151,8 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                     confirmarNoCorrida(item);
 
                 } else {
-                    //TODO : Ajustar la logica de las fechas
-                    //   if (this.carrera.getFechaInicio().compareTo(new Date()) <= 0) {
+
+                    if (this.carrera.getFechaInicio().compareTo(new Date()) <= 0) {
 
                         if (this.menu != null) {
                             menu.getItem(1).setIcon(R.drawable.ic_anotado);
@@ -159,7 +162,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                         item.setIcon(R.drawable.ic_corrida);
                         this.carrera.setCorrida(true);
                     }
-//                }
+                }
                 updateUsuarioCarrera();
                 return true;
             default:
@@ -235,7 +238,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
 
     @Override
     public void registrarObservadorUsuario(IUsuarioCarreraObserver ob) {
-        if(this.observadoresUsuario == null){
+        if (this.observadoresUsuario == null) {
             this.observadoresUsuario = new Vector<>();
         }
         this.observadoresUsuario.add(ob);
@@ -301,7 +304,6 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
             outState.putSerializable("carrera", this.carrera);
         }
     }
-
 
 
 }
