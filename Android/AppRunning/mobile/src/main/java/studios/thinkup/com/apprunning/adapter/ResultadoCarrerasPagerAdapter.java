@@ -32,7 +32,7 @@ public class ResultadoCarrerasPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return "TODAS";
             case 1:
-                return "INSCRIPTO";
+                return "MIS CARRERAS";
             case 2:
                 return "CORRIDAS";
             case 3:
