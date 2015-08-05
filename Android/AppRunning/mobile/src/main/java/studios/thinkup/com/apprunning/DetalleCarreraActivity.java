@@ -3,10 +3,14 @@ package studios.thinkup.com.apprunning;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewTreeObserver;
 
 import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
@@ -55,7 +59,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
         }
         startUp(savedInstanceState);
 
-
+        findViewById(R.id.viewpager).setBackground(null);
     }
 
     private void startUp(Bundle savedInstanceState) {
@@ -81,7 +85,9 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
         super.onCreateOptionsMenu(menu);
         menu.clear();
         this.menu = menu;
+
         getMenuInflater().inflate(R.menu.menu_detalle_carrera, menu);
+
         if (this.carrera != null) {
             if (this.carrera.isMeGusta()) {
                 menu.getItem(0).setIcon(R.drawable.ic_me_gusta);

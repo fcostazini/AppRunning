@@ -5,15 +5,16 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         android:icon="@drawable/ic_no_me_gusta"
-        android:showAsAction="always" />
+        android:showAsAction="ifRoom"
+        />
     <item android:id="@+id/mnu_inscripto"
         android:orderInCategory="101"
         android:title="@string/action_settings"
         android:icon="@drawable/ic_no_anotado"
-        android:showAsAction="always" />
+        android:showAsAction="ifRoom" />
     <item android:id="@+id/mnu_corrida"
         android:orderInCategory="102"
         android:title="@string/action_settings"
         android:icon="@drawable/ic_no_corrida"
-        android:showAsAction="always" />
+        android:showAsAction="ifRoom" />
 </menu>
