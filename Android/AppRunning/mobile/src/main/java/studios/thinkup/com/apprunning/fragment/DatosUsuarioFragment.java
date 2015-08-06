@@ -294,10 +294,7 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
             if (usuarioApp == null) {
                 Toast.makeText(DatosUsuarioFragment.this.getActivity(), "No se puede guardar el usuario", Toast.LENGTH_LONG).show();
             } else {
-                ((RunningApplication) DatosUsuarioFragment.this.getActivity().getApplication()).setUsuario(usuarioApp);
-                Intent intent = new Intent(DatosUsuarioFragment.this.getActivity(), RecomendadosActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                DatosUsuarioFragment.this.getActivity().startActivity(intent);
+                Toast.makeText(DatosUsuarioFragment.this.getActivity(), "Usuario Guardado", Toast.LENGTH_LONG).show();
             }
 
         }
