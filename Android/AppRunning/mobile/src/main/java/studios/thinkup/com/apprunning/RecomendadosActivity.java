@@ -11,4 +11,5 @@ public class RecomendadosActivity extends ResultadosFiltrablesActivity {
     protected Fragment getFragment() {
         return new RecomendadosFragment();
     }
+
 }
