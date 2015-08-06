@@ -17,4 +17,7 @@
         android:title="@string/action_settings"
         android:icon="@drawable/ic_no_corrida"
         android:showAsAction="ifRoom" />
+    <item android:id="@+id/mnu_ayuda" android:title="@string/nav_menu_ayuda"
+        android:orderInCategory="100"
+        android:showAsAction="never"/>
 </menu>

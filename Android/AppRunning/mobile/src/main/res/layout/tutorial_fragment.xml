@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+
+    android:id="@+id/buttons"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentRight="true"
+    android:gravity="bottom"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentStart="true">
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="@string/anterior"
+        android:layout_weight="1"
+        android:visibility="gone" />
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="@string/siguiente"
+        android:layout_weight="1" />
+
+</LinearLayout>
+
+
+    <ViewFlipper
+        android:id="@+id/viewFlipper"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/buttons"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:focusableInTouchMode="false">
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="#AAAAAA"
+                android:src="@drawable/tutorial_ejemplo"
+                android:scaleType="fitCenter" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:focusableInTouchMode="false">
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="#00AAFF"
+                android:src="@drawable/tutorial_ejemplo"
+                android:scaleType="fitCenter" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:focusableInTouchMode="false">
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="#00FFBB"
+                android:src="@drawable/tutorial_ejemplo"
+                android:scaleType="fitCenter" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:focusableInTouchMode="false">
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="#BB00BB"
+                android:src="@drawable/tutorial_ejemplo"
+                android:scaleType="fitCenter" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:focusableInTouchMode="false">
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="#AABBAA"
+                android:src="@drawable/tutorial_ejemplo"
+                android:scaleType="fitCenter" />
+        </LinearLayout>
+
+    </ViewFlipper>
+
+</RelativeLayout>
