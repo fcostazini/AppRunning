@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import studios.thinkup.com.apprunning.MainActivity;
+import studios.thinkup.com.apprunning.MainNavigationActivity;
 import studios.thinkup.com.apprunning.adapter.DrawerItem;
 
 /**
@@ -17,7 +18,7 @@ public class LogOutItem extends DrawerItem{
     }
 
     @Override
-    public boolean navigate(Context c) {
+    public boolean navigate(MainNavigationActivity c) {
 
         if(this.getActivity() != null){
 

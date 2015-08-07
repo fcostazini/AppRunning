@@ -29,6 +29,7 @@ public abstract class MainNavigationActivity extends FragmentActivity {
     private DrawerLayout drawerLayout;
     private ListView drawerList;
     private List<DrawerItem> items;
+    private int tutorialPage;
 
     protected Integer getIdUsuario() {
         UsuarioApp ua =((RunningApplication)this.getApplication()).getUsuario();
@@ -127,6 +128,7 @@ public abstract class MainNavigationActivity extends FragmentActivity {
         drawerList.setItemChecked(position, true);
         drawerLayout.closeDrawer(drawerList);
         items.get(position).navigate(this);
+
     }
 
     public DefaultSettings getDefaultSettings() {
@@ -161,6 +163,10 @@ public abstract class MainNavigationActivity extends FragmentActivity {
             drawerLayout.closeDrawer(Gravity.LEFT);
         else
             super.onBackPressed();
+    }
+
+    public int getTutorialPage() {
+        return 0;
     }
 
     /* La escucha del ListView en el Drawer */

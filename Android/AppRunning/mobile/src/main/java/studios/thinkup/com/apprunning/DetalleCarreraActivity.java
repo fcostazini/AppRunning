@@ -3,19 +3,10 @@ package studios.thinkup.com.apprunning;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewTreeObserver;
-
-import com.github.amlcurran.showcaseview.ShowcaseView;
-import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
-import com.github.amlcurran.showcaseview.targets.Target;
-import com.github.amlcurran.showcaseview.targets.ViewTarget;
 
 import java.util.Date;
 import java.util.List;
@@ -26,6 +17,7 @@ import studios.thinkup.com.apprunning.fragment.IUsuarioCarreraObservable;
 import studios.thinkup.com.apprunning.fragment.IUsuarioCarreraObserver;
 import studios.thinkup.com.apprunning.model.EstadoCarrera;
 import studios.thinkup.com.apprunning.model.RunningApplication;
+import studios.thinkup.com.apprunning.model.TutorialesPaginaEnum;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
@@ -44,6 +36,11 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
     @Override
     protected PagerAdapter getAdapter() {
         return new DetalleCarreraPagerAdapter(getSupportFragmentManager(), this);
+    }
+
+    @Override
+    public int getTutorialPage() {
+        return TutorialesPaginaEnum.DETALLE.getId();
     }
 
     @Override
