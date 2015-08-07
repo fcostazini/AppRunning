@@ -119,7 +119,7 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
         }
 
 
-        UpdateBuffer.getInstance().bufferUsuarioCarrera(uc, this.u.getEmail(), this.c);
+        UpdateBuffer.getInstance().bufferUsuarioCarrera(uc, this.c);
 
         return uc;
     }

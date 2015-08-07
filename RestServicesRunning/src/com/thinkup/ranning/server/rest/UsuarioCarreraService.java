@@ -93,6 +93,28 @@ public class UsuarioCarreraService implements IUsuarioCarreraProvider {
 		}
 	}
 
+	
+	@Path("/findAll/{id}")
+	@GET()
+	@Produces(MediaType.APPLICATION_JSON)
+	@PermitAll
+	public Respuesta<List<UsuarioCarreraDTO>> findAll(@PathParam("id") Integer id) {
+		Respuesta<List<UsuarioCarreraDTO>> r = new Respuesta<List<UsuarioCarreraDTO>>();
+		try {
+
+			r.setDto(dao.findAllById(UsuarioCarreraDTO.class,id));
+			r.addMensaje("Operacion ejecutada con éxito.");
+			r.setCodigoRespuesta(Respuesta.CODIGO_OK);
+			return r;
+		} catch (Exception e) {
+
+			r.addMensaje(e.getMessage());
+			r.setCodigoRespuesta(Respuesta.CODIGO_SIN_RESULTADOS);
+			r.setDto(new Vector<UsuarioCarreraDTO>());
+			return r;
+		}
+	}
+
 	@Path("/update")
 	@POST()
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -144,21 +166,20 @@ public class UsuarioCarreraService implements IUsuarioCarreraProvider {
 				} catch (EntidadInexistenteException e) {
 					uc = new UsuarioCarrera();
 					fillUsuarioEntity(uc, usuarioCarrera);
-					Usuario u =daoUsuario.getByEmail(usuarioCarrera
+					Usuario u = daoUsuario.getById(usuarioCarrera
 							.getUsuario());
 					Carrera c = daoCarrera.getById(usuarioCarrera
 							.getIdCarrera());
-					if(u!= null && c!= null){
+					if (u != null && c != null) {
 						uc.setUsuario(u);
 						uc.setCarrera(c);
 						this.dao.save(uc);
-					}else{
+					} else {
 						r.addMensaje("Entidades no guardadas");
 						r.setCodigoRespuesta(Respuesta.CODIGO_ERROR_INTERNO);
 						r.setDto(Respuesta.CODIGO_ERROR_INTERNO);
 					}
-					
-					
+
 				}
 			}
 			r.addMensaje("Updated");
@@ -176,7 +197,7 @@ public class UsuarioCarreraService implements IUsuarioCarreraProvider {
 	private void fillUsuarioEntity(UsuarioCarrera uc,
 			UsuarioCarreraDTO usuarioCarrera) {
 		uc.setCorrida(usuarioCarrera.isCorrida());
-		
+
 		uc.setIsAnotado(usuarioCarrera.isAnotado());
 		uc.setMeGusta(usuarioCarrera.isMeGusta());
 		uc.setTiempo(usuarioCarrera.getTiempo());

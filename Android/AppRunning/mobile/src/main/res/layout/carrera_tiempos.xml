@@ -47,7 +47,7 @@
             android:layout_marginBottom="10dp">
 
             <TextView
-                android:id="@+id/txt_nombre_carrera"
+                android:id="@+id/txt_nombre_usuario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
@@ -68,8 +68,8 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/distancia"
-                android:id="@+id/lbl_distancia"
-                android:layout_below="@+id/txt_nombre_carrera"
+                android:id="@+id/lbl_email"
+                android:layout_below="@+id/txt_nombre_usuario"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
@@ -79,9 +79,9 @@
                 android:layout_height="wrap_content"
                 android:text="50 Km"
                 android:textColor="#ff00003c"
-                android:layout_alignBottom="@+id/lbl_distancia"
-                android:layout_toRightOf="@+id/lbl_distancia"
-                android:layout_toEndOf="@+id/lbl_distancia"
+                android:layout_alignBottom="@+id/lbl_email"
+                android:layout_toRightOf="@+id/lbl_email"
+                android:layout_toEndOf="@+id/lbl_email"
                 android:layout_marginLeft="10dp"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -91,7 +91,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/lbl_tiempo"
                 android:id="@+id/lbl_tiempo"
-                android:layout_below="@+id/lbl_distancia"
+                android:layout_below="@+id/lbl_email"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="10dp" />

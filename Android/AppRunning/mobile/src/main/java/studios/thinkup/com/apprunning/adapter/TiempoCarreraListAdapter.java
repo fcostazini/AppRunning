@@ -61,7 +61,7 @@ public class TiempoCarreraListAdapter extends BaseAdapter {
         if (convertView == null) {
 
             convertView = inflater.inflate(R.layout.carrera_tiempos, null);
-            viewHolder.nombre = (TextView) convertView.findViewById(R.id.txt_nombre_carrera);
+            viewHolder.nombre = (TextView) convertView.findViewById(R.id.txt_nombre_usuario);
             viewHolder.distancia = (TextView) convertView.findViewById(R.id.txt_distancia);
             viewHolder.tiempo = (TextView) convertView.findViewById(R.id.txt_tiempo);
             viewHolder.tiempoPorDistancia = (TextView) convertView.findViewById(R.id.txt_tiempo_km);

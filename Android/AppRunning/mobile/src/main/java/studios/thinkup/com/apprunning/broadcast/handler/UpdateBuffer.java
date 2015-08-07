@@ -38,8 +38,8 @@ public class UpdateBuffer {
     }
 
 
-    public void bufferUsuarioCarrera(UsuarioCarrera uc, String email, Context c) {
-        UsuarioCarreraDTO udto = new UsuarioCarreraDTO(uc, email);
+    public void bufferUsuarioCarrera(UsuarioCarrera uc, Context c) {
+        UsuarioCarreraDTO udto = new UsuarioCarreraDTO(uc);
         if (instance.isUpdating) {
             this.ucMapTemp.put(udto.getIdUsuarioCarrera(), udto);
         } else {

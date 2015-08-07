@@ -25,16 +25,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 		@NamedQuery(name = UsuarioCarrera.GET_BY_ID_CARRERA, query = "Select u FROM UsuarioCarrera u "
 				+ "WHERE u.carrera.idCarrera = :" + UsuarioCarrera.PARAM_ID_CARRERA),
 		@NamedQuery(name = UsuarioCarrera.GET_ALL, query = "Select u FROM UsuarioCarrera u "),
+		@NamedQuery(name = UsuarioCarrera.GET_ALL_BY_ID_USUARIO, query = "Select u FROM UsuarioCarrera u where u.usuario.id = :" +UsuarioCarrera.PARAM_ID_USUARIO),
 		@NamedQuery(name = UsuarioCarrera.GET_BY_USUARIO_CARRERA, query = "Select u FROM UsuarioCarrera u "
 				+ " WHERE u.carrera.idCarrera = :"
 				+ UsuarioCarrera.PARAM_ID_CARRERA
-				+ " AND u.usuario.email = :" + UsuarioCarrera.PARAM_ID_USUARIO),
+				+ " AND u.usuario.id = :" + UsuarioCarrera.PARAM_ID_USUARIO),
 		@NamedQuery(name = UsuarioCarrera.GET_BY_ID, query = "Select u FROM UsuarioCarrera u WHERE u.id = :"
 				+ UsuarioCarrera.PARAM_ID) })
 @XmlRootElement
 public class UsuarioCarrera implements Serializable {
 
 	public static final String GET_BY_ID = "getById";
+	public static final String GET_ALL_BY_ID_USUARIO = "getCarrerasByUsuario";
 	public static final String PARAM_ID = "id";
 	private static final long serialVersionUID = 1L;
 	public static final String GET_ALL = "getAll";

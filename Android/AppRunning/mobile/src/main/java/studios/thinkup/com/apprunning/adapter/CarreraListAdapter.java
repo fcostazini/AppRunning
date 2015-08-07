@@ -69,7 +69,7 @@ public class CarreraListAdapter extends BaseAdapter {
         if (convertView == null) {
 
             convertView = inflater.inflate(R.layout.carrera_item, null);
-            viewHolder.nombre = (TextView) convertView.findViewById(R.id.txt_nombre_carrera);
+            viewHolder.nombre = (TextView) convertView.findViewById(R.id.txt_nombre_usuario);
             viewHolder.zona = (TextView) convertView.findViewById(R.id.txt_zona);
             viewHolder.fecha = (TextView) convertView.findViewById(R.id.txt_fecha);
             viewHolder.corrida = (ImageView) convertView.findViewById(R.id.img_corrida);

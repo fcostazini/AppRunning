@@ -36,7 +36,8 @@ public class UsuarioCarreraProviderRemote extends RemoteService implements IUsua
     private static final String UPDATE = "/update";
     private static final String UPLOAD = "/upload";
     private static final String TIEMPOS_BY_FILTRO = "/misTiemposByFiltro";
-    private static final String TODOS = "/findAll";
+    private static final String TODOS = "/findAll/";
+
 
     public UsuarioCarreraProviderRemote(Context context) {
         super(context);
@@ -131,6 +132,8 @@ public class UsuarioCarreraProviderRemote extends RemoteService implements IUsua
     public List<UsuarioCarrera> findAll(Class<UsuarioCarrera> clazz) {
         try {
             URL url = new URL(this.getBaseURL() + TODOS);
+
+
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setConnectTimeout(10000);
@@ -140,6 +143,37 @@ public class UsuarioCarreraProviderRemote extends RemoteService implements IUsua
             Gson g = new Gson();
             Respuesta<List<UsuarioCarrera>> r = g.fromJson(new BufferedReader(
                     new InputStreamReader(con.getInputStream())), new TypeToken<Respuesta<List<UsuarioCarrera>>>() {
+            }.getType());
+
+            if (r.getCodigoRespuesta().equals(Respuesta.CODIGO_OK) && r.getDto() != null) {
+                return r.getDto();
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<UsuarioCarreraDTO> getUsuarioCarrerasById(Class<UsuarioCarrera> clazz, Integer idUsuario) {
+        try {
+            URL url;
+            if (idUsuario != null) {
+                url = new URL(this.getBaseURL() + TODOS + idUsuario);
+            } else {
+                url = new URL(this.getBaseURL() + TODOS);
+            }
+
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setConnectTimeout(10000);
+            con.setRequestProperty("Accept", "application/json");
+            con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            con.setDoInput(true);
+            Gson g = new Gson();
+            Respuesta<List<UsuarioCarreraDTO>> r = g.fromJson(new BufferedReader(
+                    new InputStreamReader(con.getInputStream())), new TypeToken<Respuesta<List<UsuarioCarreraDTO>>>() {
             }.getType());
 
             if (r.getCodigoRespuesta().equals(Respuesta.CODIGO_OK) && r.getDto() != null) {

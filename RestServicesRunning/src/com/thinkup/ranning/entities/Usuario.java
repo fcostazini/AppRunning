@@ -19,6 +19,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /**
  * Entidad que representa la tabla: usuario_app
  *
@@ -85,6 +87,7 @@ public class Usuario implements Serializable {
 	private GruposRunning grupo;
 
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<UsuarioCarrera> usuarioCarrera;
 
 	public Integer getId() {

@@ -131,26 +131,13 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
                 List<SocialNetwork> socialNetworks = mSocialNetworkManager.getInitializedSocialNetworks();
                 for (SocialNetwork socialNetwork : socialNetworks) {
                     socialNetwork.setOnLoginCompleteListener(this);
-                    initSocialNetwork(socialNetwork);
+                    //initSocialNetwork(socialNetwork);
                 }
             }
         }
         return rootView;
     }
 
-    private void initSocialNetwork(SocialNetwork socialNetwork) {
-
-        if (socialNetwork.isConnected()) {
-            if (getView() != null) {
-                getView().findViewById(R.id.login_buttons).setVisibility(View.GONE);
-                ImageView i = (ImageView) getView().findViewById(R.id.background);
-                i.setImageResource(R.drawable.app_logo);
-                i.setAlpha(1f);
-            }
-            startProfile(socialNetwork.getID());
-        }
-
-    }
 
     //Login listener
 
@@ -159,7 +146,7 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
         //when init SocialNetworks - get and setup login only for initialized SocialNetworks
         for (SocialNetwork socialNetwork : mSocialNetworkManager.getInitializedSocialNetworks()) {
             socialNetwork.setOnLoginCompleteListener(this);
-            initSocialNetwork(socialNetwork);
+            //initSocialNetwork(socialNetwork);
         }
     }
 
@@ -226,8 +213,10 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
                 intent.putExtras(extras);
                 startActivity(intent);
             } else {
-                Intent intent = new Intent(MainFragment.this.getActivity(), RecomendadosActivity.class);
-                ((RunningApplication) MainFragment.this.getActivity().getApplication()).setUsuario(usuarioApp);
+                Intent intent = new Intent(MainFragment.this.getActivity(), StartUpActivity.class);
+                Bundle b = new Bundle();
+                b.putSerializable("usuario", usuarioApp);
+                intent.putExtras(b);
                 startActivity(intent);
             }
 
@@ -249,26 +238,12 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
 
             UsuarioApp u = null;
 
-            IUsuarioProvider up = new UsuarioProvider(MainFragment.this.getActivity());
-            u = up.getUsuarioByEmail(params[0].email);
-            if (u != null) {
-                return u;
-            } else {
-                up = new UsuarioProviderRemote(MainFragment.this.getActivity());
+
+                IUsuarioProvider up = new UsuarioProviderRemote(MainFragment.this.getActivity());
                 u = up.getUsuarioByEmail(params[0].email);
                 if ( u != null) {
-                    try {
-                       up = new UsuarioProvider(MainFragment.this.getActivity());
-                       up.grabar(u);
-                       return u;
-                    } catch (EntidadNoGuardadaException e) {
-                        e.printStackTrace();
-                        return getUsuarioApp(socialNetwork, params[0]);
-                    }
+                    return u;
                 }
-            }
-
-
             if (u == null) {
                 return this.getUsuarioApp(socialNetwork, params[0]);
             } else {

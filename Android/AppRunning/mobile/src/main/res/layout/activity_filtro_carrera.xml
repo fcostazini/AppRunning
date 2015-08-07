@@ -523,7 +523,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:text="@string/distancia"
-                android:id="@+id/lbl_distancia"
+                android:id="@+id/lbl_email"
                 android:padding="5dp"
                 android:layout_below="@+id/ly_ciudad"
                 android:layout_toRightOf="@+id/icon_distancia"
@@ -537,10 +537,10 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:id="@+id/distancia_clickable"
-                android:layout_toRightOf="@id/lbl_distancia"
-                android:layout_toEndOf="@id/lbl_distancia"
-                android:layout_alignBottom="@id/lbl_distancia"
-                android:layout_alignTop="@id/lbl_distancia">
+                android:layout_toRightOf="@id/lbl_email"
+                android:layout_toEndOf="@id/lbl_email"
+                android:layout_alignBottom="@id/lbl_email"
+                android:layout_alignTop="@id/lbl_email">
 
             <studios.thinkup.com.apprunning.view.IconTextView
                 android:layout_width="wrap_content"
@@ -579,7 +579,7 @@
                 android:layout_height="1dp"
                 android:id="@+id/imageView9"
                 android:background="#33000000"
-                android:layout_below="@+id/lbl_distancia"
+                android:layout_below="@+id/lbl_email"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentRight="true"

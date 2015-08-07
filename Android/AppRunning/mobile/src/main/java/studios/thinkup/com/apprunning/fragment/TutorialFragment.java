@@ -30,7 +30,6 @@ public class TutorialFragment extends Fragment implements View.OnTouchListener {
         // Inflate the layout for this fragment
 
 
-
         View rootView = inflater.inflate(R.layout.tutorial_fragment, container, false);
         viewFlipper = (ViewFlipper) rootView.findViewById(R.id.viewFlipper);
         final Button next = (Button) rootView.findViewById(R.id.btn_next);
@@ -40,12 +39,12 @@ public class TutorialFragment extends Fragment implements View.OnTouchListener {
         viewFlipper.setDisplayedChild(getFirstScreen());
         if (viewFlipper.getDisplayedChild() == 0) {
             back.setVisibility(View.GONE);
-        }else{
+        } else {
             back.setVisibility(View.VISIBLE);
         }
         if (viewFlipper.getDisplayedChild() == viewFlipper.getChildCount()) {
             next.setVisibility(View.GONE);
-        }else{
+        } else {
             next.setVisibility(View.VISIBLE);
         }
         next.setOnClickListener(new View.OnClickListener() {
@@ -101,21 +100,17 @@ public class TutorialFragment extends Fragment implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View view, MotionEvent touchevent) {
-        switch (touchevent.getAction())
-        {
+        switch (touchevent.getAction()) {
             // when user first touches the screen to swap
-            case MotionEvent.ACTION_DOWN:
-            {
+            case MotionEvent.ACTION_DOWN: {
                 lastX = touchevent.getX();
                 break;
             }
-            case MotionEvent.ACTION_UP:
-            {
+            case MotionEvent.ACTION_UP: {
                 float currentX = touchevent.getX();
 
                 // if left to right swipe on screen
-                if (lastX < currentX)
-                {
+                if (lastX < currentX) {
                     // If no more View/Child to flip
                     if (viewFlipper.getDisplayedChild() == 0)
                         return false;
@@ -129,9 +124,8 @@ public class TutorialFragment extends Fragment implements View.OnTouchListener {
                 }
 
                 // if right to left swipe on screen
-                if (lastX > currentX)
-                {
-                    if (viewFlipper.getDisplayedChild() == viewFlipper.getChildCount() -1)
+                if (lastX > currentX) {
+                    if (viewFlipper.getDisplayedChild() == viewFlipper.getChildCount() - 1)
                         return false;
                     // set the required Animation type to ViewFlipper
                     // The Next screen will come in form Right and current Screen will go OUT from Left
@@ -148,10 +142,14 @@ public class TutorialFragment extends Fragment implements View.OnTouchListener {
     }
 
     public int getFirstScreen() {
-        if(this.getActivity().getIntent().getExtras()!= null &&
-                this.getActivity().getIntent().getExtras().containsKey(TutorialActivity.PAGINA_TUTORIAL)){
+        if (this.getActivity().getIntent().getExtras() != null &&
+                this.getActivity().getIntent().getExtras().containsKey(TutorialActivity.PAGINA_TUTORIAL)) {
+            if (this.getActivity().getIntent().getExtras().getInt(TutorialActivity.PAGINA_TUTORIAL) > 0) {
 
-            return TutorialesPaginaEnum.getById(this.getActivity().getIntent().getExtras().getInt(TutorialActivity.PAGINA_TUTORIAL)).getId();
+                return TutorialesPaginaEnum.getById(this.getActivity().getIntent().getExtras().getInt(TutorialActivity.PAGINA_TUTORIAL)).getId();
+            } else {
+                return firstScreen;
+            }
 
         }
         return firstScreen;

@@ -6,6 +6,15 @@ package studios.thinkup.com.apprunning.model.entity;
  * UsuarioCarreraDTO para poder hacer el upload mas simple
  */
 public class UsuarioCarreraDTO {
+    public static final String CARRERA      =  "CARRERA"     ;
+    public static final String TIEMPO       =  "TIEMPO"      ;
+    public static final String ANOTADO      =  "ANOTADO"     ;
+    public static final String ME_GUSTA     =  "ME_GUSTA"    ;
+    public static final String CORRIDA      =  "CORRIDA"     ;
+    public static final String ID           =  "ID_USUARIO_CARRERA"          ;
+    public static final String ID_USUARIO           =  "USUARIO"          ;
+    public static final String DISTANCIA           =  "DISTANCIA";
+    public static final String MODALIDAD           =  "MODALIDAD"          ;
 
     private Integer idUsuarioCarrera;
     private Integer idCarrera;
@@ -14,10 +23,10 @@ public class UsuarioCarreraDTO {
     private String modalidad;
     private boolean meGusta;
     private boolean anotado;
-    private String usuario;
+    private Integer usuario;
     private Long tiempo;
 
-    public UsuarioCarreraDTO(UsuarioCarrera usuarioCarrera, String usuarioEmail) {
+    public UsuarioCarreraDTO(UsuarioCarrera usuarioCarrera) {
         this.idCarrera = usuarioCarrera.getCarrera().getId();
         this.idUsuarioCarrera = usuarioCarrera.getId();
         this.anotado = usuarioCarrera.isAnotado();
@@ -26,7 +35,7 @@ public class UsuarioCarreraDTO {
         this.distancia = usuarioCarrera.getDistancia();
         this.modalidad = usuarioCarrera.getModalidad();
         this.tiempo = usuarioCarrera.getTiempo();
-        this.usuario = usuarioEmail;
+        this.usuario = usuarioCarrera.getUsuario();
 
     }
 
@@ -86,11 +95,11 @@ public class UsuarioCarreraDTO {
         this.anotado = anotado;
     }
 
-    public String getUsuario() {
+    public Integer getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(String usuario) {
+    public void setUsuario(Integer usuario) {
         this.usuario = usuario;
     }
 

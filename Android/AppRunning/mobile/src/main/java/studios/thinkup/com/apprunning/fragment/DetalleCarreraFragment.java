@@ -40,7 +40,7 @@ public class DetalleCarreraFragment extends Fragment{
         if(this.usuarioObservable == null){
             this.usuarioObservable = (IUsuarioCarreraObservable) this.getActivity();
         }
-        TextView txtNombre = (TextView) rootView.findViewById(R.id.txt_nombre_carrera);
+        TextView txtNombre = (TextView) rootView.findViewById(R.id.txt_nombre_usuario);
         if (this.usuarioObservable.getUsuarioCarrera() == null) {
             //Sin RESULTADO
             txtNombre.setText(this.getActivity().getResources().getString(R.string.sin_resultados));
