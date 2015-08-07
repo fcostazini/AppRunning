@@ -31,7 +31,7 @@ public class Filtro implements Serializable {
     private Boolean meGusta = null;
     private Boolean inscripto = null;
     private Boolean corrida = null;
-    private String ordenarPor = CamposOrdenEnum.NINGUNO.getLabel();
+    private String ordenarPor = CamposOrdenEnum.NOMBRE.getLabel();
     private String sentido = SENTIDO_ORDEN[0];
     private String email = "";
 
@@ -261,7 +261,7 @@ public class Filtro implements Serializable {
        this.setIdUsuario(0);
        this.setModalidad(Modalidad.TODOS);
        this.setNombreCarrera(null);
-       this.ordenarPor =CamposOrdenEnum.NINGUNO.getLabel();
+       this.ordenarPor =CamposOrdenEnum.NOMBRE.getLabel();
        this.sentido =SENTIDO_ORDEN[0];
         this.recomendadas = null;
     }
