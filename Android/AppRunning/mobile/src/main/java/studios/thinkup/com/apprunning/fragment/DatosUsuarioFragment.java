@@ -2,6 +2,7 @@ package studios.thinkup.com.apprunning.fragment;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -48,7 +49,7 @@ import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemo
  */
 public class DatosUsuarioFragment extends Fragment implements View.OnClickListener {
     private UsuarioApp ua;
-
+    private static ProgressDialog pd;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,6 +59,20 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
         return rootView;
     }
 
+    protected static void showProgress(Context context,String message) {
+        pd = new ProgressDialog(context);
+        pd.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+        pd.setMessage(message);
+        pd.setCancelable(false);
+        pd.setCanceledOnTouchOutside(false);
+        pd.show();
+    }
+
+    protected static void hideProgress() {
+        if (pd != null) {
+            pd.dismiss();
+        }
+    }
     private void initActivity(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey("usuario")) {
@@ -216,6 +231,7 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
             this.ua.setGrupoId((String) grupo.getSelectedItem());
         }
         UsuarioProviderTask usuarioProviderTask = new UsuarioProviderTask(this.getActivity());
+        showProgress(this.getActivity(),"Guardando Usuario...");
         usuarioProviderTask.execute(this.ua);
 
 
@@ -291,6 +307,7 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
         @Override
         protected void onPostExecute(UsuarioApp usuarioApp) {
             super.onPostExecute(usuarioApp);
+            hideProgress();
             if (usuarioApp == null) {
                 Toast.makeText(DatosUsuarioFragment.this.getActivity(), "No se puede guardar el usuario", Toast.LENGTH_LONG).show();
             } else {

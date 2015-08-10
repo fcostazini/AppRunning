@@ -2,6 +2,8 @@ package studios.thinkup.com.apprunning;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -44,6 +46,7 @@ import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemo
 
 public class NuevoUsuario extends Activity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private UsuarioApp ua;
+    private static ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,20 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
         initView();
     }
 
+    protected static void showProgress(Context context,String message) {
+        pd = new ProgressDialog(context);
+        pd.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+        pd.setMessage(message);
+        pd.setCancelable(false);
+        pd.setCanceledOnTouchOutside(false);
+        pd.show();
+    }
+
+    protected static void hideProgress() {
+        if (pd != null) {
+            pd.dismiss();
+        }
+    }
     private void initActivity(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey("usuario")) {
@@ -226,6 +243,7 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
                 this.ua.setGrupoId((String) grupo.getSelectedItem());
             }
             UsuarioProviderTask usuarioProviderTask = new UsuarioProviderTask();
+            showProgress(this,"Guardando Usuario...");
             usuarioProviderTask.execute(this.ua);
         }
 
@@ -281,11 +299,12 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
         @Override
         protected void onPostExecute(UsuarioApp usuarioApp) {
             super.onPostExecute(usuarioApp);
+            hideProgress();
             if (usuarioApp == null) {
                 Toast.makeText(NuevoUsuario.this, "No se puede crear el usuario", Toast.LENGTH_LONG).show();
             } else {
                 ((RunningApplication) NuevoUsuario.this.getApplication()).setUsuario(usuarioApp);
-                Intent intent = new Intent(NuevoUsuario.this, RecomendadosActivity.class);
+                Intent intent = new Intent(NuevoUsuario.this, StartUpActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 NuevoUsuario.this.startActivity(intent);
             }

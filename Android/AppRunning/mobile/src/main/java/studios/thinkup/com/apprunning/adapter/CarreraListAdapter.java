@@ -37,7 +37,6 @@ public class CarreraListAdapter extends BaseAdapter {
         this.carreras = carreras;
         this.context = context;
         this.inflater  = LayoutInflater.from(context);
-
         this.provider = new UsuarioCarreraProvider(context, ((RunningApplication) context.getApplication()).getUsuario());
 
     }

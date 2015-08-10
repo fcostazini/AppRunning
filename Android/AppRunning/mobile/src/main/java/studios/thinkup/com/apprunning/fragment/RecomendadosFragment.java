@@ -1,6 +1,8 @@
 package studios.thinkup.com.apprunning.fragment;
 
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +27,9 @@ import studios.thinkup.com.apprunning.provider.restProviders.UsuarioCarreraServi
  */
 public class RecomendadosFragment extends FilteredFragment implements CarreraCabeceraService.OnResultsHandler, OnSingleResultHandler<UsuarioCarrera> {
 
+    private CarreraListAdapter adapter;
+    private static ProgressDialog pd;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,15 +41,34 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getData();
+
+
+    }
+
+    private void getData() {
         CarreraCabeceraService cp = new CarreraCabeceraService(this, RecomendadosFragment.this.getActivity(), this.getUsuario());
-        if(NetworkUtils.NETWORK_STATUS_NOT_CONNECTED == NetworkUtils.getConnectivityStatus(this.getActivity())) {
+        if (NetworkUtils.NETWORK_STATUS_NOT_CONNECTED == NetworkUtils.getConnectivityStatus(this.getActivity())) {
             this.actualizarResultados(new Vector<CarreraCabecera>());
-        }else{
+        } else {
             cp.execute(getFiltro());
 
         }
+    }
 
+    protected static void showProgress(Context context,String message) {
+        pd = new ProgressDialog(context);
+        pd.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+        pd.setMessage(message);
+        pd.setCancelable(false);
+        pd.setCanceledOnTouchOutside(false);
+        pd.show();
+    }
 
+    protected static void hideProgress() {
+        if (pd != null) {
+            pd.dismiss();
+        }
     }
     @Override
     public String getIdFragment() {
@@ -55,6 +79,7 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         CarreraCabecera c = (CarreraCabecera) l.getItemAtPosition(position);
+        showProgress(this.getActivity(),"Buscando Carrera...");
         UsuarioCarreraService uc = new UsuarioCarreraService(this, this.getActivity(), getUsuario());
         uc.execute(c.getCodigoCarrera());
 
@@ -64,17 +89,27 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
     @Override
     public void actualizarResultados(List<CarreraCabecera> resultados) {
         if (isAdded()) {
-            ListAdapter adapter = new CarreraListAdapter(this.getActivity(), resultados);
+            this.adapter = new CarreraListAdapter(this.getActivity(), resultados);
             setListAdapter(adapter);
         }
     }
 
     @Override
     public void actualizarResultado(UsuarioCarrera resultado) {
+        hideProgress();
         Intent intent = new Intent(this.getActivity(), DetalleCarreraActivity.class);
         Bundle b = new Bundle();
         b.putSerializable("carrera", resultado);
         intent.putExtras(b); //Put your id to your next Intent
         startActivity(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (this.adapter != null) {
+            this.adapter.notifyDataSetInvalidated();
+        }
+        this.getData();
     }
 }
