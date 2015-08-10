@@ -306,6 +306,9 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
                 ((RunningApplication) NuevoUsuario.this.getApplication()).setUsuario(usuarioApp);
                 Intent intent = new Intent(NuevoUsuario.this, StartUpActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Bundle b = new Bundle();
+                b.putSerializable("usuario",usuarioApp);
+                intent.putExtras(b);
                 NuevoUsuario.this.startActivity(intent);
             }
 
