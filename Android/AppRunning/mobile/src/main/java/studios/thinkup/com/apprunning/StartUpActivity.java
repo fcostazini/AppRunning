@@ -11,12 +11,15 @@ import java.util.List;
 
 import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
 import studios.thinkup.com.apprunning.model.RunningApplication;
+import studios.thinkup.com.apprunning.model.entity.ProvinciaCiudadDTO;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
-import studios.thinkup.com.apprunning.model.entity.UsuarioCarreraDTO;
-import studios.thinkup.com.apprunning.provider.UsuarioCarreraDTOProvider;
+import studios.thinkup.com.apprunning.provider.CarreraLocalProvider;
+import studios.thinkup.com.apprunning.provider.FiltrosProvider;
+import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
+import studios.thinkup.com.apprunning.provider.restProviders.FiltrosRemoteProvider;
 import studios.thinkup.com.apprunning.provider.restProviders.UsuarioCarreraProviderRemote;
 
 /**
@@ -27,28 +30,29 @@ public class StartUpActivity extends Activity {
     private UsuarioApp usuario;
     private ProgressBar pb;
     private TextView txt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.startup_activity);
         initUsuario(savedInstanceState);
-        this.pb = (ProgressBar)findViewById(R.id.progressBar);
-        this.txt = (TextView)findViewById(R.id.txt_status);
+        this.pb = (ProgressBar) findViewById(R.id.progressBar);
+        this.txt = (TextView) findViewById(R.id.txt_status);
         new UpdateAppData(this.txt, this.pb).execute(this.usuario);
 
     }
 
-    private void initUsuario(Bundle savedInstanceState){
-        if(this.getIntent().getExtras()!=null &&
-                this.getIntent().getExtras().containsKey("usuario")){
+    private void initUsuario(Bundle savedInstanceState) {
+        if (this.getIntent().getExtras() != null &&
+                this.getIntent().getExtras().containsKey("usuario")) {
             this.usuario = (UsuarioApp) this.getIntent().getExtras().getSerializable("usuario");
         }
 
-        if(this.usuario == null && savedInstanceState != null &&
-                savedInstanceState.containsKey("usuario")){
+        if (this.usuario == null && savedInstanceState != null &&
+                savedInstanceState.containsKey("usuario")) {
             this.usuario = (UsuarioApp) savedInstanceState.getSerializable("usuario");
         }
-        if(this.usuario == null){
+        if (this.usuario == null) {
             Intent i = new Intent(this, SeleccionarUsuarioActivity.class);
             startActivity(i);
         }
@@ -56,7 +60,7 @@ public class StartUpActivity extends Activity {
 
     }
 
-    private class UpdateAppData extends  AsyncTask<UsuarioApp, Integer, Integer>{
+    private class UpdateAppData extends AsyncTask<UsuarioApp, Integer, Integer> {
         private TextView txt;
         private ProgressBar pb;
 
@@ -68,16 +72,20 @@ public class StartUpActivity extends Activity {
         @Override
         protected Integer doInBackground(UsuarioApp... usuarioApps) {
             UsuarioProvider up = new UsuarioProvider(StartUpActivity.this);
-            if(up.getUsuarioByEmail(usuarioApps[0].getEmail()) == null){
+            if (up.getUsuarioByEmail(usuarioApps[0].getEmail()) == null) {
                 try {
                     up.grabar(usuarioApps[0]);
                     publishProgress(15);
                     UsuarioCarreraProviderRemote upr = new UsuarioCarreraProviderRemote(StartUpActivity.this);
-                    List<UsuarioCarreraDTO> carreras = upr.getUsuarioCarrerasById(UsuarioCarrera.class,usuarioApps[0].getId());
+                    List<UsuarioCarrera> carreras = upr.getUsuarioCarrerasById(UsuarioCarrera.class, usuarioApps[0].getId());
                     publishProgress(35);
-                    UsuarioCarreraDTOProvider upLocal = new UsuarioCarreraDTOProvider(StartUpActivity.this);
-                    for(UsuarioCarreraDTO uc : carreras){
+                    UsuarioCarreraProvider upLocal = new UsuarioCarreraProvider(StartUpActivity.this, usuarioApps[0]);
+                    CarreraLocalProvider cLocal = new CarreraLocalProvider(StartUpActivity.this);
+                    for (UsuarioCarrera uc : carreras) {
+                        uc.setUsuario(usuarioApps[0].getId());
                         upLocal.grabar(uc);
+                        cLocal.grabar(uc.getCarrera());
+
                     }
 
 
@@ -86,10 +94,18 @@ public class StartUpActivity extends Activity {
                     return 9;
                 }
             }
-            setProgress(50);
-            if(NetworkUtils.getConnectivityStatus(StartUpActivity.this) == NetworkUtils.NETWORK_STATUS_NOT_CONNECTED){
+            publishProgress(50);
+            if (NetworkUtils.getConnectivityStatus(StartUpActivity.this) == NetworkUtils.NETWORK_STATUS_NOT_CONNECTED) {
                 publishProgress(100);
-            }else{
+            } else {
+                publishProgress(55);
+                FiltrosRemoteProvider fpr = new FiltrosRemoteProvider(StartUpActivity.this);
+                List<ProvinciaCiudadDTO> filtros = fpr.getFiltros();
+                if (filtros != null && !filtros.isEmpty()) {
+                    FiltrosProvider fp = new FiltrosProvider(StartUpActivity.this);
+                    publishProgress(70);
+                    fp.actualizarFiltros(filtros);
+                }
 
             }
 
@@ -99,7 +115,7 @@ public class StartUpActivity extends Activity {
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            switch (values[0]){
+            switch (values[0]) {
                 case 0:
                     pb.setProgress(5);
                     txt.setText("Guardando usuario...");
@@ -116,17 +132,24 @@ public class StartUpActivity extends Activity {
                     pb.setProgress(50);
                     txt.setText("Guardando Carreras...");
                     break;
+                case 55:
+                    pb.setProgress(50);
+                    txt.setText("Buscando Filtros...");
+                    break;
+                case 70:
+                    pb.setProgress(50);
+                    txt.setText("Actualizando Filtros...");
+                    break;
             }
 
         }
-
 
 
         @Override
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
             ((RunningApplication) StartUpActivity.this.getApplication()).setUsuario(StartUpActivity.this.usuario);
-            Intent i = new Intent(StartUpActivity.this,RecomendadosActivity.class);
+            Intent i = new Intent(StartUpActivity.this, RecomendadosActivity.class);
             startActivity(i);
 
         }

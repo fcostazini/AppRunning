@@ -71,7 +71,7 @@ public class CarreraDAO {
 		select.append(" SELECT c.id as codigoCarrera, c.nombre as nombre, c.fecha_inicio as fechaInicio, EXTRACT(HOUR FROM c.fecha_inicio)||':'||EXTRACT(MINUTE  FROM c.fecha_inicio) AS hora, c.distancia_disponible as distanciaDisponible, c.descripcion as descripcion, c.url_imagen as urlImagen, ");
 		select.append(" c.provincia as provincia, c.ciudad as ciudad ");
 		select.append(" FROM public.carrera c ");
-		if (filtro.getIdUsuario() > 0) {
+		if (filtro != null && filtro.getIdUsuario() > 0) {
 			select.append(" left join public.usuario_carrera uc on uc.carrera_id = c.id ");
 		}
 

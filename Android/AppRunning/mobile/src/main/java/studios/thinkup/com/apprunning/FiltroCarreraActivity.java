@@ -29,6 +29,7 @@ import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.entity.CamposOrdenEnum;
 import studios.thinkup.com.apprunning.model.entity.Modalidad;
 import studios.thinkup.com.apprunning.provider.FiltrosProvider;
+import studios.thinkup.com.apprunning.provider.IFiltrosProvider;
 
 
 public class FiltroCarreraActivity extends ActivityConFiltro implements View.OnClickListener {
@@ -70,7 +71,7 @@ public class FiltroCarreraActivity extends ActivityConFiltro implements View.OnC
         txtModalidad.setText(this.filtro.getModalidad().getNombre());
         modalidad.setOnClickListener(new DropDownFilter(this, txtModalidad, Modalidad.getNombres(), cm));
 
-        FiltrosProvider fp = new FiltrosProvider(this);
+        IFiltrosProvider fp = new FiltrosProvider(this);
 
         RelativeLayout provincia = (RelativeLayout) findViewById(R.id.provincia_click);
         TextView txtProvincia = (TextView) provincia.findViewById(R.id.txt_provincia);

@@ -25,6 +25,10 @@ public class UsuarioCarreraDTO {
     private boolean anotado;
     private Integer usuario;
     private Long tiempo;
+    private String nombreCarrera;
+    private String fechaCarrera;
+    private String horaCarrera;
+    private String provincia;
 
     public UsuarioCarreraDTO(UsuarioCarrera usuarioCarrera) {
         this.idCarrera = usuarioCarrera.getCarrera().getId();
@@ -37,6 +41,38 @@ public class UsuarioCarreraDTO {
         this.tiempo = usuarioCarrera.getTiempo();
         this.usuario = usuarioCarrera.getUsuario();
 
+    }
+
+    public String getNombreCarrera() {
+        return nombreCarrera;
+    }
+
+    public void setNombreCarrera(String nombreCarrera) {
+        this.nombreCarrera = nombreCarrera;
+    }
+
+    public String getFechaCarrera() {
+        return fechaCarrera;
+    }
+
+    public void setFechaCarrera(String fechaCarrera) {
+        this.fechaCarrera = fechaCarrera;
+    }
+
+    public String getHoraCarrera() {
+        return horaCarrera;
+    }
+
+    public void setHoraCarrera(String horaCarrera) {
+        this.horaCarrera = horaCarrera;
+    }
+
+    public String getProvincia() {
+        return provincia;
+    }
+
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
     }
 
     public Integer getIdUsuarioCarrera() {

@@ -33,6 +33,7 @@ public class SelectorUsuarioFragment extends ListFragment {
         if (usuarios.size() == 0) {
             Intent i = new Intent(this.getActivity(), MainActivity.class);
             startActivity(i);
+
         } else if (usuarios.size() == 1) {
             this.singleUserLogin(usuarios.get(0));
         } else {
@@ -47,6 +48,7 @@ public class SelectorUsuarioFragment extends ListFragment {
         b.putSerializable("usuario", usuarioApp);
         i.putExtras(b);
         startActivity(i);
+
     }
 
 

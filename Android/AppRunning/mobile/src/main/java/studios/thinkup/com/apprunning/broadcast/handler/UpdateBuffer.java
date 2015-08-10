@@ -97,6 +97,7 @@ public class UpdateBuffer {
                 return usuarioCarreraProviderRemote.syncCarreras(params[0].values());
 
             } catch (Exception e) {
+                e.printStackTrace();
                 return Respuesta.CODIGO_ERROR_INTERNO;
             }
 

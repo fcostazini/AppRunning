@@ -1,5 +1,6 @@
 package studios.thinkup.com.apprunning.provider;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,6 +13,7 @@ import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.entity.IEntity;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
+import studios.thinkup.com.apprunning.model.entity.UsuarioCarreraDTO;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 
 /**
@@ -28,7 +30,6 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
         super(c);
         this.u = usuarioApp;
     }
-
 
     @Override
 
@@ -200,6 +201,49 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
                 UsuarioCarrera.ID_USUARIO
         };
         return fields;
+    }
+
+    private ContentValues getUpdateFields(UsuarioCarrera ent){
+
+        ContentValues parametros = new ContentValues();
+        parametros.put( UsuarioCarreraDTO.ID, ent.getId());
+        parametros.put(UsuarioCarreraDTO.ANOTADO, ent.isAnotado()?1:0);
+        parametros.put(UsuarioCarreraDTO.ME_GUSTA, ent.isMeGusta()?1:0);
+        parametros.put(UsuarioCarreraDTO.CORRIDA, ent.isCorrida()?1:0);
+        parametros.put(UsuarioCarreraDTO.CARRERA, ent.getCarrera().getId());
+        parametros.put(UsuarioCarreraDTO.DISTANCIA, ent.getDistancia());
+        parametros.put(UsuarioCarreraDTO.TIEMPO, ent.getTiempo());
+        parametros.put(UsuarioCarreraDTO.ID_USUARIO, ent.getUsuario());
+        parametros.put(UsuarioCarreraDTO.MODALIDAD, ent.getModalidad());
+
+        return  parametros;
+
+    }
+    @Override
+    public UsuarioCarrera grabar(UsuarioCarrera uc)throws  EntidadNoGuardadaException{
+        SQLiteDatabase db = null;
+        Cursor c = null;
+        try {
+            db = this.dbProvider.getWritableDatabase();
+
+            long result = db.insertOrThrow("USUARIO_CARRERA",
+                    null, this.getUpdateFields(uc));
+            if(result >= 0 ){
+                if (uc.getId() == null || uc.getId() <= 0) {
+                    uc.setId(Long.valueOf(result).intValue());
+                }
+                return  uc;
+            }else{
+                throw new EntidadNoGuardadaException("No se realizó el insert" + uc.getId().toString());
+            }
+        } catch (Exception e) {
+            throw new EntidadNoGuardadaException(e);
+        } finally {
+            if (db != null && db.isOpen()) {
+                db.close();
+            }
+        }
+
     }
 }
 

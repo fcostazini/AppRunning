@@ -12,7 +12,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import com.thinkup.ranning.dtos.Filtro;
-import com.thinkup.ranning.dtos.UsuarioCarreraDTO;
 import com.thinkup.ranning.entities.UsuarioCarrera;
 import com.thinkup.ranning.exceptions.PersistenciaException;
 import com.thinkup.ranning.server.rest.exception.EntidadInexistenteException;
@@ -144,30 +143,16 @@ public class UsuarioCarreraDAO {
 
 	}
 
-	public List<UsuarioCarreraDTO> findAllById(Class<UsuarioCarreraDTO> class1,
-			Integer id) {
+	public List<UsuarioCarrera> findAllById(Integer idUsuario) {
 		try {
-			StringBuffer select = new StringBuffer();
-			select.append(" select id as idUsuarioCarrera,         ");
-			select.append(" 			carrera_id as idCarrera,   ");
-			select.append(" 			corrida,                   ");
-			select.append(" 			anotado,                   ");
-			select.append(" 			me_gusta as meGusta,       ");
-			select.append(" 			usuario_id as usuario,     ");
-			select.append(" 			tiempo,                    ");
-			select.append(" 			distancia,                 ");
-			select.append(" 			modalidad                  ");
-			select.append("   from usuario_carrera ");
-			select.append("  Where usuario_id = :" +UsuarioCarrera.PARAM_ID_USUARIO );
-				String query = select.toString();
-			List<UsuarioCarreraDTO> resultados = this.entityManager
-					.createNativeQuery(query,
-					UsuarioCarreraDTO.class)
-					.setParameter(UsuarioCarrera.PARAM_ID_USUARIO, id)
-					.getResultList();
+			List<UsuarioCarrera> resultados = this.entityManager
+					.createNamedQuery(UsuarioCarrera.GET_ALL_BY_ID_USUARIO,
+							UsuarioCarrera.class)
+							.setParameter(UsuarioCarrera.PARAM_ID_USUARIO,idUsuario )
+							.getResultList();
 			return resultados;
 		} catch (Exception e) {
-			return new Vector<UsuarioCarreraDTO>();
+			return new Vector<UsuarioCarrera>();
 		}
 	}
 

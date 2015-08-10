@@ -156,7 +156,7 @@ public class UsuarioCarreraProviderRemote extends RemoteService implements IUsua
         }
     }
 
-    public List<UsuarioCarreraDTO> getUsuarioCarrerasById(Class<UsuarioCarrera> clazz, Integer idUsuario) {
+    public List<UsuarioCarrera> getUsuarioCarrerasById(Class<UsuarioCarrera> clazz, Integer idUsuario) {
         try {
             URL url;
             if (idUsuario != null) {
@@ -172,8 +172,8 @@ public class UsuarioCarreraProviderRemote extends RemoteService implements IUsua
             con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             con.setDoInput(true);
             Gson g = new Gson();
-            Respuesta<List<UsuarioCarreraDTO>> r = g.fromJson(new BufferedReader(
-                    new InputStreamReader(con.getInputStream())), new TypeToken<Respuesta<List<UsuarioCarreraDTO>>>() {
+            Respuesta<List<UsuarioCarrera>> r = g.fromJson(new BufferedReader(
+                    new InputStreamReader(con.getInputStream())), new TypeToken<Respuesta<List<UsuarioCarrera>>>() {
             }.getType());
 
             if (r.getCodigoRespuesta().equals(Respuesta.CODIGO_OK) && r.getDto() != null) {

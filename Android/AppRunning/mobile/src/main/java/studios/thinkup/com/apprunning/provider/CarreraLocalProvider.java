@@ -169,7 +169,7 @@ public class CarreraLocalProvider extends GenericProvider<Carrera> implements IC
             long result = db.insertOrThrow(this.getTableName(entidad.getClass()),
                     null, this.getUpdateFields(entidad));
             if (result >= 0) {
-                entidad.setId(new Long(result).intValue());
+                entidad.setId(Long.valueOf(result).intValue());
                 return entidad;
             } else {
                 throw new EntidadNoGuardadaException("No se realizó el insert" + entidad.getId().toString());
@@ -177,9 +177,6 @@ public class CarreraLocalProvider extends GenericProvider<Carrera> implements IC
         } catch (Exception e) {
             throw new EntidadNoGuardadaException(e);
         } finally {
-            if (c != null && !c.isClosed()) {
-                c.close();
-            }
             if (db != null && db.isOpen()) {
                 db.close();
             }

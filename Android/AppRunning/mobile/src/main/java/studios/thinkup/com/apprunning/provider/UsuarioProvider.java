@@ -1,5 +1,6 @@
 package studios.thinkup.com.apprunning.provider;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,6 +10,7 @@ import java.util.Vector;
 
 import studios.thinkup.com.apprunning.model.entity.IEntity;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
+import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 
 /**
  * Created by FaQ on 28/05/2015.
@@ -39,9 +41,75 @@ public class UsuarioProvider extends GenericProvider<UsuarioApp> implements IUsu
         }
 
 
+    private ContentValues getUpdateFields(UsuarioApp ent) {
+
+
+        ContentValues parametros = new ContentValues();
+        parametros.put( UsuarioApp.ID, ent.getId());
+        parametros.put( UsuarioApp.NICK, ent.getNick());
+        parametros.put( UsuarioApp.NOMBRE, ent.getNombre());
+        parametros.put( UsuarioApp.FECHA_NACIMIENTO, ent.getFechaNacimiento());
+        parametros.put( UsuarioApp.FOTO_PERFIL_URL, ent.getFotoPerfil());
+        parametros.put( UsuarioApp.APELLIDO, ent.getApellido());
+        parametros.put( UsuarioApp.EMAIL, ent.getEmail());
+        parametros.put( UsuarioApp.GRUPO_ID,ent.getGrupoId());
+        parametros.put( UsuarioApp.TIPO_CUENTA, ent.getTipoCuenta());
+
+        return  parametros;
+
+
+    }
     @Override
     protected String getTableName(Class<? extends IEntity> clazz) {
         return "USUARIO_APP";
+    }
+
+    @Override
+    public UsuarioApp update(UsuarioApp entidad) throws EntidadNoGuardadaException {
+        SQLiteDatabase db = null;
+        Cursor c = null;
+        String[] params = {entidad.getId().toString()};
+        try {
+            db = this.dbProvider.getWritableDatabase();
+
+            int result = db.update(this.getTableName(entidad.getClass()),
+                    getUpdateFields(entidad), entidad.getNombreId() + " = ?", params);
+            if(result > 0 ){
+                return  entidad;
+            }else{
+                throw new EntidadNoGuardadaException("No se realizó el update" + entidad.getId().toString());
+            }
+        } catch (Exception e) {
+            throw new EntidadNoGuardadaException(e);
+        } finally {
+            if (db != null && db.isOpen()) {
+                db.close();
+            }
+        }
+    }
+
+    @Override
+    public UsuarioApp grabar(UsuarioApp entidad) throws EntidadNoGuardadaException {
+        SQLiteDatabase db = null;
+        Cursor c = null;
+        try {
+            db = this.dbProvider.getWritableDatabase();
+
+            long result = db.insertOrThrow(this.getTableName(entidad.getClass()),
+                    null, this.getUpdateFields(entidad));
+            if (result >= 0) {
+                entidad.setId(Long.valueOf(result).intValue());
+                return entidad;
+            } else {
+                throw new EntidadNoGuardadaException("No se realizó el insert" + entidad.getId().toString());
+            }
+        } catch (Exception e) {
+            throw new EntidadNoGuardadaException(e);
+        } finally {
+            if (db != null && db.isOpen()) {
+                db.close();
+            }
+        }
     }
 
     @Override

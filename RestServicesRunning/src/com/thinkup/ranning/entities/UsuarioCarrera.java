@@ -15,6 +15,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /**
  * Entidad que representa la tabla: usuario_app
  *
@@ -74,6 +76,7 @@ public class UsuarioCarrera implements Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "usuario_id", nullable = true)
+	@JsonIgnore
 	private Usuario usuario;
 
 	public UsuarioCarrera() {
@@ -98,7 +101,7 @@ public class UsuarioCarrera implements Serializable {
 		this.tiempo = tiempo;
 	}
 
-	public Boolean getIsAnotado() {
+	public Boolean getAnotado() {
 		return anotado;
 	}
 

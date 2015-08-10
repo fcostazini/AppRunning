@@ -98,11 +98,11 @@ public class UsuarioCarreraService implements IUsuarioCarreraProvider {
 	@GET()
 	@Produces(MediaType.APPLICATION_JSON)
 	@PermitAll
-	public Respuesta<List<UsuarioCarreraDTO>> findAll(@PathParam("id") Integer id) {
-		Respuesta<List<UsuarioCarreraDTO>> r = new Respuesta<List<UsuarioCarreraDTO>>();
+	public Respuesta<List<UsuarioCarrera>> findAll(@PathParam("id") Integer id) {
+		Respuesta<List<UsuarioCarrera>> r = new Respuesta<List<UsuarioCarrera>>();
 		try {
 
-			r.setDto(dao.findAllById(UsuarioCarreraDTO.class,id));
+			r.setDto(dao.findAllById(id));
 			r.addMensaje("Operacion ejecutada con éxito.");
 			r.setCodigoRespuesta(Respuesta.CODIGO_OK);
 			return r;
@@ -110,7 +110,7 @@ public class UsuarioCarreraService implements IUsuarioCarreraProvider {
 
 			r.addMensaje(e.getMessage());
 			r.setCodigoRespuesta(Respuesta.CODIGO_SIN_RESULTADOS);
-			r.setDto(new Vector<UsuarioCarreraDTO>());
+			r.setDto(new Vector<UsuarioCarrera>());
 			return r;
 		}
 	}

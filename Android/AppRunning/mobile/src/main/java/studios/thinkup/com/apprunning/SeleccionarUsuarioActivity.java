@@ -12,5 +12,6 @@ public class SeleccionarUsuarioActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.selecccionar_usuario);
+
     }
 }
