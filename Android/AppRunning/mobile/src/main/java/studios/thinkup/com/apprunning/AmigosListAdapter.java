@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 import java.util.Vector;
 
-import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
+import studios.thinkup.com.apprunning.model.entity.Amigo;
 
 /**
  * Created by fcostazini on 22/05/2015.
@@ -24,11 +24,11 @@ import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
  * Adaptador para mostrar los item Categoria del ListView SubcategoriaActivity
  */
 public class AmigosListAdapter extends BaseAdapter implements Filterable {
-    private List<UsuarioApp> amigos;
+    private List<Amigo> amigos;
     private Context context;
     private LayoutInflater inflater;
 
-    public AmigosListAdapter(Activity context, List<UsuarioApp> amigos) {
+    public AmigosListAdapter(Activity context, List<Amigo> amigos) {
         this.amigos = amigos;
         this.context = context;
         this.inflater = LayoutInflater.from(context);
@@ -71,7 +71,7 @@ public class AmigosListAdapter extends BaseAdapter implements Filterable {
 
 
         }
-        UsuarioApp u = (UsuarioApp) getItem(position);
+        Amigo u = (Amigo) getItem(position);
         if (u != null) {
 
             viewHolder.nombre.setText(u.getNick());
@@ -91,7 +91,7 @@ public class AmigosListAdapter extends BaseAdapter implements Filterable {
             protected FilterResults performFiltering(CharSequence constraint) {
 
 
-                List<UsuarioApp> filteredResults = getFilteredResults(constraint);
+                List<Amigo> filteredResults = getFilteredResults(constraint);
 
                 FilterResults results = new FilterResults();
                 results.values = filteredResults;
@@ -103,16 +103,16 @@ public class AmigosListAdapter extends BaseAdapter implements Filterable {
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                amigos = (List<UsuarioApp>) results.values;
+                amigos = (List<Amigo>) results.values;
                 AmigosListAdapter.this.notifyDataSetChanged();
             }
         };
 
     }
 
-    private List<UsuarioApp> getFilteredResults(CharSequence constraint) {
-        List<UsuarioApp> resultados = new Vector<>();
-        for(UsuarioApp u : amigos){
+    private List<Amigo> getFilteredResults(CharSequence constraint) {
+        List<Amigo> resultados = new Vector<>();
+        for(Amigo u : amigos){
             if(u.getNick().startsWith(constraint.toString()) ||
                     u.getEmail().startsWith(constraint.toString())){
                 resultados.add(u);

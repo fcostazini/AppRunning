@@ -10,13 +10,13 @@ import java.util.Vector;
 
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
-import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
+import studios.thinkup.com.apprunning.model.entity.Amigo;
 
 /**
  * Created by Facundo on 11/08/2015.
  * Servicio para obtener los amigos
  */
-public class MisAmigosService extends AsyncTask<Integer, Integer, List<UsuarioApp>> {
+public class MisAmigosService extends AsyncTask<Integer, Integer, List<Amigo>> {
     private Context context;
     private IAmigosProvider ap;
     private IServiceAmigosHandler handler;
@@ -30,7 +30,7 @@ public class MisAmigosService extends AsyncTask<Integer, Integer, List<UsuarioAp
     }
 
     @Override
-    protected void onPostExecute(List<UsuarioApp> usuarioApps) {
+    protected void onPostExecute(List<Amigo> usuarioApps) {
         super.onPostExecute(usuarioApps);
         if (handler != null) {
             if (usuarioApps == null) {
@@ -57,19 +57,19 @@ public class MisAmigosService extends AsyncTask<Integer, Integer, List<UsuarioAp
     protected void onCancelled() {
         super.onCancelled();
         if (handler != null) {
-            handler.onDataRetrived(new Vector<UsuarioApp>());
+            handler.onDataRetrived(new Vector<Amigo>());
         }
     }
 
     @Override
-    protected List<UsuarioApp> doInBackground(Integer... params) {
+    protected List<Amigo> doInBackground(Integer... params) {
 
         return this.ap.getAmigosByUsuarioId(params[0]);
 
     }
 
     public interface IServiceAmigosHandler {
-        void onDataRetrived(List<UsuarioApp> amigos);
+        void onDataRetrived(List<Amigo> amigos);
 
         void onError(String error);
     }
@@ -80,8 +80,8 @@ public class MisAmigosService extends AsyncTask<Integer, Integer, List<UsuarioAp
         }
 
         @Override
-        public List<UsuarioApp> getAmigosByUsuarioId(Integer id) {
-            List<UsuarioApp> usuarios = new Vector<>();
+        public List<Amigo> getAmigosByUsuarioId(Integer id) {
+            List<Amigo> usuarios = new Vector<>();
             usuarios.add(getUsuarioRandom());
             usuarios.add(getUsuarioRandom());
             usuarios.add(getUsuarioRandom());
@@ -91,11 +91,12 @@ public class MisAmigosService extends AsyncTask<Integer, Integer, List<UsuarioAp
             return usuarios;
         }
 
-        private UsuarioApp getUsuarioRandom() {
-            UsuarioApp u = new UsuarioApp();
+        private Amigo getUsuarioRandom() {
+            Amigo u = new Amigo();
             int i = rand.nextInt();
             u.setNombre("Nombre " + i);
             u.setNick("Nick " + i);
+            u.setEsAmigo(true);
             u.setId(new Integer(i));
             u.setEmail("email" + i + "@gmail.com");
             u.setFotoPerfil("https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/" +
@@ -105,8 +106,8 @@ public class MisAmigosService extends AsyncTask<Integer, Integer, List<UsuarioAp
         }
 
         @Override
-        public List<UsuarioApp> getUsuarios(String parametro) {
-            List<UsuarioApp> usuarios = new Vector<>();
+        public List<Amigo> getUsuarios(String parametro) {
+            List<Amigo> usuarios = new Vector<>();
             usuarios.add(getUsuarioRandom());
             usuarios.add(getUsuarioRandom());
             usuarios.add(getUsuarioRandom());
@@ -119,6 +120,18 @@ public class MisAmigosService extends AsyncTask<Integer, Integer, List<UsuarioAp
             usuarios.add(getUsuarioRandom());
             return usuarios;
 
+        }
+
+        /**
+         * Actualiza el estado de un amigo con relacion al usuario
+         *
+         * @param param
+         * @param idUsuario del usuario que solicita
+         * @return
+         */
+        @Override
+        public Integer actualizarEstadoAmigo(Amigo param, Integer idUsuario) {
+            return null;
         }
     }
 }

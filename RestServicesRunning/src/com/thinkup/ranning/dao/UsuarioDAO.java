@@ -30,6 +30,16 @@ public class UsuarioDAO {
 				Usuario.QUERY_ALL, Usuario.class).getResultList();
 		return usuario;
 	}
+	
+	public List<Usuario> getAllUsuariosByData(String param) {
+		List<Usuario> usuario = this.entityManager.createNamedQuery(
+				Usuario.QUERY_ALL_BY_PARAM, Usuario.class)
+				.setParameter(Usuario.PARAM_NOMBRE, param + "%")
+				.setParameter(Usuario.PARAM_EMAIL, param + "%")
+				.getResultList();
+		return usuario;
+	}
+
 
 	public Usuario getById(int id) throws PersistenciaException {
 		try {

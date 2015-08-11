@@ -6,14 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import studios.thinkup.com.apprunning.R;
-import studios.thinkup.com.apprunning.model.RunningApplication;
-import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
+import studios.thinkup.com.apprunning.model.entity.Amigo;
 
 /**
  * Created by Facundo on 11/08/2015.
@@ -22,7 +20,7 @@ import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 
 public class DetalleAmigoFragment extends Fragment {
 
-    private UsuarioApp ua;
+    private Amigo ua;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,14 +32,11 @@ public class DetalleAmigoFragment extends Fragment {
     }
 
     private void initActivity(Bundle savedInstanceState) {
-        this.ua = (UsuarioApp) restoreField(savedInstanceState, UsuarioApp.FIELD_ID);
+        this.ua = (Amigo) restoreField(savedInstanceState, Amigo.FIELD_ID);
         if (this.ua == null) {
-            if (((RunningApplication) this.getActivity().getApplication()).getUsuario() != null) {
-                this.ua = ((RunningApplication) this.getActivity().getApplication()).getUsuario();
-            } else {
-                this.ua = new UsuarioApp();
-            }
+            this.ua = new Amigo();
         }
+
     }
 
     private Object restoreField(Bundle savedInstanceState, String name) {
@@ -90,7 +85,7 @@ public class DetalleAmigoFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (this.ua != null) {
-            outState.putSerializable(UsuarioApp.FIELD_ID, this.ua);
+            outState.putSerializable(Amigo.FIELD_ID, this.ua);
         }
     }
 

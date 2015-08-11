@@ -11,33 +11,36 @@ import java.util.Vector;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
 import studios.thinkup.com.apprunning.model.entity.Amigo;
+import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
+import studios.thinkup.com.apprunning.provider.restProviders.Respuesta;
 
 /**
  * Created by Facundo on 11/08/2015.
- * <p/>
- * Busqueda de amigos por Nombre UNION Email Like "Param%"
+ * Servicio para obtener los amigos
  */
-public class BuscarNuevosAmigosService extends AsyncTask<String, Integer, List<Amigo>> {
+public class ActualizarAmigoService extends AsyncTask<Amigo, Integer, Integer> {
     private Context context;
     private IAmigosProvider ap;
-    private IServiceAmigosHandler handler;
+    private UsuarioApp usuarioApp;
+    private IServicioActualizacionAmigoHandler handler;
 
-    public BuscarNuevosAmigosService(Context activity, IServiceAmigosHandler handler) {
+    public ActualizarAmigoService(Context activity, IServicioActualizacionAmigoHandler handler,UsuarioApp usuarioApp) {
         this.context = activity;
-
+        this.usuarioApp = usuarioApp;
         this.handler = handler;
 
 
     }
 
     @Override
-    protected void onPostExecute(List<Amigo> usuarioApps) {
-        super.onPostExecute(usuarioApps);
+    protected void onPostExecute(Integer estado) {
+        super.onPostExecute(estado);
         if (handler != null) {
-            if (usuarioApps == null) {
-                handler.onError("Error al Buscar los amigos");
+            if (estado == Respuesta.CODIGO_OK) {
+                handler.onOk();
             } else {
-                handler.onDataRetrived(usuarioApps);
+                handler.onError(estado);
+
             }
 
         }
@@ -58,26 +61,25 @@ public class BuscarNuevosAmigosService extends AsyncTask<String, Integer, List<A
     protected void onCancelled() {
         super.onCancelled();
         if (handler != null) {
-            handler.onDataRetrived(new Vector<Amigo>());
+            handler.onOk();
         }
     }
 
     @Override
-    protected List<Amigo> doInBackground(String... params) {
+    protected Integer doInBackground(Amigo... params) {
 
-        return this.ap.getUsuarios(params[0]);
+        return this.ap.actualizarEstadoAmigo(params[0],this.usuarioApp.getId());
 
     }
 
-    public interface IServiceAmigosHandler {
-        void onDataRetrived(List<Amigo> amigos);
+    public interface IServicioActualizacionAmigoHandler {
+        void onOk();
 
-        void onError(String error);
+        void onError(Integer estado);
     }
 
     private class AmigosProviderDummy implements IAmigosProvider {
         Random rand = new Random(System.currentTimeMillis());
-
         public AmigosProviderDummy(Context context) {
         }
 
@@ -96,11 +98,10 @@ public class BuscarNuevosAmigosService extends AsyncTask<String, Integer, List<A
         private Amigo getUsuarioRandom() {
             Amigo u = new Amigo();
             int i = rand.nextInt();
-            u.setNombre("NN " + i);
+            u.setNombre("Nombre " + i);
             u.setNick("Nick " + i);
-            u.setEsAmigo(false);
             u.setId(new Integer(i));
-            u.setEmail("ee" + i + "@gmail.com");
+            u.setEmail("email" + i + "@gmail.com");
             u.setFotoPerfil("https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/" +
                     "p40x40/10394643_10204849992385905_3118802496210341561_n.jpg?oh=2487f81c3c0cae770d1398add769b131&oe=563B62B0&" +
                     "__gda__=1451466838_b656d5e96454d069fdd3d46008963017");
@@ -128,12 +129,11 @@ public class BuscarNuevosAmigosService extends AsyncTask<String, Integer, List<A
          * Actualiza el estado de un amigo con relacion al usuario
          *
          * @param param
-         * @param idUsuario del usuario que solicita
          * @return
          */
         @Override
         public Integer actualizarEstadoAmigo(Amigo param, Integer idUsuario) {
-            return null;
+            return Respuesta.CODIGO_OK;
         }
     }
 }

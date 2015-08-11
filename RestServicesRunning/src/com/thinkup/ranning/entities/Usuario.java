@@ -31,6 +31,9 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 		@NamedQuery(name = Usuario.QUERY_ALL, query = "Select u FROM Usuario u"),
 		@NamedQuery(name = Usuario.QUERY_BY_NOMBRE, query = "Select u FROM Usuario u WHERE u.nombre = :"
 				+ Usuario.PARAM_NOMBRE),
+		@NamedQuery(name = Usuario.QUERY_ALL_BY_PARAM, 
+		query = "Select u FROM Usuario u WHERE upper(u.nombre) LIKE :"
+						+ Usuario.PARAM_NOMBRE + " OR upper(u.email) LIKE :" + Usuario.PARAM_EMAIL),
 		@NamedQuery(name = Usuario.QUERY_BY_EMAIL, query = "Select u FROM Usuario u WHERE u.email = :"
 				+ Usuario.PARAM_EMAIL),
 		@NamedQuery(name = Usuario.QUERY_USUARIO_BY_ID, query = "Select u FROM Usuario u WHERE u.id = :"
@@ -48,6 +51,7 @@ public class Usuario implements Serializable {
 	public static final String QUERY_USUARIO_BY_ID = "getAllUsuarios";
 	public static final String QUERY_BY_NOMBRE = "getUsuarioByNombre";
 	public static final String QUERY_BY_EMAIL = "getUsuarioByEmail";
+	public static final String QUERY_ALL_BY_PARAM = "getByParametro";
 
 	/**
 	 * 

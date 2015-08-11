@@ -19,7 +19,7 @@ import java.util.Vector;
 import studios.thinkup.com.apprunning.AmigosListAdapter;
 import studios.thinkup.com.apprunning.DetalleAmigoActivity;
 import studios.thinkup.com.apprunning.R;
-import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
+import studios.thinkup.com.apprunning.model.entity.Amigo;
 import studios.thinkup.com.apprunning.provider.BuscarNuevosAmigosService;
 
 /**
@@ -93,7 +93,7 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Busc
     }
 
     @Override
-    public void onDataRetrived(List<UsuarioApp> amigos) {
+    public void onDataRetrived(List<Amigo> amigos) {
         this.adapter = new AmigosListAdapter(this.getActivity(), amigos);
         if (this.getView() != null) {
             ListView lv = (ListView) this.getView().findViewById(R.id.lv_resultados);
@@ -105,16 +105,16 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Busc
 
     @Override
     public void onError(String error) {
-        this.onDataRetrived(new Vector<UsuarioApp>());
+        this.onDataRetrived(new Vector<Amigo>());
     }
 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        UsuarioApp u = (UsuarioApp) this.adapter.getItem(position);
+        Amigo u = (Amigo) this.adapter.getItem(position);
         Intent i = new Intent(this.getActivity(), DetalleAmigoActivity.class);
         Bundle b = new Bundle();
-        b.putSerializable(UsuarioApp.FIELD_ID, u);
+        b.putSerializable(Amigo.FIELD_ID, u);
         i.putExtras(b);
         startActivity(i);
     }

@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Vector;
 
 import studios.thinkup.com.apprunning.AmigosListAdapter;
-import studios.thinkup.com.apprunning.DatosUsuarioActivity;
 import studios.thinkup.com.apprunning.DetalleAmigoActivity;
 import studios.thinkup.com.apprunning.model.RunningApplication;
+import studios.thinkup.com.apprunning.model.entity.Amigo;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.MisAmigosService;
 
@@ -70,10 +70,10 @@ public class AmigosFragment extends ListFragment implements MisAmigosService.ISe
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        UsuarioApp u = (UsuarioApp) this.adapter.getItem(position);
+        Amigo u = (Amigo) this.adapter.getItem(position);
         Intent i = new Intent(this.getActivity(), DetalleAmigoActivity.class);
         Bundle b = new Bundle();
-        b.putSerializable(UsuarioApp.FIELD_ID,u);
+        b.putSerializable(Amigo.FIELD_ID,u);
         i.putExtras(b);
         startActivity(i);
 
@@ -87,13 +87,13 @@ public class AmigosFragment extends ListFragment implements MisAmigosService.ISe
 
 
     @Override
-    public void onDataRetrived(List<UsuarioApp> amigos) {
+    public void onDataRetrived(List<Amigo> amigos) {
         this.adapter = new AmigosListAdapter(this.getActivity(), amigos);
         setListAdapter(adapter);
     }
 
     @Override
     public void onError(String error) {
-       this.onDataRetrived(new Vector<UsuarioApp>());
+       this.onDataRetrived(new Vector<Amigo>());
     }
 }

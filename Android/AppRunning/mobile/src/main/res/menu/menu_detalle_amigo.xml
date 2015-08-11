@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <menu xmlns:android="http://schemas.android.com/apk/res/android">
-        <item android:id="@+id/mnu_agregar_amigo" android:title="@string/agregar_amigo"
-            android:orderInCategory="100"
-            android:showAsAction="always"
-            android:icon="@drawable/ic_menu_agregar_amigo"/>
-    </menu>
+    <item
+        android:id="@+id/mnu_agregar_amigo"
+        android:icon="@drawable/ic_menu_agregar_amigo"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="@string/agregar_amigo" />
 </menu>

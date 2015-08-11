@@ -6,7 +6,7 @@
 <RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="#660011FF"
+    android:background="@drawable/transparent_panel"
     android:id="@+id/ly_busqueda"
     android:padding="10dp">
     <EditText
@@ -25,14 +25,11 @@
         android:ems="10"
         android:layout_toLeftOf="@+id/icon_modalidad"
         android:layout_toStartOf="@+id/icon_modalidad"/>
-    <studios.thinkup.com.apprunning.view.IconTextView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="28sp"
-        android:text="@string/icon_ganador"
+        android:src="@drawable/ic_search"
         android:id="@+id/icon_modalidad"
-        android:typeface="monospace"
-        android:textColor="#0044FF"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
         android:layout_marginEnd="10dp"
@@ -52,7 +49,6 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        tools:layout="@layout/amigo_item"
-        android:layout_margin="5dp" />
+        tools:layout="@layout/amigo_item" />
 
 </RelativeLayout>
