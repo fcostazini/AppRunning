@@ -11,17 +11,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import studios.thinkup.com.apprunning.R;
-import studios.thinkup.com.apprunning.model.RunningApplication;
-import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
-import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
-import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
 
 /**
  * Created by fcostazini on 22/05/2015.
@@ -71,7 +64,7 @@ public class UsuarioListAdapter extends BaseAdapter {
             viewHolder.perfil = (ImageView) convertView.findViewById(R.id.img_usuario);
 
             convertView.setTag(viewHolder);
-        }else {
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
 
 

@@ -147,6 +147,30 @@ public class FiltroCarreraActivity extends ActivityConFiltro implements View.OnC
         return false;
     }
 
+    private String getFechasString(Filtro filtro) {
+        String s = "";
+        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+        if (filtro.getFechaDesde() != null) {
+            s += sf.format(filtro.getFechaDesde());
+        }
+
+        if (filtro.getFechaHasta() != null) {
+            s += " a " + sf.format(filtro.getFechaHasta());
+        }
+        if (s.isEmpty()) {
+            s = "Sin Filtro";
+        }
+        return s;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (this.caller != null) {
+            outState.putSerializable("caller", this.caller.getName());
+        }
+    }
+
     private class DropDownFilter implements View.OnClickListener {
 
         protected TextView txtToUpdate;
@@ -281,7 +305,6 @@ public class FiltroCarreraActivity extends ActivityConFiltro implements View.OnC
 
     }
 
-
     private class DistanciaFiltro implements View.OnClickListener {
         private Activity context;
         private TextView txtToUpdate;
@@ -340,7 +363,6 @@ public class FiltroCarreraActivity extends ActivityConFiltro implements View.OnC
         }
     }
 
-
     private class DistanciaSeekBarChangeListener implements RangeBar.OnRangeBarChangeListener {
         TextView left;
         TextView right;
@@ -352,19 +374,18 @@ public class FiltroCarreraActivity extends ActivityConFiltro implements View.OnC
 
         @Override
         public void onIndexChangeListener(RangeBar rangeBar, int i, int i1) {
-            if(i>= FiltrosProvider.MIN_DISTANCIA && i<=FiltrosProvider.MAX_DISTANCIA){
+            if (i >= FiltrosProvider.MIN_DISTANCIA && i <= FiltrosProvider.MAX_DISTANCIA) {
                 this.left.setText(String.valueOf(i * 10) + " Km");
-            }else{
+            } else {
                 this.left.setText(String.valueOf(FiltrosProvider.MIN_DISTANCIA) + " Km");
             }
-            if(i1>= FiltrosProvider.MIN_DISTANCIA && i1<=FiltrosProvider.MAX_DISTANCIA) {
+            if (i1 >= FiltrosProvider.MIN_DISTANCIA && i1 <= FiltrosProvider.MAX_DISTANCIA) {
                 this.right.setText(String.valueOf(i1 * 10) + " Km");
-            }else{
+            } else {
                 this.right.setText(String.valueOf(FiltrosProvider.MAX_DISTANCIA) + " Km");
             }
         }
     }
-
 
     private class FechasFiltro implements View.OnClickListener {
         private FiltroCarreraActivity context;
@@ -427,23 +448,6 @@ public class FiltroCarreraActivity extends ActivityConFiltro implements View.OnC
             this.d.show();
         }
     }
-
-    private String getFechasString(Filtro filtro) {
-        String s = "";
-        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
-        if (filtro.getFechaDesde() != null) {
-            s += sf.format(filtro.getFechaDesde());
-        }
-
-        if (filtro.getFechaHasta() != null) {
-            s += " a " + sf.format(filtro.getFechaHasta());
-        }
-        if (s.isEmpty()) {
-            s = "Sin Filtro";
-        }
-        return s;
-    }
-
 
     private class DatePickerListener implements View.OnClickListener {
         private TextView fechaToUpdate;
@@ -550,14 +554,6 @@ public class FiltroCarreraActivity extends ActivityConFiltro implements View.OnC
                 this.filter.setFechaHasta(null);
             }
             this.toClean.setText("");
-        }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (this.caller != null) {
-            outState.putSerializable("caller", this.caller.getName());
         }
     }
 }

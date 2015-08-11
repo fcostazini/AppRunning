@@ -18,7 +18,7 @@ import studios.thinkup.com.apprunning.provider.FiltrosProvider;
 public class DefaultSettings implements Serializable, IEntity {
 
 
-    public static final String ID = "ID" ;
+    public static final String ID = "ID";
     public static final String ID_USUARIO = "ID_USUARIO";
     public static final String DISTANCIA_MIN = "DISTANCIA_MIN";
     public static final String DISTANCIA_MAX = "DISTANCIA_MAX";
@@ -41,31 +41,11 @@ public class DefaultSettings implements Serializable, IEntity {
     private String ordenarPor = CamposOrdenEnum.FECHA.getLabel();
     private String sentidoOrden = Filtro.SENTIDO_ORDEN[0];
 
-    public void setModalidad(String modalidad) {
-        this.modalidad = modalidad;
-    }
-
-    public String getOrdenarPor() {
-        return ordenarPor;
-    }
-
-    public void setOrdenarPor(String ordenarPor) {
-        this.ordenarPor = ordenarPor;
-    }
-
-    public String getSentido() {
-        return sentidoOrden;
-    }
-
-    public void setSentido(String sentido) {
-        this.sentidoOrden = sentido;
-    }
-
-    public DefaultSettings(Integer idUsuario){
+    public DefaultSettings(Integer idUsuario) {
         this.idUsuario = idUsuario;
-        distanciaMin=0;
-        distanciaMax=100;
-        modalidad= Modalidad.TODOS.getNombre();
+        distanciaMin = 0;
+        distanciaMax = 100;
+        modalidad = Modalidad.TODOS.getNombre();
         provincia = FiltrosProvider.TODAS_LAS_PROVINCIAS;
         ciudad = FiltrosProvider.TODAS_LAS_CIUDADES;
         ordenarPor = CamposOrdenEnum.FECHA.getLabel();
@@ -84,6 +64,26 @@ public class DefaultSettings implements Serializable, IEntity {
         this.setMesesBusqueda(c.getInt(c.getColumnIndex(MESES_BUSQUEDA)));
         this.setOrdenarPor(c.getString(c.getColumnIndex(ORDENAR_POR)));
         this.setSentido(c.getString(c.getColumnIndex(SENTIDO_ORDEN)));
+    }
+
+    public void setModalidad(String modalidad) {
+        this.modalidad = modalidad;
+    }
+
+    public String getOrdenarPor() {
+        return ordenarPor;
+    }
+
+    public void setOrdenarPor(String ordenarPor) {
+        this.ordenarPor = ordenarPor;
+    }
+
+    public String getSentido() {
+        return sentidoOrden;
+    }
+
+    public void setSentido(String sentido) {
+        this.sentidoOrden = sentido;
     }
 
     public Integer getMesesBusqueda() {

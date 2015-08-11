@@ -1,4 +1,3 @@
-
 package studios.thinkup.com.apprunning.model.entity;
 
 import android.database.Cursor;

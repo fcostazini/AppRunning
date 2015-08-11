@@ -13,8 +13,8 @@ public enum Subcategoria {
 
 
     public static Subcategoria getByName(String tipo) {
-        for( Subcategoria s : Subcategoria.values()){
-            if(s.nombre.equals(tipo)){
+        for (Subcategoria s : Subcategoria.values()) {
+            if (s.nombre.equals(tipo)) {
                 return s;
             }
 

@@ -16,9 +16,8 @@ import studios.thinkup.com.apprunning.provider.exceptions.EntityNotFoundExceptio
 
 /**
  * Created by fcostazini on 31/07/2015.
- *
  */
-public class CarreraProviderRemote extends  RemoteService implements ICarreraProvider{
+public class CarreraProviderRemote extends RemoteService implements ICarreraProvider {
     private static final String MODULO_CARRERAS = "/carreras";
     private static final String GET_BY_ID = "/carreraByNro/";
 
@@ -39,7 +38,8 @@ public class CarreraProviderRemote extends  RemoteService implements ICarreraPro
             con.setDoInput(true);
             Gson g = new Gson();
             Respuesta<Carrera> r = g.fromJson(new BufferedReader(
-                    new InputStreamReader(con.getInputStream())), new TypeToken<Respuesta<Carrera>>(){}.getType());
+                    new InputStreamReader(con.getInputStream())), new TypeToken<Respuesta<Carrera>>() {
+            }.getType());
 
             if (r.getCodigoRespuesta().equals(Respuesta.CODIGO_OK) && r.getDto() != null) {
                 return r.getDto();

@@ -31,8 +31,23 @@ import studios.thinkup.com.apprunning.provider.restProviders.UsuarioCarreraServi
  */
 public class RecomendadosFragment extends FilteredFragment implements CarreraCabeceraService.OnResultsHandler, OnSingleResultHandler<UsuarioCarrera> {
 
-    private CarreraListAdapter adapter;
     private static ProgressDialog pd;
+    private CarreraListAdapter adapter;
+
+    protected static void showProgress(Context context, String message) {
+        pd = new ProgressDialog(context);
+        pd.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+        pd.setMessage(message);
+        pd.setCancelable(false);
+        pd.setCanceledOnTouchOutside(false);
+        pd.show();
+    }
+
+    protected static void hideProgress() {
+        if (pd != null) {
+            pd.dismiss();
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +55,6 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
         this.getFiltro().setRecomendadas(true);
 
     }
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -58,21 +72,6 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
             Toast.makeText(this.getActivity(), "Sin Conexión a internet", Toast.LENGTH_SHORT).show();
             this.actualizarResultados(new Vector<CarreraCabecera>());
 
-        }
-    }
-
-    protected static void showProgress(Context context, String message) {
-        pd = new ProgressDialog(context);
-        pd.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
-        pd.setMessage(message);
-        pd.setCancelable(false);
-        pd.setCanceledOnTouchOutside(false);
-        pd.show();
-    }
-
-    protected static void hideProgress() {
-        if (pd != null) {
-            pd.dismiss();
         }
     }
 

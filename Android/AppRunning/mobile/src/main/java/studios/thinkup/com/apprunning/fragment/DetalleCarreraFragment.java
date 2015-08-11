@@ -23,7 +23,7 @@ import studios.thinkup.com.apprunning.R;
  * Created by fcostazini on 21/05/2015.
  * Detalle de la carrera
  */
-public class DetalleCarreraFragment extends Fragment{
+public class DetalleCarreraFragment extends Fragment {
 
     private IUsuarioCarreraObservable usuarioObservable;
 
@@ -37,7 +37,7 @@ public class DetalleCarreraFragment extends Fragment{
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detalle_carrera, container, false);
 
-        if(this.usuarioObservable == null){
+        if (this.usuarioObservable == null) {
             this.usuarioObservable = (IUsuarioCarreraObservable) this.getActivity();
         }
         TextView txtNombre = (TextView) rootView.findViewById(R.id.txt_nombre_usuario);
@@ -59,7 +59,7 @@ public class DetalleCarreraFragment extends Fragment{
         txtNombre.setText(this.usuarioObservable.getUsuarioCarrera().getNombre());
         TextView fecha = (TextView) rootView.findViewById(R.id.txt_fecha_largada);
         if (this.usuarioObservable.getUsuarioCarrera().getFechaInicio() != null) {
-            Date d =this.usuarioObservable.getUsuarioCarrera().getFechaInicio();
+            Date d = this.usuarioObservable.getUsuarioCarrera().getFechaInicio();
             SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             if (this.usuarioObservable.getUsuarioCarrera().getHora() != null && !this.usuarioObservable.getUsuarioCarrera().getHora().isEmpty()) {
 

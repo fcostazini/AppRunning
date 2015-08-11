@@ -4,19 +4,18 @@ import android.database.Cursor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.Vector;
 
 /**
  * Created by Facundo on 19/07/2015.
  */
-public class GrupoRunning implements Serializable,IEntity{
+public class GrupoRunning implements Serializable, IEntity {
 
-    public static final String ID ="ID";
+    public static final String ID = "ID";
     public static final String NOMBRE = "NOMBRE";
 
-    private  Integer id;
-    private  String nombre;
+    private Integer id;
+    private String nombre;
+
     public GrupoRunning(Cursor c) {
         this.id = c.getInt(c.getColumnIndex(ID));
         this.nombre = c.getString(c.getColumnIndex(NOMBRE));
@@ -51,7 +50,8 @@ public class GrupoRunning implements Serializable,IEntity{
     public String getNombre() {
         return nombre;
     }
-    public void setNombre(String nombre){
+
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 }

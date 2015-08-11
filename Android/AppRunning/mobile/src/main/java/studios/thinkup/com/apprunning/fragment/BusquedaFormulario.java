@@ -42,28 +42,27 @@ import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaExcep
  */
 public class BusquedaFormulario extends Fragment implements View.OnClickListener, TextWatcher {
 
-    private Spinner spCiudad;
-
     protected Filtro filtro;
+    private Spinner spCiudad;
 
     public static BusquedaFormulario newInstance() {
         return new BusquedaFormulario();
     }
 
-private void initFilter(Bundle savedInstanceState){
+    private void initFilter(Bundle savedInstanceState) {
 
-    if (savedInstanceState != null) {
-        this.filtro = (Filtro) savedInstanceState.getSerializable(Filtro.FILTRO_ID);
-    } else {
-        if (getArguments() != null) {
-            this.filtro = (Filtro) getArguments().getSerializable(Filtro.FILTRO_ID);
+        if (savedInstanceState != null) {
+            this.filtro = (Filtro) savedInstanceState.getSerializable(Filtro.FILTRO_ID);
+        } else {
+            if (getArguments() != null) {
+                this.filtro = (Filtro) getArguments().getSerializable(Filtro.FILTRO_ID);
+            }
+
         }
-
+        if (this.filtro == null) {
+            this.filtro = new Filtro(getDefaultSettings());
+        }
     }
-    if (this.filtro == null) {
-        this.filtro = new Filtro(getDefaultSettings());
-    }
-}
 
     protected DefaultSettings getDefaultSettings() {
         ConfigProvider cp = new ConfigProvider(this.getActivity().getApplication());
@@ -183,7 +182,7 @@ private void initFilter(Bundle savedInstanceState){
         if (v != null && v.getId() == R.id.btn_buscar) {
             Intent i = new Intent(this.getActivity(), CarrerasActivity.class);
             Bundle b = new Bundle();
-            b.putSerializable(Filtro.FILTRO_ID,this.filtro);
+            b.putSerializable(Filtro.FILTRO_ID, this.filtro);
             i.putExtras(b);
             this.getActivity().startActivity(i);
         }
@@ -240,22 +239,22 @@ private void initFilter(Bundle savedInstanceState){
 
         @Override
         public void onIndexChangeListener(RangeBar rangeBar, int i, int i1) {
-            if(i >= FiltrosProvider.MIN_DISTANCIA && i <= FiltrosProvider.MAX_DISTANCIA){
+            if (i >= FiltrosProvider.MIN_DISTANCIA && i <= FiltrosProvider.MAX_DISTANCIA) {
                 this.left.setText(String.valueOf(i * 10) + " Km");
                 filtro.setMinDistancia(i * 10);
-            }else{
+            } else {
                 this.left.setText(String.valueOf(0) + " Km");
                 filtro.setMinDistancia(0);
             }
-            if(i1 >= FiltrosProvider.MIN_DISTANCIA && i1 <= FiltrosProvider.MAX_DISTANCIA){
+            if (i1 >= FiltrosProvider.MIN_DISTANCIA && i1 <= FiltrosProvider.MAX_DISTANCIA) {
                 this.right.setText(String.valueOf(i1 * 10) + " Km");
                 filtro.setMaxDistancia(i1 * 10);
-            }else{
+            } else {
                 this.right.setText(String.valueOf(0) + " Km");
                 filtro.setMaxDistancia(0);
             }
 
-            filtro.setMaxDistancia(i1*10);
+            filtro.setMaxDistancia(i1 * 10);
 
         }
     }
@@ -280,7 +279,7 @@ private void initFilter(Bundle savedInstanceState){
                 newFragment.setListener(new FechaHastaListener(BusquedaFormulario.this.filtro, fechaToUpdate));
 
             }
-            SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
+            SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             try {
                 newFragment.setInitialDate(sf.parse(fechaToUpdate.getText().toString()));
             } catch (ParseException e) {

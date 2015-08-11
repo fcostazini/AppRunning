@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import studios.thinkup.com.apprunning.AcecaDeNosotrosActivity;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.VerTerminosYCondiciones;
 import studios.thinkup.com.apprunning.model.RunningApplication;
@@ -20,8 +19,8 @@ import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
  * Fragment de datos de usuario
  */
 public class AcercaDeNosotrosFragment extends Fragment implements View.OnClickListener {
-    private UsuarioApp ua;
     private static final String FACEBOOK_URL = "https://www.facebook.com/167591430932";
+    private UsuarioApp ua;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

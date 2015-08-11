@@ -16,7 +16,7 @@ import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 /**
  * Created by Facundo on 29/07/2015.
  */
-public class TiemposService extends AsyncTask<Filtro,Integer,List<UsuarioCarrera>> {
+public class TiemposService extends AsyncTask<Filtro, Integer, List<UsuarioCarrera>> {
 
     private OnResultHandler<UsuarioCarrera> handler;
     private Context context;
@@ -39,7 +39,7 @@ public class TiemposService extends AsyncTask<Filtro,Integer,List<UsuarioCarrera
         UsuarioProvider up = new UsuarioProvider(context);
         IUsuarioCarreraProvider carrerasProvider = new UsuarioCarreraProvider(this.context, up.findById(UsuarioApp.class, params[0].getIdUsuario()));
         List<UsuarioCarrera> resultados = carrerasProvider.findTiemposByFiltro(params[0]);
-        if(resultados == null){
+        if (resultados == null) {
             return new Vector<>();
         }
         return resultados;

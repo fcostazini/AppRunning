@@ -24,7 +24,7 @@ public class GrupoRunningProvider extends GenericProvider<GrupoRunning> implemen
 
     @Override
     protected String[] getFields(Class<? extends IEntity> clazz) {
-        return new String[]{GrupoRunning.ID,GrupoRunning.NOMBRE};
+        return new String[]{GrupoRunning.ID, GrupoRunning.NOMBRE};
 
 
     }
@@ -52,18 +52,19 @@ public class GrupoRunningProvider extends GenericProvider<GrupoRunning> implemen
                 results.add(new GrupoRunning(c));
                 c.moveToNext();
             }
-           Comparator<GrupoRunning> comp =  new Comparator<GrupoRunning>(){
+            Comparator<GrupoRunning> comp = new Comparator<GrupoRunning>() {
 
                 @Override
                 public int compare(GrupoRunning grupoRunning, GrupoRunning t1) {
                     return grupoRunning.getNombre().compareTo(t1.getNombre());
                 }
             };
-            Collections.sort(results,comp);
-            results.add(0,new GrupoRunning(999,"Ninguno"));
+            Collections.sort(results, comp);
+            results.add(0, new GrupoRunning(999, "Ninguno"));
             return results;
         }
     }
+
     @Override
     protected String getTableName(Class<? extends IEntity> clazz) {
         return "GRUPOS_RUNNING";

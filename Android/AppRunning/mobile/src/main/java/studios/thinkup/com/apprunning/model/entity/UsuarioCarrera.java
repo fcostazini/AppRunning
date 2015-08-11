@@ -13,15 +13,15 @@ import java.util.Locale;
  * Created by FaQ on 08/06/2015.
  */
 public class UsuarioCarrera implements Serializable, IEntity {
-    public static final String CARRERA      =  "CARRERA"     ;
-    public static final String TIEMPO       =  "TIEMPO"      ;
-    public static final String ANOTADO      =  "ANOTADO"     ;
-    public static final String ME_GUSTA     =  "ME_GUSTA"    ;
-    public static final String CORRIDA      =  "CORRIDA"     ;
-    public static final String ID           =  "ID_USUARIO_CARRERA"          ;
-    public static final String ID_USUARIO           =  "USUARIO"          ;
-    public static final String DISTANCIA           =  "DISTANCIA";
-    public static final String MODALIDAD           =  "MODALIDAD"          ;
+    public static final String CARRERA = "CARRERA";
+    public static final String TIEMPO = "TIEMPO";
+    public static final String ANOTADO = "ANOTADO";
+    public static final String ME_GUSTA = "ME_GUSTA";
+    public static final String CORRIDA = "CORRIDA";
+    public static final String ID = "ID_USUARIO_CARRERA";
+    public static final String ID_USUARIO = "USUARIO";
+    public static final String DISTANCIA = "DISTANCIA";
+    public static final String MODALIDAD = "MODALIDAD";
     private static final long serialVersionUID = 24474114445126838L;
     private Integer idUsuarioCarrera;
     private Carrera carrera;
@@ -147,8 +147,8 @@ public class UsuarioCarrera implements Serializable, IEntity {
 
     public Date getFechaInicio() {
         SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        try{
-           return sf.parse(carrera.getFechaInicio());
+        try {
+            return sf.parse(carrera.getFechaInicio());
         } catch (ParseException e) {
             Date d = new Date(Long.valueOf(carrera.getFechaInicio()));
             return d;
@@ -219,7 +219,9 @@ public class UsuarioCarrera implements Serializable, IEntity {
         this.modalidad = modalidad;
     }
 
-    public String getModalidades() { return this.getCarrera().getModalidades();}
+    public String getModalidades() {
+        return this.getCarrera().getModalidades();
+    }
 
     public String getDistancias() {
         return this.getCarrera().getDistanciaDisponible();
@@ -236,16 +238,17 @@ public class UsuarioCarrera implements Serializable, IEntity {
     public String getHora() {
         return carrera.getHoraInicio();
     }
+
     public String getFullDireccion() {
-        String direccionStr ="";
-        if(this.getDireccion()!= null && !this.getDireccion().isEmpty() ){
+        String direccionStr = "";
+        if (this.getDireccion() != null && !this.getDireccion().isEmpty()) {
             direccionStr = this.getDireccion();
         }
-        if(this.getCiudad()!= null && !this.getCiudad().isEmpty()){
-            direccionStr += direccionStr.isEmpty()?this.getCiudad(): ", " + this.getCiudad();
+        if (this.getCiudad() != null && !this.getCiudad().isEmpty()) {
+            direccionStr += direccionStr.isEmpty() ? this.getCiudad() : ", " + this.getCiudad();
         }
-        if(this.getProvincia()!= null && !this.getProvincia().isEmpty()){
-            if(this.getCiudad()!=null && !this.getCiudad().isEmpty() && !this.getProvincia().equals(this.getCiudad())) {
+        if (this.getProvincia() != null && !this.getProvincia().isEmpty()) {
+            if (this.getCiudad() != null && !this.getCiudad().isEmpty() && !this.getProvincia().equals(this.getCiudad())) {
                 direccionStr += direccionStr.isEmpty() ? this.getProvincia() : ", " + this.getProvincia();
 
             }

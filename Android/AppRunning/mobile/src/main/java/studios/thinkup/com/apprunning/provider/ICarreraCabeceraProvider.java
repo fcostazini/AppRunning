@@ -12,11 +12,11 @@ import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
 public interface ICarreraCabeceraProvider {
 
 
-
     /**
      * Carreras recomendadas por el administrador
+     *
      * @param filtro filtros
-      * @return lista vacia en caso de no haber resultados
+     * @return lista vacia en caso de no haber resultados
      */
     List<CarreraCabecera> getCarrerasByFiltro(Filtro filtro);
 }

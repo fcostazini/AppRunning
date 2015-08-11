@@ -36,7 +36,7 @@ public class CarreraCabeceraService extends AsyncTask<Filtro, Integer, List<Carr
         List<CarreraCabecera> resultados = new Vector<>();
         ICarreraCabeceraProvider carrerasProvider = null;
 
-        if(NetworkUtils.NETWORK_STATUS_NOT_CONNECTED == NetworkUtils.getConnectivityStatus(context)){
+        if (NetworkUtils.NETWORK_STATUS_NOT_CONNECTED == NetworkUtils.getConnectivityStatus(context)) {
             return getCarreraCabeceras(params[0]);
         }
         if (params[0].getIdUsuario() >= 0) {

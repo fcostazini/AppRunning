@@ -22,7 +22,7 @@ public class GenericProvider {
 
     }
 
-    public List<String> getDistinctColumns(String tabla, String columna){
+    public List<String> getDistinctColumns(String tabla, String columna) {
 
         List<String> resultado = new Vector<>();
         String[] columns = {columna};
@@ -37,45 +37,45 @@ public class GenericProvider {
             }
             helper.close();
             c.close();
-        }finally {
+        } finally {
             helper.close();
-           if(c!= null) c.close();
+            if (c != null) c.close();
         }
         return resultado;
 
     }
 
-    public Cursor getAllByWhere(String tabla, String where, String orderBy){
-        String query = "select * from "+tabla+" ";
+    public Cursor getAllByWhere(String tabla, String where, String orderBy) {
+        String query = "select * from " + tabla + " ";
         if (where != null)
             query += where;
-        if(orderBy != null){
+        if (orderBy != null) {
             query += " " + orderBy;
         }
 
         return helper.getReadableDatabase().rawQuery(query, null);
     }
 
-    public Cursor getFildsByWhere(String tabla, String fields, String where, String orderBy){
-        String query = "select " +  fields +" from "+tabla+" ";
+    public Cursor getFildsByWhere(String tabla, String fields, String where, String orderBy) {
+        String query = "select " + fields + " from " + tabla + " ";
         if (where != null)
             query += where;
-        if(orderBy != null){
+        if (orderBy != null) {
             query += " " + orderBy;
         }
 
         return helper.getReadableDatabase().rawQuery(query, null);
     }
 
-    public String matarCaracteresEspeciales(String s){
+    public String matarCaracteresEspeciales(String s) {
         String sinCarEs = "REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(upper(";
         sinCarEs += s;
         sinCarEs += "),'Á','A'), 'É','E'),'Í','I'),'Ó','O'),'Ú','U'),'Ñ','N')";
         return sinCarEs;
     }
 
-    public Cursor executeQuery(String query){
-        if(query!= null && !query.isEmpty()){
+    public Cursor executeQuery(String query) {
+        if (query != null && !query.isEmpty()) {
 
             return helper.getReadableDatabase().rawQuery(query, null);
         }
@@ -83,8 +83,8 @@ public class GenericProvider {
         return null;
     }
 
-    public void executeModify(String query){
-        if(query!= null && !query.isEmpty()){
+    public void executeModify(String query) {
+        if (query != null && !query.isEmpty()) {
 
             this.helper.getWritableDatabase().beginTransaction();
             helper.getWritableDatabase().rawQuery(query, null);

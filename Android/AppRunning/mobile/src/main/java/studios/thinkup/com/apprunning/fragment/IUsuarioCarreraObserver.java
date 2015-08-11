@@ -10,7 +10,8 @@ import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 public interface IUsuarioCarreraObserver {
     /**
      * Actualiza un usuario en base a un cambio de estado
-     * @param estado .
+     *
+     * @param estado  .
      * @param usuario .
      */
     void actuliazarUsuarioCarrera(UsuarioCarrera usuario, EstadoCarrera estado);

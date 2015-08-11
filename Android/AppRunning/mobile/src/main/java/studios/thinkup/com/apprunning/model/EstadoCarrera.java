@@ -5,5 +5,5 @@ package studios.thinkup.com.apprunning.model;
  * Enumerado de los estados de carrera
  */
 public enum EstadoCarrera {
-    ME_GUSTA,NO_ME_GUSTA,ANOTADO,NO_ANOTADO, CORRIDA, NO_CORRIDA;
+    ME_GUSTA, NO_ME_GUSTA, ANOTADO, NO_ANOTADO, CORRIDA, NO_CORRIDA;
 }

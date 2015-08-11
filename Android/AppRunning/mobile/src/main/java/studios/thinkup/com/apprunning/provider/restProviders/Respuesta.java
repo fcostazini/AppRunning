@@ -7,7 +7,7 @@ import java.util.Vector;
 /**
  * Created by dcamarro on 29/07/2015.
  */
-public class Respuesta  <T> implements Serializable {
+public class Respuesta<T> implements Serializable {
 
     public static final int CODIGO_OK = 200;
     public static final int CODIGO_CREACION_MODIFICACION_OK = 201;
@@ -31,6 +31,10 @@ public class Respuesta  <T> implements Serializable {
 
     private T dto;
 
+    public Respuesta() {
+        this.mensajes = new Vector<>();
+    }
+
     public Integer getCodigoRespuesta() {
         return codigoRespuesta;
     }
@@ -43,7 +47,6 @@ public class Respuesta  <T> implements Serializable {
         return mensajes;
     }
 
-
     public void addMensaje(final String mensaje) {
         this.mensajes.add(mensaje);
     }
@@ -54,9 +57,5 @@ public class Respuesta  <T> implements Serializable {
 
     public void setDto(T dto) {
         this.dto = dto;
-    }
-
-    public Respuesta() {
-        this.mensajes = new Vector<>();
     }
 }

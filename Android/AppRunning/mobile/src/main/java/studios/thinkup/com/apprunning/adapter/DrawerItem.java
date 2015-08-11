@@ -1,13 +1,11 @@
 package studios.thinkup.com.apprunning.adapter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import studios.thinkup.com.apprunning.MainNavigationActivity;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.TutorialActivity;
-import studios.thinkup.com.apprunning.model.TutorialesPaginaEnum;
 
 /**
  * Created by fcostazini on 27/05/2015.
@@ -23,7 +21,6 @@ public class DrawerItem {
         this.iconId = iconId;
         this.activity = activity;
     }
-
 
 
     public String getName() {
@@ -50,20 +47,20 @@ public class DrawerItem {
         this.activity = activity;
     }
 
-    public boolean navigate(MainNavigationActivity c){
-        if(this.getName().equals(c.getString(R.string.nav_menu_ayuda))){
-            Intent i = new Intent(c,this.getActivity());
+    public boolean navigate(MainNavigationActivity c) {
+        if (this.getName().equals(c.getString(R.string.nav_menu_ayuda))) {
+            Intent i = new Intent(c, this.getActivity());
             Bundle b = new Bundle();
-            b.putInt(TutorialActivity.PAGINA_TUTORIAL,c.getTutorialPage());
+            b.putInt(TutorialActivity.PAGINA_TUTORIAL, c.getTutorialPage());
             i.putExtras(b);
             c.startActivity(i);
             return true;
-        }else{
-            if(this.activity != null){
-                Intent i = new Intent(c,this.getActivity());
+        } else {
+            if (this.activity != null) {
+                Intent i = new Intent(c, this.getActivity());
                 c.startActivity(i);
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }

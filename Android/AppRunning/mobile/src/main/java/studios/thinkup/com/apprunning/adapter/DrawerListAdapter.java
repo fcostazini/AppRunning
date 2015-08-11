@@ -25,8 +25,8 @@ public class DrawerListAdapter extends ArrayAdapter<DrawerItem> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if(convertView == null){
-            LayoutInflater inflater = (LayoutInflater)parent.getContext().
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) parent.getContext().
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.drawer_item, null);
         }

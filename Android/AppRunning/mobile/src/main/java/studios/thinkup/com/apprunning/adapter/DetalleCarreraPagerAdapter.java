@@ -28,20 +28,20 @@ public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter implements 
 
         fragmentMap = new HashMap<>();
         DetalleCarreraFragment df = new DetalleCarreraFragment();
-        fragmentMap.put(0,df);
+        fragmentMap.put(0, df);
 
-        if( observable!= null){
+        if (observable != null) {
             df.setUsuarioObsercable(observable);
 
         }
-         EstadisticaCarreraFragment ef = new EstadisticaCarreraFragment();
+        EstadisticaCarreraFragment ef = new EstadisticaCarreraFragment();
 
-        if( observable!= null){
+        if (observable != null) {
             observable.registrarObservadorUsuario(ef);
             ef.setObservable(observable);
 
         }
-        fragmentMap.put(1,ef);
+        fragmentMap.put(1, ef);
 
     }
 
@@ -77,9 +77,7 @@ public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter implements 
 
     @Override
     public Fragment getItem(int i) {
-       return  this.fragmentMap.get(i);
-
-
+        return this.fragmentMap.get(i);
 
 
     }

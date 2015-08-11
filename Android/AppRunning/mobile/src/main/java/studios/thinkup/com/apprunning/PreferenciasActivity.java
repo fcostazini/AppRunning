@@ -32,8 +32,8 @@ import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaExcep
 
 
 public class PreferenciasActivity extends MainNavigationActivity implements View.OnClickListener {
-    private DefaultSettings defaultSettings;
     private static ProgressDialog pd;
+    private DefaultSettings defaultSettings;
 
     protected static void showProgress(Context context, String message) {
         pd = new ProgressDialog(context);
@@ -73,7 +73,7 @@ public class PreferenciasActivity extends MainNavigationActivity implements View
     private void initDefaultSettings() {
         ConfigProvider cp = new ConfigProvider(this);
         this.defaultSettings = cp.getByUsuario(getIdUsuario());
-        if(this.defaultSettings == null){
+        if (this.defaultSettings == null) {
             this.defaultSettings = new DefaultSettings(getIdUsuario());
         }
     }
@@ -157,7 +157,7 @@ public class PreferenciasActivity extends MainNavigationActivity implements View
             showProgress(this, "Guardando...");
             cp.update(this.defaultSettings);
             hideProgress();
-            Toast.makeText(this,"Preferencias Guardadas",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Preferencias Guardadas", Toast.LENGTH_LONG).show();
         } catch (EntidadNoGuardadaException e) {
             e.printStackTrace();
             hideProgress();
@@ -276,8 +276,8 @@ public class PreferenciasActivity extends MainNavigationActivity implements View
                     if (!textView.getText().toString().isEmpty()) {
                         try {
                             String val = textView.getText().toString()
-                                     .replace("hasta ", "")
-                                    .replace(" meses","").replace(" mes","");
+                                    .replace("hasta ", "")
+                                    .replace(" meses", "").replace(" mes", "");
                             this.defaultSettings.setMesesBusqueda(Integer.valueOf(val.trim()));
                         } catch (Exception e) {
                             e.printStackTrace();

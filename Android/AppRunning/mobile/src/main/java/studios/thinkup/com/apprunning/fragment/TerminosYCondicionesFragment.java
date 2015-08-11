@@ -1,7 +1,5 @@
 package studios.thinkup.com.apprunning.fragment;
 
-import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -25,11 +23,10 @@ public class TerminosYCondicionesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_terminos_y_condiciones, container, false);
-        Button button = (Button)rootView.findViewById(R.id.btn_aceptar);
+        Button button = (Button) rootView.findViewById(R.id.btn_aceptar);
         button.setVisibility(View.GONE);
         return rootView;
     }
-
 
 
 }

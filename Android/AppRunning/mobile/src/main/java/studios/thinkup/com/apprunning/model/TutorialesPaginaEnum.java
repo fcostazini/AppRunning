@@ -1,7 +1,5 @@
 package studios.thinkup.com.apprunning.model;
 
-import studios.thinkup.com.apprunning.TutorialActivity;
-
 /**
  * Created by fcostazini on 06/08/2015.
  */

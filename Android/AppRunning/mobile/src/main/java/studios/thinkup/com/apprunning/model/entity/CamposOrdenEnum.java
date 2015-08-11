@@ -24,6 +24,24 @@ public enum CamposOrdenEnum {
 
     }
 
+    public static String[] getLabels() {
+        String[] a = new String[values().length];
+        List<String> labels = new Vector<>();
+        for (CamposOrdenEnum e : values()) {
+            labels.add(e.label);
+        }
+        return labels.toArray(a);
+    }
+
+    public static String getCampoByLabel(String label) {
+        for (CamposOrdenEnum e : values()) {
+            if (e.label.equals(label)) {
+                return e.campo;
+            }
+        }
+        return "";
+    }
+
     public String getLabel() {
         return label;
     }
@@ -38,22 +56,5 @@ public enum CamposOrdenEnum {
 
     public void setCampo(String campo) {
         this.campo = campo;
-    }
-
-    public static String[] getLabels(){
-        String[] a = new String[values().length];
-        List<String> labels = new Vector<>();
-        for (CamposOrdenEnum e : values()) {
-            labels.add(e.label);
-        }
-        return labels.toArray(a);
-    }
-    public static String getCampoByLabel(String label) {
-        for (CamposOrdenEnum e : values()) {
-            if (e.label.equals(label)) {
-                return e.campo;
-            }
-        }
-        return "";
     }
 }

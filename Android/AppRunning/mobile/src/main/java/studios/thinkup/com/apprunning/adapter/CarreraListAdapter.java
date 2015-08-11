@@ -36,7 +36,7 @@ public class CarreraListAdapter extends BaseAdapter {
     public CarreraListAdapter(Activity context, List<CarreraCabecera> carreras) {
         this.carreras = carreras;
         this.context = context;
-        this.inflater  = LayoutInflater.from(context);
+        this.inflater = LayoutInflater.from(context);
         this.provider = new UsuarioCarreraProvider(context, ((RunningApplication) context.getApplication()).getUsuario());
 
     }
@@ -76,7 +76,7 @@ public class CarreraListAdapter extends BaseAdapter {
             viewHolder.anotado = (ImageView) convertView.findViewById(R.id.img_anotado_carrera);
             viewHolder.logo = (ImageView) convertView.findViewById(R.id.img_logo_carrera);
             viewHolder.distancia = (TextView) convertView.findViewById(R.id.txt_distancia);
-           // viewHolder.descripcion = (TextView) convertView.findViewById(R.id.txt_descripcion);
+            // viewHolder.descripcion = (TextView) convertView.findViewById(R.id.txt_descripcion);
             viewHolder.corrida.setImageResource(R.drawable.ic_no_corrida);
             viewHolder.meGusta.setImageResource(R.drawable.ic_no_me_gusta);
             viewHolder.anotado.setImageResource(R.drawable.ic_no_anotado);
@@ -99,18 +99,18 @@ public class CarreraListAdapter extends BaseAdapter {
             if (p.getNombre() != null) {
                 viewHolder.nombre.setText(p.getNombre());
             }
-            if(p.getZona()!= null ){
+            if (p.getZona() != null) {
                 viewHolder.zona.setText(p.getZona());
             }
            /* if (p.getDescripcion() != null) {
                 viewHolder.descripcion.setText(p.getDescripcion());
             }*/
 
-            if(p.isEstoyInscripto()){
+            if (p.isEstoyInscripto()) {
                 if (p.getDistancia() != null) {
                     viewHolder.distancia.setText(p.getDistancia() + " Km");
                 }
-            }else{
+            } else {
                 if (p.getDistanciaDisponible() != null) {
                     viewHolder.distancia.setText(p.getDistanciaDisponible() + " Km");
                 }
@@ -121,7 +121,7 @@ public class CarreraListAdapter extends BaseAdapter {
                 Date d = new Date();
                 try {
                     d = sf.parse(p.getFechaInicio());
-                    sf = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
+                    sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                     viewHolder.fecha.setText(sf.format(d) + "   " + p.getHora());
                 } catch (Exception e) {
                     d = new Date(Long.valueOf(p.getFechaInicio()));
@@ -133,19 +133,19 @@ public class CarreraListAdapter extends BaseAdapter {
 
             if (p.isEstoyInscripto()) {
                 viewHolder.anotado.setImageResource(R.drawable.ic_anotado);
-            }else{
+            } else {
                 viewHolder.anotado.setImageResource(R.drawable.ic_no_anotado);
             }
 
             if (p.isFueCorrida()) {
                 viewHolder.corrida.setImageResource(R.drawable.ic_corrida);
-            }else{
+            } else {
                 viewHolder.corrida.setImageResource(R.drawable.ic_no_corrida);
             }
 
             if (p.isMeGusta()) {
                 viewHolder.meGusta.setImageResource(R.drawable.ic_me_gusta);
-            }else{
+            } else {
                 viewHolder.meGusta.setImageResource(R.drawable.ic_no_me_gusta);
             }
             if (p.getUrlImagen() != null) {

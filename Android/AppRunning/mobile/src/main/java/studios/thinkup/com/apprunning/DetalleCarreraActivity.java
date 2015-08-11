@@ -137,7 +137,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                     desanotarCarrera(item);
                 } else {
                     if (this.carrera.getDistancias().contains("/")) {
-                        new SelectorCarrera(this.carrera,new ISeleccionHandler(){
+                        new SelectorCarrera(this.carrera, new ISeleccionHandler() {
                             @Override
                             public void onSelected(Integer distancia) {
                                 item.setIcon(R.drawable.ic_anotado);
@@ -146,9 +146,9 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                                     marcarAnotada(Integer.valueOf(distSeleccionada.trim()), menu, true);
                                 }
                             }
-                        },this).seleccionarCarrera();
+                        }, this).seleccionarCarrera();
                     } else {
-                       marcarAnotada(Integer.valueOf(this.carrera.getDistancias().replace("Km", "").trim()),menu,true);
+                        marcarAnotada(Integer.valueOf(this.carrera.getDistancias().replace("Km", "").trim()), menu, true);
                     }
 
                 }
@@ -171,7 +171,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                                         }
                                     }
                                 }, this).seleccionarCarrera();
-                            }else{
+                            } else {
                                 marcarCorrida(Integer.valueOf(this.carrera.getDistancias().replace("Km", "").trim()), menu);
                             }
                         }
@@ -185,7 +185,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
     }
 
     private void marcarCorrida(Integer distanciaElegida, Menu menu) {
-        marcarAnotada(distanciaElegida, menu,false);
+        marcarAnotada(distanciaElegida, menu, false);
         menu.getItem(2).setIcon(R.drawable.ic_corrida);
         carrera.setCorrida(true);
 
@@ -196,7 +196,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
         menu.getItem(1).setIcon(R.drawable.ic_anotado);
         carrera.setAnotado(true);
         carrera.setDistancia(distanciaElegida);
-        if(actualizar) {
+        if (actualizar) {
 
             actualizarUsuarioCarrera(carrera, EstadoCarrera.ANOTADO);
         }
@@ -302,10 +302,10 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
 
     public class SelectorCarrera {
 
+        AlertDialog seleccionDialog;
         private UsuarioCarrera carrera;
         private ISeleccionHandler handler;
         private Context context;
-        AlertDialog seleccionDialog;
 
         public SelectorCarrera(UsuarioCarrera carrera, ISeleccionHandler handler, Context context) {
             this.carrera = carrera;
@@ -317,10 +317,10 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
             this.handler = handler;
         }
 
-        public void seleccionarCarrera(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(this.context.getString(R.string.que_distancia_recorres));
-        String[] distancias = this.carrera.getDistancias().replace("Km", "").split("/");
+        public void seleccionarCarrera() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle(this.context.getString(R.string.que_distancia_recorres));
+            String[] distancias = this.carrera.getDistancias().replace("Km", "").split("/");
             int i = 0;
             for (String s : distancias) {
                 s = s.trim();
@@ -334,9 +334,9 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
             builder.setSingleChoiceItems(distancias, -1, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int item) {
 
-                   if(handler != null){
-                    handler.onSelected(item);
-                   }
+                    if (handler != null) {
+                        handler.onSelected(item);
+                    }
                     seleccionDialog.dismiss();
                 }
             });

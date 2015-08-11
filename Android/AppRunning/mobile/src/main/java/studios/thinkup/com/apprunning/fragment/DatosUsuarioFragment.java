@@ -31,9 +31,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import studios.thinkup.com.apprunning.MainActivity;
-import studios.thinkup.com.apprunning.MainFragment;
 import studios.thinkup.com.apprunning.R;
-import studios.thinkup.com.apprunning.RecomendadosActivity;
 import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.GrupoRunning;
@@ -48,17 +46,31 @@ import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemo
  * Fragment de datos de usuario
  */
 public class DatosUsuarioFragment extends Fragment implements View.OnClickListener {
-    private UsuarioApp ua;
     private static ProgressDialog pd;
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    if (getActivity() != null) {
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_datos_usuario, container, false);
-        initActivity(savedInstanceState);
-        initView(rootView);
-        return rootView;
-    }
+                        Intent i = new Intent(getActivity(), MainActivity.class);
+                        i.putExtra("LOGOUT", true);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        getActivity().startActivity(i);
+                        getActivity().finish();
+
+                    }
+                    dialog.dismiss();
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    dialog.cancel();
+                    break;
+            }
+        }
+    };
+    private UsuarioApp ua;
 
     protected static void showProgress(Context context, String message) {
         pd = new ProgressDialog(context);
@@ -73,6 +85,15 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
         if (pd != null) {
             pd.dismiss();
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_datos_usuario, container, false);
+        initActivity(savedInstanceState);
+        initView(rootView);
+        return rootView;
     }
 
     private void initActivity(Bundle savedInstanceState) {
@@ -193,7 +214,6 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
         guardar.setOnClickListener(this);
     }
 
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -277,30 +297,6 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
 
         }
     }
-
-    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            switch (which) {
-                case DialogInterface.BUTTON_POSITIVE:
-                    if (getActivity() != null) {
-
-                        Intent i = new Intent(getActivity(), MainActivity.class);
-                        i.putExtra("LOGOUT", true);
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        getActivity().startActivity(i);
-                        getActivity().finish();
-
-                    }
-                    dialog.dismiss();
-                    break;
-
-                case DialogInterface.BUTTON_NEGATIVE:
-                    dialog.cancel();
-                    break;
-            }
-        }
-    };
 
     private class UsuarioProviderTask extends AsyncTask<UsuarioApp, Integer, UsuarioApp> {
         private Context context;

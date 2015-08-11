@@ -46,7 +46,8 @@ public class UsuarioProviderRemote extends RemoteService implements IUsuarioProv
             con.setDoInput(true);
             Gson g = new Gson();
             Respuesta<UsuarioApp> r = g.fromJson(new BufferedReader(
-                    new InputStreamReader(con.getInputStream())), new TypeToken<Respuesta<UsuarioApp>>(){}.getType());
+                    new InputStreamReader(con.getInputStream())), new TypeToken<Respuesta<UsuarioApp>>() {
+            }.getType());
 
             if (r.getCodigoRespuesta().equals(Respuesta.CODIGO_OK) && r.getDto() != null) {
                 return r.getDto();
@@ -74,7 +75,8 @@ public class UsuarioProviderRemote extends RemoteService implements IUsuarioProv
 
             Gson g = new Gson();
             Respuesta<UsuarioApp> r = g.fromJson(new BufferedReader(
-                    new InputStreamReader(con.getInputStream())), new TypeToken<Respuesta<UsuarioApp>>(){}.getType());
+                    new InputStreamReader(con.getInputStream())), new TypeToken<Respuesta<UsuarioApp>>() {
+            }.getType());
 
             if (r.getCodigoRespuesta().equals(Respuesta.CODIGO_OK) && r.getDto() != null) {
                 return r.getDto();
@@ -99,7 +101,8 @@ public class UsuarioProviderRemote extends RemoteService implements IUsuarioProv
             HttpURLConnection conn = getPostHttpURLConnection(entidad, UPDATE_USUARIO);
             Gson g = new Gson();
             Respuesta<UsuarioApp> r = g.fromJson(new BufferedReader(
-                    new InputStreamReader(conn.getInputStream())), new TypeToken<Respuesta<UsuarioApp>>(){}.getType());
+                    new InputStreamReader(conn.getInputStream())), new TypeToken<Respuesta<UsuarioApp>>() {
+            }.getType());
 
             if (r.getCodigoRespuesta().equals(Respuesta.CODIGO_CREACION_MODIFICACION_OK) && r.getDto() != null) {
                 return r.getDto();
@@ -119,7 +122,8 @@ public class UsuarioProviderRemote extends RemoteService implements IUsuarioProv
             HttpURLConnection conn = getPostHttpURLConnection(entidad, SAVE_USUARIO);
             Gson g = new Gson();
             Respuesta<UsuarioApp> r = g.fromJson(new BufferedReader(
-                    new InputStreamReader(conn.getInputStream())), new TypeToken<Respuesta<UsuarioApp>>(){}.getType());
+                    new InputStreamReader(conn.getInputStream())), new TypeToken<Respuesta<UsuarioApp>>() {
+            }.getType());
 
             if (r.getCodigoRespuesta().equals(Respuesta.CODIGO_OK) && r.getDto() != null) {
                 return r.getDto();

@@ -33,10 +33,10 @@ public abstract class MainNavigationActivity extends FragmentActivity {
     private int tutorialPage;
 
     protected Integer getIdUsuario() {
-        UsuarioApp ua =((RunningApplication)this.getApplication()).getUsuario();
-        if(ua!=null){
+        UsuarioApp ua = ((RunningApplication) this.getApplication()).getUsuario();
+        if (ua != null) {
             return ua.getId();
-        }else{
+        } else {
             return 0;
         }
 
@@ -51,6 +51,7 @@ public abstract class MainNavigationActivity extends FragmentActivity {
         }
 
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,14 +95,13 @@ public abstract class MainNavigationActivity extends FragmentActivity {
     }
 
     private void recuperarUsuario(Bundle savedInstanceState) {
-        if (savedInstanceState!= null && savedInstanceState.containsKey("usuario")) {
+        if (savedInstanceState != null && savedInstanceState.containsKey("usuario")) {
 
             ((RunningApplication) this.getApplication())
                     .setUsuario((UsuarioApp) savedInstanceState.getSerializable("usuario"));
 
         }
     }
-
 
 
     @Override
@@ -117,11 +117,13 @@ public abstract class MainNavigationActivity extends FragmentActivity {
         }
 
     }
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+
     protected abstract void defineContentView();
 
 
@@ -158,8 +160,7 @@ public abstract class MainNavigationActivity extends FragmentActivity {
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(Gravity.LEFT))
             drawerLayout.closeDrawer(Gravity.LEFT);
         else

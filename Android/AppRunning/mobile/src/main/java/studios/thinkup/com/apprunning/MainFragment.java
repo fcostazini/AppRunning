@@ -30,11 +30,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
-import studios.thinkup.com.apprunning.provider.UsuarioProvider;
-import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemote;
 
 public class MainFragment extends Fragment implements OnRequestDetailedSocialPersonCompleteListener, SocialNetworkManager.OnInitializationCompleteListener, OnLoginCompleteListener {
@@ -239,11 +236,11 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
             UsuarioApp u = null;
 
 
-                IUsuarioProvider up = new UsuarioProviderRemote(MainFragment.this.getActivity());
-                u = up.getUsuarioByEmail(params[0].email);
-                if ( u != null) {
-                    return u;
-                }
+            IUsuarioProvider up = new UsuarioProviderRemote(MainFragment.this.getActivity());
+            u = up.getUsuarioByEmail(params[0].email);
+            if (u != null) {
+                return u;
+            }
             if (u == null) {
                 return this.getUsuarioApp(socialNetwork, params[0]);
             } else {

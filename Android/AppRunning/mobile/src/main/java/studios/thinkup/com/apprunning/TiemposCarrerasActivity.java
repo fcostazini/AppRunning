@@ -10,7 +10,7 @@ import studios.thinkup.com.apprunning.fragment.TiemposCarrerasFragment;
 public class TiemposCarrerasActivity extends ResultadosFiltrablesActivity {
     @Override
     protected void initFiltro(Bundle savedInstance) {
-            super.initFiltro(savedInstance);
+        super.initFiltro(savedInstance);
 
     }
 

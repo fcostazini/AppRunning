@@ -63,7 +63,7 @@ public abstract class FilteredFragment extends ListFragment {
     @Override
     public void onSaveInstanceState(Bundle savedState) {
         super.onSaveInstanceState(savedState);
-        if(this.filtro != null)
+        if (this.filtro != null)
             savedState.putSerializable(Filtro.FILTRO_ID, this.filtro);
 
     }
@@ -80,11 +80,11 @@ public abstract class FilteredFragment extends ListFragment {
 
     public Integer getIdUsuario() {
 
-        if(((RunningApplication)this.getActivity().getApplication()).getUsuario()== null){
+        if (((RunningApplication) this.getActivity().getApplication()).getUsuario() == null) {
             Intent i = new Intent(this.getActivity(), MainActivity.class);
             startActivity(i);
         }
-        return ((RunningApplication)this.getActivity().getApplication()).getUsuario().getId();
+        return ((RunningApplication) this.getActivity().getApplication()).getUsuario().getId();
     }
 
     public UsuarioApp getUsuario() {

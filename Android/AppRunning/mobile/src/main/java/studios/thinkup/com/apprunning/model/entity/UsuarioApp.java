@@ -18,18 +18,18 @@ public class UsuarioApp implements Serializable, IEntity {
     public static final String FOTO_PERFIL_URL = "FOTO_PERFIL";
     public static final String FECHA_NACIMIENTO = "FECHA_NACIMIENTO";
     public static final String NICK = "NICK";
-    public static final String GRUPO_ID ="GRUPO_ID";
+    public static final String GRUPO_ID = "GRUPO_ID";
 
 
     @Id
     private Integer id;
-    private String nombre ="";
-    private String apellido ="";
-    private String password ="";
-    private String nick ="";
-    private String email ="";
+    private String nombre = "";
+    private String apellido = "";
+    private String password = "";
+    private String nick = "";
+    private String email = "";
     private String fechaNacimiento = new String();
-    private String tipoCuenta ="";
+    private String tipoCuenta = "";
     private String fotoPerfil;
     private String grupoId;
 

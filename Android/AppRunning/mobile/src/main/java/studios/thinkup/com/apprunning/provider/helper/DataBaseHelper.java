@@ -119,7 +119,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public boolean openDataBase() throws SQLException {
         String mPath = this.myContext.getDatabasePath(DATABASE_NAME).getPath();
         myDataBase = SQLiteDatabase.openDatabase(mPath, null,
-                SQLiteDatabase.NO_LOCALIZED_COLLATORS );
+                SQLiteDatabase.NO_LOCALIZED_COLLATORS);
         return myDataBase.isOpen();
     }
 

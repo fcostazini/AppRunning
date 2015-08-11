@@ -23,7 +23,7 @@ public class QueryGenerator {
 
     public String getWhereCondition() {
         String query = " Where 'a' = 'a' \n";
-        if(filtro == null){
+        if (filtro == null) {
             return "";
         }
         if (filtro.getNombreCarrera() != null && !filtro.getNombreCarrera().isEmpty()) {
@@ -64,7 +64,7 @@ public class QueryGenerator {
         if (filtro.getRecomendadas() != null) {
             query += " AND " + Carrera.RECOMENDADA + " = " + this.getIntFromBool(filtro.getRecomendadas()) + " ";
         }
-        query += this.getIntegerRange(UsuarioCarrera.DISTANCIA, filtro.getMinDistancia(),filtro.getMaxDistancia());
+        query += this.getIntegerRange(UsuarioCarrera.DISTANCIA, filtro.getMinDistancia(), filtro.getMaxDistancia());
         query += this.getOrderBy();
         return query;
     }

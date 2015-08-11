@@ -21,7 +21,7 @@ public abstract class ResultadosFiltrablesActivity extends ActivityConFiltro {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState== null) {
+        if (savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             Fragment fragment = this.getFragment();
@@ -69,9 +69,6 @@ public abstract class ResultadosFiltrablesActivity extends ActivityConFiltro {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
 
 
     @Override

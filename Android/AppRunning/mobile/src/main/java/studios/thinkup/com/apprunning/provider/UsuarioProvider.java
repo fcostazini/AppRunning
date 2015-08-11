@@ -24,41 +24,42 @@ public class UsuarioProvider extends GenericProvider<UsuarioApp> implements IUsu
 
     @Override
 
-        protected String[] getFields(Class<? extends IEntity> clazz) {
-            String[] fields = {
-                    UsuarioApp.EMAIL,
-                    UsuarioApp.ID,
-                    UsuarioApp.TIPO_CUENTA,
-                    UsuarioApp.NOMBRE,
-                    UsuarioApp.APELLIDO,
-                    UsuarioApp.FOTO_PERFIL_URL,
-                    UsuarioApp.FECHA_NACIMIENTO,
-                    UsuarioApp.NICK,
-                    UsuarioApp.GRUPO_ID
+    protected String[] getFields(Class<? extends IEntity> clazz) {
+        String[] fields = {
+                UsuarioApp.EMAIL,
+                UsuarioApp.ID,
+                UsuarioApp.TIPO_CUENTA,
+                UsuarioApp.NOMBRE,
+                UsuarioApp.APELLIDO,
+                UsuarioApp.FOTO_PERFIL_URL,
+                UsuarioApp.FECHA_NACIMIENTO,
+                UsuarioApp.NICK,
+                UsuarioApp.GRUPO_ID
 
-            };
-            return fields;
-        }
+        };
+        return fields;
+    }
 
 
     private ContentValues getUpdateFields(UsuarioApp ent) {
 
 
         ContentValues parametros = new ContentValues();
-        parametros.put( UsuarioApp.ID, ent.getId());
-        parametros.put( UsuarioApp.NICK, ent.getNick());
-        parametros.put( UsuarioApp.NOMBRE, ent.getNombre());
-        parametros.put( UsuarioApp.FECHA_NACIMIENTO, ent.getFechaNacimiento());
-        parametros.put( UsuarioApp.FOTO_PERFIL_URL, ent.getFotoPerfil());
-        parametros.put( UsuarioApp.APELLIDO, ent.getApellido());
-        parametros.put( UsuarioApp.EMAIL, ent.getEmail());
-        parametros.put( UsuarioApp.GRUPO_ID,ent.getGrupoId());
-        parametros.put( UsuarioApp.TIPO_CUENTA, ent.getTipoCuenta());
+        parametros.put(UsuarioApp.ID, ent.getId());
+        parametros.put(UsuarioApp.NICK, ent.getNick());
+        parametros.put(UsuarioApp.NOMBRE, ent.getNombre());
+        parametros.put(UsuarioApp.FECHA_NACIMIENTO, ent.getFechaNacimiento());
+        parametros.put(UsuarioApp.FOTO_PERFIL_URL, ent.getFotoPerfil());
+        parametros.put(UsuarioApp.APELLIDO, ent.getApellido());
+        parametros.put(UsuarioApp.EMAIL, ent.getEmail());
+        parametros.put(UsuarioApp.GRUPO_ID, ent.getGrupoId());
+        parametros.put(UsuarioApp.TIPO_CUENTA, ent.getTipoCuenta());
 
-        return  parametros;
+        return parametros;
 
 
     }
+
     @Override
     protected String getTableName(Class<? extends IEntity> clazz) {
         return "USUARIO_APP";
@@ -74,9 +75,9 @@ public class UsuarioProvider extends GenericProvider<UsuarioApp> implements IUsu
 
             int result = db.update(this.getTableName(entidad.getClass()),
                     getUpdateFields(entidad), entidad.getNombreId() + " = ?", params);
-            if(result > 0 ){
-                return  entidad;
-            }else{
+            if (result > 0) {
+                return entidad;
+            } else {
                 throw new EntidadNoGuardadaException("No se realizó el update" + entidad.getId().toString());
             }
         } catch (Exception e) {
@@ -121,12 +122,12 @@ public class UsuarioProvider extends GenericProvider<UsuarioApp> implements IUsu
         try {
             db = this.dbProvider.getReadableDatabase();
             String[] params = {email};
-           c =  db.query(this.getTableName(UsuarioApp.class), this.getFields(UsuarioApp.class),
+            c = db.query(this.getTableName(UsuarioApp.class), this.getFields(UsuarioApp.class),
                     UsuarioApp.EMAIL + " = ? ", params, null, null, null);
             return toEntity(c);
         } catch (Exception e) {
             e.printStackTrace();
-            return  null;
+            return null;
         } finally {
             if (c != null && !c.isClosed()) {
                 c.close();
@@ -183,7 +184,7 @@ public class UsuarioProvider extends GenericProvider<UsuarioApp> implements IUsu
 
             c = db.query(this.getTableName(clazz), this.getFields(clazz), "ID = ?", params, null, null, "ID");
 
-            return  this.toEntity(c);
+            return this.toEntity(c);
 
 
         } catch (Exception e) {

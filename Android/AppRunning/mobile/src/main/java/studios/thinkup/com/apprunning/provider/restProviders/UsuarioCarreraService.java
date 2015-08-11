@@ -3,7 +3,6 @@ package studios.thinkup.com.apprunning.provider.restProviders;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
 import studios.thinkup.com.apprunning.model.entity.Carrera;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;

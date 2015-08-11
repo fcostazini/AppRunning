@@ -31,13 +31,8 @@ import studios.thinkup.com.apprunning.provider.restProviders.UsuarioCarreraServi
  * interface.
  */
 public class CarrerasResultadoFragment extends FilteredFragment implements CarreraCabeceraService.OnResultsHandler, OnSingleResultHandler<UsuarioCarrera> {
-    private CarreraListAdapter adapter;
-
-    public String getIdFragment() {
-        return "TODOS";
-    }
-
     private static ProgressDialog pd;
+    private CarreraListAdapter adapter;
 
     protected static void showProgress(Context context, String message) {
         pd = new ProgressDialog(context);
@@ -52,6 +47,10 @@ public class CarrerasResultadoFragment extends FilteredFragment implements Carre
         if (pd != null) {
             pd.dismiss();
         }
+    }
+
+    public String getIdFragment() {
+        return "TODOS";
     }
 
     @Override

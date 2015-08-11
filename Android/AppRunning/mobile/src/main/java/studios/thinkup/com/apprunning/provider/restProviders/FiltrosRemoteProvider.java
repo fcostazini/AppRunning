@@ -12,14 +12,12 @@ import java.net.URL;
 import java.util.List;
 
 import studios.thinkup.com.apprunning.model.entity.ProvinciaCiudadDTO;
-import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
-import studios.thinkup.com.apprunning.provider.IFiltrosProvider;
 
 /**
  * Created by FaQ on 23/05/2015.
  * Provider de las Zonas
  */
-public class FiltrosRemoteProvider extends  RemoteService  {
+public class FiltrosRemoteProvider extends RemoteService {
 
     private static final String MODULO_USUARIO = "/filtros";
     private static final String GET_CIUDADES = "/getFiltrosProvinciaCiudad";
@@ -29,7 +27,7 @@ public class FiltrosRemoteProvider extends  RemoteService  {
     }
 
 
-    public List<ProvinciaCiudadDTO> getFiltros(){
+    public List<ProvinciaCiudadDTO> getFiltros() {
         // the request
         try {
             URL url = new URL(this.getBaseURL() + GET_CIUDADES);
@@ -42,7 +40,8 @@ public class FiltrosRemoteProvider extends  RemoteService  {
 
             Gson g = new Gson();
             Respuesta<List<ProvinciaCiudadDTO>> r = g.fromJson(new BufferedReader(
-                    new InputStreamReader(con.getInputStream())), new TypeToken<Respuesta<List<ProvinciaCiudadDTO>>>(){}.getType());
+                    new InputStreamReader(con.getInputStream())), new TypeToken<Respuesta<List<ProvinciaCiudadDTO>>>() {
+            }.getType());
 
             if (r.getCodigoRespuesta().equals(Respuesta.CODIGO_OK) && r.getDto() != null) {
                 return r.getDto();
@@ -54,6 +53,7 @@ public class FiltrosRemoteProvider extends  RemoteService  {
             return null;
         }
     }
+
     @Override
     protected String getModule() {
         return MODULO_USUARIO;

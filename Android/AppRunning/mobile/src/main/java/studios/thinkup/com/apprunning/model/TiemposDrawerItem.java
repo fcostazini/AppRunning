@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import studios.thinkup.com.apprunning.MainNavigationActivity;
 import studios.thinkup.com.apprunning.TiemposCarrerasActivity;
-import studios.thinkup.com.apprunning.TutorialActivity;
 import studios.thinkup.com.apprunning.adapter.DrawerItem;
 
 /**
@@ -22,7 +21,7 @@ public class TiemposDrawerItem extends DrawerItem {
         Bundle b = new Bundle();
         Filtro f = new Filtro();
         f.clean();
-        f.setIdUsuario(((RunningApplication)c.getApplication()).getUsuario().getId());
+        f.setIdUsuario(((RunningApplication) c.getApplication()).getUsuario().getId());
         b.putSerializable(Filtro.FILTRO_ID, f);
         i.putExtras(b);
         c.startActivity(i);

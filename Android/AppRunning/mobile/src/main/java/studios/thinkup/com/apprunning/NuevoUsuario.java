@@ -46,17 +46,8 @@ import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemo
 
 
 public class NuevoUsuario extends Activity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
-    private UsuarioApp ua;
     private static ProgressDialog pd;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_datos_usuario);
-
-        initActivity(savedInstanceState);
-        initView();
-    }
+    private UsuarioApp ua;
 
     protected static void showProgress(Context context, String message) {
         pd = new ProgressDialog(context);
@@ -71,6 +62,15 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
         if (pd != null) {
             pd.dismiss();
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_datos_usuario);
+
+        initActivity(savedInstanceState);
+        initView();
     }
 
     private void initActivity(Bundle savedInstanceState) {

@@ -16,7 +16,7 @@ import studios.thinkup.com.apprunning.provider.FiltrosProvider;
 public class Filtro implements Serializable {
 
     public static final String FILTRO_ID = "FILTRO";
-    public static final String[] SENTIDO_ORDEN = {"Ascendente","Descendente"};
+    public static final String[] SENTIDO_ORDEN = {"Ascendente", "Descendente"};
     private static final long serialVersionUID = 244741194428126838L;
     private Boolean recomendadas = null;
     private String nombreCarrera;
@@ -250,20 +250,20 @@ public class Filtro implements Serializable {
     }
 
     public void clean() {
-       this.setCorrida(null);
-       this.setMeGusta(null);
-       this.setInscripto(null);
-       this.setFechaDesde(null);
-       this.setFechaHasta(null);
-       this.setCiudad(FiltrosProvider.TODAS_LAS_CIUDADES);
-       this.setProvincia(FiltrosProvider.TODAS_LAS_PROVINCIAS);
-       this.setMinDistancia(FiltrosProvider.MIN_DISTANCIA);
-       this.setMaxDistancia(FiltrosProvider.MAX_DISTANCIA);
-       this.setIdUsuario(0);
-       this.setModalidad(Modalidad.TODOS);
-       this.setNombreCarrera(null);
-       this.ordenarPor =CamposOrdenEnum.FECHA.getLabel();
-       this.sentido =SENTIDO_ORDEN[0];
+        this.setCorrida(null);
+        this.setMeGusta(null);
+        this.setInscripto(null);
+        this.setFechaDesde(null);
+        this.setFechaHasta(null);
+        this.setCiudad(FiltrosProvider.TODAS_LAS_CIUDADES);
+        this.setProvincia(FiltrosProvider.TODAS_LAS_PROVINCIAS);
+        this.setMinDistancia(FiltrosProvider.MIN_DISTANCIA);
+        this.setMaxDistancia(FiltrosProvider.MAX_DISTANCIA);
+        this.setIdUsuario(0);
+        this.setModalidad(Modalidad.TODOS);
+        this.setNombreCarrera(null);
+        this.ordenarPor = CamposOrdenEnum.FECHA.getLabel();
+        this.sentido = SENTIDO_ORDEN[0];
         this.recomendadas = null;
     }
 }

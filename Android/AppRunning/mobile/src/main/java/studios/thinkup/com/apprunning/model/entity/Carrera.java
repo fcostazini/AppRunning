@@ -40,7 +40,6 @@ public class Carrera implements Serializable, IEntity {
     private String urlImagen;
 
 
-
     public Carrera() {
 
     }

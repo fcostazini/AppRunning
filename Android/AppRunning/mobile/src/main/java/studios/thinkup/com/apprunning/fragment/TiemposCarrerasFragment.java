@@ -9,7 +9,6 @@ import java.util.List;
 
 import studios.thinkup.com.apprunning.DetalleCarreraActivity;
 import studios.thinkup.com.apprunning.adapter.TiempoCarreraListAdapter;
-import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 import studios.thinkup.com.apprunning.provider.restProviders.OnResultHandler;
 import studios.thinkup.com.apprunning.provider.restProviders.TiemposService;
@@ -46,11 +45,12 @@ public class TiemposCarrerasFragment extends FilteredFragment implements OnResul
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-            TiemposService ts = new TiemposService(this,this.getActivity());
-            ts.execute(this.getFiltro());
+        TiemposService ts = new TiemposService(this, this.getActivity());
+        ts.execute(this.getFiltro());
 
 
     }
+
     @Override
     public void actualizarResultados(List<UsuarioCarrera> resultados) {
         if (isAdded()) {
@@ -66,12 +66,11 @@ public class TiemposCarrerasFragment extends FilteredFragment implements OnResul
         UsuarioCarrera c = (UsuarioCarrera) l.getItemAtPosition(position);
         Intent intent = new Intent(this.getActivity(), DetalleCarreraActivity.class);
         Bundle b = new Bundle();
-        b.putSerializable("carrera",c);
+        b.putSerializable("carrera", c);
         intent.putExtras(b); //Put your id to your next Intent
         startActivity(intent);
 
     }
-
 
 
 }

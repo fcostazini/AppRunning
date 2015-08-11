@@ -112,19 +112,19 @@ public class CarreraLocalProvider extends GenericProvider<Carrera> implements IC
 
 
         ContentValues parametros = new ContentValues();
-        parametros.put( Carrera.ID, ent.getId());
-        parametros.put( Carrera.CIUDAD, ent.getCiudad());
-        parametros.put( Carrera.PROVINCIA, ent.getProvincia());
-        parametros.put( Carrera.MODALIDADES, ent.getModalidades());
-        parametros.put( Carrera.FECHA_INICIO, ent.getFechaInicio());
-        parametros.put( Carrera.HORA_INICIO, ent.getHoraInicio());
-        parametros.put( Carrera.DESCRIPCION, ent.getDescripcion());
-        parametros.put( Carrera.DIRECCION,ent.getDireccion());
-        parametros.put( Carrera.DISTANCIAS_DISPONIBLE, ent.getDistanciaDisponible());
-        parametros.put( Carrera.NOMBRE,ent.getNombre());
-        parametros.put( Carrera.URL_IMAGEN, ent.getUrlImagen());
-        parametros.put( Carrera.URL_WEB, ent.getUrlWeb());
-        return  parametros;
+        parametros.put(Carrera.ID, ent.getId());
+        parametros.put(Carrera.CIUDAD, ent.getCiudad());
+        parametros.put(Carrera.PROVINCIA, ent.getProvincia());
+        parametros.put(Carrera.MODALIDADES, ent.getModalidades());
+        parametros.put(Carrera.FECHA_INICIO, ent.getFechaInicio());
+        parametros.put(Carrera.HORA_INICIO, ent.getHoraInicio());
+        parametros.put(Carrera.DESCRIPCION, ent.getDescripcion());
+        parametros.put(Carrera.DIRECCION, ent.getDireccion());
+        parametros.put(Carrera.DISTANCIAS_DISPONIBLE, ent.getDistanciaDisponible());
+        parametros.put(Carrera.NOMBRE, ent.getNombre());
+        parametros.put(Carrera.URL_IMAGEN, ent.getUrlImagen());
+        parametros.put(Carrera.URL_WEB, ent.getUrlWeb());
+        return parametros;
 
 
     }

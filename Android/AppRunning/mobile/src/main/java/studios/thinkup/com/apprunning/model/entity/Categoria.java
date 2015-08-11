@@ -5,19 +5,19 @@ import studios.thinkup.com.apprunning.model.Subcategoria;
 /**
  * Created by fcostazini on 22/05/2015.
  */
-public class Categoria implements Comparable<Categoria>{
+public class Categoria implements Comparable<Categoria> {
 
     private String nombre;
     private Integer cantidad;
     private Subcategoria tipo;
 
-    public Categoria( String nombre, Integer cantidad, Subcategoria tipo) {
+    public Categoria(String nombre, Integer cantidad, Subcategoria tipo) {
         this.cantidad = cantidad;
         this.nombre = nombre;
         this.tipo = tipo;
     }
 
-    public Categoria( String nombre, Subcategoria tipo) {
+    public Categoria(String nombre, Subcategoria tipo) {
         this.nombre = nombre;
         this.cantidad = 0;
         this.tipo = tipo;
@@ -65,9 +65,9 @@ public class Categoria implements Comparable<Categoria>{
 
     @Override
     public int compareTo(Categoria categoria) {
-        if(categoria.equals(this)){
+        if (categoria.equals(this)) {
             return this.getCantidad().compareTo(categoria.getCantidad());
-        }else{
+        } else {
             return this.getNombre().compareTo(categoria.getNombre());
         }
     }

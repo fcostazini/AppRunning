@@ -62,7 +62,7 @@ public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
             if (c != null && !c.isClosed()) {
                 c.close();
             }
-            if(db!= null){
+            if (db != null) {
                 db.close();
             }
 
@@ -71,23 +71,23 @@ public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
 
     private List<CarreraCabecera> getCarreraCabecerasFiltradasPorDistancia(Filtro filtro, List<CarreraCabecera> resultados) {
 
-            List<CarreraCabecera> resultadosFinales = new Vector<>();
+        List<CarreraCabecera> resultadosFinales = new Vector<>();
 
-            String[] distancias = null;
-            for (CarreraCabecera cc : resultados) {
-                distancias = cc.getDistanciaDisponible().split("/");
-                for (String s : distancias) {
-                    try {
-                        if (Double.valueOf(s.trim()) >= filtro.getMinDistancia() && Double.valueOf(s.trim()) <= filtro.getMaxDistancia()) {
-                            resultadosFinales.add(cc);
-                            break;
-                        }
-                    }catch (Exception e){
-                        continue;
+        String[] distancias = null;
+        for (CarreraCabecera cc : resultados) {
+            distancias = cc.getDistanciaDisponible().split("/");
+            for (String s : distancias) {
+                try {
+                    if (Double.valueOf(s.trim()) >= filtro.getMinDistancia() && Double.valueOf(s.trim()) <= filtro.getMaxDistancia()) {
+                        resultadosFinales.add(cc);
+                        break;
                     }
+                } catch (Exception e) {
+                    continue;
                 }
             }
-            return resultadosFinales;
+        }
+        return resultadosFinales;
 
 
     }
