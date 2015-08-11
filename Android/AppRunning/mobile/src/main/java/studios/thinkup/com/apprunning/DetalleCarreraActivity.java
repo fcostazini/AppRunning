@@ -136,7 +136,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                 if (this.carrera.isAnotado()) {
                     desanotarCarrera(item);
                 } else {
-                    if (this.carrera.getDistancias().contains("/") && this.carrera.getDistancia()== null) {
+                    if (this.carrera.getDistancias().contains("/")) {
                         new SelectorCarrera(this.carrera, new ISeleccionHandler() {
                             @Override
                             public void onSelected(Integer distancia) {
@@ -160,7 +160,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                 } else {
                     if (this.carrera.getFechaInicio().compareTo(new Date()) <= 0) {
                         if (this.menu != null) {
-                            if (this.carrera.getDistancias().contains("/")) {
+                            if (this.carrera.getDistancias().contains("/") && !this.carrera.isAnotado()) {
                                 new SelectorCarrera(this.carrera, new ISeleccionHandler() {
                                     @Override
                                     public void onSelected(Integer distancia) {
@@ -172,7 +172,12 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                                     }
                                 }, this).seleccionarCarrera();
                             } else {
-                                marcarCorrida(Integer.valueOf(this.carrera.getDistancias().replace("Km", "").trim()), menu);
+                                if(this.carrera.isAnotado()){
+                                    marcarCorrida(this.carrera.getDistancia(), menu);
+                                }else{
+                                    marcarCorrida(Integer.valueOf(this.carrera.getDistancias().replace("Km", "").trim()), menu);
+                                }
+
                             }
                         }
                     }
