@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Vector;
 
 import studios.thinkup.com.apprunning.DetalleCarreraActivity;
+import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.adapter.CarreraListAdapter;
 import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
 import studios.thinkup.com.apprunning.model.entity.Carrera;
@@ -62,7 +63,7 @@ public class CarrerasResultadoFragment extends FilteredFragment implements Carre
     private void getData() {
         if ((this.getFiltro().getIdUsuario() == null || this.getFiltro().getIdUsuario() <= 0) &&
                 !NetworkUtils.isConnected(this.getActivity())) {
-            Toast.makeText(this.getActivity(), "Sin Conexión a internet", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.getActivity(), getString(R.string.sin_conexion), Toast.LENGTH_SHORT).show();
             actualizarResultados(new Vector<CarreraCabecera>());
         } else {
             CarreraCabeceraService cb = new CarreraCabeceraService(this, this.getActivity(), this.getUsuario());
@@ -74,14 +75,14 @@ public class CarrerasResultadoFragment extends FilteredFragment implements Carre
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         CarreraCabecera c = (CarreraCabecera) l.getItemAtPosition(position);
-        showProgress(this.getActivity(), "Cargando Carrera...");
+        showProgress(this.getActivity(), getString(R.string.cargando_carrera));
         if (NetworkUtils.isConnected(this.getActivity())) {
             UsuarioCarreraService uc = new UsuarioCarreraService(this, this.getActivity(), getUsuario());
             uc.execute(c.getCodigoCarrera());
         } else {
             UsuarioCarrera uc = this.getUsuarioCarreraLocal(c.getCodigoCarrera());
             if (uc == null) {
-                Toast.makeText(this.getActivity(), "Sin Conexión a internet", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getActivity(), getString(R.string.sin_conexion), Toast.LENGTH_SHORT).show();
                 hideProgress();
             } else {
                 actualizarResultado(uc);

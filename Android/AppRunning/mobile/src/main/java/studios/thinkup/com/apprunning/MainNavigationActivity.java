@@ -14,6 +14,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import studios.thinkup.com.apprunning.adapter.BusquedaCarreraActivity;
 import studios.thinkup.com.apprunning.adapter.DrawerItem;
 import studios.thinkup.com.apprunning.adapter.DrawerListAdapter;
 import studios.thinkup.com.apprunning.model.DefaultSettings;
@@ -63,6 +64,7 @@ public abstract class MainNavigationActivity extends FragmentActivity {
         items.add(new DrawerItem(getString(R.string.nav_menu_mis_datos), R.drawable.ic_mis_datos, DatosUsuarioActivity.class));
         items.add(new DrawerItem(getString(R.string.nav_menu_mis_carreras), R.drawable.ic_mis_carreras, MisCarrerasActivity.class));
         items.add(new TiemposDrawerItem(getString(R.string.nav_menu_mis_tiempos), R.drawable.ic_cronometro));
+        items.add(new DrawerItem(getString(R.string.nav_menu_mis_amigos), R.drawable.ic_amigos, AmigosActivity.class));
         items.add(new DrawerItem(getString(R.string.nav_menu_buscar), R.drawable.ic_buscar_carrera, BusquedaCarreraActivity.class));
         items.add(new DrawerItem(getString(R.string.nav_menu_recomendados), R.drawable.ic_recomendadas, RecomendadosActivity.class));
         items.add(new DrawerItem(getString(R.string.nav_menu_preferencias), R.drawable.ic_preferencias, PreferenciasActivity.class));

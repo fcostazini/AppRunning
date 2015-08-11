@@ -39,6 +39,7 @@
     <string name="nav_menu_recomendados">Recomendadas</string>
     <string name="nav_menu_preferencias">Preferencias</string>
     <string name="nav_menu_acerca_de">Acerca de Nosotros</string>
+    <string name="nav_menu_mis_amigos">Mis Amigos</string>
     <string name="sin_resultados">Sin Resultados</string>
     <string name="lbl_mas_info">Mas Información</string>
 
@@ -88,14 +89,21 @@
 
     <string name="acepto_los_terminos">Acepto los Términos</string>
     <string name="danos_tu_opinion">Danos tu opinión</string>
-    <!--<string name="host_url">http://192.168.151.46:8080/</string>
+    <!--<string name="host_url">http://192.168.151.46:8080/</string>-->
      <string name="host_url">http://192.168.0.6:8080/</string>
-    <string name="base_service_url">RestServicesRunning/running</string>-->
-     <string name="host_url">http://191.237.16.124/</string>
-       <string name="base_service_url">RestServicesRunning-0.0.1-SNAPSHOT/running</string>
+    <string name="base_service_url">RestServicesRunning/running</string>
+     <!--<string name="host_url">http://191.237.16.124/</string>
+       <string name="base_service_url">RestServicesRunning-0.0.1-SNAPSHOT/running</string>-->
      <string name="siguiente" >Siguiente</string>
      <string name="anterior" >Anterior</string>
      <string name="tutorial">Tutorial</string>
      <string name="nav_menu_ayuda">Ayuda</string>
      <string name="background">background</string>
- </resources>
+    <string name="title_amigos">Amigos</string>
+    <string name="sin_conexion">Sin conexión a internet</string>
+    <string name="cargando_carrera">Cargando Carrera...</string>
+    <string name="buscando_amigos">Buscando amigos...</string>
+    <string name="guardando_usuario">Guardando Usuario...</string>
+    <string name="agregar_amigo">Agregar Amigo</string>
+    <string name="no_informado">No Informado</string>
+</resources>

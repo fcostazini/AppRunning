@@ -20,6 +20,8 @@ public class UsuarioApp implements Serializable, IEntity {
     public static final String NICK = "NICK";
     public static final String GRUPO_ID = "GRUPO_ID";
 
+    public static final String FIELD_ID = "usuario";
+
 
     @Id
     private Integer id;

@@ -136,7 +136,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                 if (this.carrera.isAnotado()) {
                     desanotarCarrera(item);
                 } else {
-                    if (this.carrera.getDistancias().contains("/")) {
+                    if (this.carrera.getDistancias().contains("/") && this.carrera.getDistancia()== null) {
                         new SelectorCarrera(this.carrera, new ISeleccionHandler() {
                             @Override
                             public void onSelected(Integer distancia) {

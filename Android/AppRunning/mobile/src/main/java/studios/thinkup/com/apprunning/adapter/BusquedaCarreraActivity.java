@@ -1,7 +1,9 @@
-package studios.thinkup.com.apprunning;
+package studios.thinkup.com.apprunning.adapter;
 
 import android.os.Bundle;
 
+import studios.thinkup.com.apprunning.MainNavigationActivity;
+import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.model.TutorialesPaginaEnum;
 
 public class BusquedaCarreraActivity extends MainNavigationActivity {

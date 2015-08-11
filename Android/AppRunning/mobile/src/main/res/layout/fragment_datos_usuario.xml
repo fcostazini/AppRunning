@@ -131,7 +131,22 @@
                 android:layout_alignRight="@+id/txt_fecha_nac"
                 android:layout_alignEnd="@+id/txt_fecha_nac"
                 android:layout_alignBottom="@+id/txt_fecha_nac" />
-
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:focusable="false"
+                android:ems="10"
+                android:id="@+id/txt_grupo"
+                android:layout_below="@+id/lbl_grupo"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:hint="Ninguno"
+                android:visibility="gone"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="7dp" />
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
