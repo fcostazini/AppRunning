@@ -43,9 +43,6 @@ public class UsuarioCarreraService extends AsyncTask<Integer, Integer, UsuarioCa
         Carrera c = null;
         IUsuarioCarreraProvider ucp = new UsuarioCarreraProvider(context, usuarioApp);
         UsuarioCarrera uc = ucp.getByIdCarrera(id[0]);
-        if (NetworkUtils.getConnectivityStatus(context) == NetworkUtils.NETWORK_STATUS_NOT_CONNECTED) {
-            return getUsuarioCarreraLocal(id[0]);
-        }
         ICarreraProvider cp = new CarreraProviderRemote(context);
         try {
             c = cp.getById(id[0]);
@@ -73,24 +70,7 @@ public class UsuarioCarreraService extends AsyncTask<Integer, Integer, UsuarioCa
 
     }
 
-    private UsuarioCarrera getUsuarioCarreraLocal(Integer id) {
-        Carrera c = null;
-        IUsuarioCarreraProvider ucp = new UsuarioCarreraProvider(context, this.usuarioApp);
-        UsuarioCarrera uc = ucp.getByIdCarrera(id);
-        CarreraLocalProvider local = new CarreraLocalProvider(context);
-        c = local.getById(id);
-        if (c == null) {
-            return null;
-        }
-        if (uc == null) {
-            uc = new UsuarioCarrera(c);
-        } else {
-            uc.setCarrera(c);
-        }
-        uc.setUsuario(this.usuarioApp.getId());
-        return uc;
 
-    }
 }
 
 

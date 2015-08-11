@@ -14,8 +14,10 @@ import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.ProvinciaCiudadDTO;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
+import studios.thinkup.com.apprunning.model.entity.UsuarioCarreraDTO;
 import studios.thinkup.com.apprunning.provider.CarreraLocalProvider;
 import studios.thinkup.com.apprunning.provider.FiltrosProvider;
+import studios.thinkup.com.apprunning.provider.UsuarioCarreraDTOProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
@@ -72,11 +74,12 @@ public class StartUpActivity extends Activity {
         @Override
         protected Integer doInBackground(UsuarioApp... usuarioApps) {
             UsuarioProvider up = new UsuarioProvider(StartUpActivity.this);
+            UsuarioCarreraProviderRemote upr = new UsuarioCarreraProviderRemote(StartUpActivity.this);
             if (up.getUsuarioByEmail(usuarioApps[0].getEmail()) == null) {
                 try {
+                    publishProgress(5);
                     up.grabar(usuarioApps[0]);
-                    publishProgress(15);
-                    UsuarioCarreraProviderRemote upr = new UsuarioCarreraProviderRemote(StartUpActivity.this);
+                    publishProgress(30);
                     List<UsuarioCarrera> carreras = upr.getUsuarioCarrerasById(UsuarioCarrera.class, usuarioApps[0].getId());
                     publishProgress(35);
                     UsuarioCarreraProvider upLocal = new UsuarioCarreraProvider(StartUpActivity.this, usuarioApps[0]);
@@ -85,25 +88,37 @@ public class StartUpActivity extends Activity {
                         uc.setUsuario(usuarioApps[0].getId());
                         upLocal.grabar(uc);
                         cLocal.grabar(uc.getCarrera());
-
                     }
-
-
                 } catch (EntidadNoGuardadaException e) {
                     publishProgress(100);
                     return 9;
+                }
+            } else {
+                if (NetworkUtils.isConnected(StartUpActivity.this)) {
+                    publishProgress(25);
+                    UsuarioCarreraDTOProvider uDtoPr = new UsuarioCarreraDTOProvider(StartUpActivity.this);
+                    List<UsuarioCarreraDTO> carrerasLocales = uDtoPr.getAllByUsuario(usuarioApps[0].getId());
+                    if (!carrerasLocales.isEmpty()) {
+                        try {
+                            publishProgress(40);
+                            upr.syncCarreras(carrerasLocales);
+                        } catch (EntidadNoGuardadaException e) {
+                            publishProgress(100);
+                            return 9;
+                        }
+                    }
                 }
             }
             publishProgress(50);
             if (NetworkUtils.getConnectivityStatus(StartUpActivity.this) == NetworkUtils.NETWORK_STATUS_NOT_CONNECTED) {
                 publishProgress(100);
             } else {
-                publishProgress(55);
+                publishProgress(70);
                 FiltrosRemoteProvider fpr = new FiltrosRemoteProvider(StartUpActivity.this);
                 List<ProvinciaCiudadDTO> filtros = fpr.getFiltros();
                 if (filtros != null && !filtros.isEmpty()) {
                     FiltrosProvider fp = new FiltrosProvider(StartUpActivity.this);
-                    publishProgress(70);
+                    publishProgress(80);
                     fp.actualizarFiltros(filtros);
                 }
 
@@ -122,22 +137,35 @@ public class StartUpActivity extends Activity {
                     break;
                 case 15:
                     pb.setProgress(15);
-                    txt.setText("Sincorizando info...");
+                    txt.setText("Descargando Tus Carreras...");
                     break;
+                case 30:
+                    pb.setProgress(30);
+                    txt.setText("Sincorizando carreras...");
+                    break;
+
                 case 35:
                     pb.setProgress(35);
-                    txt.setText("Guardando tus estadisticas...");
+                    txt.setText("Guardando tus carreras...");
+                    break;
+                case 25:
+                    pb.setProgress(25);
+                    txt.setText("Syncronizando carreras...");
+                    break;
+                case 45:
+                    pb.setProgress(45);
+                    txt.setText("Actualizando carreras...");
                     break;
                 case 50:
-                    pb.setProgress(50);
-                    txt.setText("Guardando Carreras...");
-                    break;
-                case 55:
                     pb.setProgress(50);
                     txt.setText("Buscando Filtros...");
                     break;
                 case 70:
-                    pb.setProgress(50);
+                    pb.setProgress(70);
+                    txt.setText("Descargando Filtros...");
+                    break;
+                case 80:
+                    pb.setProgress(80);
                     txt.setText("Actualizando Filtros...");
                     break;
             }

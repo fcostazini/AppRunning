@@ -50,6 +50,7 @@ import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemo
 public class DatosUsuarioFragment extends Fragment implements View.OnClickListener {
     private UsuarioApp ua;
     private static ProgressDialog pd;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,7 +60,7 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
         return rootView;
     }
 
-    protected static void showProgress(Context context,String message) {
+    protected static void showProgress(Context context, String message) {
         pd = new ProgressDialog(context);
         pd.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
         pd.setMessage(message);
@@ -73,6 +74,7 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
             pd.dismiss();
         }
     }
+
     private void initActivity(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey("usuario")) {
@@ -230,10 +232,13 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
         if (!grupo.getSelectedItem().equals(getString(R.string.corres_grupo))) {
             this.ua.setGrupoId((String) grupo.getSelectedItem());
         }
-        UsuarioProviderTask usuarioProviderTask = new UsuarioProviderTask(this.getActivity());
-        showProgress(this.getActivity(),"Guardando Usuario...");
-        usuarioProviderTask.execute(this.ua);
-
+        if (NetworkUtils.isConnected(this.getActivity())) {
+            UsuarioProviderTask usuarioProviderTask = new UsuarioProviderTask(this.getActivity());
+            showProgress(this.getActivity(), "Guardando Usuario...");
+            usuarioProviderTask.execute(this.ua);
+        } else {
+            Toast.makeText(this.getActivity(), "Sin Conexión a internet", Toast.LENGTH_LONG).show();
+        }
 
     }
 

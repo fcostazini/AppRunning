@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.List;
+import java.util.Vector;
+
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarreraDTO;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 import studios.thinkup.com.apprunning.provider.helper.DataBaseHelper;
@@ -63,5 +66,58 @@ public class UsuarioCarreraDTOProvider {
         }
 
     }
+    private String getStringFields() {
 
+        String fields = "uc.CARRERA";
+        fields += ", uc.TIEMPO";
+        fields += ", uc.ANOTADO";
+        fields += ", uc.ME_GUSTA";
+        fields += ", uc.CORRIDA";
+        fields += ", uc.DISTANCIA";
+        fields += ", uc.MODALIDAD";
+        fields += ", uc.ID_USUARIO_CARRERA";
+        fields += ", uc.USUARIO";
+        return fields;
+    }
+
+    public List<UsuarioCarreraDTO> getAllByUsuario(Integer idUsuario) {
+        SQLiteDatabase db = null;
+        Cursor c = null;
+
+        try {
+            db = this.dbProvider.getReadableDatabase();
+            String fields = getStringFields();
+            String[] params = {String.valueOf(idUsuario)};
+            c = db.rawQuery("SELECT " + fields + " FROM USUARIO_CARRERA uc WHERE uc.USUARIO = ?", params);
+            return this.toListEntity(c);
+        } catch (Exception e) {
+            return new Vector<>();
+        } finally {
+            if (db != null && db.isOpen()) {
+                db.close();
+            }
+            if (c != null && !c.isClosed()) {
+                c.close();
+            }
+        }
+
+    }
+
+    private List<UsuarioCarreraDTO> toListEntity(Cursor c) {
+        List<UsuarioCarreraDTO> results = new Vector<>();
+        UsuarioCarreraDTO uc = null;
+        if (c.getCount() <= 0) {
+            return results;
+        } else {
+            c.moveToFirst();
+            while (!c.isAfterLast()) {
+                uc = new UsuarioCarreraDTO(c);
+                results.add(uc);
+                c.moveToNext();
+            }
+
+            return results;
+        }
+
+    }
 }

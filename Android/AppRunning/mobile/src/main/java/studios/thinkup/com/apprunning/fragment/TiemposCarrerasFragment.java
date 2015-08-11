@@ -51,16 +51,6 @@ public class TiemposCarrerasFragment extends FilteredFragment implements OnResul
 
 
     }
-
-    @Override
-    public Filtro getFiltro() {
-        Filtro f = super.getFiltro();
-        f.clean();
-        f.setIdUsuario(this.getIdUsuario());
-        return f;
-
-    }
-
     @Override
     public void actualizarResultados(List<UsuarioCarrera> resultados) {
         if (isAdded()) {

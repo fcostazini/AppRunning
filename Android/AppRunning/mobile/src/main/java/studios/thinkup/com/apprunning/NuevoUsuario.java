@@ -34,6 +34,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.GrupoRunning;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
@@ -57,7 +58,7 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
         initView();
     }
 
-    protected static void showProgress(Context context,String message) {
+    protected static void showProgress(Context context, String message) {
         pd = new ProgressDialog(context);
         pd.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
         pd.setMessage(message);
@@ -71,6 +72,7 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
             pd.dismiss();
         }
     }
+
     private void initActivity(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey("usuario")) {
@@ -243,8 +245,12 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
                 this.ua.setGrupoId((String) grupo.getSelectedItem());
             }
             UsuarioProviderTask usuarioProviderTask = new UsuarioProviderTask();
-            showProgress(this,"Guardando Usuario...");
-            usuarioProviderTask.execute(this.ua);
+            if (NetworkUtils.isConnected(this)) {
+                showProgress(this, "Guardando Usuario...");
+                usuarioProviderTask.execute(this.ua);
+            } else {
+                Toast.makeText(this, "Sin Conexión a internet", Toast.LENGTH_LONG).show();
+            }
         }
 
     }
@@ -307,7 +313,7 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
                 Intent intent = new Intent(NuevoUsuario.this, StartUpActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 Bundle b = new Bundle();
-                b.putSerializable("usuario",usuarioApp);
+                b.putSerializable("usuario", usuarioApp);
                 intent.putExtras(b);
                 NuevoUsuario.this.startActivity(intent);
             }

@@ -18,6 +18,7 @@ import studios.thinkup.com.apprunning.adapter.DrawerItem;
 import studios.thinkup.com.apprunning.adapter.DrawerListAdapter;
 import studios.thinkup.com.apprunning.model.DefaultSettings;
 import studios.thinkup.com.apprunning.model.RunningApplication;
+import studios.thinkup.com.apprunning.model.TiemposDrawerItem;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.ConfigProvider;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
@@ -60,7 +61,7 @@ public abstract class MainNavigationActivity extends FragmentActivity {
         items = new ArrayList<>();
         items.add(new DrawerItem(getString(R.string.nav_menu_mis_datos), R.drawable.ic_mis_datos, DatosUsuarioActivity.class));
         items.add(new DrawerItem(getString(R.string.nav_menu_mis_carreras), R.drawable.ic_mis_carreras, MisCarrerasActivity.class));
-        items.add(new DrawerItem(getString(R.string.nav_menu_mis_tiempos), R.drawable.ic_cronometro, TiemposCarrerasActivity.class));
+        items.add(new TiemposDrawerItem(getString(R.string.nav_menu_mis_tiempos), R.drawable.ic_cronometro));
         items.add(new DrawerItem(getString(R.string.nav_menu_buscar), R.drawable.ic_buscar_carrera, BusquedaCarreraActivity.class));
         items.add(new DrawerItem(getString(R.string.nav_menu_recomendados), R.drawable.ic_recomendadas, RecomendadosActivity.class));
         items.add(new DrawerItem(getString(R.string.nav_menu_preferencias), R.drawable.ic_preferencias, PreferenciasActivity.class));

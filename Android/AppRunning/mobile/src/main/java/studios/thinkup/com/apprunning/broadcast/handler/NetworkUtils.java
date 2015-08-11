@@ -44,4 +44,8 @@ public class NetworkUtils {
     public static boolean isWifiConnected(Context context) {
         return NetworkUtils.getConnectivityStatus(context) == NetworkUtils.TYPE_WIFI;
     }
+
+    public static boolean isConnected(Context context) {
+        return NetworkUtils.getConnectivityStatus(context) != NetworkUtils.TYPE_NOT_CONNECTED;
+    }
 }

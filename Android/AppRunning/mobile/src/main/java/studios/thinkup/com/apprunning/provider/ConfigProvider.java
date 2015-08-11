@@ -41,7 +41,9 @@ public class ConfigProvider extends GenericProvider<DefaultSettings> implements 
                 DefaultSettings.MODALIDAD,
                 DefaultSettings.PROVINCIA,
                 DefaultSettings.CIUDAD,
-                DefaultSettings.MESES_BUSQUEDA};
+                DefaultSettings.MESES_BUSQUEDA,
+                DefaultSettings.ORDENAR_POR,
+                DefaultSettings.SENTIDO_ORDEN};
     }
 
 
@@ -161,7 +163,9 @@ public class ConfigProvider extends GenericProvider<DefaultSettings> implements 
             }
 
         } else {
-            throw new EntidadNoGuardadaException("Entidad sin id");
+            return this.grabar(entidad);
+
+
         }
 
     }
@@ -217,7 +221,7 @@ public class ConfigProvider extends GenericProvider<DefaultSettings> implements 
             db = this.dbProvider.getReadableDatabase();
 
             String[] params = {String.valueOf(idUsuario)};
-            c = db.query(this.getTableName(DefaultSettings.class), this.getFields(DefaultSettings.class), "ID = ?", params, null, null, "ID");
+            c = db.query(this.getTableName(DefaultSettings.class), this.getFields(DefaultSettings.class), "ID_USUARIO = ?", params, null, null, "ID");
             return this.toEntity(c);
         } catch (Exception e) {
             return null;

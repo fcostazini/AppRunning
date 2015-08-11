@@ -6,8 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.Vector;
@@ -15,8 +15,12 @@ import java.util.Vector;
 import studios.thinkup.com.apprunning.DetalleCarreraActivity;
 import studios.thinkup.com.apprunning.adapter.CarreraListAdapter;
 import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
+import studios.thinkup.com.apprunning.model.entity.Carrera;
 import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
+import studios.thinkup.com.apprunning.provider.CarreraLocalProvider;
+import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
+import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.restProviders.CarreraCabeceraService;
 import studios.thinkup.com.apprunning.provider.restProviders.OnSingleResultHandler;
 import studios.thinkup.com.apprunning.provider.restProviders.UsuarioCarreraService;
@@ -47,16 +51,17 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
     }
 
     private void getData() {
-        CarreraCabeceraService cp = new CarreraCabeceraService(this, RecomendadosFragment.this.getActivity(), this.getUsuario());
-        if (NetworkUtils.NETWORK_STATUS_NOT_CONNECTED == NetworkUtils.getConnectivityStatus(this.getActivity())) {
-            this.actualizarResultados(new Vector<CarreraCabecera>());
-        } else {
+        if (NetworkUtils.isConnected(this.getActivity())) {
+            CarreraCabeceraService cp = new CarreraCabeceraService(this, RecomendadosFragment.this.getActivity(), this.getUsuario());
             cp.execute(getFiltro());
+        } else {
+            Toast.makeText(this.getActivity(), "Sin Conexión a internet", Toast.LENGTH_SHORT).show();
+            this.actualizarResultados(new Vector<CarreraCabecera>());
 
         }
     }
 
-    protected static void showProgress(Context context,String message) {
+    protected static void showProgress(Context context, String message) {
         pd = new ProgressDialog(context);
         pd.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
         pd.setMessage(message);
@@ -70,18 +75,49 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
             pd.dismiss();
         }
     }
+
     @Override
     public String getIdFragment() {
         return "recomendados";
+    }
+
+    private UsuarioCarrera getUsuarioCarreraLocal(Integer id) {
+        Carrera c = null;
+        IUsuarioCarreraProvider ucp = new UsuarioCarreraProvider(this.getActivity(), this.getUsuario());
+        UsuarioCarrera uc = ucp.getByIdCarrera(id);
+        CarreraLocalProvider local = new CarreraLocalProvider(this.getActivity());
+        c = local.getById(id);
+        if (c == null) {
+            return null;
+        }
+        if (uc == null) {
+            uc = new UsuarioCarrera(c);
+        } else {
+            uc.setCarrera(c);
+        }
+        uc.setUsuario(this.getUsuario().getId());
+        return uc;
+
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         CarreraCabecera c = (CarreraCabecera) l.getItemAtPosition(position);
-        showProgress(this.getActivity(),"Buscando Carrera...");
-        UsuarioCarreraService uc = new UsuarioCarreraService(this, this.getActivity(), getUsuario());
-        uc.execute(c.getCodigoCarrera());
+        showProgress(this.getActivity(), "Cargando Carrera...");
+        if (NetworkUtils.isConnected(this.getActivity())) {
+            UsuarioCarreraService uc = new UsuarioCarreraService(this, this.getActivity(), getUsuario());
+            uc.execute(c.getCodigoCarrera());
+        } else {
+            UsuarioCarrera uc = this.getUsuarioCarreraLocal(c.getCodigoCarrera());
+            if (uc == null) {
+                Toast.makeText(this.getActivity(), "Sin Conexión a internet", Toast.LENGTH_SHORT).show();
+                hideProgress();
+            } else {
+                actualizarResultado(uc);
+            }
+
+        }
 
     }
 
@@ -107,9 +143,6 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
     @Override
     public void onResume() {
         super.onResume();
-        if (this.adapter != null) {
-            this.adapter.notifyDataSetInvalidated();
-        }
         this.getData();
     }
 }

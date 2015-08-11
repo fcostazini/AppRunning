@@ -1,6 +1,7 @@
 package studios.thinkup.com.apprunning;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,7 +29,7 @@ import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaExcep
  * Detalle de Carrera
  */
 public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsuarioCarreraObservable {
-    AlertDialog distanciaDialog;
+
     private UsuarioCarrera carrera;
     private Menu menu;
     private List<IUsuarioCarreraObserver> observadoresUsuario;
@@ -136,34 +137,44 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                     desanotarCarrera(item);
                 } else {
                     if (this.carrera.getDistancias().contains("/")) {
-                        this.seleccionarCarrera(item);
+                        new SelectorCarrera(this.carrera,new ISeleccionHandler(){
+                            @Override
+                            public void onSelected(Integer distancia) {
+                                item.setIcon(R.drawable.ic_anotado);
+                                if (distancia >= 0) {
+                                    String distSeleccionada = carrera.getDistancias().split("/")[distancia];
+                                    marcarAnotada(Integer.valueOf(distSeleccionada.trim()), menu, true);
+                                }
+                            }
+                        },this).seleccionarCarrera();
                     } else {
-
-                        this.carrera.setDistancia(Integer.valueOf(this.carrera.getDistancias().replace("Km", "").trim()));
-                        item.setIcon(R.drawable.ic_anotado);
-                        this.carrera.setAnotado(true);
-                        this.actualizarUsuarioCarrera(this.carrera, EstadoCarrera.ANOTADO);
+                       marcarAnotada(Integer.valueOf(this.carrera.getDistancias().replace("Km", "").trim()),menu,true);
                     }
 
                 }
-
                 updateUsuarioCarrera();
                 return true;
             case R.id.mnu_corrida:
                 if (this.carrera.isCorrida()) {
                     confirmarNoCorrida(item);
-
                 } else {
-
                     if (this.carrera.getFechaInicio().compareTo(new Date()) <= 0) {
-
                         if (this.menu != null) {
-                            menu.getItem(1).setIcon(R.drawable.ic_anotado);
-                            this.carrera.setAnotado(true);
+                            if (this.carrera.getDistancias().contains("/")) {
+                                new SelectorCarrera(this.carrera, new ISeleccionHandler() {
+                                    @Override
+                                    public void onSelected(Integer distancia) {
+                                        if (distancia >= 0) {
+                                            String distSeleccionada = carrera.getDistancias().split("/")[distancia];
+                                            Integer distanciaElegida = Integer.valueOf(distSeleccionada.replace("Km", "").trim());
+                                            marcarCorrida(distanciaElegida, menu);
+                                        }
+                                    }
+                                }, this).seleccionarCarrera();
+                            }else{
+                                marcarCorrida(Integer.valueOf(this.carrera.getDistancias().replace("Km", "").trim()), menu);
+                            }
                         }
-                        this.actualizarUsuarioCarrera(this.carrera, EstadoCarrera.CORRIDA);
-                        item.setIcon(R.drawable.ic_corrida);
-                        this.carrera.setCorrida(true);
                     }
                 }
                 updateUsuarioCarrera();
@@ -171,8 +182,24 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
 
+    private void marcarCorrida(Integer distanciaElegida, Menu menu) {
+        marcarAnotada(distanciaElegida, menu,false);
+        menu.getItem(2).setIcon(R.drawable.ic_corrida);
+        carrera.setCorrida(true);
 
+        actualizarUsuarioCarrera(carrera, EstadoCarrera.CORRIDA);
+    }
+
+    private void marcarAnotada(Integer distanciaElegida, Menu menu, Boolean actualizar) {
+        menu.getItem(1).setIcon(R.drawable.ic_anotado);
+        carrera.setAnotado(true);
+        carrera.setDistancia(distanciaElegida);
+        if(actualizar) {
+
+            actualizarUsuarioCarrera(carrera, EstadoCarrera.ANOTADO);
+        }
     }
 
     @Override
@@ -259,52 +286,64 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
         return this.carrera;
     }
 
-    private void seleccionarCarrera(final MenuItem menuItem) {
-
-
-        // Strings to Show In Dialog with Radio Buttons
-
-
-        // Creating and Building the Dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getString(R.string.que_distancia_recorres));
-        String[] distancias = this.carrera.getDistancias().replace("Km", "").split("/");
-        int i = 0;
-        for (String s : distancias) {
-            s = s.trim();
-            if (Integer.valueOf(s.trim()) < 10) {
-
-                s = " " + s;
-            }
-            distancias[i] = s + " Km";
-            i++;
-        }
-        builder.setSingleChoiceItems(distancias, -1, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-
-                if (item >= 0) {
-                    String distSeleccionada = carrera.getDistancias().split("/")[item];
-                    Integer distancia = Integer.valueOf(distSeleccionada.replace("Km", "").trim());
-                    carrera.setDistancia(distancia);
-                    menuItem.setIcon(R.drawable.ic_anotado);
-                    carrera.setAnotado(true);
-                    updateUsuarioCarrera();
-                    actualizarUsuarioCarrera(carrera, EstadoCarrera.ANOTADO);
-                }
-                distanciaDialog.dismiss();
-            }
-        });
-
-        distanciaDialog = builder.create();
-        distanciaDialog.setIcon(R.drawable.ic_anotado);
-        distanciaDialog.show();
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (this.getUsuarioCarrera() != null) {
             outState.putSerializable("carrera", this.carrera);
+        }
+    }
+
+    public interface ISeleccionHandler {
+        void onSelected(Integer distancia);
+
+    }
+
+    public class SelectorCarrera {
+
+        private UsuarioCarrera carrera;
+        private ISeleccionHandler handler;
+        private Context context;
+        AlertDialog seleccionDialog;
+
+        public SelectorCarrera(UsuarioCarrera carrera, ISeleccionHandler handler, Context context) {
+            this.carrera = carrera;
+            this.handler = handler;
+            this.context = context;
+        }
+
+        public void setOnSelectedHandler(ISeleccionHandler handler) {
+            this.handler = handler;
+        }
+
+        public void seleccionarCarrera(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(this.context.getString(R.string.que_distancia_recorres));
+        String[] distancias = this.carrera.getDistancias().replace("Km", "").split("/");
+            int i = 0;
+            for (String s : distancias) {
+                s = s.trim();
+                if (Integer.valueOf(s.trim()) < 10) {
+
+                    s = " " + s;
+                }
+                distancias[i] = s + " Km";
+                i++;
+            }
+            builder.setSingleChoiceItems(distancias, -1, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int item) {
+
+                   if(handler != null){
+                    handler.onSelected(item);
+                   }
+                    seleccionDialog.dismiss();
+                }
+            });
+
+            seleccionDialog = builder.create();
+            seleccionDialog.setIcon(R.drawable.ic_anotado);
+            seleccionDialog.show();
         }
     }
 

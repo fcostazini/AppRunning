@@ -243,7 +243,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="1"
-                        android:id="@+id/txt_meses"
+                        android:id="@+id/lbl_dist_desde"
                         android:layout_weight=".3"
                         android:layout_marginLeft="20dp"
                         android:minWidth="20dp" />

@@ -1,20 +1,22 @@
 
 package studios.thinkup.com.apprunning.model.entity;
 
+import android.database.Cursor;
+
 /**
  * Created by Facundo on 01/08/2015.
  * UsuarioCarreraDTO para poder hacer el upload mas simple
  */
 public class UsuarioCarreraDTO {
-    public static final String CARRERA      =  "CARRERA"     ;
-    public static final String TIEMPO       =  "TIEMPO"      ;
-    public static final String ANOTADO      =  "ANOTADO"     ;
-    public static final String ME_GUSTA     =  "ME_GUSTA"    ;
-    public static final String CORRIDA      =  "CORRIDA"     ;
-    public static final String ID           =  "ID_USUARIO_CARRERA"          ;
-    public static final String ID_USUARIO           =  "USUARIO"          ;
-    public static final String DISTANCIA           =  "DISTANCIA";
-    public static final String MODALIDAD           =  "MODALIDAD"          ;
+    public static final String CARRERA = "CARRERA";
+    public static final String TIEMPO = "TIEMPO";
+    public static final String ANOTADO = "ANOTADO";
+    public static final String ME_GUSTA = "ME_GUSTA";
+    public static final String CORRIDA = "CORRIDA";
+    public static final String ID = "ID_USUARIO_CARRERA";
+    public static final String ID_USUARIO = "USUARIO";
+    public static final String DISTANCIA = "DISTANCIA";
+    public static final String MODALIDAD = "MODALIDAD";
 
     private Integer idUsuarioCarrera;
     private Integer idCarrera;
@@ -40,6 +42,23 @@ public class UsuarioCarreraDTO {
         this.modalidad = usuarioCarrera.getModalidad();
         this.tiempo = usuarioCarrera.getTiempo();
         this.usuario = usuarioCarrera.getUsuario();
+
+    }
+
+    public UsuarioCarreraDTO(Cursor c) {
+
+        this.idUsuarioCarrera = c.getInt(c.getColumnIndex(UsuarioCarreraDTO.ID));
+        this.anotado = c.getInt(c.getColumnIndex(UsuarioCarreraDTO.ANOTADO)) == 1;
+        this.corrida = c.getInt(c.getColumnIndex(UsuarioCarreraDTO.CORRIDA)) == 1;
+        this.meGusta = c.getInt(c.getColumnIndex(UsuarioCarreraDTO.ME_GUSTA)) == 1;
+        this.tiempo = c.getLong(c.getColumnIndex(UsuarioCarreraDTO.TIEMPO));
+
+        this.distancia = c.getInt(c.getColumnIndex(UsuarioCarreraDTO.DISTANCIA));
+        this.modalidad = c.getString(c.getColumnIndex(UsuarioCarreraDTO.MODALIDAD));
+
+        this.usuario = c.getInt(c.getColumnIndex(UsuarioCarreraDTO.ID_USUARIO));
+        this.idCarrera = c.getInt(c.getColumnIndex(UsuarioCarreraDTO.CARRERA));
+
 
     }
 

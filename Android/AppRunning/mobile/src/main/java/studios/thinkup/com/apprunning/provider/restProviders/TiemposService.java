@@ -37,7 +37,6 @@ public class TiemposService extends AsyncTask<Filtro,Integer,List<UsuarioCarrera
     protected List<UsuarioCarrera> doInBackground(Filtro... params) {
 
         UsuarioProvider up = new UsuarioProvider(context);
-
         IUsuarioCarreraProvider carrerasProvider = new UsuarioCarreraProvider(this.context, up.findById(UsuarioApp.class, params[0].getIdUsuario()));
         List<UsuarioCarrera> resultados = carrerasProvider.findTiemposByFiltro(params[0]);
         if(resultados == null){

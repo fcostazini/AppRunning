@@ -6,13 +6,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
+import java.util.Vector;
 
 import studios.thinkup.com.apprunning.DetalleCarreraActivity;
 import studios.thinkup.com.apprunning.adapter.CarreraListAdapter;
+import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
+import studios.thinkup.com.apprunning.model.entity.Carrera;
 import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
+import studios.thinkup.com.apprunning.provider.CarreraLocalProvider;
+import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
+import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.restProviders.CarreraCabeceraService;
 import studios.thinkup.com.apprunning.provider.restProviders.OnSingleResultHandler;
 import studios.thinkup.com.apprunning.provider.restProviders.UsuarioCarreraService;
@@ -25,12 +32,14 @@ import studios.thinkup.com.apprunning.provider.restProviders.UsuarioCarreraServi
  */
 public class CarrerasResultadoFragment extends FilteredFragment implements CarreraCabeceraService.OnResultsHandler, OnSingleResultHandler<UsuarioCarrera> {
     private CarreraListAdapter adapter;
-    private static ProgressDialog pd;
+
     public String getIdFragment() {
         return "TODOS";
     }
 
-    protected static void showProgress(Context context,String message) {
+    private static ProgressDialog pd;
+
+    protected static void showProgress(Context context, String message) {
         pd = new ProgressDialog(context);
         pd.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
         pd.setMessage(message);
@@ -44,6 +53,7 @@ public class CarrerasResultadoFragment extends FilteredFragment implements Carre
             pd.dismiss();
         }
     }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -51,19 +61,54 @@ public class CarrerasResultadoFragment extends FilteredFragment implements Carre
     }
 
     private void getData() {
-        CarreraCabeceraService cb = new CarreraCabeceraService(this, this.getActivity(), this.getUsuario());
-        cb.execute(this.filtro);
+        if ((this.getFiltro().getIdUsuario() == null || this.getFiltro().getIdUsuario() <= 0) &&
+                !NetworkUtils.isConnected(this.getActivity())) {
+            Toast.makeText(this.getActivity(), "Sin Conexión a internet", Toast.LENGTH_SHORT).show();
+            actualizarResultados(new Vector<CarreraCabecera>());
+        } else {
+            CarreraCabeceraService cb = new CarreraCabeceraService(this, this.getActivity(), this.getUsuario());
+            cb.execute(this.filtro);
+        }
     }
 
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
         CarreraCabecera c = (CarreraCabecera) l.getItemAtPosition(position);
-        showProgress(this.getActivity(),"Buscando Carrera...");
-        UsuarioCarreraService uc = new UsuarioCarreraService(this, this.getActivity(), getUsuario());
-        uc.execute(c.getCodigoCarrera());
+        showProgress(this.getActivity(), "Cargando Carrera...");
+        if (NetworkUtils.isConnected(this.getActivity())) {
+            UsuarioCarreraService uc = new UsuarioCarreraService(this, this.getActivity(), getUsuario());
+            uc.execute(c.getCodigoCarrera());
+        } else {
+            UsuarioCarrera uc = this.getUsuarioCarreraLocal(c.getCodigoCarrera());
+            if (uc == null) {
+                Toast.makeText(this.getActivity(), "Sin Conexión a internet", Toast.LENGTH_SHORT).show();
+                hideProgress();
+            } else {
+                actualizarResultado(uc);
+            }
 
+        }
+
+
+    }
+
+    private UsuarioCarrera getUsuarioCarreraLocal(Integer id) {
+        Carrera c = null;
+        IUsuarioCarreraProvider ucp = new UsuarioCarreraProvider(this.getActivity(), this.getUsuario());
+        UsuarioCarrera uc = ucp.getByIdCarrera(id);
+        CarreraLocalProvider local = new CarreraLocalProvider(this.getActivity());
+        c = local.getById(id);
+        if (c == null) {
+            return null;
+        }
+        if (uc == null) {
+            uc = new UsuarioCarrera(c);
+        } else {
+            uc.setCarrera(c);
+        }
+        uc.setUsuario(this.getUsuario().getId());
+        return uc;
 
     }
 

@@ -11,8 +11,7 @@ public class TiemposCarrerasActivity extends ResultadosFiltrablesActivity {
     @Override
     protected void initFiltro(Bundle savedInstance) {
             super.initFiltro(savedInstance);
-            this.filtro.setInscripto(true);
-            this.filtro.setIdUsuario(getIdUsuario());
+
     }
 
     @Override
