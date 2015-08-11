@@ -24,6 +24,8 @@ public class AmigoDao {
 	public Amigos guardarEstadoAmigo(Amigos amigo){
 		return amigo;
 	}
+	
+
 
 
 }
