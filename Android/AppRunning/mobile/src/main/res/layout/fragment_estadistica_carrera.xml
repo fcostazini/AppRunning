@@ -5,13 +5,7 @@
     android:layout_height="match_parent"
     android:visibility="visible"
     tools:context="studios.thinkup.com.apprunning.fragment.EstadisticaCarreraFragment">
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/background"
-        android:src="@drawable/detalle_bg"
-        android:alpha="0.25"
-        android:scaleType="center" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

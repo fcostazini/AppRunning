@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import studios.thinkup.com.apprunning.R;
+import studios.thinkup.com.apprunning.fragment.AmigosEnCarreraFragment;
 import studios.thinkup.com.apprunning.fragment.DetalleCarreraFragment;
 import studios.thinkup.com.apprunning.fragment.EstadisticaCarreraFragment;
 import studios.thinkup.com.apprunning.fragment.IUsuarioCarreraObservable;
@@ -43,11 +44,14 @@ public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter implements 
         }
         fragmentMap.put(1, ef);
 
+        AmigosEnCarreraFragment af = new AmigosEnCarreraFragment();
+        fragmentMap.put(2,af);
+
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return fragmentMap.size();
 
     }
 
@@ -58,6 +62,8 @@ public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter implements 
                 return R.drawable.ic_detalle;
             case 1:
                 return R.drawable.ic_cronometro;
+            case 2:
+                return R.drawable.ic_amigos;
         }
         return 0;
     }
@@ -65,10 +71,6 @@ public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter implements 
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
-            case 0:
-                return "";
-            case 1:
-                return "";
             default:
                 return "";
         }

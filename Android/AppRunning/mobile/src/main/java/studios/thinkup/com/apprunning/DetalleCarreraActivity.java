@@ -57,7 +57,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
         }
         startUp(savedInstanceState);
 
-        findViewById(R.id.viewpager).setBackground(null);
+        findViewById(R.id.viewpager).setBackgroundResource(R.drawable.detalle_bg_xml);
     }
 
     private void startUp(Bundle savedInstanceState) {

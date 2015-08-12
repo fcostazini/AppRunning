@@ -36,7 +36,7 @@ public class CarreraCabecera implements Serializable {
     }
 
     public String getZona() {
-        return provincia;
+        return this.zona;
     }
 
     public String getDistanciaDisponible() {

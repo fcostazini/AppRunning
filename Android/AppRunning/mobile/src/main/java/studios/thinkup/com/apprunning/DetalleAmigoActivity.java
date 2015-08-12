@@ -1,6 +1,5 @@
 package studios.thinkup.com.apprunning;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.Menu;
@@ -8,8 +7,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import studios.thinkup.com.apprunning.adapter.AmigosPagerAdapter;
-import studios.thinkup.com.apprunning.model.entity.Amigo;
-import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
+import studios.thinkup.com.apprunning.model.entity.AmigoRequest;
+import studios.thinkup.com.apprunning.model.entity.AmigosDTO;
+import studios.thinkup.com.apprunning.model.entity.TipoRequestEnum;
 import studios.thinkup.com.apprunning.provider.ActualizarAmigoService;
 
 /**
@@ -17,17 +17,18 @@ import studios.thinkup.com.apprunning.provider.ActualizarAmigoService;
  * Detalle de un amigo seleccionado
  */
 public class DetalleAmigoActivity extends DrawerPagerActivity implements ActualizarAmigoService.IServicioActualizacionAmigoHandler {
-    private Amigo amigo;
+    private AmigosDTO amigo;
     private Menu menu;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.amigo = (Amigo)restoreField(savedInstanceState,Amigo.FIELD_ID);
-        if(this.amigo== null){
-            this.amigo = new Amigo();
+        this.amigo = (AmigosDTO) restoreField(savedInstanceState, AmigosDTO.FIELD_ID);
+        if (this.amigo == null) {
+            this.amigo = new AmigosDTO();
         }
     }
+
     private Object restoreField(Bundle savedInstanceState, String name) {
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(name)) {
@@ -42,55 +43,73 @@ public class DetalleAmigoActivity extends DrawerPagerActivity implements Actuali
         }
         return null;
     }
+
     @Override
     protected PagerAdapter getAdapter() {
-        return new AmigosPagerAdapter(this.getSupportFragmentManager());
+        return new AmigosPagerAdapter(this.getSupportFragmentManager(),this.amigo);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_detalle_amigo, menu);
         this.menu = menu;
-        if(amigo != null){
-            actualizarEsAmigo(menu);
-            /*
-            if(amigo.isEsBloqueado()){
 
-                return true;
-            }
-            if(amigo.isSolicitudEnviada()){
+        actualizarBotonera(menu);
 
-                return true;
-            }*/
-        }
+
         return true;
     }
 
-    private void actualizarEsAmigo(Menu menu) {
-        if(amigo.isEsAmigo()){
-            menu.getItem(0).setIcon(R.drawable.ic_eliminar_amigo);
-        }else{
-            menu.getItem(0).setIcon(R.drawable.ic_agregar_amigo);
+    private void actualizarBotonera(Menu menu) {
+        if (amigo != null) {
+            menu.findItem(R.id.mnu_agregar_amigo).setVisible(!amigo.getEsAmigo() && !amigo.getEsBloqueado());
+            menu.findItem(R.id.mnu_agregar_amigo).setEnabled(!amigo.getEsAmigo());
+            menu.findItem(R.id.mnu_borrar_amigo).setVisible(amigo.getEsAmigo());
+            menu.findItem(R.id.mnu_bloquear_amigo).setVisible(!amigo.getEsBloqueado());
+            menu.findItem(R.id.mnu_desbloquear_amigo).setVisible(amigo.getEsBloqueado());
+
         }
     }
 
+
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
-        UsuarioApp ua = this.getUsuario();
-        ActualizarAmigoService amigoService = new ActualizarAmigoService(this, this, ua);
-        this.amigo.setEsAmigo(!amigo.isEsAmigo());
-        amigoService.execute(this.amigo);
-        return super.onMenuItemSelected(featureId, item);
+        AmigoRequest request = new AmigoRequest();
+        request.setIdAmigo(amigo.getIdAmigo());
+        request.setIdOwner(amigo.getIdOwner());
+
+        switch (item.getItemId()) {
+            case R.id.mnu_agregar_amigo:
+                request.setTipoRequest(TipoRequestEnum.SOLICITUD_AMIGO);
+                break;
+            case R.id.mnu_bloquear_amigo:
+                request.setTipoRequest(TipoRequestEnum.BLOQUEAR_AMIGO);
+                break;
+            case R.id.mnu_borrar_amigo:
+                request.setTipoRequest(TipoRequestEnum.QUITA_AMIGO);
+                break;
+            case R.id.mnu_desbloquear_amigo:
+                request.setTipoRequest(TipoRequestEnum.DESBLOQUEAR_AMIGO);
+                break;
+            default:
+                return super.onMenuItemSelected(featureId, item);
+
+        }
+        new ActualizarAmigoService(this, this).execute(request);
+        return true;
     }
 
     @Override
-    public void onOk() {
-        actualizarEsAmigo(menu);
-        Toast.makeText(this,"Estado guardado",Toast.LENGTH_SHORT).show();
+    public void onOk(AmigosDTO amigo) {
+        if (amigo != null) {
+            this.amigo = amigo;
+        }
+        actualizarBotonera(menu);
+        Toast.makeText(this, "Estado guardado", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onError(Integer estado) {
-        Toast.makeText(this,"No guardado" + estado,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "No guardado" + estado, Toast.LENGTH_SHORT).show();
     }
 }

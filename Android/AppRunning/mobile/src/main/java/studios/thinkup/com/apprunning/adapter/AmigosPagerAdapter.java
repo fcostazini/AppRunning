@@ -13,6 +13,7 @@ import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.fragment.AgregarAmigosFragment;
 import studios.thinkup.com.apprunning.fragment.AmigosFragment;
 import studios.thinkup.com.apprunning.fragment.DetalleAmigoFragment;
+import studios.thinkup.com.apprunning.model.entity.AmigosDTO;
 
 /**
  * Created by fcostazini on 21/05/2015.
@@ -20,12 +21,14 @@ import studios.thinkup.com.apprunning.fragment.DetalleAmigoFragment;
  */
 public class AmigosPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
 
-    private Map<Integer, Fragment> fragmentMap;
+    private Map<Integer, IAmigoActualizableFragment> fragmentMap;
+    private AmigosDTO amigo;
 
-    public AmigosPagerAdapter(FragmentManager fm) {
+    public AmigosPagerAdapter(FragmentManager fm, AmigosDTO amigo) {
         super(fm);
 
         fragmentMap = new HashMap<>();
+        fragmentMap.put(0, new DetalleAmigoFragment());
         fragmentMap.put(0, new DetalleAmigoFragment());
 
 
@@ -61,9 +64,14 @@ public class AmigosPagerAdapter extends FragmentPagerAdapter implements PagerSli
 
     @Override
     public Fragment getItem(int i) {
-        return this.fragmentMap.get(i);
+        return (Fragment)this.fragmentMap.get(i);
 
 
+    }
+
+    public interface IAmigoActualizableFragment{
+
+        void actualizarAmigo(AmigosDTO amigo);
     }
 
 }

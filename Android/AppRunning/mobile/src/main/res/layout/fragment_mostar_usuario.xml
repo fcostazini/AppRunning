@@ -58,7 +58,8 @@
             android:padding="10dp"
             android:layout_toRightOf="@+id/lbl_nombre"
             android:layout_marginTop="10dp"
-            android:textSize="@dimen/abc_text_size_medium_material" />
+            android:textSize="@dimen/abc_text_size_medium_material"
+            android:visibility="gone" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -74,7 +75,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="10dp"
                 android:textSize="@dimen/abc_text_size_medium_material"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -90,7 +92,8 @@
                 android:padding="10dp"
                 android:layout_toRightOf="@+id/lbl_apellido"
                 android:layout_marginTop="10dp"
-                android:textSize="@dimen/abc_text_size_medium_material" />
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -104,74 +107,14 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="10dp"
                 android:textSize="@dimen/abc_text_size_medium_material"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:id="@+id/txt_email"
-                android:layout_below="@+id/lbl_apellido"
-                android:layout_alignParentLeft="false"
-                android:layout_alignParentStart="false"
-                android:layout_alignParentEnd="true"
-                android:hint="@string/no_informado"
-                android:layout_alignParentRight="true"
-                android:padding="10dp"
-                android:layout_toRightOf="@+id/lbl_email"
-                android:layout_marginTop="10dp"
-                android:textSize="@dimen/abc_text_size_medium_material" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="5"
-                android:id="@+id/lbl_email"
-                android:padding="10dp"
-                android:text="Email:"
-                android:layout_below="@+id/lbl_apellido"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="10dp"
-                android:textSize="@dimen/abc_text_size_medium_material"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:id="@+id/txt_fecha_nac"
-                android:layout_below="@+id/lbl_email"
-                android:layout_alignParentLeft="false"
-                android:layout_alignParentStart="false"
-                android:layout_alignParentEnd="true"
-                android:hint="@string/no_informado"
-                android:layout_alignParentRight="true"
-                android:padding="10dp"
-                android:layout_toRightOf="@+id/lbl_fecha_nac"
-                android:layout_marginTop="10dp"
-                android:textSize="@dimen/abc_text_size_medium_material" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="5"
-                android:id="@+id/lbl_fecha_nac"
-                android:padding="10dp"
-                android:text="Fecha Nac.:"
-                android:layout_below="@+id/lbl_email"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="10dp"
-                android:textSize="@dimen/abc_text_size_medium_material"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:id="@+id/txt_grupo"
-                android:layout_below="@+id/lbl_fecha_nac"
                 android:layout_alignParentLeft="false"
                 android:layout_alignParentStart="false"
                 android:layout_alignParentEnd="true"
@@ -180,7 +123,8 @@
                 android:padding="10dp"
                 android:layout_toRightOf="@+id/lbl_grupo"
                 android:layout_marginTop="10dp"
-                android:textSize="@dimen/abc_text_size_medium_material" />
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:layout_below="@+id/lbl_apellido" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -189,12 +133,12 @@
                 android:id="@+id/lbl_grupo"
                 android:padding="10dp"
                 android:text="Grupo:"
-                android:layout_below="@+id/lbl_fecha_nac"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="10dp"
                 android:textSize="@dimen/abc_text_size_medium_material"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_below="@+id/lbl_apellido" />
         </RelativeLayout>
     </ScrollView>
 

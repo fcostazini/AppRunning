@@ -11,16 +11,17 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import studios.thinkup.com.apprunning.R;
-import studios.thinkup.com.apprunning.model.entity.Amigo;
+import studios.thinkup.com.apprunning.adapter.AmigosPagerAdapter;
+import studios.thinkup.com.apprunning.model.entity.AmigosDTO;
 
 /**
  * Created by Facundo on 11/08/2015.
  * Detalle de un amigo
  */
 
-public class DetalleAmigoFragment extends Fragment {
+public class DetalleAmigoFragment extends Fragment implements AmigosPagerAdapter.IAmigoActualizableFragment {
 
-    private Amigo ua;
+    private AmigosDTO ua;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,9 +33,9 @@ public class DetalleAmigoFragment extends Fragment {
     }
 
     private void initActivity(Bundle savedInstanceState) {
-        this.ua = (Amigo) restoreField(savedInstanceState, Amigo.FIELD_ID);
+        this.ua = (AmigosDTO) restoreField(savedInstanceState, AmigosDTO.FIELD_ID);
         if (this.ua == null) {
-            this.ua = new Amigo();
+            this.ua = new AmigosDTO();
         }
 
     }
@@ -57,25 +58,15 @@ public class DetalleAmigoFragment extends Fragment {
     private void initView(View rootView) {
         TextView txtNickname = (TextView) rootView.findViewById(R.id.txt_nick);
         txtNickname.setText(this.ua.getNick());
-        TextView txtNombre = (TextView) rootView.findViewById(R.id.txt_nombre);
-        txtNombre.setText(this.ua.getNombre());
-        TextView txtApellido = (TextView) rootView.findViewById(R.id.txt_apellido);
-        txtApellido.setText(this.ua.getApellido());
-        TextView txtEmail = (TextView) rootView.findViewById(R.id.txt_email);
-        txtEmail.setText(this.ua.getEmail());
-        TextView txtFechaNac = (TextView) rootView.findViewById(R.id.txt_fecha_nac);
-
-        txtFechaNac.setText(this.ua.getFechaNacimiento());
-
         ImageView perfil = (ImageView) rootView.findViewById(R.id.img_profile);
-        if (this.ua.getFotoPerfil() != null) {
-            Picasso.with(this.getActivity()).load(this.ua.getFotoPerfil())
+        if (this.ua.getUrlFoto() != null) {
+            Picasso.with(this.getActivity()).load(this.ua.getUrlFoto())
                     .placeholder(R.mipmap.ic_launcher)
                     .error(R.mipmap.ic_launcher).into(perfil);
 
         }
         TextView txtGrupo = (TextView) rootView.findViewById(R.id.txt_grupo);
-        txtGrupo.setText(ua.getGrupoId());
+        txtGrupo.setText(ua.getGrupo());
         txtGrupo.setVisibility(View.VISIBLE);
         perfil.requestFocus();
 
@@ -85,9 +76,13 @@ public class DetalleAmigoFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (this.ua != null) {
-            outState.putSerializable(Amigo.FIELD_ID, this.ua);
+            outState.putSerializable(AmigosDTO.FIELD_ID, this.ua);
         }
     }
 
 
+    @Override
+    public void actualizarAmigo(AmigosDTO amigo) {
+
+    }
 }

@@ -19,7 +19,9 @@ import java.util.Vector;
 import studios.thinkup.com.apprunning.AmigosListAdapter;
 import studios.thinkup.com.apprunning.DetalleAmigoActivity;
 import studios.thinkup.com.apprunning.R;
-import studios.thinkup.com.apprunning.model.entity.Amigo;
+import studios.thinkup.com.apprunning.model.RunningApplication;
+import studios.thinkup.com.apprunning.model.entity.AmigosDTO;
+import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.BuscarNuevosAmigosService;
 
 /**
@@ -36,6 +38,10 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Busc
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         previousLenght = 0;
+        init(savedInstanceState);
+    }
+
+    private void init(@Nullable Bundle savedInstanceState) {
         if (savedInstanceState != null && savedInstanceState.containsKey("aBuscar")) {
             this.aBuscar = savedInstanceState.getString("aBuscar");
         } else {
@@ -63,21 +69,23 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Busc
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (s.length() > 4 && s.length() > previousLenght && adapter != null) {
-            this.adapter.getFilter().filter(s.toString());
-        } else {
-            if (s.length() >= 4) {
-                buscarAmigos(s);
-            }
+        if (s.length() >= 3) {
+            buscarAmigos(s);
+            aBuscar = s.toString();
         }
-        previousLenght = s.length();
+    }
 
-
+    private UsuarioApp getUsuario() {
+        return ((RunningApplication) this.getActivity().getApplication()).getUsuario();
     }
 
     private void buscarAmigos(CharSequence s) {
-        BuscarNuevosAmigosService up = new BuscarNuevosAmigosService(this.getActivity(), this);
-        up.execute(s.toString());
+        if (s.length() > 3) {
+            BuscarNuevosAmigosService up = new BuscarNuevosAmigosService(this.getActivity(), this.getUsuario(), this);
+            up.execute(s.toString());
+        }else{
+            onDataRetrived(new Vector<AmigosDTO>());
+        }
     }
 
     @Override
@@ -93,29 +101,54 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Busc
     }
 
     @Override
-    public void onDataRetrived(List<Amigo> amigos) {
+    public void onDataRetrived(List<AmigosDTO> amigos) {
         this.adapter = new AmigosListAdapter(this.getActivity(), amigos);
         if (this.getView() != null) {
             ListView lv = (ListView) this.getView().findViewById(R.id.lv_resultados);
             lv.setOnItemClickListener(this);
+            lv.setEmptyView((TextView) getView().findViewById(android.R.id.empty));
             lv.setAdapter(this.adapter);
+
         }
+
+    }
+
+    /**
+     * Called when the Fragment is visible to the user.  This is generally
+     * tied to {@link Activity#onStart() Activity.onStart} of the containing
+     * Activity's lifecycle.
+     */
+    @Override
+    public void onStart() {
+        super.onStart();
 
     }
 
     @Override
     public void onError(String error) {
-        this.onDataRetrived(new Vector<Amigo>());
+        this.onDataRetrived(new Vector<AmigosDTO>());
     }
 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Amigo u = (Amigo) this.adapter.getItem(position);
+        AmigosDTO u = (AmigosDTO) this.adapter.getItem(position);
         Intent i = new Intent(this.getActivity(), DetalleAmigoActivity.class);
         Bundle b = new Bundle();
-        b.putSerializable(Amigo.FIELD_ID, u);
+        b.putSerializable(AmigosDTO.FIELD_ID, u);
         i.putExtras(b);
         startActivity(i);
+    }
+
+    /**
+     * Called when the fragment is visible to the user and actively running.
+     * This is generally
+     * Activity's lifecycle.
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        buscarAmigos("");
+
     }
 }

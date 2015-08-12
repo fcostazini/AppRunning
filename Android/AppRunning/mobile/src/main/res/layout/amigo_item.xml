@@ -65,19 +65,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="20dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="email@email.com"
-                android:id="@+id/lbl_email"
-                android:layout_below="@+id/txt_nombre_usuario"
-                android:layout_alignParentLeft="false"
-                android:layout_alignParentStart="false"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp" />
-
         </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

@@ -7,26 +7,42 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Parameter;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "amigos_usuario")
+@NamedQueries(value = {
+			@NamedQuery(name = Amigos.GET_BY_OWNER, 
+query = "Select a FROM Amigos a WHERE a.esBloqueado = false  AND a.esAmigo = true"
+		+ " AND a.usuarioOwner.id = :"
+				+ Amigos.OWNER_ID) })
 public class Amigos implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 4057295711928628388L;
+	public static final String GET_BY_OWNER = "getByOwner";
+	public static final String OWNER_ID = "usuario_owner";
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
 	
-	@Column(name = "usuario_owner")
-	private Integer usuarioOwner;
+	@ManyToOne
+	@JoinColumn(name="usuario_owner", referencedColumnName ="id")
+	private Usuario usuarioOwner;
 	
-	@Column(name = "usuario_amigo")
-	private Integer usuarioAmigo;
+	@ManyToOne
+	@JoinColumn(name="usuario_amigo", referencedColumnName="id")
+	private Usuario usuarioAmigo;
+	
 	
 	@Column(name = "es_amigo")
 	private Boolean esAmigo;
@@ -45,19 +61,21 @@ public class Amigos implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getUsuarioOwner() {
+	
+
+	public Usuario getUsuarioOwner() {
 		return usuarioOwner;
 	}
 
-	public void setUsuarioOwner(Integer usuarioOwner) {
+	public void setUsuarioOwner(Usuario usuarioOwner) {
 		this.usuarioOwner = usuarioOwner;
 	}
 
-	public Integer getUsuarioAmigo() {
+	public Usuario getUsuarioAmigo() {
 		return usuarioAmigo;
 	}
 
-	public void setUsuarioAmigo(Integer usuarioAmigo) {
+	public void setUsuarioAmigo(Usuario usuarioAmigo) {
 		this.usuarioAmigo = usuarioAmigo;
 	}
 

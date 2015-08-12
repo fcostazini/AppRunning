@@ -14,19 +14,19 @@ import java.util.Vector;
 
 import studios.thinkup.com.apprunning.AmigosListAdapter;
 import studios.thinkup.com.apprunning.DetalleAmigoActivity;
-import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.AmigosDTO;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
-import studios.thinkup.com.apprunning.provider.MisAmigosService;
+import studios.thinkup.com.apprunning.provider.AmigosEnCarreraService;
 
 /**
  * Created by Facundo on 11/08/2015.
  * Fragment que muestra los amigos
  */
-public class AmigosFragment extends ListFragment implements MisAmigosService.IServiceAmigosHandler {
+public class AmigosEnCarreraFragment extends ListFragment implements AmigosEnCarreraService.IServiceAmigosHandler {
     private static ProgressDialog pd;
     private AmigosListAdapter adapter;
+    private IUsuarioCarreraObservable usuarioObservable;
 
     protected static void showProgress(Context context, String message) {
         pd = new ProgressDialog(context);
@@ -40,11 +40,6 @@ public class AmigosFragment extends ListFragment implements MisAmigosService.ISe
 
 
     }
-    @Override
-    public void onStart() {
-        super.onStart();
-        setEmptyText("No se encontraron Amigos");
-    }
 
     protected static void hideProgress() {
         if (pd != null) {
@@ -57,18 +52,25 @@ public class AmigosFragment extends ListFragment implements MisAmigosService.ISe
         super.onCreate(savedInstanceState);
     }
 
+    private void init() {
+        if (this.usuarioObservable == null) {
+            this.usuarioObservable = (IUsuarioCarreraObservable) this.getActivity();
+        }
+    }
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        init();
         getData();
 
 
     }
 
     private void getData() {
-        MisAmigosService as = new MisAmigosService(this.getActivity(), this);
-        as.execute(getUsuario().getId());
+        AmigosEnCarreraService as = new AmigosEnCarreraService(this.getActivity(), this,this.getUsuario());
+        as.execute(this.usuarioObservable.getUsuarioCarrera().getCodigoCarrera());
     }
 
     private UsuarioApp getUsuario() {
@@ -95,6 +97,16 @@ public class AmigosFragment extends ListFragment implements MisAmigosService.ISe
         this.getData();
     }
 
+    /**
+     * Called when the Fragment is visible to the user.  This is generally
+     * tied to {@link Activity#onStart() Activity.onStart} of the containing
+     * Activity's lifecycle.
+     */
+    @Override
+    public void onStart() {
+        super.onStart();
+        setEmptyText("No hay amigos inscriptos");
+    }
 
     @Override
     public void onDataRetrived(List<AmigosDTO> amigos) {

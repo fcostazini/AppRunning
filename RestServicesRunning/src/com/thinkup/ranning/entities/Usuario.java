@@ -29,11 +29,10 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @Table(name = "public.usuario_app")
 @NamedQueries(value = {
 		@NamedQuery(name = Usuario.QUERY_ALL, query = "Select u FROM Usuario u"),
-		@NamedQuery(name = Usuario.QUERY_BY_NOMBRE, query = "Select u FROM Usuario u WHERE u.nombre = :"
+		@NamedQuery(name = Usuario.QUERY_BY_NOMBRE, 
+		
+		query = "Select u FROM Usuario u Where u.nombre = :"
 				+ Usuario.PARAM_NOMBRE),
-		@NamedQuery(name = Usuario.QUERY_ALL_BY_PARAM, 
-		query = "Select u FROM Usuario u WHERE upper(u.nombre) LIKE :"
-						+ Usuario.PARAM_NOMBRE + " OR upper(u.email) LIKE :" + Usuario.PARAM_EMAIL),
 		@NamedQuery(name = Usuario.QUERY_BY_EMAIL, query = "Select u FROM Usuario u WHERE u.email = :"
 				+ Usuario.PARAM_EMAIL),
 		@NamedQuery(name = Usuario.QUERY_USUARIO_BY_ID, query = "Select u FROM Usuario u WHERE u.id = :"
@@ -93,7 +92,7 @@ public class Usuario implements Serializable {
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<UsuarioCarrera> usuarioCarrera;
-
+		
 	public Integer getId() {
 		return id;
 	}

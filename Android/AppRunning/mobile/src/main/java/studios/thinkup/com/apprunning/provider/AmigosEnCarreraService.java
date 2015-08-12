@@ -4,40 +4,41 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import java.util.List;
+import java.util.Vector;
+
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
-import studios.thinkup.com.apprunning.model.entity.AmigoRequest;
 import studios.thinkup.com.apprunning.model.entity.AmigosDTO;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.restProviders.AmigosProviderRemote;
-import studios.thinkup.com.apprunning.provider.restProviders.Respuesta;
 
 /**
  * Created by Facundo on 11/08/2015.
  * Servicio para obtener los amigos
  */
-public class ActualizarAmigoService extends AsyncTask<AmigoRequest, Integer, AmigosDTO> {
+public class AmigosEnCarreraService extends AsyncTask<Integer, Integer, List<AmigosDTO>> {
     private Context context;
     private IAmigosProvider ap;
-    private UsuarioApp usuarioApp;
-    private IServicioActualizacionAmigoHandler handler;
+    private UsuarioApp usuarioOwner;
+    private IServiceAmigosHandler handler;
 
-    public ActualizarAmigoService(Context activity, IServicioActualizacionAmigoHandler handler) {
+    public AmigosEnCarreraService(Context activity, IServiceAmigosHandler handler,UsuarioApp usuarioOwner) {
         this.context = activity;
+        this.usuarioOwner = usuarioOwner;
         this.handler = handler;
 
 
     }
 
     @Override
-    protected void onPostExecute(AmigosDTO amigo) {
-        super.onPostExecute(amigo);
+    protected void onPostExecute(List<AmigosDTO> usuarioApps) {
+        super.onPostExecute(usuarioApps);
         if (handler != null) {
-            if (amigo == null) {
-                handler.onError(Respuesta.CODIGO_NO_ENCONTRADO);
+            if (usuarioApps == null) {
+                handler.onError("Error al Buscar los amigos");
             } else {
-                handler.onOk(amigo);
-
+                handler.onDataRetrived(usuarioApps);
             }
 
         }
@@ -58,21 +59,21 @@ public class ActualizarAmigoService extends AsyncTask<AmigoRequest, Integer, Ami
     protected void onCancelled() {
         super.onCancelled();
         if (handler != null) {
-            handler.onOk(null);
+            handler.onDataRetrived(new Vector<AmigosDTO>());
         }
     }
 
     @Override
-    protected AmigosDTO doInBackground(AmigoRequest... params) {
+    protected List<AmigosDTO> doInBackground(Integer... params) {
 
-        return this.ap.actualizarEstadoAmigo(params[0]);
+        return this.ap.getAmigosEnCarrera(this.usuarioOwner.getId(),params[0]);
 
     }
 
-    public interface IServicioActualizacionAmigoHandler {
-        void onOk(AmigosDTO amigosDTO);
+    public interface IServiceAmigosHandler {
+        void onDataRetrived(List<AmigosDTO> amigos);
 
-        void onError(Integer estado);
+        void onError(String error);
     }
 
 
