@@ -57,7 +57,7 @@
     <string name="que_distancia_recorres">Que distancia vas a ReCorrer?</string>
     <string name="confirmar_Desanotar">Está seguro que desea borrar la carrera de "Mis Carreras"?</string>
     <string name="confirmar_no_corrida">Está por desmarcar la carrera como \"Corrida\". Se borrarán todos los datos asociados a la carrera. Desea continuar?</string>
-    <string name="app_version">Versión 0.1.13</string>
+    <string name="app_version">Versión 0.1.14</string>
     <string name="title_activity_nuevo_usuario">Nuevo Usuario</string>
     <string name="title_activity_datos_usuario">Mi Info</string>
 
@@ -89,11 +89,11 @@
 
     <string name="acepto_los_terminos">Acepto los Términos</string>
     <string name="danos_tu_opinion">Danos tu opinión</string>
-    <!--<string name="host_url">http://192.168.151.46:8080/</string>-->
+    <!--<string name="host_url">http://192.168.151.46:8080/</string>
      <string name="host_url">http://192.168.0.6:8080/</string>
-    <string name="base_service_url">RestServicesRunning/running</string>
-     <!--<string name="host_url">http://191.237.16.124/</string>
-       <string name="base_service_url">RestServicesRunning-0.0.1-SNAPSHOT/running</string>-->
+    <string name="base_service_url">RestServicesRunning/running</string>-->
+     <string name="host_url">http://191.237.16.124/</string>
+       <string name="base_service_url">RestServicesRunning-0.0.1-SNAPSHOT/running</string>
      <string name="siguiente" >Siguiente</string>
      <string name="anterior" >Anterior</string>
      <string name="tutorial">Tutorial</string>
