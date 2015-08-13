@@ -19,7 +19,7 @@ public class UsuarioApp implements Serializable, IEntity {
     public static final String FECHA_NACIMIENTO = "FECHA_NACIMIENTO";
     public static final String NICK = "NICK";
     public static final String GRUPO_ID = "GRUPO_ID";
-
+    public static final String VERIFICADO = "VERIFICADO";
     public static final String FIELD_ID = "usuario";
 
 
@@ -34,6 +34,7 @@ public class UsuarioApp implements Serializable, IEntity {
     private String tipoCuenta = "";
     private String fotoPerfil;
     private String grupoId;
+    private boolean verificado;
 
     public String getTipoCuenta() {
         return tipoCuenta;
@@ -81,6 +82,14 @@ public class UsuarioApp implements Serializable, IEntity {
 
     public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public boolean getVerificado() {
+        return verificado;
+    }
+
+    public void setVerificado(boolean verificado) {
+        this.verificado = verificado;
     }
 
     @Override

@@ -48,6 +48,7 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
      */
     private Button facebook;
     private Button googleplus;
+    private Button nuevoUsuario;
     private SocialNetwork socialNetwork;
     private View.OnClickListener loginClick = new View.OnClickListener() {
         @Override
@@ -96,6 +97,20 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
         googleplus = (Button) rootView.findViewById(R.id.googleplus);
         googleplus.setOnClickListener(loginClick);
 
+        nuevoUsuario = (Button)rootView.findViewById(R.id.nuevoUsuario);
+        nuevoUsuario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UsuarioApp u = new UsuarioApp();
+                u.setTipoCuenta("P");
+                Bundle extras = new Bundle();
+                extras.putSerializable(UsuarioApp.FIELD_ID, u);
+                extras.putBoolean("nuevoUsuario", true);
+                Intent intent = new Intent(MainFragment.this.getActivity(), NuevoUsuario.class);
+                intent.putExtras(extras);
+                startActivity(intent);
+            }
+        });
         rootView.findViewById(R.id.login_buttons).setVisibility(View.VISIBLE);
         ImageView i = (ImageView) rootView.findViewById(R.id.background);
         i.setImageResource(R.drawable.loggin_bg);

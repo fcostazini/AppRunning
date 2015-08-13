@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 import studios.thinkup.com.apprunning.provider.restProviders.FiltrosRemoteProvider;
 import studios.thinkup.com.apprunning.provider.restProviders.UsuarioCarreraProviderRemote;
+import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemote;
 
 /**
  * Created by fcostazini on 07/08/2015.
@@ -41,6 +43,13 @@ public class StartUpActivity extends Activity {
         this.pb = (ProgressBar) findViewById(R.id.progressBar);
         this.txt = (TextView) findViewById(R.id.txt_status);
         new UpdateAppData(this.txt, this.pb).execute(this.usuario);
+
+    }
+
+    private void mostrarUsuarioNoConfirmado() {
+
+        findViewById(R.id.loading).setVisibility(View.GONE);
+        findViewById(R.id.message).setVisibility(View.VISIBLE);
 
     }
 
@@ -71,14 +80,41 @@ public class StartUpActivity extends Activity {
             this.pb = pb;
         }
 
+
+        @Override
+        protected void onCancelled(Integer code) {
+            if (code != null && code.equals(999)) {
+                mostrarUsuarioNoConfirmado();
+            }
+        }
+
         @Override
         protected Integer doInBackground(UsuarioApp... usuarioApps) {
             UsuarioProvider up = new UsuarioProvider(StartUpActivity.this);
             UsuarioCarreraProviderRemote upr = new UsuarioCarreraProviderRemote(StartUpActivity.this);
+            if (!usuarioApps[0].getVerificado()) {
+                if (NetworkUtils.isConnected(StartUpActivity.this)) {
+                    UsuarioProviderRemote upRemote = new UsuarioProviderRemote(StartUpActivity.this);
+                    if (!upRemote.getUsuarioByEmail(usuarioApps[0].getEmail()).getVerificado()) {
+                        cancel(true);
+                    }
+                    if (isCancelled()) {
+                        return 999;
+                    }
+                } else {
+                    cancel(true);
+                    if (isCancelled()) {
+                        return 999;
+                    }
+                }
+            }
+
+
             if (up.getUsuarioByEmail(usuarioApps[0].getEmail()) == null) {
                 try {
                     publishProgress(5);
                     up.grabar(usuarioApps[0]);
+
                     publishProgress(30);
                     List<UsuarioCarrera> carreras = upr.getUsuarioCarrerasById(UsuarioCarrera.class, usuarioApps[0].getId());
                     publishProgress(35);
@@ -107,12 +143,19 @@ public class StartUpActivity extends Activity {
                             return 9;
                         }
                     }
+
                 }
             }
+
             publishProgress(50);
-            if (NetworkUtils.getConnectivityStatus(StartUpActivity.this) == NetworkUtils.NETWORK_STATUS_NOT_CONNECTED) {
+
+            if (NetworkUtils.getConnectivityStatus(StartUpActivity.this) == NetworkUtils.NETWORK_STATUS_NOT_CONNECTED)
+
+            {
                 publishProgress(100);
-            } else {
+            } else
+
+            {
                 publishProgress(70);
                 FiltrosRemoteProvider fpr = new FiltrosRemoteProvider(StartUpActivity.this);
                 List<ProvinciaCiudadDTO> filtros = fpr.getFiltros();

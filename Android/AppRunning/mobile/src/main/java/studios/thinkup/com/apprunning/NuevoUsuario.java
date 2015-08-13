@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -68,28 +69,29 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_datos_usuario);
-
         initActivity(savedInstanceState);
         initView();
     }
 
     private void initActivity(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey("usuario")) {
-                this.ua = (UsuarioApp) savedInstanceState.getSerializable("usuario");
-            }
-        } else {
-            if (this.getIntent().getExtras() != null) {
-                if (this.getIntent().getExtras().containsKey("usuario")) {
-                    this.ua = (UsuarioApp) this.getIntent().getExtras().getSerializable("usuario");
+        if (this.ua == null) {
+            if (savedInstanceState != null) {
+                if (savedInstanceState.containsKey(UsuarioApp.FIELD_ID)) {
+                    this.ua = (UsuarioApp) savedInstanceState.getSerializable(UsuarioApp.FIELD_ID);
+                }
+            } else {
+                if (this.getIntent().getExtras() != null) {
+                    if (this.getIntent().getExtras().containsKey(UsuarioApp.FIELD_ID)) {
+                        this.ua = (UsuarioApp) this.getIntent().getExtras().getSerializable(UsuarioApp.FIELD_ID);
+                    }
                 }
             }
-        }
-        if (this.ua == null) {
-            if (((RunningApplication) this.getApplication()).getUsuario() != null) {
-                this.ua = ((RunningApplication) this.getApplication()).getUsuario();
-            } else {
-                this.ua = new UsuarioApp();
+            if (this.ua == null) {
+                if (((RunningApplication) this.getApplication()).getUsuario() != null) {
+                    this.ua = ((RunningApplication) this.getApplication()).getUsuario();
+                } else {
+                    this.ua = new UsuarioApp();
+                }
             }
         }
     }
@@ -106,8 +108,9 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(NuevoUsuario.this, TerminosYCondicionesActivity.class);
+                completarUsuario();
                 Bundle b = new Bundle();
-                b.putSerializable("usuario", ua);
+                b.putSerializable(UsuarioApp.FIELD_ID, ua);
                 i.putExtras(b);
                 startActivity(i);
                 finish();
@@ -197,7 +200,7 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         if (this.ua != null) {
-            outState.putSerializable("usuario", this.ua);
+            outState.putSerializable(UsuarioApp.FIELD_ID, this.ua);
         }
 
     }
@@ -207,9 +210,11 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
     public void onClick(View v) {
 
         CheckBox cbAcepto = (CheckBox) findViewById(R.id.acepto_terminos);
+
         if (!cbAcepto.isChecked()) {
             final TextView txCondiciones = (TextView) findViewById(R.id.lbl_terminos);
             final ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+
             txCondiciones.requestFocus();
             new Handler().post(new Runnable() {
                 @Override
@@ -226,31 +231,60 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
                 }
             });
         } else {
-            if (this.ua == null) {
-                this.ua = new UsuarioApp();
-            }
-            TextView txtNickname = (TextView) findViewById(R.id.txt_nick);
-            this.ua.setNick(txtNickname.getText().toString());
-            TextView txtNombre = (TextView) findViewById(R.id.txt_nombre);
-            this.ua.setNombre(txtNombre.getText().toString());
-            TextView txtApellido = (TextView) findViewById(R.id.txt_apellido);
-            this.ua.setApellido(txtApellido.getText().toString());
-            TextView txtEmail = (TextView) findViewById(R.id.txt_email);
-            this.ua.setEmail(txtEmail.getText().toString());
-            TextView txtFechaNac = (TextView) findViewById(R.id.txt_fecha_nac);
-
-            this.ua.setFechaNacimiento(txtFechaNac.getText().toString());
-            Spinner grupo = (Spinner) findViewById(R.id.sp_grupo);
-            if (!grupo.getSelectedItem().equals(getString(R.string.corres_grupo))) {
-                this.ua.setGrupoId((String) grupo.getSelectedItem());
-            }
-            UsuarioProviderTask usuarioProviderTask = new UsuarioProviderTask();
-            if (NetworkUtils.isConnected(this)) {
-                showProgress(this, "Guardando Usuario...");
-                usuarioProviderTask.execute(this.ua);
+            if (verificarCamposObligatorios()) {
+                if (this.ua == null) {
+                    this.ua = new UsuarioApp();
+                }
+                completarUsuario();
+                UsuarioProviderTask usuarioProviderTask = new UsuarioProviderTask();
+                if (NetworkUtils.isConnected(this)) {
+                    showProgress(this, "Guardando Usuario...");
+                    usuarioProviderTask.execute(this.ua);
+                } else {
+                    Toast.makeText(this, "Sin Conexión a internet", Toast.LENGTH_LONG).show();
+                }
             } else {
-                Toast.makeText(this, "Sin Conexión a internet", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Complete los campos Marcados", Toast.LENGTH_LONG).show();
             }
+        }
+
+    }
+
+    private void completarUsuario() {
+        TextView txtNickname = (TextView) findViewById(R.id.txt_nick);
+        this.ua.setNick(txtNickname.getText().toString());
+        TextView txtNombre = (TextView) findViewById(R.id.txt_nombre);
+        this.ua.setNombre(txtNombre.getText().toString());
+        TextView txtApellido = (TextView) findViewById(R.id.txt_apellido);
+        this.ua.setApellido(txtApellido.getText().toString());
+        TextView txtEmail = (TextView) findViewById(R.id.txt_email);
+        this.ua.setEmail(txtEmail.getText().toString());
+        TextView txtFechaNac = (TextView) findViewById(R.id.txt_fecha_nac);
+
+        this.ua.setFechaNacimiento(txtFechaNac.getText().toString());
+        Spinner grupo = (Spinner) findViewById(R.id.sp_grupo);
+        if (!grupo.getSelectedItem().equals(getString(R.string.corres_grupo))) {
+            this.ua.setGrupoId((String) grupo.getSelectedItem());
+        }
+    }
+
+    private boolean verificarCamposObligatorios() {
+        TextView txtNickname = (TextView) findViewById(R.id.txt_nick);
+        TextView txtEmail = (TextView) findViewById(R.id.txt_email);
+        TextView txtFechaNac = (TextView) findViewById(R.id.txt_fecha_nac);
+
+        return notEmptyText(txtEmail) &
+                notEmptyText(txtNickname) &
+                notEmptyText(txtFechaNac);
+    }
+
+    private boolean notEmptyText(TextView txt) {
+        if (txt.getText().length() <= 0) {
+            txt.setBackgroundColor(Color.parseColor("#22FF0000"));
+            return false;
+        } else {
+            txt.setBackground(null);
+            return true;
         }
 
     }
@@ -313,7 +347,7 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
                 Intent intent = new Intent(NuevoUsuario.this, StartUpActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 Bundle b = new Bundle();
-                b.putSerializable("usuario", usuarioApp);
+                b.putSerializable(UsuarioApp.FIELD_ID, usuarioApp);
                 intent.putExtras(b);
                 NuevoUsuario.this.startActivity(intent);
             }

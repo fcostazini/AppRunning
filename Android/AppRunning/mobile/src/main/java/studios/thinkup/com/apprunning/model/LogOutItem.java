@@ -22,8 +22,10 @@ public class LogOutItem extends DrawerItem {
         if (this.getActivity() != null) {
 
             Intent i = new Intent(c, this.getActivity());
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             i.putExtra("LOGOUT", true);
             c.startActivity(i);
+            c.finish();
             return true;
         } else {
             return false;

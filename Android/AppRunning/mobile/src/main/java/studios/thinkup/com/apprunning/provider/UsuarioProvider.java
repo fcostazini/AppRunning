@@ -34,7 +34,8 @@ public class UsuarioProvider extends GenericProvider<UsuarioApp> implements IUsu
                 UsuarioApp.FOTO_PERFIL_URL,
                 UsuarioApp.FECHA_NACIMIENTO,
                 UsuarioApp.NICK,
-                UsuarioApp.GRUPO_ID
+                UsuarioApp.GRUPO_ID,
+                UsuarioApp.VERIFICADO
 
         };
         return fields;
@@ -54,6 +55,7 @@ public class UsuarioProvider extends GenericProvider<UsuarioApp> implements IUsu
         parametros.put(UsuarioApp.EMAIL, ent.getEmail());
         parametros.put(UsuarioApp.GRUPO_ID, ent.getGrupoId());
         parametros.put(UsuarioApp.TIPO_CUENTA, ent.getTipoCuenta());
+        parametros.put(UsuarioApp.VERIFICADO, ent.getVerificado());
 
         return parametros;
 
@@ -165,6 +167,7 @@ public class UsuarioProvider extends GenericProvider<UsuarioApp> implements IUsu
             ua.setFechaNacimiento(c.getString(c.getColumnIndex(UsuarioApp.FECHA_NACIMIENTO)));
             ua.setFotoPerfil(c.getString(c.getColumnIndex(UsuarioApp.FOTO_PERFIL_URL)));
             ua.setGrupoId(c.getString(c.getColumnIndex(UsuarioApp.GRUPO_ID)));
+            ua.setVerificado(c.getInt(c.getColumnIndex(UsuarioApp.VERIFICADO)) == 1);
             return ua;
         } catch (IllegalArgumentException e) {
             e.printStackTrace();

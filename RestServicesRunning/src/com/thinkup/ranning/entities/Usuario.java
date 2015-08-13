@@ -72,7 +72,8 @@ public class Usuario implements Serializable {
 
 	@Column(name = "nombre")
 	private String nombre;
-
+	@Column(name = "verificado")
+	private Boolean verificado;
 	@Column(name = "apellido")
 	private String apellido;
 
@@ -179,6 +180,14 @@ public class Usuario implements Serializable {
 
 	public void setUsuarioCarrera(List<UsuarioCarrera> usuarioCarrera) {
 		this.usuarioCarrera = usuarioCarrera;
+	}
+
+	public Boolean getVerificado() {
+		return verificado;
+	}
+
+	public void setVerificado(Boolean verificado) {
+		this.verificado = verificado;
 	}
 
 	public Usuario() {

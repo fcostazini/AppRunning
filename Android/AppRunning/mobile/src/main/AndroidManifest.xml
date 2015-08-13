@@ -155,6 +155,7 @@
         <activity
             android:name=".VerTerminosYCondiciones"
             android:label="@string/title_activity_terminos_ycondiciones"
+
             android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -178,6 +179,7 @@
         <activity
             android:name=".TerminosYCondicionesActivity"
             android:label="@string/title_activity_terminos_ycondiciones"
+            android:noHistory="true"
             android:screenOrientation="portrait">
         </activity>
         <activity android:name=".StartUpActivity"

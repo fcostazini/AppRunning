@@ -28,6 +28,8 @@ public class UsuarioDTO implements Serializable {
 
 	private String apellido;
 
+	private boolean verificado;
+	
 	private String fechaNacimiento;
 
 	private String fotoPerfilUrl;
@@ -38,6 +40,14 @@ public class UsuarioDTO implements Serializable {
 
 	public Integer getId() {
 		return id;
+	}
+
+	public boolean getVerificado() {
+		return verificado;
+	}
+
+	public void setVerificado(Boolean verificado) {
+		this.verificado = verificado;
 	}
 
 	public void setId(Integer id) {
@@ -134,5 +144,6 @@ public class UsuarioDTO implements Serializable {
 		this.nombre = usuario.getNombre();
 		this.password = usuario.getPassword();
 		this.tipoCuenta = usuario.getTipoCuenta();
+		this.verificado = usuario.getVerificado();
 	}
 }

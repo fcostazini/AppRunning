@@ -44,6 +44,16 @@
         android:background="#D34836"
         android:layout_margin="8dp"
         android:textColor="#ffffffff"/>
-</LinearLayout>
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Nuevo Usuario"
+            android:id="@+id/nuevoUsuario"
+            android:layout_gravity="center_horizontal"
+            android:background="#7D7D7D"
+            android:layout_margin="8dp"
+            android:textColor="#ffffffff" />
+    </LinearLayout>
 
 </RelativeLayout>

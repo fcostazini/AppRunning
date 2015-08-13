@@ -104,6 +104,7 @@ public class UsuarioDAO {
 		usuario.setNombre(usuariosDTO.getNombre());
 		usuario.setPassword(usuariosDTO.getPassword());
 		usuario.setTipoCuenta(usuariosDTO.getTipoCuenta());
+		usuario.setVerificado(usuariosDTO.getVerificado());
 		if (!usuariosDTO.getGrupoId().equals("Ninguno")) {
 			TypedQuery<GruposRunning> q = entityManager.createNamedQuery(
 					GruposRunning.QUERY_BY_NOMBRE, GruposRunning.class);
