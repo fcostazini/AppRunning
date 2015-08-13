@@ -58,7 +58,7 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
 
                         Intent i = new Intent(getActivity(), MainActivity.class);
                         i.putExtra("LOGOUT", true);
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         getActivity().startActivity(i);
                         getActivity().finish();
 
