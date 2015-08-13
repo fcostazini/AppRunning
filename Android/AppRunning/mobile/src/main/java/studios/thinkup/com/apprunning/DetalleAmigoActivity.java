@@ -94,19 +94,22 @@ public class DetalleAmigoActivity extends DrawerPagerActivity implements Actuali
         AmigoRequest request = new AmigoRequest();
         request.setIdAmigo(amigo.getIdAmigo());
         request.setIdOwner(amigo.getIdOwner());
-        showProgress(this,"Procesando...");
+
         switch (item.getItemId()) {
             case R.id.mnu_agregar_amigo:
-
+                showProgress(this,"Procesando...");
                 request.setTipoRequest(TipoRequestEnum.SOLICITUD_AMIGO);
                 break;
             case R.id.mnu_bloquear_amigo:
+                showProgress(this,"Procesando...");
                 request.setTipoRequest(TipoRequestEnum.BLOQUEAR_AMIGO);
                 break;
             case R.id.mnu_borrar_amigo:
+                showProgress(this,"Procesando...");
                 request.setTipoRequest(TipoRequestEnum.QUITA_AMIGO);
                 break;
             case R.id.mnu_desbloquear_amigo:
+                showProgress(this,"Procesando...");
                 request.setTipoRequest(TipoRequestEnum.DESBLOQUEAR_AMIGO);
                 break;
             default:

@@ -95,7 +95,11 @@ public class StartUpActivity extends Activity {
             if (!usuarioApps[0].getVerificado()) {
                 if (NetworkUtils.isConnected(StartUpActivity.this)) {
                     UsuarioProviderRemote upRemote = new UsuarioProviderRemote(StartUpActivity.this);
-                    if (!upRemote.getUsuarioByEmail(usuarioApps[0].getEmail()).getVerificado()) {
+                    UsuarioApp uRemote = upRemote.getUsuarioByEmail(usuarioApps[0].getEmail());
+                    if(uRemote == null){
+                        cancel(true);
+                    }
+                    if (uRemote != null && !uRemote.getVerificado()) {
                         cancel(true);
                     }
                     if (isCancelled()) {

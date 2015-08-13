@@ -30,6 +30,13 @@ public class UsuarioDAO {
 				Usuario.QUERY_ALL, Usuario.class).getResultList();
 		return usuario;
 	}
+	public Usuario save(Usuario u) throws PersistenciaException{
+		try{
+		return this.entityManager.merge(u);
+		}catch (Exception e){
+			throw new PersistenciaException("Error al guardar el usuario", e);
+		}
+	}
 	
 	public List<Usuario> getAllUsuariosByData(Integer idOwner, String param) {
 		List<Usuario> usuario = this.entityManager.createNamedQuery(

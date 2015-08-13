@@ -198,5 +198,38 @@ public class UsuarioService {
 			return r;
 		}
 	}
+	
+	/**
+	 * Este servicio permite obtener la lista de carreras que se encuentra en la
+	 * base de datos.
+	 * 
+	 * @return Lista de carreras de la base de datos.
+	 */
+	@Path("/token/{token}")
+	@GET()
+	@Produces(MediaType.APPLICATION_JSON)
+	@PermitAll
+	public Respuesta<UsuarioDTO> verificarUsuario(@PathParam("token") String token) {
+
+		UsuarioDTO usuarioDto = null;
+		Usuario usuario;
+		try {
+			usuario = service.getByEmail(token);
+			usuario.setVerificado(true);
+			service.save(usuario);
+			Respuesta<UsuarioDTO> r = new Respuesta<UsuarioDTO>();
+			r.addMensaje("Operacion ejecutada con éxito.");
+			r.setCodigoRespuesta(Respuesta.CODIGO_OK);
+			r.setDto(usuarioDto);
+			return r;
+		} catch (Exception e) {
+			Respuesta<UsuarioDTO> r = new Respuesta<UsuarioDTO>();
+			r.addMensaje(e.getMessage());
+			r.setCodigoRespuesta(Respuesta.CODIGO_SIN_RESULTADOS);
+			r.setDto(usuarioDto);
+			return r;
+		}
+
+	}	
 
 }
