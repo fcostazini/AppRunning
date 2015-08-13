@@ -2,10 +2,18 @@ package studios.thinkup.com.apprunning;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BlurMaskFilter;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import studios.thinkup.com.apprunning.adapter.AmigosPagerAdapter;
@@ -85,6 +93,7 @@ public class DetalleAmigoActivity extends DrawerPagerActivity implements Actuali
             menu.findItem(R.id.mnu_bloquear_amigo).setVisible(!amigo.getEsBloqueado());
             menu.findItem(R.id.mnu_desbloquear_amigo).setVisible(amigo.getEsBloqueado());
 
+
         }
     }
 
@@ -135,4 +144,43 @@ public class DetalleAmigoActivity extends DrawerPagerActivity implements Actuali
         hideProgress();
         Toast.makeText(this, "No guardado" + estado, Toast.LENGTH_SHORT).show();
     }
+
+    private void setBackgroundGlow(Drawable imgview, int imageicon,int r,int g,int b)
+    {
+// An added margin to the initial image
+        int margin = 24;
+        int halfMargin = margin / 2;
+        // the glow radius
+        int glowRadius = 40;
+
+        // the glow color
+        int glowColor = Color.rgb(r, g, b);
+
+        // The original image to use
+        Bitmap src = BitmapFactory.decodeResource(getResources(), imageicon);
+
+        // extract the alpha from the source image
+        Bitmap alpha = src.extractAlpha();
+
+        // The output bitmap (with the icon + glow)
+        Bitmap bmp =  Bitmap.createBitmap(src.getWidth() + margin, src.getHeight() + margin, Bitmap.Config.ARGB_8888);
+
+        // The canvas to paint on the image
+        Canvas canvas = new Canvas(bmp);
+
+        Paint paint = new Paint();
+        paint.setColor(glowColor);
+
+        // outer glow
+        paint.setMaskFilter(new BlurMaskFilter(glowRadius, BlurMaskFilter.Blur.OUTER));//For Inner glow set Blur.INNER
+        canvas.drawBitmap(alpha, halfMargin, halfMargin, paint);
+
+        // original icon
+        canvas.drawBitmap(src, halfMargin, halfMargin, null);
+
+        imgview.draw(canvas);
+
+
+    }
+
 }

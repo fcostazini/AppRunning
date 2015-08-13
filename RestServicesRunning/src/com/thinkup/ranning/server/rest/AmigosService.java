@@ -5,7 +5,6 @@ import java.util.Vector;
 
 import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
-import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -15,9 +14,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.thinkup.ranning.dao.AmigoDao;
+import com.thinkup.ranning.dao.UsuarioCarreraDAO;
 import com.thinkup.ranning.dao.UsuarioDAO;
 import com.thinkup.ranning.dtos.AmigoRequest;
 import com.thinkup.ranning.dtos.AmigosDTO;
+import com.thinkup.ranning.dtos.CarreraAmigoDTO;
 import com.thinkup.ranning.dtos.Respuesta;
 import com.thinkup.ranning.entities.Amigos;
 import com.thinkup.ranning.exceptions.PersistenciaException;
@@ -35,6 +36,9 @@ public class AmigosService {
 	private AmigoDao dao;
 	@Inject
 	private UsuarioDAO usuarioDao;
+	
+	@Inject
+	private UsuarioCarreraDAO carreraDao;
 
 	@Path("/getAmigos/{idOwner}")
 	@GET()
@@ -194,6 +198,28 @@ public class AmigosService {
 		}
 	}
 
+	
+	@Path("/findCarrerasByUsuario/{id}")
+	@GET()
+	@Produces(MediaType.APPLICATION_JSON)
+	@PermitAll
+	public Respuesta<List<CarreraAmigoDTO>> findCarrerasByUsuario(@PathParam("id") Integer id) {
+		Respuesta<List<CarreraAmigoDTO>> r = new Respuesta<List<CarreraAmigoDTO>>();
+		try {
+
+			r.setDto(carreraDao.findCarrerasAmigos(id));
+			r.addMensaje("Operacion ejecutada con éxito.");
+			r.setCodigoRespuesta(Respuesta.CODIGO_OK);
+			return r;
+		} catch (Exception e) {
+
+			r.addMensaje(e.getMessage());
+			r.setCodigoRespuesta(Respuesta.CODIGO_SIN_RESULTADOS);
+			r.setDto(new Vector<CarreraAmigoDTO>());
+			return r;
+		}
+	}
+	
 	private Amigos crearNuevoAmigo(int idOwner, int idAmigo)
 			throws PersistenciaException {
 		Amigos a = new Amigos();
