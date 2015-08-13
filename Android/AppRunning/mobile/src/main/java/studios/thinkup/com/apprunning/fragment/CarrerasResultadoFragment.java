@@ -32,9 +32,9 @@ import studios.thinkup.com.apprunning.provider.restProviders.UsuarioCarreraServi
  * interface.
  */
 public class CarrerasResultadoFragment extends FilteredFragment implements CarreraCabeceraService.OnResultsHandler, OnSingleResultHandler<UsuarioCarrera> {
-    private static ProgressDialog pd;
-    private CarreraListAdapter adapter;
 
+    private CarreraListAdapter adapter;
+    private static ProgressDialog pd;
     protected static void showProgress(Context context, String message) {
         pd = new ProgressDialog(context);
         pd.setProgressStyle(android.R.style.Widget_ProgressBar_Small);

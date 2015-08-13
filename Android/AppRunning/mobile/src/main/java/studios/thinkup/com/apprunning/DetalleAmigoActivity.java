@@ -1,5 +1,7 @@
 package studios.thinkup.com.apprunning;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.Menu;
@@ -19,7 +21,21 @@ import studios.thinkup.com.apprunning.provider.ActualizarAmigoService;
 public class DetalleAmigoActivity extends DrawerPagerActivity implements ActualizarAmigoService.IServicioActualizacionAmigoHandler {
     private AmigosDTO amigo;
     private Menu menu;
+    private static ProgressDialog pd;
+    protected static void showProgress(Context context, String message) {
+        pd = new ProgressDialog(context);
+        pd.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+        pd.setMessage(message);
+        pd.setCancelable(false);
+        pd.setCanceledOnTouchOutside(false);
+        pd.show();
+    }
 
+    protected static void hideProgress() {
+        if (pd != null) {
+            pd.dismiss();
+        }
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -78,9 +94,10 @@ public class DetalleAmigoActivity extends DrawerPagerActivity implements Actuali
         AmigoRequest request = new AmigoRequest();
         request.setIdAmigo(amigo.getIdAmigo());
         request.setIdOwner(amigo.getIdOwner());
-
+        showProgress(this,"Procesando...");
         switch (item.getItemId()) {
             case R.id.mnu_agregar_amigo:
+
                 request.setTipoRequest(TipoRequestEnum.SOLICITUD_AMIGO);
                 break;
             case R.id.mnu_bloquear_amigo:
@@ -105,12 +122,14 @@ public class DetalleAmigoActivity extends DrawerPagerActivity implements Actuali
         if (amigo != null) {
             this.amigo = amigo;
         }
+        hideProgress();
         actualizarBotonera(menu);
         Toast.makeText(this, "Estado guardado", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onError(Integer estado) {
+        hideProgress();
         Toast.makeText(this, "No guardado" + estado, Toast.LENGTH_SHORT).show();
     }
 }

@@ -90,7 +90,7 @@ public class Usuario implements Serializable {
 	@JoinColumn(name = "grupo_id", nullable = true)
 	private GruposRunning grupo;
 
-	@OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<UsuarioCarrera> usuarioCarrera;
 		
