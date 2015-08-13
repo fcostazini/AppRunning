@@ -1,5 +1,6 @@
 package studios.thinkup.com.apprunning.adapter;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -10,10 +11,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import studios.thinkup.com.apprunning.R;
-import studios.thinkup.com.apprunning.fragment.AgregarAmigosFragment;
-import studios.thinkup.com.apprunning.fragment.AmigosFragment;
 import studios.thinkup.com.apprunning.fragment.DetalleAmigoFragment;
+import studios.thinkup.com.apprunning.fragment.TiemposCarrerasFragment;
+import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.entity.AmigosDTO;
+import studios.thinkup.com.apprunning.model.entity.CamposOrdenEnum;
 
 /**
  * Created by fcostazini on 21/05/2015.
@@ -21,22 +23,22 @@ import studios.thinkup.com.apprunning.model.entity.AmigosDTO;
  */
 public class AmigosPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
 
-    private Map<Integer, IAmigoActualizableFragment> fragmentMap;
+    private Map<Integer, Fragment> fragmentMap;
     private AmigosDTO amigo;
 
     public AmigosPagerAdapter(FragmentManager fm, AmigosDTO amigo) {
         super(fm);
-
+        this.amigo = amigo;
         fragmentMap = new HashMap<>();
         fragmentMap.put(0, new DetalleAmigoFragment());
-        fragmentMap.put(0, new DetalleAmigoFragment());
+        fragmentMap.put(1, new TiemposCarrerasFragment());
 
 
-   }
+    }
 
     @Override
     public int getCount() {
-        return 1;
+        return 2;
 
     }
 
@@ -45,6 +47,8 @@ public class AmigosPagerAdapter extends FragmentPagerAdapter implements PagerSli
         switch (position) {
             case 0:
                 return R.drawable.ic_detalle;
+            case 1:
+                return R.drawable.ic_recomendadas;
 
         }
         return 0;
@@ -64,12 +68,23 @@ public class AmigosPagerAdapter extends FragmentPagerAdapter implements PagerSli
 
     @Override
     public Fragment getItem(int i) {
-        return (Fragment)this.fragmentMap.get(i);
+        Bundle b = new Bundle();
+        Filtro f = new Filtro();
+        if (amigo != null) {
+            f.clean();
+            f.setIdUsuario(amigo.getIdAmigo());
+            f.setOrdenarPor(CamposOrdenEnum.NOMBRE.getLabel());
+            f.setSentido(Filtro.SENTIDO_ORDEN[0]);
+            b.putSerializable(Filtro.FILTRO_ID, f);
+        }
+        Fragment frag = this.fragmentMap.get(i);
+        frag.setArguments(b);
+        return frag;
 
 
     }
 
-    public interface IAmigoActualizableFragment{
+    public interface IAmigoActualizableFragment {
 
         void actualizarAmigo(AmigosDTO amigo);
     }

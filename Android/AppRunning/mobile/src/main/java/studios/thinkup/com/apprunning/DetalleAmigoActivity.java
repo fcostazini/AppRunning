@@ -22,11 +22,12 @@ public class DetalleAmigoActivity extends DrawerPagerActivity implements Actuali
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+
         this.amigo = (AmigosDTO) restoreField(savedInstanceState, AmigosDTO.FIELD_ID);
         if (this.amigo == null) {
             this.amigo = new AmigosDTO();
         }
+        super.onCreate(savedInstanceState);
     }
 
     private Object restoreField(Bundle savedInstanceState, String name) {

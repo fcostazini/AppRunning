@@ -55,13 +55,12 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
             switch (which) {
                 case DialogInterface.BUTTON_POSITIVE:
                     if (getActivity() != null) {
-
                         Intent i = new Intent(getActivity(), MainActivity.class);
                         i.putExtra("LOGOUT", true);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         getActivity().startActivity(i);
                         getActivity().finish();
-
+                    //TODO: BORRAR EL USUARIO LOCAL
                     }
                     dialog.dismiss();
                     break;
