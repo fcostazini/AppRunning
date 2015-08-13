@@ -26,7 +26,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/txt_distancia"
-            android:layout_weight="0.5"
+            android:layout_weight="0.2"
             android:background="@null"
             android:src="@mipmap/ic_launcher"
             android:layout_gravity="center"
@@ -43,29 +43,20 @@
             android:paddingBottom="5dp"
             android:id="@+id/ll_informacion">
 
-            <ImageView
-                android:id="@+id/img_favorito"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="center"
-                android:src="@drawable/ic_me_gusta"
-                android:layout_above="@+id/linearLayout4"
-                android:layout_alignRight="@+id/ll_informacion"
-                android:layout_alignEnd="@+id/linearLayout4"
-                android:layout_gravity="center_vertical|right" />
-
             <TextView
                 android:id="@+id/txt_nombre_usuario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ems="7"
                 android:layout_gravity="center|left"
-                android:layout_marginTop="5dp"
                 android:gravity="center|left"
                 android:singleLine="true"
                 android:text="Nombre de Carrera"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#ff00003c"
-                android:layout_marginBottom="5dp" />
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="15dp"
+                android:ellipsize="end" />
 
             <TextView
                 android:id="@+id/txt_fecha"
@@ -119,31 +110,53 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="5dp">
 
-                <ImageView
-                    android:id="@+id/img_anotado_carrera"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
-                    android:scaleType="center"
-                    android:src="@drawable/ic_anotado" />
-
-                <ImageView
-                    android:id="@+id/img_corrida"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center|right"
-                    android:layout_marginLeft="2dp"
-                    android:scaleType="center"
-                    android:src="@drawable/ic_corrida" />
-
             </LinearLayout>
 
         </LinearLayout>
+
     </LinearLayout>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/linearLayout4"
+        android:layout_alignTop="@+id/linearLayout4"
+        android:weightSum="1">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/me_gusta"
+            android:background="@drawable/me_gusta_ribbon"
+            android:scaleType="center"
+            android:layout_weight="0.5"
+            android:visibility="visible"
+            android:alpha="0.7"
+            android:layout_marginLeft="-10dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/anotado"
+            android:background="@drawable/anotado_ribbon"
+            android:scaleType="center"
+            android:visibility="visible"
+            android:layout_weight="0.5"
+            android:alpha="0.7"
+            android:layout_marginLeft="-10dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/corrida"
+            android:background="@drawable/corrida_ribbon"
+            android:visibility="gone"
+            android:scaleType="fitCenter"
+            android:layout_weight="0.5"
+            android:alpha="0.7"
+            android:layout_marginLeft="-10dp" />
+    </LinearLayout>
 
 
 </RelativeLayout>

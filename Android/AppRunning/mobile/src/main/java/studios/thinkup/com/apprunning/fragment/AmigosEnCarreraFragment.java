@@ -24,10 +24,10 @@ import studios.thinkup.com.apprunning.provider.AmigosEnCarreraService;
  * Fragment que muestra los amigos
  */
 public class AmigosEnCarreraFragment extends ListFragment implements AmigosEnCarreraService.IServiceAmigosHandler {
-    private static ProgressDialog pd;
+
     private AmigosListAdapter adapter;
     private IUsuarioCarreraObservable usuarioObservable;
-
+    private static ProgressDialog pd;
     protected static void showProgress(Context context, String message) {
         pd = new ProgressDialog(context);
         pd.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
