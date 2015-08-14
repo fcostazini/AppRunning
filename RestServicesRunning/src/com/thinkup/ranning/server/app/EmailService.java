@@ -36,7 +36,7 @@ public class EmailService {
 
 
 		
-			Session mailSession = Session.getDefaultInstance(properties, auth);
+			Session mailSession = Session.getInstance(properties, auth);
 			mailSession.setDebug(true);
 
 			Message message = new MimeMessage(mailSession);
