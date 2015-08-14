@@ -1,18 +1,27 @@
 package com.thinkup.ranning.server.rest;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
 import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriBuilder;
 
 import com.thinkup.ranning.dao.UsuarioDAO;
 import com.thinkup.ranning.dtos.Respuesta;
@@ -222,28 +231,43 @@ public class UsuarioService {
 	@GET()
 	@Produces(MediaType.APPLICATION_JSON)
 	@PermitAll
-	public String verificarUsuario(
+	public Response verificarUsuario(
 			@PathParam("email") String email,
-			@PathParam("token") String token) {
+			@PathParam("token") String token, 
+			@Context HttpServletRequest request,
+	        @Context HttpServletResponse response) {
 
 		UsuarioDTO usuarioDto = null;
 		Usuario usuario;
+		String contextPath = request.getContextPath();
 		try {
 			usuario = service.getByEmail(email);
+			
+		    
 			if(usuario!= null && usuario.getFechaVigencia().compareTo(new Date())>0 && usuario.getToken().equals(token)){
 				usuario.setVerificado(true);
 				service.save(usuario);
+				response.sendRedirect(contextPath + "/confirmado.html");
+			    return Response.status(Status.ACCEPTED).build();
+			    
 				
-				return "cofirmado.hmtl";
 				
 			}else{
+				response.sendRedirect(contextPath + "/no_confirmado.html");
+			    return Response.status(Status.ACCEPTED).build();
 				
-				return "no_cofirmado.hmtl";
 			}
 	
 		} catch (Exception e) {
 			
-			return "no_cofirmado.hmtl";
+			try {
+				response.sendRedirect(contextPath + "/no_confirmado.html");
+			    return Response.status(Status.ACCEPTED).build();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				return null;
+			}
 		}
 
 	}
