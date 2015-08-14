@@ -90,14 +90,14 @@
     <string name="acepto_los_terminos">Acepto los Términos</string>
     <string name="danos_tu_opinion">Danos tu opinión</string>
 
-    <!-- <string name="host_url">http://192.168.151.46:8080/</string>
-    <string name="base_service_url">RestServicesRunning/running</string>-->
+    <string name="host_url">http://192.168.151.46:8080/</string>
+    <string name="base_service_url">RestServicesRunning/running</string>
 
   <!--  <string name="host_url">http://192.168.0.6:8080/</string>
     <string name="base_service_url">RestServicesRunning/running</string> -->
 
-   <string name="host_url">http://191.237.16.124/</string>
-      <string name="base_service_url">RestServicesRunning-0.0.1-SNAPSHOT/running</string>
+    <!--   <string name="host_url">http://191.237.16.124/</string>
+         <string name="base_service_url">RestServicesRunning-0.0.1-SNAPSHOT/running</string>-->
 
     <string name="siguiente" >Siguiente</string>
     <string name="anterior" >Anterior</string>

@@ -64,7 +64,7 @@ public class DetalleCarreraFragment extends Fragment {
             if (this.usuarioObservable.getUsuarioCarrera().getHora() != null && !this.usuarioObservable.getUsuarioCarrera().getHora().isEmpty()) {
 
 
-                fecha.setText(sf.format(d) + "   " + this.usuarioObservable.getUsuarioCarrera().getHora() + " hs.");
+                fecha.setText(sf.format(d) + "   " + this.usuarioObservable.getUsuarioCarrera().getHora().substring(0,5) + " hs.");
             } else {
                 fecha.setText(sf.format(d));
             }

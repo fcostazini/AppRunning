@@ -197,7 +197,7 @@ public class StartUpActivity extends Activity {
                     break;
                 case 25:
                     pb.setProgress(25);
-                    txt.setText("Syncronizando carreras...");
+                    txt.setText("Sincronizando carreras...");
                     break;
                 case 45:
                     pb.setProgress(45);

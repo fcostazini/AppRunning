@@ -28,9 +28,9 @@ public class CarreraCabeceraDTO implements Serializable {
     private String fechaInicio;
 
     /**
-     * Corresponde a la hora de la carrera. Lo tenemos que obtener de la fecha.
+     * Corresponde a la horaInicio de la carrera. Lo tenemos que obtener de la fecha.
      */
-    private String hora;
+    private String horaInicio;
 
     /**
      * Corresponde a las distancias disponibles de la carrera.
@@ -85,12 +85,12 @@ public class CarreraCabeceraDTO implements Serializable {
         this.fechaInicio = fechaInicio;
     }
 
-    public String getHora() {
-        return hora;
+    public String getHoraInicio() {
+        return horaInicio;
     }
 
-    public void setHora(String hora) {
-        this.hora = hora;
+    public void setHoraInicio(String horaInicio) {
+        this.horaInicio = horaInicio;
     }
 
     public String getDistanciaDisponible() {
