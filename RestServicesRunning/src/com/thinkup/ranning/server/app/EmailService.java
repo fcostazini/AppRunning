@@ -22,10 +22,10 @@ public class EmailService {
 
 		Properties props = new Properties();
 
-        props.put("mail.transport.protocol", "smtps");
+        props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtps.host", SMTP_HOST_NAME);
         props.put("mail.smtps.auth", "true");
-        // props.put("mail.smtps.quitwait", "false");
+        props.put("mail.smtp.auth", "true");
 
         Session mailSession = Session.getDefaultInstance(props);
         mailSession.setDebug(true);
