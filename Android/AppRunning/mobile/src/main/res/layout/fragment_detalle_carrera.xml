@@ -51,7 +51,7 @@
                 android:layout_alignLeft="@+id/lbl_modalidad"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/lbl_modalidad"
+                android:layout_below="@+id/lbl_inscripto_en"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/lbl_fecha_largada"
@@ -67,6 +67,31 @@
                 android:layout_toRightOf="@+id/lbl_fecha_largada"
                 android:text="28/06/2015 15:00 Hs"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/lbl_inscripto_en"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/lbl_modalidad"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/lbl_modalidad"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/lbl_inscript_en"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txt_inscripto_en"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10Km"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_alignTop="@+id/lbl_inscripto_en"
+                android:layout_toRightOf="@+id/lbl_inscripto_en"
+                android:layout_marginLeft="20dp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/lbl_email"
