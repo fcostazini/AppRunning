@@ -111,7 +111,11 @@ public class CarreraListAdapter extends BaseAdapter {
                 try {
                     d = sf.parse(p.getFechaInicio());
                     sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                    viewHolder.fecha.setText(sf.format(d) + "   " + p.getHora().substring(0,5) + "hs");
+                    if(p.getHora().length()> 3) {
+                        viewHolder.fecha.setText(sf.format(d) + "   " + p.getHora().substring(0, 5) + "hs");
+                    }else{
+                        viewHolder.fecha.setText(sf.format(d) + "   " + p.getHora());
+                    }
                 } catch (Exception e) {
                     d = new Date(Long.valueOf(p.getFechaInicio()));
                     sf = new SimpleDateFormat("dd/MM/yyyy hh:mm", Locale.getDefault());
