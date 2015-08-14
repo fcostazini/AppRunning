@@ -99,7 +99,6 @@ public class AmigosEnCarreraFragment extends ListFragment implements AmigosEnCar
 
     /**
      * Called when the Fragment is visible to the user.  This is generally
-     * tied to {@link Activity#onStart() Activity.onStart} of the containing
      * Activity's lifecycle.
      */
     @Override

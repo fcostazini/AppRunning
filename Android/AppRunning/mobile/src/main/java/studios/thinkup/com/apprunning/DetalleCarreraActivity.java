@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import java.util.Date;
 import java.util.List;
@@ -57,7 +58,8 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
         }
         startUp(savedInstanceState);
 
-        findViewById(R.id.viewpager).setBackgroundResource(R.drawable.detalle_bg_xml);
+        ImageView bg = (ImageView)findViewById(R.id.bg);
+        bg.setImageResource(R.drawable.detalle_bg);
     }
 
     private void startUp(Bundle savedInstanceState) {
