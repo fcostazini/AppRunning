@@ -2,6 +2,7 @@ package com.thinkup.ranning.server.app;
 
 import java.util.Properties;
 
+import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -13,51 +14,47 @@ import javax.mail.internet.MimeMessage;
 import com.thinkup.ranning.dtos.UsuarioDTO;
 
 public class EmailService {
-    private static final String SMTP_HOST_NAME = "smtp.sendgrid.net";
-    private static final int SMTP_HOST_PORT = 587;
-    
+	private static final String SMTP_HOST_NAME = "smtp.sendgrid.net";
+	private static final int SMTP_HOST_PORT = 587;
+
 	public void sendConfirmacion(UsuarioDTO usuario, String token) {
 		final String username = "azure_968640146b384b396774c13b7131d2d4@azure.com";
 		final String password = "TtGyE5z49aKXSiH";
 
-		Properties props = new Properties();
+		Properties properties = new Properties();
+		properties.put("mail.transport.protocol", "smtp");
+		properties.put("mail.smtp.host", SMTP_HOST_NAME);
+		properties.put("mail.smtp.port", SMTP_HOST_PORT);
+		properties.put("mail.smtp.auth", "true");
 
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtps.host", SMTP_HOST_NAME);
-        props.put("mail.smtps.auth", "true");
-        props.put("mail.smtp.auth", "true");
-
-        Session mailSession = Session.getDefaultInstance(props);
-        mailSession.setDebug(true);
-        
-
-      
-
-  
-
+		Authenticator auth = new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		};
 		try {
-			Transport transport = mailSession.getTransport();
+
+
+		
+			Session mailSession = Session.getDefaultInstance(properties, auth);
+			mailSession.setDebug(true);
 
 			Message message = new MimeMessage(mailSession);
-			message.setFrom(new InternetAddress("no-replay@recorriendo.com"));
+			message.setFrom(new InternetAddress());
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(usuario.getEmail()));
 			message.setSubject("Confirmar Usuario");
 			message.setText("Confirmar,"
-					+ "http://recorriendo.cloudapp.net/RestServicesRunning-0.0.1-SNAPSHOT/running/usuarios/token/"+usuario.getEmail()+"/"+token);
-		      transport.connect
-	          (SMTP_HOST_NAME, SMTP_HOST_PORT, username, password);
+					+ "http://recorriendo.cloudapp.net/RestServicesRunning-0.0.1-SNAPSHOT/running/usuarios/token/"
+					+ usuario.getEmail() + "/" + token);
 
-	        transport.sendMessage(message,
-	            message.getRecipients(Message.RecipientType.TO));
-	        transport.close();
-
-			Session session = Session.getInstance(props,
-					new javax.mail.Authenticator() {
-						protected PasswordAuthentication getPasswordAuthentication() {
-							return new PasswordAuthentication(username, password);
-						}
-					});
+			Transport transport = mailSession.getTransport();
+			// Connect the transport object.
+			transport.connect();
+			// Send the message.
+			transport.sendMessage(message, message.getAllRecipients());
+			// Close the connection.
+			transport.close();
 
 			System.out.println("Done");
 

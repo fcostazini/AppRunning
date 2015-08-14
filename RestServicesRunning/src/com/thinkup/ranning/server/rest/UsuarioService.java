@@ -222,7 +222,7 @@ public class UsuarioService {
 	@GET()
 	@Produces(MediaType.APPLICATION_JSON)
 	@PermitAll
-	public Respuesta<UsuarioDTO> verificarUsuario(
+	public String verificarUsuario(
 			@PathParam("email") String email,
 			@PathParam("token") String token) {
 
@@ -233,26 +233,17 @@ public class UsuarioService {
 			if(usuario!= null && usuario.getFechaVigencia().compareTo(new Date())>0 && usuario.getToken().equals(token)){
 				usuario.setVerificado(true);
 				service.save(usuario);
-				Respuesta<UsuarioDTO> r = new Respuesta<UsuarioDTO>();
-				r.addMensaje("Operacion ejecutada con éxito.");
-				r.setCodigoRespuesta(Respuesta.CODIGO_OK);
-				r.setDto(usuarioDto);
-				return r;
+				
+				return "cofirmado.hmtl";
 				
 			}else{
-				Respuesta<UsuarioDTO> r = new Respuesta<UsuarioDTO>();
-				r.addMensaje("Token invalido");
-				r.setCodigoRespuesta(Respuesta.CODIGO_NO_ENCONTRADO);
-				r.setDto(usuarioDto);
-				return r;
+				
+				return "no_cofirmado.hmtl";
 			}
 	
 		} catch (Exception e) {
-			Respuesta<UsuarioDTO> r = new Respuesta<UsuarioDTO>();
-			r.addMensaje(e.getMessage());
-			r.setCodigoRespuesta(Respuesta.CODIGO_SIN_RESULTADOS);
-			r.setDto(usuarioDto);
-			return r;
+			
+			return "no_cofirmado.hmtl";
 		}
 
 	}
