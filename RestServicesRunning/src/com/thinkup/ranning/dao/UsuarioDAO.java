@@ -2,6 +2,7 @@ package com.thinkup.ranning.dao;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -85,10 +86,19 @@ public class UsuarioDAO {
 	}
 
 	public void saveUsuario(UsuarioDTO usuarioDTO) throws PersistenciaException {
+		this.saveUsuario(usuarioDTO, null);
+	}
+	
+	public void saveUsuario(UsuarioDTO usuarioDTO, String token) throws PersistenciaException {
 		Usuario usuario = new Usuario();
 		this.updateDatosUsuario(usuario, usuarioDTO);
 		this.entityManager.persist(usuario);
-
+		if(token != null && !token.isEmpty()){
+			usuario.setToken(token);
+			Calendar c = Calendar.getInstance();
+			c.add(Calendar.DATE,1 );
+			usuario.setFechaVigencia(c.getTime());
+		}
 		usuarioDTO.setId(usuario.getId());
 	}
 

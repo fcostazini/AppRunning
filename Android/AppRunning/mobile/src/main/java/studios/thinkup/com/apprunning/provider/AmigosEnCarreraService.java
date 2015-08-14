@@ -23,7 +23,7 @@ public class AmigosEnCarreraService extends AsyncTask<Integer, Integer, List<Ami
     private UsuarioApp usuarioOwner;
     private IServiceAmigosHandler handler;
 
-    public AmigosEnCarreraService(Context activity, IServiceAmigosHandler handler,UsuarioApp usuarioOwner) {
+    public AmigosEnCarreraService(Context activity, IServiceAmigosHandler handler, UsuarioApp usuarioOwner) {
         this.context = activity;
         this.usuarioOwner = usuarioOwner;
         this.handler = handler;
@@ -55,18 +55,11 @@ public class AmigosEnCarreraService extends AsyncTask<Integer, Integer, List<Ami
         }
     }
 
-    @Override
-    protected void onCancelled() {
-        super.onCancelled();
-        if (handler != null) {
-            handler.onDataRetrived(new Vector<AmigosDTO>());
-        }
-    }
 
     @Override
     protected List<AmigosDTO> doInBackground(Integer... params) {
 
-        return this.ap.getAmigosEnCarrera(this.usuarioOwner.getId(),params[0]);
+        return this.ap.getAmigosEnCarrera(this.usuarioOwner.getId(), params[0]);
 
     }
 

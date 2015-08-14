@@ -1,5 +1,6 @@
 package com.thinkup.ranning.server.rest;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -19,6 +20,8 @@ import com.thinkup.ranning.dtos.TipoCuenta;
 import com.thinkup.ranning.dtos.UsuarioDTO;
 import com.thinkup.ranning.entities.Usuario;
 import com.thinkup.ranning.exceptions.PersistenciaException;
+import com.thinkup.ranning.server.app.EmailService;
+import com.thinkup.ranning.server.app.TokenGenerator;
 
 /**
  * Servicio de usuarios.
@@ -31,6 +34,9 @@ public class UsuarioService {
 
 	@Inject
 	UsuarioDAO service;
+
+	@Inject
+	EmailService emailService;
 
 	/**
 	 * Este servicio permite obtener la lista de carreras que se encuentra en la
@@ -178,13 +184,20 @@ public class UsuarioService {
 				r.setCodigoRespuesta(Respuesta.CODIGO_SOLICITUD_INCORRECTA);
 				return r;
 			}
+			Usuario u = null;
 			if (usuariosDTO.getTipoCuenta().equals(TipoCuenta.PROPIA.getTipo())) {
+
 				usuariosDTO.setVerificado(false);
+				String token = TokenGenerator.getInstance().nextTokenId();
+				service.saveUsuario(usuariosDTO, token);
+				new EmailSenderTask(usuariosDTO, token).start();
+
 			} else {
 				usuariosDTO.setVerificado(true);
-				
+				service.saveUsuario(usuariosDTO);
+
 			}
-			service.saveUsuario(usuariosDTO);
+
 			Respuesta<UsuarioDTO> r = new Respuesta<UsuarioDTO>();
 			r.addMensaje("El usuario se creo con éxito.");
 			r.setCodigoRespuesta(Respuesta.CODIGO_OK);
@@ -198,30 +211,42 @@ public class UsuarioService {
 			return r;
 		}
 	}
-	
+
 	/**
 	 * Este servicio permite obtener la lista de carreras que se encuentra en la
 	 * base de datos.
 	 * 
 	 * @return Lista de carreras de la base de datos.
 	 */
-	@Path("/token/{token}")
+	@Path("/token/{email}/{token}")
 	@GET()
 	@Produces(MediaType.APPLICATION_JSON)
 	@PermitAll
-	public Respuesta<UsuarioDTO> verificarUsuario(@PathParam("token") String token) {
+	public Respuesta<UsuarioDTO> verificarUsuario(
+			@PathParam("email") String email,
+			@PathParam("token") String token) {
 
 		UsuarioDTO usuarioDto = null;
 		Usuario usuario;
 		try {
-			usuario = service.getByEmail(token);
-			usuario.setVerificado(true);
-			service.save(usuario);
-			Respuesta<UsuarioDTO> r = new Respuesta<UsuarioDTO>();
-			r.addMensaje("Operacion ejecutada con éxito.");
-			r.setCodigoRespuesta(Respuesta.CODIGO_OK);
-			r.setDto(usuarioDto);
-			return r;
+			usuario = service.getByEmail(email);
+			if(usuario!= null && usuario.getFechaVigencia().compareTo(new Date())>0 && usuario.getToken().equals(token)){
+				usuario.setVerificado(true);
+				service.save(usuario);
+				Respuesta<UsuarioDTO> r = new Respuesta<UsuarioDTO>();
+				r.addMensaje("Operacion ejecutada con éxito.");
+				r.setCodigoRespuesta(Respuesta.CODIGO_OK);
+				r.setDto(usuarioDto);
+				return r;
+				
+			}else{
+				Respuesta<UsuarioDTO> r = new Respuesta<UsuarioDTO>();
+				r.addMensaje("Token invalido");
+				r.setCodigoRespuesta(Respuesta.CODIGO_NO_ENCONTRADO);
+				r.setDto(usuarioDto);
+				return r;
+			}
+	
 		} catch (Exception e) {
 			Respuesta<UsuarioDTO> r = new Respuesta<UsuarioDTO>();
 			r.addMensaje(e.getMessage());
@@ -230,6 +255,26 @@ public class UsuarioService {
 			return r;
 		}
 
-	}	
+	}
+
+	private class EmailSenderTask extends Thread {
+		private UsuarioDTO usuario;
+		private String token;
+
+		public EmailSenderTask(UsuarioDTO usuario, String token) {
+			super();
+			this.usuario = usuario;
+			this.token = token;
+		}
+
+		@Override
+		public void run() {
+
+			emailService.sendConfirmacion(usuario, token);
+			// TODO Auto-generated method stub
+
+		}
+
+	}
 
 }

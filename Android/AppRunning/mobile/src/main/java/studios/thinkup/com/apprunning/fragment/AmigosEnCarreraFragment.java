@@ -27,6 +27,7 @@ public class AmigosEnCarreraFragment extends ListFragment implements AmigosEnCar
 
     private AmigosListAdapter adapter;
     private IUsuarioCarreraObservable usuarioObservable;
+    private AmigosEnCarreraService as;
     private static ProgressDialog pd;
     protected static void showProgress(Context context, String message) {
         pd = new ProgressDialog(context);
@@ -69,7 +70,7 @@ public class AmigosEnCarreraFragment extends ListFragment implements AmigosEnCar
     }
 
     private void getData() {
-        AmigosEnCarreraService as = new AmigosEnCarreraService(this.getActivity(), this,this.getUsuario());
+        this.as = new AmigosEnCarreraService(this.getActivity(), this,this.getUsuario());
         as.execute(this.usuarioObservable.getUsuarioCarrera().getCodigoCarrera());
     }
 
@@ -90,7 +91,12 @@ public class AmigosEnCarreraFragment extends ListFragment implements AmigosEnCar
 
 
     }
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (as != null)
+            as.cancel(true);
+    }
     @Override
     public void onResume() {
         super.onResume();
