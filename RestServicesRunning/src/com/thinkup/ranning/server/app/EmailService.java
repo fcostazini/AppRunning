@@ -40,7 +40,7 @@ public class EmailService {
 			mailSession.setDebug(true);
 
 			Message message = new MimeMessage(mailSession);
-			message.setFrom(new InternetAddress());
+			message.setFrom(new InternetAddress("no-replay@recorriendo.com"));
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(usuario.getEmail()));
 			message.setSubject("Confirmar Usuario");
