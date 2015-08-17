@@ -33,6 +33,7 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
 
     private static ProgressDialog pd;
     private CarreraListAdapter adapter;
+    private UsuarioCarreraService uc;
 
     protected static void showProgress(Context context, String message) {
         pd = new ProgressDialog(context);
@@ -105,7 +106,7 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
         CarreraCabecera c = (CarreraCabecera) l.getItemAtPosition(position);
         showProgress(this.getActivity(), "Cargando Carrera...");
         if (NetworkUtils.isConnected(this.getActivity())) {
-            UsuarioCarreraService uc = new UsuarioCarreraService(this, this.getActivity(), getUsuario());
+            this.uc = new UsuarioCarreraService(this, this.getActivity(), getUsuario());
             uc.execute(c.getCodigoCarrera());
         } else {
             UsuarioCarrera uc = this.getUsuarioCarreraLocal(c.getCodigoCarrera());
@@ -143,5 +144,16 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
     public void onResume() {
         super.onResume();
         this.getData();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(pd != null && pd.isShowing()){
+            hideProgress();
+        }
+        if(this.uc != null){
+            uc.cancel(true);
+        }
     }
 }
