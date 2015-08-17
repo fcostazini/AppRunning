@@ -3,13 +3,17 @@ package com.thinkup.ranning.server.app;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
+import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import com.thinkup.ranning.dtos.UsuarioDTO;
 
@@ -39,15 +43,40 @@ public class EmailService {
 			Session mailSession = Session.getInstance(properties, auth);
 			mailSession.setDebug(true);
 
+			
+			Multipart multipart = new MimeMultipart("alternative");
+			BodyPart part2 = new MimeBodyPart();
+			
+			StringBuffer sb = new StringBuffer();
+				
+			sb.append("<P><b> Estimad@: </b></P>");
+			sb.append(" ");
+			sb.append("<P>Gracias por registrarte como Usuario en ReCorriendo.</P>");
+			sb.append(" ");
+			sb.append("<P>Para finalizar el proceso, ingresá al siguiente vínculo:</P>");
+			sb.append(" ");
+			sb.append("  ");
+			sb.append(" ");
+			sb.append("<P>Si no podés acceder al vínculo, por favor copiá el siguiente enlace y pegalo en tu navegador: </P>");
+			sb.append(" ");
+			sb.append("<a href='http://recorriendo.cloudapp.net/RestServicesRunning-0.0.1-SNAPSHOT/running/usuarios/token/" + usuario.getEmail() + "/" + token+ "' >Click Aquí</a>");
+			sb.append(" ");
+			sb.append("<P>Muchas Gracias.</P>");
+			sb.append(" ");
+			sb.append("  ");
+			sb.append(" ");
+			sb.append("<P><b> ReCorriendo </b></P>");
+			part2.setContent(sb.toString(),"text/html");
+			multipart.addBodyPart(part2);
+
+			
+			
 			Message message = new MimeMessage(mailSession);
+			message.setContent(multipart);
 			message.setFrom(new InternetAddress("no-reply@recorriendo.com"));
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(usuario.getEmail()));
 			message.setSubject("Confirmar Usuario");
-			message.setText("Confirmar,"
-					+ "http://recorriendo.cloudapp.net/RestServicesRunning-0.0.1-SNAPSHOT/running/usuarios/token/"
-					+ usuario.getEmail() + "/" + token);
-
 			Transport transport = mailSession.getTransport();
 			// Connect the transport object.
 			transport.connect();

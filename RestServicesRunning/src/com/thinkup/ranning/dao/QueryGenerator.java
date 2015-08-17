@@ -15,8 +15,9 @@ public class QueryGenerator {
 		}
 		if (filtro.getNombreCarrera() != null
 				&& !filtro.getNombreCarrera().isEmpty()) {
-			query += " AND upper( c.nombre ) LIKE upper('%"
-					+ filtro.getNombreCarrera() + "%') \n";
+			query += " AND upper(TRANSLATE(c.nombre,'ÁÉÍÓÚÑáéíóúñ','AEIOUNaeioun')) LIKE "
+					+ " upper(TRANLATE('%"
+					+ filtro.getNombreCarrera() + "%','ÁÉÍÓÚÑáéíóúñ','AEIOUNaeioun')) \n";
 		}
 		if (filtro.getProvincia() != null && !filtro.getProvincia().isEmpty()
 				&& !filtro.getProvincia().equals(TODAS_PROVINCIAS)) {
