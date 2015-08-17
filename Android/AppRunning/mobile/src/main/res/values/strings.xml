@@ -116,4 +116,7 @@
    <string name="desbloquear_amigo">Desbloquear Amigo</string>
    <string name="pendiente_confirmacion">Tu usuario se encuentra pendiente de confirmación. Verificá tu cuenta de email.</string>
     <string name="lbl_inscript_en">Inscripto en:</string>
+    <string name="mnu_me_gusta">Me Gusta</string>
+    <string name="mnu_inscripto">Agregar a Mis Carreras</string>
+    <string name="mnu_corrida">Corrida</string>
 </resources>

@@ -103,12 +103,7 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
             public void onClick(View v) {
                 UsuarioApp u = new UsuarioApp();
                 u.setTipoCuenta("P");
-                Bundle extras = new Bundle();
-                extras.putSerializable(UsuarioApp.FIELD_ID, u);
-                extras.putBoolean("nuevoUsuario", true);
-                Intent intent = new Intent(MainFragment.this.getActivity(), NuevoUsuario.class);
-                intent.putExtras(extras);
-                startActivity(intent);
+                nuevoUsuario(u);
             }
         });
         rootView.findViewById(R.id.login_buttons).setVisibility(View.VISIBLE);
@@ -218,12 +213,7 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
             super.onPostExecute(usuarioApp);
             MainActivity.hideProgress();
             if (usuarioApp.getId() == null) {
-                Bundle extras = new Bundle();
-                extras.putSerializable("usuario", usuarioApp);
-                extras.putBoolean("nuevoUsuario", true);
-                Intent intent = new Intent(MainFragment.this.getActivity(), NuevoUsuario.class);
-                intent.putExtras(extras);
-                startActivity(intent);
+                nuevoUsuario(usuarioApp);
             } else {
                 Intent intent = new Intent(MainFragment.this.getActivity(), StartUpActivity.class);
                 Bundle b = new Bundle();
@@ -315,6 +305,17 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
             }
             return u;
         }
+    }
+
+    private void nuevoUsuario(UsuarioApp usuarioApp) {
+        Bundle extras = new Bundle();
+        extras.putSerializable(UsuarioApp.FIELD_ID, usuarioApp);
+        extras.putBoolean("nuevoUsuario", true);
+        Intent intent = new Intent(MainFragment.this.getActivity(), NuevoUsuario.class);
+        intent.putExtras(extras);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        this.getActivity().finish();
     }
 
 }
