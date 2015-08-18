@@ -16,10 +16,12 @@ import studios.thinkup.com.apprunning.model.PasswordEncoder;
 import studios.thinkup.com.apprunning.model.entity.CheckUsuarioPassDTO;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.LoginUsuarioService;
+import studios.thinkup.com.apprunning.provider.RecuperarPassService;
 
 
-public class LoginSinRedSocialActivity extends Activity implements LoginUsuarioService.IServicioActualizacionAmigoHandler {
-private LoginUsuarioService us;
+public class LoginSinRedSocialActivity extends Activity implements LoginUsuarioService.IServicioActualizacionAmigoHandler, RecuperarPassService.IServicioActualizacionAmigoHandler {
+    private LoginUsuarioService us;
+    private RecuperarPassService rps;
     private static ProgressDialog pd;
     protected static void showProgress(Context context, String message) {
         pd = new ProgressDialog(context);
@@ -64,6 +66,20 @@ private LoginUsuarioService us;
         });
 
         TextView recuperar = (TextView)findViewById(R.id.lbl_recuperar);
+        recuperar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TextView usuario = (TextView) findViewById(R.id.user_name);
+                if(usuario.getText().length()<=0){
+                    Toast.makeText(LoginSinRedSocialActivity.this,"Complete el email",Toast.LENGTH_LONG).show();
+                }else{
+                    showProgress(LoginSinRedSocialActivity.this,"Espere por favor...");
+                    rps = new RecuperarPassService(LoginSinRedSocialActivity.this,LoginSinRedSocialActivity.this);
+                    rps.execute(usuario.getText().toString());
+                }
+
+            }
+        });
 
 
     }
@@ -79,6 +95,22 @@ private LoginUsuarioService us;
         i.putExtras(b);
         startActivity(i);
         finish();
+
+    }
+
+    @Override
+    public void onOk() {
+        hideProgress();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Se enviará un email para recuperar el password")
+                .setTitle(getString(R.string.usuario_invalido))
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(R.drawable.ic_ayuda).show();
 
     }
 

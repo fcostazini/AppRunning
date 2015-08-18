@@ -4,6 +4,7 @@ import studios.thinkup.com.apprunning.model.entity.CheckUsuarioPassDTO;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.exceptions.CredencialesInvalidasException;
 import studios.thinkup.com.apprunning.provider.exceptions.UsuarioBloqueadoException;
+import studios.thinkup.com.apprunning.provider.exceptions.UsuarioInexistenteException;
 import studios.thinkup.com.apprunning.provider.exceptions.UsuarioNoVerificadoException;
 
 /**
@@ -13,4 +14,6 @@ public interface IUsuarioProvider extends IProvider<UsuarioApp> {
     UsuarioApp getUsuarioByEmail(String email);
 
     UsuarioApp loginUsuario(CheckUsuarioPassDTO param) throws CredencialesInvalidasException,UsuarioBloqueadoException,UsuarioNoVerificadoException;
+
+    Boolean recuperarPass(String email) throws UsuarioInexistenteException;
 }

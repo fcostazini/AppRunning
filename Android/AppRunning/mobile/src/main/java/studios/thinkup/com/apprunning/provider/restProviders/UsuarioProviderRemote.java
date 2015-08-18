@@ -21,6 +21,7 @@ import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
 import studios.thinkup.com.apprunning.provider.exceptions.CredencialesInvalidasException;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 import studios.thinkup.com.apprunning.provider.exceptions.UsuarioBloqueadoException;
+import studios.thinkup.com.apprunning.provider.exceptions.UsuarioInexistenteException;
 import studios.thinkup.com.apprunning.provider.exceptions.UsuarioNoVerificadoException;
 
 /**
@@ -33,6 +34,7 @@ public class UsuarioProviderRemote extends RemoteService implements IUsuarioProv
     private static final String SAVE_USUARIO = "/saveUsuario";
     private static final String UPDATE_USUARIO = "/updateUsuario";
     private static final String LOGGIN_USUARIO = "/login";
+    private static final String RECUPERAR_PASS = "/recuperarPasswordRequest/";
 
     public UsuarioProviderRemote(Context context) {
         super(context);
@@ -73,30 +75,53 @@ public class UsuarioProviderRemote extends RemoteService implements IUsuarioProv
         try {
             conn = getPostHttpURLConnection(checkReq, LOGGIN_USUARIO);
 
-        Gson g = new Gson();
-             r = g.fromJson(new BufferedReader(
+            Gson g = new Gson();
+            r = g.fromJson(new BufferedReader(
                     new InputStreamReader(conn.getInputStream())), new TypeToken<Respuesta<UsuarioApp>>() {
             }.getType());
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
-            if (r.getCodigoRespuesta().equals(Respuesta.CODIGO_OK) && r.getDto() != null) {
-                return r.getDto();
-            } else {
-                switch (r.getCodigoRespuesta()){
-                    case Respuesta.USUARIO_BLOQUEADO:
-                        throw  new UsuarioBloqueadoException();
-                    case Respuesta.USUARIO_INVALIDO:
-                        throw new UsuarioNoVerificadoException();
-                    case Respuesta.CREDENCIALES_ERRONEAS:
-                        throw new CredencialesInvalidasException();
-                    default:
-                        return null;
+        if (r.getCodigoRespuesta().equals(Respuesta.CODIGO_OK) && r.getDto() != null) {
+            return r.getDto();
+        } else {
+            switch (r.getCodigoRespuesta()) {
+                case Respuesta.USUARIO_BLOQUEADO:
+                    throw new UsuarioBloqueadoException();
+                case Respuesta.USUARIO_INVALIDO:
+                    throw new UsuarioNoVerificadoException();
+                case Respuesta.CREDENCIALES_ERRONEAS:
+                    throw new CredencialesInvalidasException();
+                default:
+                    return null;
 
-                }
             }
+        }
 
+    }
+
+    @Override
+    public Boolean recuperarPass(String email) throws UsuarioInexistenteException {
+        try {
+            URL url = new URL(this.getBaseURL() + RECUPERAR_PASS + email);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setConnectTimeout(10000);
+            con.setRequestProperty("Accept", "application/json");
+            con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            con.setDoInput(true);
+            Gson g = new Gson();
+            Respuesta<UsuarioApp> r = g.fromJson(new BufferedReader(
+                    new InputStreamReader(con.getInputStream())), new TypeToken<Respuesta<UsuarioApp>>() {
+            }.getType());
+
+            return r.getCodigoRespuesta().equals(Respuesta.CODIGO_OK) && r.getDto() != null;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
@@ -195,6 +220,7 @@ public class UsuarioProviderRemote extends RemoteService implements IUsuarioProv
         writer.close();
         return conn;
     }
+
     protected HttpURLConnection getPostHttpURLConnection(CheckUsuarioPassDTO entidad, String service) throws IOException {
         URL url = new URL(this.getBaseURL() + service);
         Gson g = new Gson();

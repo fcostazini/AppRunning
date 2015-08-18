@@ -14,6 +14,7 @@ import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.exceptions.CredencialesInvalidasException;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 import studios.thinkup.com.apprunning.provider.exceptions.UsuarioBloqueadoException;
+import studios.thinkup.com.apprunning.provider.exceptions.UsuarioInexistenteException;
 import studios.thinkup.com.apprunning.provider.exceptions.UsuarioNoVerificadoException;
 
 /**
@@ -160,6 +161,11 @@ public class UsuarioProvider extends GenericProvider<UsuarioApp> implements IUsu
 
     @Override
     public UsuarioApp loginUsuario(CheckUsuarioPassDTO param) throws CredencialesInvalidasException, UsuarioBloqueadoException, UsuarioNoVerificadoException {
+        throw new RuntimeException("No implementado");
+    }
+
+    @Override
+    public Boolean recuperarPass(String email) throws UsuarioInexistenteException {
         throw new RuntimeException("No implementado");
     }
 
