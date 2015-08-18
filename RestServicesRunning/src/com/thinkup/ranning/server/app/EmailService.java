@@ -102,7 +102,7 @@ public class EmailService {
 
 	private String getRecuperarEmail(UsuarioDTO usuario, String token) {
 		StringBuffer sb = new StringBuffer();
-		String url = "http://recorriendo.cloudapp.net/RestServicesRunning-0.0.1-SNAPSHOT/running/usuarios/recuperarPasswordRequest/"
+		String url = "http://recorriendo.cloudapp.net/RestServicesRunning-0.0.1-SNAPSHOT/running/usuarios/recuperar/"
 				+ usuario.getEmail() + "/" + token;
 		sb.append("<div style='margin-top: 20px;'><img src='http://191.237.16.124/RestServicesRunning-0.0.1-SNAPSHOT/resources/img/logoRecorriendo.png' style='padding-left: 20px'> </div>");
 		sb.append("<hr/>");
