@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.internal.app.ToolbarActionBar;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,8 +59,14 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
                         Intent i = new Intent(getActivity(), MainActivity.class);
                         i.putExtra("LOGOUT", true);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        getActivity().startActivity(i);
-                        getActivity().finish();
+
+                        UsuarioProvider up = new UsuarioProvider(getActivity());
+                        if(up.deleteUsuario(ua)) {
+                            getActivity().startActivity(i);
+                            getActivity().finish();
+                        }else{
+                            Toast.makeText(getActivity(),"No se pudo desvincular la cuenta",Toast.LENGTH_SHORT).show();
+                        }
                     //TODO: BORRAR EL USUARIO LOCAL
                     }
                     dialog.dismiss();

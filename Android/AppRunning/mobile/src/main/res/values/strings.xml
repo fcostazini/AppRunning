@@ -78,7 +78,7 @@
     <string name="ok">OK</string>
     <string name="cancelar">Cancelar</string>
     <string name="sin_carreras">No se encontraron carreras</string>
-    <string name="confirmacion_desvinculacion_cuenta">Se desvinculará su cuenta. Desde continuar?</string>
+    <string name="confirmacion_desvinculacion_cuenta">Se borrará su cuenta de este dispositivo. Desde continuar?</string>
     <string name="desvincular_cuenta">Desvincular Cuenta</string>
     <string name="title_meses_busqueda">Meses de Búsqueda</string>
     <string name="title_activity_aceca_de_nosotros">Acerca de Nosotros</string>
@@ -90,13 +90,13 @@
     <string name="acepto_los_terminos">Acepto los Términos</string>
     <string name="danos_tu_opinion">Danos tu opinión</string>
 
-    <!--   <string name="host_url">http://192.168.151.46:8080/</string>
+    <!--<string name="host_url">http://192.168.151.46:8080/</string>
+     <string name="base_service_url">RestServicesRunning/running</string>
+
+    <string name="host_url">http://192.168.0.2:8080/</string>
      <string name="base_service_url">RestServicesRunning/running</string>-->
 
-    <!--   <string name="host_url">http://192.168.0.2:8080/</string>
-     <string name="base_service_url">RestServicesRunning/running</string>-->
-
-      <string name="host_url">http://191.237.16.124/</string>
+     <string name="host_url">http://191.237.16.124/</string>
          <string name="base_service_url">RestServicesRunning-0.0.1-SNAPSHOT/running</string>
 
     <string name="siguiente" >Siguiente</string>
@@ -119,4 +119,8 @@
     <string name="mnu_me_gusta">Me Gusta</string>
     <string name="mnu_inscripto">Agregar a Mis Carreras</string>
     <string name="mnu_corrida">Corrida</string>
+    <string name="title_activity_login_sin_red_social">ReCorriendo</string>
+    <string name="loggin">Entrar</string>
+    <string name="entrando">Entrando...</string>
+    <string name="usuario_invalido">Usuario Invalido</string>
 </resources>

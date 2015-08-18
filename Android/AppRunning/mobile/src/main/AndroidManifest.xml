@@ -6,7 +6,6 @@
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
@@ -17,15 +16,13 @@
     <application
         android:name=".model.RunningApplication"
         android:allowBackup="true"
-
         android:icon="@mipmap/ic_launcher"
-
         android:label="@string/app_name"
         android:theme="@style/CustomActionBarTheme"
         tool:replace="android:icon" >
         <receiver
             android:name=".broadcast.handler.NetworkStateReceiver"
-            android:label="NetworkChangeReceiver">
+            android:label="NetworkChangeReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
@@ -48,36 +45,34 @@
         <activity
             android:name=".TemporizadorActivity"
             android:label="@string/title_temporizador"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".AmigosActivity"
             android:label="@string/title_amigos"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".DetalleAmigoActivity"
             android:label="@string/title_amigos"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".BuscarAmigosActivity"
             android:label="@string/title_amigos"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_login"
-
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" >
-
         </activity>
         <activity
             android:name=".PreferenciasActivity"
             android:label="@string/title_activity_filtros"
             android:parentActivityName=".adapter.BusquedaCarreraActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".adapter.BusquedaCarreraActivity" />
@@ -86,7 +81,7 @@
             android:name=".CarrerasActivity"
             android:label="@string/title_activity_carreras"
             android:parentActivityName=".adapter.BusquedaCarreraActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".adapter.BusquedaCarreraActivity" />
@@ -95,7 +90,7 @@
             android:name=".RecomendadosActivity"
             android:label="@string/title_activity_carreras"
             android:parentActivityName=".adapter.BusquedaCarreraActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".adapter.BusquedaCarreraActivity" />
@@ -104,7 +99,7 @@
             android:name=".DetalleCarreraActivity"
             android:label="@string/title_activity_detalle_carrera"
             android:parentActivityName=".CarrerasActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="studios.thinkup.com.apprunning.CarrerasActivity" />
@@ -113,7 +108,7 @@
             android:name=".MisCarrerasActivity"
             android:label="@string/title_activity_mis_datos"
             android:parentActivityName=".CarrerasActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="studios.thinkup.com.apprunning.CarrerasActivity" />
@@ -122,7 +117,7 @@
             android:name=".TiemposCarrerasActivity"
             android:label="@string/title_activity_mis_tiempos"
             android:parentActivityName=".CarrerasActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="studios.thinkup.com.apprunning.CarrerasActivity" />
@@ -135,8 +130,8 @@
         <activity
             android:name=".NuevoUsuario"
             android:label="@string/title_activity_nuevo_usuario"
-            android:screenOrientation="portrait"
             android:noHistory="true"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -151,11 +146,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="studios.thinkup.com.apprunning.RecomendadosActivity" />
         </activity>
-
         <activity
             android:name=".VerTerminosYCondiciones"
             android:label="@string/title_activity_terminos_ycondiciones"
-
             android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -164,40 +157,50 @@
         <activity
             android:name=".FiltroCarreraActivity"
             android:label="@string/title_activity_filtro_carrera"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".AcecaDeNosotrosActivity"
             android:label="@string/title_activity_aceca_de_nosotros"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".TutorialActivity"
             android:label="@string/tutorial"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".TerminosYCondicionesActivity"
             android:label="@string/title_activity_terminos_ycondiciones"
             android:noHistory="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".StartUpActivity"
+        <activity
+            android:name=".StartUpActivity"
             android:label="@string/title_activity_main"
             android:noHistory="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".SeleccionarUsuarioActivity"
+        <activity
+            android:name=".SeleccionarUsuarioActivity"
             android:label="@string/app_name"
             android:noHistory="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".LoginSinRedSocialActivity"
+            android:label="@string/title_activity_login_sin_red_social"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="studios.thinkup.com.apprunning.MainActivity" />
         </activity>
     </application>
 

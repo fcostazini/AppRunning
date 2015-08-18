@@ -30,8 +30,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
+import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemote;
 
 public class MainFragment extends Fragment implements OnRequestDetailedSocialPersonCompleteListener, SocialNetworkManager.OnInitializationCompleteListener, OnLoginCompleteListener {
@@ -49,6 +51,7 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
     private Button facebook;
     private Button googleplus;
     private Button nuevoUsuario;
+    private Button sinRedSocial;
     private SocialNetwork socialNetwork;
     private View.OnClickListener loginClick = new View.OnClickListener() {
         @Override
@@ -97,7 +100,16 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
         googleplus = (Button) rootView.findViewById(R.id.googleplus);
         googleplus.setOnClickListener(loginClick);
 
-        nuevoUsuario = (Button)rootView.findViewById(R.id.nuevoUsuario);
+        sinRedSocial = (Button)rootView.findViewById(R.id.bt_sin_red_social);
+        sinRedSocial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), LoginSinRedSocialActivity.class);
+                startActivity(i);
+            }
+        });
+
+                nuevoUsuario = (Button)rootView.findViewById(R.id.nuevoUsuario);
         nuevoUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,10 +196,13 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
                 this.getActivity().getIntent().getExtras() != null &&
                 this.getActivity().getIntent().getExtras().containsKey("LOGOUT") &&
                 socialNetwork.isConnected()) {
-            this.getActivity().getIntent().getExtras().remove("LOGOUT");
             MainActivity.hideProgress();
+            this.getActivity().getIntent().getExtras().remove("LOGOUT");
             socialNetwork.logout();
             Intent intent = new Intent(this.getActivity(), MainActivity.class);
+            UsuarioApp u = ((RunningApplication)this.getActivity().getApplication()).getUsuario();
+            UsuarioProvider up = new UsuarioProvider(this.getActivity());
+            up.deleteUsuario(u);
             this.getActivity().startActivity(intent);
             this.getActivity().finish();
 
@@ -215,11 +230,7 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
             if (usuarioApp.getId() == null) {
                 nuevoUsuario(usuarioApp);
             } else {
-                Intent intent = new Intent(MainFragment.this.getActivity(), StartUpActivity.class);
-                Bundle b = new Bundle();
-                b.putSerializable("usuario", usuarioApp);
-                intent.putExtras(b);
-                startActivity(intent);
+                usuarioRegistrado(usuarioApp);
             }
 
 
@@ -245,12 +256,10 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
             u = up.getUsuarioByEmail(params[0].email);
             if (u != null) {
                 return u;
-            }
-            if (u == null) {
+            }else{
                 return this.getUsuarioApp(socialNetwork, params[0]);
-            } else {
-                return u;
             }
+
 
         }
 
@@ -307,15 +316,22 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
         }
     }
 
+    private void usuarioRegistrado(UsuarioApp usuarioApp) {
+        Intent intent = new Intent(MainFragment.this.getActivity(), StartUpActivity.class);
+        Bundle b = new Bundle();
+        b.putSerializable(UsuarioApp.FIELD_ID, usuarioApp);
+        intent.putExtras(b);
+        startActivity(intent);
+    }
+
     private void nuevoUsuario(UsuarioApp usuarioApp) {
         Bundle extras = new Bundle();
         extras.putSerializable(UsuarioApp.FIELD_ID, usuarioApp);
         extras.putBoolean("nuevoUsuario", true);
         Intent intent = new Intent(MainFragment.this.getActivity(), NuevoUsuario.class);
         intent.putExtras(extras);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-        this.getActivity().finish();
+
     }
 
 }

@@ -80,6 +80,14 @@ public class UsuarioApp implements Serializable, IEntity {
         return fechaNacimiento;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
