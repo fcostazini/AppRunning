@@ -15,6 +15,9 @@ public class Respuesta<T> implements Serializable {
     public static final int CODIGO_SOLICITUD_INCORRECTA = 400;
     public static final int CODIGO_NO_ENCONTRADO = 404;
     public static final int CODIGO_ERROR_INTERNO = 500;
+    public static final int USUARIO_BLOQUEADO = 301;
+    public static final int USUARIO_INVALIDO = 302;
+    public static final int CREDENCIALES_ERRONEAS = 303;
 
 
     /**

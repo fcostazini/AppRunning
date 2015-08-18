@@ -125,7 +125,7 @@ public class CarrerasResultadoFragment extends FilteredFragment implements Carre
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(pd.isShowing()){
+        if(pd != null && pd.isShowing()){
             hideProgress();
         }
         if(this.uc != null){

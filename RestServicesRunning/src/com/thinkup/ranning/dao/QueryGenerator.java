@@ -15,8 +15,9 @@ public class QueryGenerator {
 		}
 		if (filtro.getNombreCarrera() != null
 				&& !filtro.getNombreCarrera().isEmpty()) {
-			query += " AND upper( c.nombre ) LIKE upper('%"
-					+ filtro.getNombreCarrera() + "%') \n";
+			query += " AND upper(TRANSLATE(c.nombre,'ÁÉÍÓÚÑáéíóúñ','AEIOUNaeioun')) LIKE "
+					+ " upper(TRANSLATE('%"
+					+ filtro.getNombreCarrera() + "%','ÁÉÍÓÚÑáéíóúñ','AEIOUNaeioun')) \n";
 		}
 		if (filtro.getProvincia() != null && !filtro.getProvincia().isEmpty()
 				&& !filtro.getProvincia().equals(TODAS_PROVINCIAS)) {
@@ -29,7 +30,7 @@ public class QueryGenerator {
 		}
 		if (filtro.getModalidad() != null
 				&& !filtro.getModalidad().equals(TODAS_MODALIDADES)) {
-			query += " AND c.modalidades = '" + filtro.getModalidad() + "'\n";
+			query += " AND upper(c.modalidades) LIKE '%" + filtro.getModalidad() + "%'\n";
 		}
 
 		query += getFechaRange("c.fecha_inicio", filtro.getFechaDesde(),

@@ -3,18 +3,18 @@
 
     <item android:id="@+id/mnu_me_gusta"
         android:orderInCategory="100"
-        android:title="@string/me_gusta"
+        android:title="@string/mnu_me_gusta"
         android:icon="@drawable/ic_no_me_gusta"
         android:showAsAction="ifRoom"
         />
     <item android:id="@+id/mnu_inscripto"
         android:orderInCategory="101"
-        android:title="@string/action_settings"
+        android:title="@string/mnu_inscripto"
         android:icon="@drawable/ic_no_anotado"
         android:showAsAction="ifRoom" />
     <item android:id="@+id/mnu_corrida"
         android:orderInCategory="102"
-        android:title="@string/action_settings"
+        android:title="@string/mnu_corrida"
         android:icon="@drawable/ic_no_corrida"
         android:showAsAction="ifRoom" />
 

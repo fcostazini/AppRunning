@@ -97,9 +97,18 @@ public class Usuario implements Serializable {
 	private String token;
 	@Column(name="fecha_vigencia")
 	private Date fechaVigencia;
-		
+	@Column(name="intentos_login")
+	private Integer intentos;
 	public Integer getId() {
 		return id;
+	}
+
+	public Integer getIntentos() {
+		return intentos;
+	}
+
+	public void setIntentos(Integer intentos) {
+		this.intentos = intentos;
 	}
 
 	public void setId(Integer id) {

@@ -46,6 +46,7 @@ public class NetworkUtils {
     }
 
     public static boolean isConnected(Context context) {
+
         return NetworkUtils.getConnectivityStatus(context) != NetworkUtils.TYPE_NOT_CONNECTED;
     }
 }
