@@ -26,6 +26,7 @@ import java.util.Vector;
 
 import studios.thinkup.com.apprunning.dialogs.DatePicker;
 import studios.thinkup.com.apprunning.model.Filtro;
+import studios.thinkup.com.apprunning.model.TutorialesPaginaEnum;
 import studios.thinkup.com.apprunning.model.entity.CamposOrdenEnum;
 import studios.thinkup.com.apprunning.model.entity.Modalidad;
 import studios.thinkup.com.apprunning.provider.FiltrosProvider;
@@ -403,6 +404,7 @@ public class FiltroCarreraActivity extends ActivityConFiltro implements View.OnC
             this.cm = cm;
             this.filtro = filtro;
         }
+
 
         @Override
         public void onClick(View v) {

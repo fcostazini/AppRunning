@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
@@ -85,8 +86,8 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
         super.onCreateOptionsMenu(menu);
         menu.clear();
         this.menu = menu;
-
-        getMenuInflater().inflate(R.menu.menu_detalle_carrera, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_detalle_carrera, menu);
 
         if (this.carrera != null) {
             if (this.carrera.isMeGusta()) {

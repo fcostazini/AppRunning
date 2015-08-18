@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:yourapp="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/mnu_me_gusta"
         android:orderInCategory="100"
         android:title="@string/mnu_me_gusta"
         android:icon="@drawable/ic_no_me_gusta"
-        yourapp:showAsAction="ifRoom"
+        android:showAsAction="ifRoom"
         />
     <item android:id="@+id/mnu_inscripto"
         android:orderInCategory="101"
         android:title="@string/mnu_inscripto"
         android:icon="@drawable/ic_no_anotado"
-        yourapp:showAsAction="ifRoom" />
+        android:showAsAction="ifRoom" />
     <item android:id="@+id/mnu_corrida"
         android:orderInCategory="102"
         android:title="@string/mnu_corrida"
         android:icon="@drawable/ic_no_corrida"
-        yourapp:showAsAction="ifRoom" />
+        android:showAsAction="ifRoom" />
 
 </menu>

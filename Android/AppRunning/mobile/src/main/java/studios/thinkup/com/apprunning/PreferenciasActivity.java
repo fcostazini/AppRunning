@@ -23,6 +23,7 @@ import java.util.Vector;
 
 import studios.thinkup.com.apprunning.model.DefaultSettings;
 import studios.thinkup.com.apprunning.model.Filtro;
+import studios.thinkup.com.apprunning.model.TutorialesPaginaEnum;
 import studios.thinkup.com.apprunning.model.entity.CamposOrdenEnum;
 import studios.thinkup.com.apprunning.model.entity.Modalidad;
 import studios.thinkup.com.apprunning.provider.ConfigProvider;
@@ -48,6 +49,11 @@ public class PreferenciasActivity extends MainNavigationActivity implements View
         if (pd != null) {
             pd.dismiss();
         }
+    }
+
+    @Override
+    public int getTutorialPage() {
+        return TutorialesPaginaEnum.PREFERENCIAS.getId();
     }
 
     public void updateVisibilidadCiudad() {

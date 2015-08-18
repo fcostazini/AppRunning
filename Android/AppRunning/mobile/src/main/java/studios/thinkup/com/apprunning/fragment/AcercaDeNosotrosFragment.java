@@ -67,9 +67,9 @@ public class AcercaDeNosotrosFragment extends Fragment implements View.OnClickLi
                 try {
                     AcercaDeNosotrosFragment.this.getActivity().getPackageManager().getPackageInfo("com.facebook.katana", 0);
                     // http://stackoverflow.com/a/24547437/1048340
-                    uri = Uri.parse("fb://facewebmodal/f?href=" + "https://www.facebook.com/clubdecorredores");
+                    uri = Uri.parse("fb://facewebmodal/f?href=" + "https://www.facebook.com/AppReCorriendo");
                 } catch (PackageManager.NameNotFoundException e) {
-                    uri = Uri.parse("https://www.facebook.com/clubdecorredores");
+                    uri = Uri.parse("https://www.facebook.com/AppReCorriendo");
                 }
                 startActivity(new Intent(Intent.ACTION_VIEW, uri));
             }

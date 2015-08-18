@@ -59,8 +59,8 @@
             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="#AAAAAA"
-                android:src="@drawable/tutorial_ejemplo"
+
+                android:src="@drawable/tutorial1"
                 android:scaleType="fitCenter" />
         </LinearLayout>
 
@@ -74,8 +74,8 @@
             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="#00AAFF"
-                android:src="@drawable/tutorial_ejemplo"
+
+                android:src="@drawable/tutorial2"
                 android:scaleType="fitCenter" />
         </LinearLayout>
         <LinearLayout
@@ -88,8 +88,8 @@
             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="#00FFBB"
-                android:src="@drawable/tutorial_ejemplo"
+
+                android:src="@drawable/tutorial3"
                 android:scaleType="fitCenter" />
         </LinearLayout>
         <LinearLayout
@@ -102,8 +102,8 @@
             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="#BB00BB"
-                android:src="@drawable/tutorial_ejemplo"
+
+                android:src="@drawable/tutorial4"
                 android:scaleType="fitCenter" />
         </LinearLayout>
         <LinearLayout
@@ -116,11 +116,54 @@
             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="#AABBAA"
-                android:src="@drawable/tutorial_ejemplo"
+
+                android:src="@drawable/tutorial5"
                 android:scaleType="fitCenter" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:focusableInTouchMode="false">
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+
+                android:src="@drawable/tutorial6"
+                android:scaleType="fitCenter" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:focusableInTouchMode="false">
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+
+                android:src="@drawable/tutorial7"
+                android:scaleType="fitCenter" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:focusableInTouchMode="false">
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+
+                android:src="@drawable/tutorial8"
+                android:scaleType="fitCenter" />
+        </LinearLayout>
     </ViewFlipper>
 
 </RelativeLayout>
