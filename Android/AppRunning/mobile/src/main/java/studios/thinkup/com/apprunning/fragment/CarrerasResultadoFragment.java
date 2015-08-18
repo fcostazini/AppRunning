@@ -35,6 +35,7 @@ public class CarrerasResultadoFragment extends FilteredFragment implements Carre
 
     private CarreraListAdapter adapter;
     private static ProgressDialog pd;
+    private UsuarioCarreraService uc;
     protected static void showProgress(Context context, String message) {
         pd = new ProgressDialog(context);
         pd.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
@@ -77,7 +78,7 @@ public class CarrerasResultadoFragment extends FilteredFragment implements Carre
         CarreraCabecera c = (CarreraCabecera) l.getItemAtPosition(position);
         showProgress(this.getActivity(), getString(R.string.cargando_carrera));
         if (NetworkUtils.isConnected(this.getActivity())) {
-            UsuarioCarreraService uc = new UsuarioCarreraService(this, this.getActivity(), getUsuario());
+            this.uc = new UsuarioCarreraService(this, this.getActivity(), getUsuario());
             uc.execute(c.getCodigoCarrera());
         } else {
             UsuarioCarrera uc = this.getUsuarioCarreraLocal(c.getCodigoCarrera());
@@ -122,6 +123,17 @@ public class CarrerasResultadoFragment extends FilteredFragment implements Carre
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(pd != null && pd.isShowing()){
+            hideProgress();
+        }
+        if(this.uc != null){
+            uc.cancel(true);
+        }
+    }
+
+    @Override
     public void actualizarResultado(UsuarioCarrera resultado) {
         hideProgress();
         if (this.getActivity() != null) {
@@ -136,9 +148,9 @@ public class CarrerasResultadoFragment extends FilteredFragment implements Carre
     @Override
     public void onResume() {
         super.onResume();
-        if (this.adapter != null) {
-            this.adapter.notifyDataSetInvalidated();
+        if(this.adapter != null && this.filtro!= null){
+            this.getData();
         }
-        this.getData();
+
     }
 }

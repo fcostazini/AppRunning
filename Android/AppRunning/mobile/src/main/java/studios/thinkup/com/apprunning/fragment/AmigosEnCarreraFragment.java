@@ -24,10 +24,11 @@ import studios.thinkup.com.apprunning.provider.AmigosEnCarreraService;
  * Fragment que muestra los amigos
  */
 public class AmigosEnCarreraFragment extends ListFragment implements AmigosEnCarreraService.IServiceAmigosHandler {
-    private static ProgressDialog pd;
+
     private AmigosListAdapter adapter;
     private IUsuarioCarreraObservable usuarioObservable;
-
+    private AmigosEnCarreraService as;
+    private static ProgressDialog pd;
     protected static void showProgress(Context context, String message) {
         pd = new ProgressDialog(context);
         pd.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
@@ -69,7 +70,7 @@ public class AmigosEnCarreraFragment extends ListFragment implements AmigosEnCar
     }
 
     private void getData() {
-        AmigosEnCarreraService as = new AmigosEnCarreraService(this.getActivity(), this,this.getUsuario());
+        this.as = new AmigosEnCarreraService(this.getActivity(), this,this.getUsuario());
         as.execute(this.usuarioObservable.getUsuarioCarrera().getCodigoCarrera());
     }
 
@@ -90,7 +91,12 @@ public class AmigosEnCarreraFragment extends ListFragment implements AmigosEnCar
 
 
     }
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (as != null)
+            as.cancel(true);
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -99,7 +105,6 @@ public class AmigosEnCarreraFragment extends ListFragment implements AmigosEnCar
 
     /**
      * Called when the Fragment is visible to the user.  This is generally
-     * tied to {@link Activity#onStart() Activity.onStart} of the containing
      * Activity's lifecycle.
      */
     @Override

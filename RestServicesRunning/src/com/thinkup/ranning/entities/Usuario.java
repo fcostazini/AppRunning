@@ -93,9 +93,22 @@ public class Usuario implements Serializable {
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<UsuarioCarrera> usuarioCarrera;
-		
+	@Column(name="token")
+	private String token;
+	@Column(name="fecha_vigencia")
+	private Date fechaVigencia;
+	@Column(name="intentos_login")
+	private Integer intentos;
 	public Integer getId() {
 		return id;
+	}
+
+	public Integer getIntentos() {
+		return intentos;
+	}
+
+	public void setIntentos(Integer intentos) {
+		this.intentos = intentos;
 	}
 
 	public void setId(Integer id) {
@@ -193,4 +206,22 @@ public class Usuario implements Serializable {
 	public Usuario() {
 		super();
 	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public Date getFechaVigencia() {
+		return fechaVigencia;
+	}
+
+	public void setFechaVigencia(Date fechaVigencia) {
+		this.fechaVigencia = fechaVigencia;
+	}
+	
+	
 }

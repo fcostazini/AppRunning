@@ -48,7 +48,17 @@
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Nuevo Usuario"
+            android:text="Login sin Red Social"
+            android:id="@+id/bt_sin_red_social"
+            android:layout_gravity="center_horizontal"
+            android:background="#ff0f9907"
+            android:layout_margin="8dp"
+            android:textColor="#ffffffff" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Nuevo Usuario Sin Red Social"
             android:id="@+id/nuevoUsuario"
             android:layout_gravity="center_horizontal"
             android:background="#7D7D7D"

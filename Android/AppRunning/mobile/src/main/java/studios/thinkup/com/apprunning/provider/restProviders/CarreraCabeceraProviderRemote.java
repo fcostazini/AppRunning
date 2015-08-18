@@ -96,7 +96,7 @@ public class CarreraCabeceraProviderRemote extends RemoteService implements ICar
                                 .descripcion(cc.getDescripcion())
                                 .distanciaDisponible(cc.getDistanciaDisponible())
                                 .fechaInicio(cc.getFechaInicio())
-                                .hora(cc.getHora())
+                                .hora(cc.getHoraInicio())
                                 .nombre(cc.getNombre())
                                 .urlImage(cc.getUrlImagen())
                                 .provincia(cc.getProvincia())

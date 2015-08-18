@@ -11,7 +11,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+import com.thinkup.ranning.dtos.CarreraAmigoDTO;
 import com.thinkup.ranning.dtos.Filtro;
+import com.thinkup.ranning.dtos.UsuarioCarreraDTO;
+import com.thinkup.ranning.entities.Usuario;
 import com.thinkup.ranning.entities.UsuarioCarrera;
 import com.thinkup.ranning.exceptions.PersistenciaException;
 import com.thinkup.ranning.server.rest.exception.EntidadInexistenteException;
@@ -28,7 +31,8 @@ public class UsuarioCarreraDAO {
 
 	private QueryGenerator qGen = new QueryGenerator();
 
-	public UsuarioCarrera getByUsuarioCarrera(Integer idUsuario, Integer idCarrera) throws EntidadInexistenteException {
+	public UsuarioCarrera getByUsuarioCarrera(Integer idUsuario,
+			Integer idCarrera) throws EntidadInexistenteException {
 		try {
 			UsuarioCarrera uc = this.entityManager
 					.createNamedQuery(UsuarioCarrera.GET_BY_USUARIO_CARRERA,
@@ -121,7 +125,7 @@ public class UsuarioCarreraDAO {
 	public List<UsuarioCarrera> getByFiltro(Filtro filtro)
 			throws PersistenciaException {
 		StringBuffer select = new StringBuffer();
-		select.append(" SELECT c.id as codigoCarrera, c.nombre as nombre, c.fecha_inicio as fechaInicio, EXTRACT(HOUR FROM c.fecha_inicio)||':'||EXTRACT(MINUTE  FROM c.fecha_inicio) AS hora, c.distancia_disponible as distanciaDisponible, c.descripcion as descripcion, c.url_imagen as urlImagen, ");
+		select.append(" SELECT c.id as codigoCarrera, c.nombre as nombre, c.fecha_inicio as fechaInicio, horario_inicio AS hora, c.distancia_disponible as distanciaDisponible, c.descripcion as descripcion, c.url_imagen as urlImagen, ");
 		select.append(" c.provincia as provincia, c.ciudad as ciudad, uc.id as usuarioCarrera, uc.distancia as distancia, uc.me_gusta as meGusta, uc.anotado as estoyAnotado, uc.corrida as corrida ");
 		select.append(" FROM CARRERA c JOIN USUARIO_CARRERA uc ON c.ID_CARRERA = uc.CARRERA and uc.TIEMPO > 0 ");
 		String query = select.toString();
@@ -148,12 +152,48 @@ public class UsuarioCarreraDAO {
 			List<UsuarioCarrera> resultados = this.entityManager
 					.createNamedQuery(UsuarioCarrera.GET_ALL_BY_ID_USUARIO,
 							UsuarioCarrera.class)
-							.setParameter(UsuarioCarrera.PARAM_ID_USUARIO,idUsuario )
-							.getResultList();
+					.setParameter(UsuarioCarrera.PARAM_ID_USUARIO, idUsuario)
+					.getResultList();
 			return resultados;
 		} catch (Exception e) {
 			return new Vector<UsuarioCarrera>();
 		}
+	}
+
+	public List<CarreraAmigoDTO> findCarrerasAmigos(Integer id)
+			throws PersistenciaException {
+		StringBuffer query = new StringBuffer();
+		query.append(" select ");
+		query.append("	c.id as idCarrera, ");
+		query.append("	c.nombre as nombreCarrera, ");
+		query.append("	c.url_imagen as logoCarrera, ");
+		query.append("	uc.anotado, ");
+		query.append("	me_gusta as meGusta, ");
+		query.append("	corrida, ");
+		query.append("	distancia, ");
+		query.append("	modalidad, ");
+		query.append("	usuario_id as usuario, ");
+		query.append("	tiempo ");
+		query.append(" from carrera c ");
+		query.append(" join usuario_Carrera uc ");
+		query.append("	on uc.carrera_id = c.id ");
+		query.append(" where uc.anotado = true ");
+		query.append(" and uc.usuario_id = :" + UsuarioCarrera.PARAM_ID_USUARIO);
+		try {
+
+			@SuppressWarnings("unchecked")
+			List<CarreraAmigoDTO> carreras = this.entityManager
+					.createNativeQuery(query.toString(), CarreraAmigoDTO.class)
+					.setParameter(UsuarioCarrera.PARAM_ID_USUARIO, id)
+					.getResultList();
+			if (carreras == null) {
+				return new Vector<CarreraAmigoDTO>();
+			}
+			return carreras;
+		} catch (Exception e) {
+			throw new PersistenciaException("Error inesperado", e);
+		}
+
 	}
 
 }

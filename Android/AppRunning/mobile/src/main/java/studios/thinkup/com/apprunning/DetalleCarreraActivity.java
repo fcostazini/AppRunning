@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import java.util.Date;
 import java.util.List;
@@ -57,7 +58,8 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
         }
         startUp(savedInstanceState);
 
-        findViewById(R.id.viewpager).setBackgroundResource(R.drawable.detalle_bg_xml);
+        ImageView bg = (ImageView)findViewById(R.id.bg);
+        bg.setImageResource(R.drawable.detalle_bg);
     }
 
     private void startUp(Bundle savedInstanceState) {
@@ -130,7 +132,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                     this.carrera.setMeGusta(false);
                     this.actualizarUsuarioCarrera(this.carrera, EstadoCarrera.NO_ME_GUSTA);
                 }
-                updateUsuarioCarrera();
+
                 return true;
             case R.id.mnu_inscripto:
                 if (this.carrera.isAnotado()) {
@@ -152,7 +154,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                     }
 
                 }
-                updateUsuarioCarrera();
+
                 return true;
             case R.id.mnu_corrida:
                 if (this.carrera.isCorrida()) {
@@ -182,7 +184,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                         }
                     }
                 }
-                updateUsuarioCarrera();
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -217,6 +219,15 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(this.carrera != null){
+            UsuarioCarreraProvider up = new UsuarioCarreraProvider(this, getUsuario());
+            this.carrera = up.getByIdCarrera(this.carrera.getCodigoCarrera());
+        }
+    }
+
     private void confirmarNoCorrida(final MenuItem item) {
 
         AlertDialog dialog = new AlertDialog.Builder(this).create();
@@ -230,6 +241,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                 carrera.setTiempo(0l);
                 carrera.setVelocidad(0);
                 actualizarUsuarioCarrera(carrera, EstadoCarrera.NO_CORRIDA);
+
 
             }
         });
@@ -255,7 +267,6 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                     item.setIcon(R.drawable.ic_no_anotado);
                     carrera.setAnotado(false);
                     carrera.setTiempo(0l);
-                    updateUsuarioCarrera();
                     actualizarUsuarioCarrera(carrera, EstadoCarrera.NO_ANOTADO);
                 }
             });
@@ -284,6 +295,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
         for (IUsuarioCarreraObserver ob : this.observadoresUsuario) {
             ob.actuliazarUsuarioCarrera(usuarioCarrera, estado);
         }
+        updateUsuarioCarrera();
     }
 
     @Override

@@ -113,7 +113,7 @@ public class AmigoDao {
 		query.append("	on a.usuario_amigo = u.id ");
 		query.append("  left join grupos_running g  ");
 		query.append("  on u.grupo_id = g.id	");
-		query.append(" where uc.carrera_id = :"+ UsuarioCarrera.PARAM_ID_CARRERA);
+		query.append(" where uc.anotado = true and uc.carrera_id = :"+ UsuarioCarrera.PARAM_ID_CARRERA);
 		try {
 			
 			List<AmigosDTO> amigos = entityManager

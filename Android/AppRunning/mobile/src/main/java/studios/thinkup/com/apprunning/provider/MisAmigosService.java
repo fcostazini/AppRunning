@@ -53,13 +53,6 @@ public class MisAmigosService extends AsyncTask<Integer, Integer, List<AmigosDTO
         }
     }
 
-    @Override
-    protected void onCancelled() {
-        super.onCancelled();
-        if (handler != null) {
-            handler.onDataRetrived(new Vector<AmigosDTO>());
-        }
-    }
 
     @Override
     protected List<AmigosDTO> doInBackground(Integer... params) {

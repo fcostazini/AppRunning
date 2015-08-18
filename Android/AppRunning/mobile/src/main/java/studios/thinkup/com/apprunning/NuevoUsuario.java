@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -36,6 +37,7 @@ import java.util.List;
 import java.util.Locale;
 
 import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
+import studios.thinkup.com.apprunning.model.PasswordEncoder;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.GrupoRunning;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
@@ -47,8 +49,10 @@ import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemo
 
 
 public class NuevoUsuario extends Activity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+    public static final String NUEVO_USUARIO = "nuevoUsuario";
     private static ProgressDialog pd;
     private UsuarioApp ua;
+    private boolean nuevoUsuario;
 
     protected static void showProgress(Context context, String message) {
         pd = new ProgressDialog(context);
@@ -69,31 +73,39 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_datos_usuario);
+        this.nuevoUsuario = false;
         initActivity(savedInstanceState);
         initView();
     }
 
     private void initActivity(Bundle savedInstanceState) {
-        if (this.ua == null) {
-            if (savedInstanceState != null) {
-                if (savedInstanceState.containsKey(UsuarioApp.FIELD_ID)) {
-                    this.ua = (UsuarioApp) savedInstanceState.getSerializable(UsuarioApp.FIELD_ID);
-                }
-            } else {
-                if (this.getIntent().getExtras() != null) {
-                    if (this.getIntent().getExtras().containsKey(UsuarioApp.FIELD_ID)) {
-                        this.ua = (UsuarioApp) this.getIntent().getExtras().getSerializable(UsuarioApp.FIELD_ID);
-                    }
-                }
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(UsuarioApp.FIELD_ID)) {
+                this.ua = (UsuarioApp) savedInstanceState.getSerializable(UsuarioApp.FIELD_ID);
             }
-            if (this.ua == null) {
-                if (((RunningApplication) this.getApplication()).getUsuario() != null) {
-                    this.ua = ((RunningApplication) this.getApplication()).getUsuario();
-                } else {
-                    this.ua = new UsuarioApp();
+            if (savedInstanceState.containsKey(NUEVO_USUARIO)) {
+                this.nuevoUsuario = savedInstanceState.getBoolean(NUEVO_USUARIO);
+            }
+
+        } else {
+            if (this.getIntent().getExtras() != null) {
+                if (this.getIntent().getExtras().containsKey(UsuarioApp.FIELD_ID)) {
+                    this.ua = (UsuarioApp) this.getIntent().getExtras().getSerializable(UsuarioApp.FIELD_ID);
+                }
+                if (this.getIntent().getExtras().containsKey(NUEVO_USUARIO)) {
+                    this.nuevoUsuario = this.getIntent().getExtras().getBoolean(NUEVO_USUARIO);
                 }
             }
         }
+        if (this.ua == null) {
+            if (((RunningApplication) this.getApplication()).getUsuario() != null) {
+                this.ua = ((RunningApplication) this.getApplication()).getUsuario();
+            } else {
+                this.ua = new UsuarioApp();
+            }
+        }
+
+
     }
 
     private void initView() {
@@ -187,6 +199,12 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
         }
         spinner.setOnItemSelectedListener(this);
 
+        if (nuevoUsuario) {
+            TextView pass = (TextView) findViewById(R.id.txt_pass);
+            TextView confirmPass = (TextView) findViewById(R.id.txt_confirm_pass);
+            pass.setVisibility(View.VISIBLE);
+            confirmPass.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -202,6 +220,7 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
         if (this.ua != null) {
             outState.putSerializable(UsuarioApp.FIELD_ID, this.ua);
         }
+        outState.putBoolean(NUEVO_USUARIO, this.nuevoUsuario);
 
     }
 
@@ -244,10 +263,24 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
                     Toast.makeText(this, "Sin Conexión a internet", Toast.LENGTH_LONG).show();
                 }
             } else {
-                Toast.makeText(this, "Complete los campos Marcados", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Verifique los datos Ingresados", Toast.LENGTH_LONG).show();
             }
         }
 
+    }
+
+    private boolean verificarPassword() {
+        TextView txtPass = (TextView) findViewById(R.id.txt_pass);
+        TextView confPass = (TextView) findViewById(R.id.txt_confirm_pass);
+        if (txtPass.getText().length() < 8) {
+            Toast.makeText(this, "Longitud minima de password 8 caracteres", Toast.LENGTH_LONG).show();
+            return false;
+
+        } else if (!txtPass.getText().toString().equals(confPass.getText().toString())) {
+            Toast.makeText(this, "El password no coincide", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
     }
 
     private void completarUsuario() {
@@ -260,7 +293,10 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
         TextView txtEmail = (TextView) findViewById(R.id.txt_email);
         this.ua.setEmail(txtEmail.getText().toString());
         TextView txtFechaNac = (TextView) findViewById(R.id.txt_fecha_nac);
-
+        if (nuevoUsuario) {
+            TextView txtPass = (TextView) findViewById(R.id.txt_pass);
+            this.ua.setPassword(PasswordEncoder.encodePass(txtPass.getText().toString()));
+        }
         this.ua.setFechaNacimiento(txtFechaNac.getText().toString());
         Spinner grupo = (Spinner) findViewById(R.id.sp_grupo);
         if (!grupo.getSelectedItem().equals(getString(R.string.corres_grupo))) {
@@ -272,10 +308,25 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
         TextView txtNickname = (TextView) findViewById(R.id.txt_nick);
         TextView txtEmail = (TextView) findViewById(R.id.txt_email);
         TextView txtFechaNac = (TextView) findViewById(R.id.txt_fecha_nac);
+        if (nuevoUsuario) {
+            TextView txtPass = (TextView) findViewById(R.id.txt_pass);
+            TextView confPass = (TextView) findViewById(R.id.txt_confirm_pass);
 
-        return notEmptyText(txtEmail) &
-                notEmptyText(txtNickname) &
-                notEmptyText(txtFechaNac);
+            if (notEmptyText(txtEmail) &
+                    notEmptyText(txtNickname) &
+                    notEmptyText(txtFechaNac) & notEmptyText(txtPass) & notEmptyText(confPass)) {
+                return verificarPassword();
+            } else {
+                return false;
+            }
+
+        } else {
+            return notEmptyText(txtEmail) &
+                    notEmptyText(txtNickname) &
+                    notEmptyText(txtFechaNac);
+        }
+
+
     }
 
     private boolean notEmptyText(TextView txt) {
@@ -283,7 +334,8 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
             txt.setBackgroundColor(Color.parseColor("#22FF0000"));
             return false;
         } else {
-            txt.setBackground(null);
+            EditText et = new EditText(this);
+            txt.setBackground(et.getBackground());
             return true;
         }
 
@@ -373,7 +425,11 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
             try {
                 if (params[0].getId() == null) {
                     u = up.grabar(params[0]);
-                    return getUsuarioAppLocale(u, params[0]);
+                    if (u == null) {
+                        return null;
+                    } else {
+                        return getUsuarioAppLocale(u, params[0]);
+                    }
                 } else {
                     return null;
 

@@ -1,6 +1,7 @@
 package com.thinkup.ranning.entities;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
@@ -70,6 +71,9 @@ public class Carrera implements Serializable {
 	@Column(name = "fecha_inicio")
 	private Date fechaInicio;
 
+	@Column(name = "hora_inicio")
+	private Time horaInicio;
+	
 	@Column(name = "descripcion")
 	private String descripcion;
 
@@ -86,6 +90,14 @@ public class Carrera implements Serializable {
 	private String distancias;
 
 	private static final long serialVersionUID = 1L;
+
+	public Time getHoraInicio() {
+		return horaInicio;
+	}
+
+	public void setHoraInicio(Time hora_inicio) {
+		this.horaInicio = hora_inicio;
+	}
 
 	public Carrera() {
 		super();

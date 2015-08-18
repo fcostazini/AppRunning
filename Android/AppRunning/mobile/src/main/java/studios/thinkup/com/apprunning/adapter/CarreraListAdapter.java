@@ -71,21 +71,15 @@ public class CarreraListAdapter extends BaseAdapter {
             viewHolder.nombre = (TextView) convertView.findViewById(R.id.txt_nombre_usuario);
             viewHolder.zona = (TextView) convertView.findViewById(R.id.txt_zona);
             viewHolder.fecha = (TextView) convertView.findViewById(R.id.txt_fecha);
-            viewHolder.corrida = (ImageView) convertView.findViewById(R.id.img_corrida);
-            viewHolder.meGusta = (ImageView) convertView.findViewById(R.id.img_favorito);
-            viewHolder.anotado = (ImageView) convertView.findViewById(R.id.img_anotado_carrera);
+            viewHolder.corrida = (ImageView) convertView.findViewById(R.id.corrida);
+            viewHolder.meGusta = (ImageView) convertView.findViewById(R.id.me_gusta);
+            viewHolder.anotado = (ImageView) convertView.findViewById(R.id.anotado);
             viewHolder.logo = (ImageView) convertView.findViewById(R.id.img_logo_carrera);
             viewHolder.distancia = (TextView) convertView.findViewById(R.id.txt_distancia);
-            // viewHolder.descripcion = (TextView) convertView.findViewById(R.id.txt_descripcion);
-            viewHolder.corrida.setImageResource(R.drawable.ic_no_corrida);
-            viewHolder.meGusta.setImageResource(R.drawable.ic_no_me_gusta);
-            viewHolder.anotado.setImageResource(R.drawable.ic_no_anotado);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
-            viewHolder.corrida.setImageResource(R.drawable.ic_no_corrida);
-            viewHolder.meGusta.setImageResource(R.drawable.ic_no_me_gusta);
-            viewHolder.anotado.setImageResource(R.drawable.ic_no_anotado);
+
 
         }
 
@@ -106,23 +100,22 @@ public class CarreraListAdapter extends BaseAdapter {
                 viewHolder.descripcion.setText(p.getDescripcion());
             }*/
 
-            if (p.isEstoyInscripto()) {
-                if (p.getDistancia() != null) {
-                    viewHolder.distancia.setText(p.getDistancia() + " Km");
-                }
-            } else {
-                if (p.getDistanciaDisponible() != null) {
-                    viewHolder.distancia.setText(p.getDistanciaDisponible() + " Km");
-                }
+            if (p.getDistanciaDisponible() != null) {
+                viewHolder.distancia.setText(p.getDistanciaDisponible() + " Km");
             }
 
+
             if (p.getFechaInicio() != null) {
-                SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
+                SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd hh:mm", Locale.getDefault());
                 Date d = new Date();
                 try {
                     d = sf.parse(p.getFechaInicio());
                     sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                    viewHolder.fecha.setText(sf.format(d) + "   " + p.getHora());
+                    if(p.getHora().length()> 3) {
+                        viewHolder.fecha.setText(sf.format(d) + "   " + p.getHora().substring(0, 5) + "hs");
+                    }else{
+                        viewHolder.fecha.setText(sf.format(d) + "   " + p.getHora());
+                    }
                 } catch (Exception e) {
                     d = new Date(Long.valueOf(p.getFechaInicio()));
                     sf = new SimpleDateFormat("dd/MM/yyyy hh:mm", Locale.getDefault());
@@ -130,23 +123,22 @@ public class CarreraListAdapter extends BaseAdapter {
                 }
 
             }
-
-            if (p.isEstoyInscripto()) {
-                viewHolder.anotado.setImageResource(R.drawable.ic_anotado);
+            if (p.isFueCorrida()) {
+                viewHolder.corrida.setVisibility(View.VISIBLE);
             } else {
-                viewHolder.anotado.setImageResource(R.drawable.ic_no_anotado);
+                viewHolder.corrida.setVisibility(View.GONE);
             }
 
-            if (p.isFueCorrida()) {
-                viewHolder.corrida.setImageResource(R.drawable.ic_corrida);
+            if (!p.isFueCorrida() && p.isEstoyInscripto()) {
+                viewHolder.anotado.setVisibility(View.VISIBLE);
             } else {
-                viewHolder.corrida.setImageResource(R.drawable.ic_no_corrida);
+                viewHolder.anotado.setVisibility(View.GONE);
             }
 
             if (p.isMeGusta()) {
-                viewHolder.meGusta.setImageResource(R.drawable.ic_me_gusta);
+                viewHolder.meGusta.setVisibility(View.VISIBLE);
             } else {
-                viewHolder.meGusta.setImageResource(R.drawable.ic_no_me_gusta);
+                viewHolder.meGusta.setVisibility(View.GONE);
             }
             if (p.getUrlImagen() != null) {
                 Picasso.with(context).load(p.getUrlImagen())

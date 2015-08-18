@@ -145,5 +145,6 @@ public class UsuarioDTO implements Serializable {
 		this.password = usuario.getPassword();
 		this.tipoCuenta = usuario.getTipoCuenta();
 		this.verificado = usuario.getVerificado();
+		
 	}
 }

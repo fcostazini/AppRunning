@@ -27,6 +27,7 @@ import studios.thinkup.com.apprunning.provider.MisAmigosService;
 public class AmigosFragment extends ListFragment implements MisAmigosService.IServiceAmigosHandler {
     private static ProgressDialog pd;
     private AmigosListAdapter adapter;
+    private MisAmigosService as;
 
     protected static void showProgress(Context context, String message) {
         pd = new ProgressDialog(context);
@@ -37,9 +38,8 @@ public class AmigosFragment extends ListFragment implements MisAmigosService.ISe
         pd.show();
 
 
-
-
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -67,7 +67,7 @@ public class AmigosFragment extends ListFragment implements MisAmigosService.ISe
     }
 
     private void getData() {
-        MisAmigosService as = new MisAmigosService(this.getActivity(), this);
+        this.as = new MisAmigosService(this.getActivity(), this);
         as.execute(getUsuario().getId());
     }
 
@@ -90,16 +90,24 @@ public class AmigosFragment extends ListFragment implements MisAmigosService.ISe
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (as != null)
+            as.cancel(true);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         this.getData();
     }
 
-
     @Override
     public void onDataRetrived(List<AmigosDTO> amigos) {
         this.adapter = new AmigosListAdapter(this.getActivity(), amigos);
-        setListAdapter(adapter);
+        if (isAdded()) {
+            setListAdapter(adapter);
+        }
     }
 
     @Override

@@ -57,7 +57,7 @@
     <string name="que_distancia_recorres">Que distancia vas a ReCorrer?</string>
     <string name="confirmar_Desanotar">Está seguro que desea borrar la carrera de "Mis Carreras"?</string>
     <string name="confirmar_no_corrida">Está por desmarcar la carrera como \"Corrida\". Se borrarán todos los datos asociados a la carrera. Desea continuar?</string>
-    <string name="app_version">Versión 0.1.14</string>
+    <string name="app_version">Versión 0.1.20</string>
     <string name="title_activity_nuevo_usuario">Nuevo Usuario</string>
     <string name="title_activity_datos_usuario">Mi Info</string>
 
@@ -78,7 +78,7 @@
     <string name="ok">OK</string>
     <string name="cancelar">Cancelar</string>
     <string name="sin_carreras">No se encontraron carreras</string>
-    <string name="confirmacion_desvinculacion_cuenta">Se desvinculará su cuenta. Desde continuar?</string>
+    <string name="confirmacion_desvinculacion_cuenta">Se borrará su cuenta de este dispositivo. Desde continuar?</string>
     <string name="desvincular_cuenta">Desvincular Cuenta</string>
     <string name="title_meses_busqueda">Meses de Búsqueda</string>
     <string name="title_activity_aceca_de_nosotros">Acerca de Nosotros</string>
@@ -89,25 +89,38 @@
 
     <string name="acepto_los_terminos">Acepto los Términos</string>
     <string name="danos_tu_opinion">Danos tu opinión</string>
-    <!--<string name="host_url">http://192.168.151.46:8080/</string>
-     <string name="host_url">http://192.168.0.6:8080/</string>
-    <string name="base_service_url">RestServicesRunning/running</string>-->
+
+    <!--<string name="host_url">http://192.168.151.70:8080/</string>
+     <string name="base_service_url">RestServicesRunning/running</string>-->
+
+    <!--<string name="host_url">http://192.168.0.2:8080/</string>
+     <string name="base_service_url">RestServicesRunning/running</string>-->
+
      <string name="host_url">http://191.237.16.124/</string>
-       <string name="base_service_url">RestServicesRunning-0.0.1-SNAPSHOT/running</string>-->
-     <string name="siguiente" >Siguiente</string>
-     <string name="anterior" >Anterior</string>
-     <string name="tutorial">Tutorial</string>
-     <string name="nav_menu_ayuda">Ayuda</string>
-     <string name="background">background</string>
-    <string name="title_amigos">Amigos</string>
-    <string name="sin_conexion">Sin conexión a internet</string>
-    <string name="cargando_carrera">Cargando Carrera...</string>
-    <string name="buscando_amigos">Buscando amigos...</string>
-    <string name="guardando_usuario">Guardando Usuario...</string>
-    <string name="agregar_amigo">Agregar Amigo</string>
-    <string name="no_informado">No Informado</string>
-    <string name="borrar_amigo">Borrar Amigo</string>
-    <string name="bloquear_amigo">Bloquear Amigo</string>
-    <string name="desbloquear_amigo">Desbloquear Amigo</string>
-    <string name="pendiente_confirmacion">Tu usuario se encuentra pendiente de confirmación. Verificá tu cuenta de email.</string>
+         <string name="base_service_url">RestServicesRunning-0.0.1-SNAPSHOT/running</string>
+
+    <string name="siguiente" >Siguiente</string>
+    <string name="anterior" >Anterior</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="nav_menu_ayuda">Ayuda</string>
+    <string name="background">background</string>
+   <string name="title_amigos">Amigos</string>
+   <string name="sin_conexion">Sin conexión a internet</string>
+   <string name="cargando_carrera">Cargando Carrera…</string>
+   <string name="buscando_amigos">Buscando amigos…</string>
+   <string name="guardando_usuario">Guardando Usuario…</string>
+   <string name="agregar_amigo">Agregar Amigo</string>
+   <string name="no_informado">No Informado</string>
+   <string name="borrar_amigo">Borrar Amigo</string>
+   <string name="bloquear_amigo">Bloquear Amigo</string>
+   <string name="desbloquear_amigo">Desbloquear Amigo</string>
+   <string name="pendiente_confirmacion">Tu usuario se encuentra pendiente de confirmación. Verificá tu cuenta de email.</string>
+    <string name="lbl_inscript_en">Inscripto en:</string>
+    <string name="mnu_me_gusta">Me Gusta</string>
+    <string name="mnu_inscripto">Agregar a Mis Carreras</string>
+    <string name="mnu_corrida">Corrida</string>
+    <string name="title_activity_login_sin_red_social">ReCorriendo</string>
+    <string name="loggin">Entrar</string>
+    <string name="entrando">Entrando...</string>
+    <string name="usuario_invalido">Usuario Invalido</string>
 </resources>

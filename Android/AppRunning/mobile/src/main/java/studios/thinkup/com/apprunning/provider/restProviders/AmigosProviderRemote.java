@@ -17,6 +17,7 @@ import java.util.List;
 
 import studios.thinkup.com.apprunning.model.entity.AmigoRequest;
 import studios.thinkup.com.apprunning.model.entity.AmigosDTO;
+import studios.thinkup.com.apprunning.model.entity.CarreraAmigoDTO;
 import studios.thinkup.com.apprunning.provider.IAmigosProvider;
 
 /**
@@ -28,6 +29,7 @@ public class AmigosProviderRemote extends RemoteService implements IAmigosProvid
     private static final String GET_MIS_AMIGOS = "/getAmigos/";
     private static final String GET_AMIGOS_EN_CARRERA = "/getAmigosEnCarrera/";
     private static final String BUSCAR_USUARIOS = "/buscarAmigos/";
+    private static final String GET_CARRERAS=  "/findCarrerasByUsuario/";
     private static final String REQUEST = "/request";
     public AmigosProviderRemote(Context context) {
         super(context);
@@ -46,7 +48,7 @@ public class AmigosProviderRemote extends RemoteService implements IAmigosProvid
      */
     @Override
     public List<AmigosDTO> getAmigosByUsuarioId(Integer id) {
-    // the request
+        // the request
         try {
             URL url = new URL(this.getBaseURL() + GET_MIS_AMIGOS + id);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -70,7 +72,40 @@ public class AmigosProviderRemote extends RemoteService implements IAmigosProvid
             return null;
         }
 
+    }
 
+
+    /**
+     * Obtiene todas las carreras donde este inscripto un amigo
+     *
+     * @param id del usuario
+     * @return lista vacia en caso de no encontrar resultados
+     */
+    @Override
+    public List<CarreraAmigoDTO> getCarrerasAmigo(Integer id) {
+        // the request
+        try {
+            URL url = new URL(this.getBaseURL() + GET_CARRERAS + id);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setConnectTimeout(7000);
+            con.setRequestProperty("Accept", "application/json");
+            con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            con.setDoInput(true);
+            Gson g = new Gson();
+            Respuesta<List<CarreraAmigoDTO>> r = g.fromJson(new BufferedReader(
+                    new InputStreamReader(con.getInputStream())), new TypeToken<Respuesta<List<CarreraAmigoDTO>>>() {
+            }.getType());
+
+            if (r.getCodigoRespuesta().equals(Respuesta.CODIGO_OK) && r.getDto() != null) {
+                return r.getDto();
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
 
     }
 

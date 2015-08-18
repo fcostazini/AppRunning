@@ -64,7 +64,7 @@ public class DetalleCarreraFragment extends Fragment {
             if (this.usuarioObservable.getUsuarioCarrera().getHora() != null && !this.usuarioObservable.getUsuarioCarrera().getHora().isEmpty()) {
 
 
-                fecha.setText(sf.format(d) + "   " + this.usuarioObservable.getUsuarioCarrera().getHora() + " hs.");
+                fecha.setText(sf.format(d) + "   " + this.usuarioObservable.getUsuarioCarrera().getHora().substring(0,5) + " hs.");
             } else {
                 fecha.setText(sf.format(d));
             }
@@ -97,6 +97,21 @@ public class DetalleCarreraFragment extends Fragment {
             }
         });
         direccion.setText(this.usuarioObservable.getUsuarioCarrera().getFullDireccion());
+        TextView lblInscripto = (TextView)rootView.findViewById(R.id.lbl_inscripto_en);
+        TextView txtInscripto = (TextView)rootView.findViewById(R.id.txt_inscripto_en);
+        if(this.usuarioObservable.getUsuarioCarrera().getDistancias().contains("/") &&
+                this.usuarioObservable.getUsuarioCarrera().isAnotado()){
+
+            lblInscripto.setVisibility(View.VISIBLE);
+
+            txtInscripto.setVisibility(View.VISIBLE);
+            txtInscripto.setText(usuarioObservable.getUsuarioCarrera().getDistancia() + " Km");
+        }else{
+            lblInscripto.setVisibility(View.GONE);
+
+            txtInscripto.setVisibility(View.GONE);
+            txtInscripto.setText("");
+        }
         return rootView;
     }
 

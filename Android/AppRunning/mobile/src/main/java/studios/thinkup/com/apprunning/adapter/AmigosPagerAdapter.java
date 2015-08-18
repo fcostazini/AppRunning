@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import studios.thinkup.com.apprunning.R;
+import studios.thinkup.com.apprunning.fragment.CarrerasAmigosFragment;
 import studios.thinkup.com.apprunning.fragment.DetalleAmigoFragment;
 import studios.thinkup.com.apprunning.fragment.TiemposCarrerasFragment;
 import studios.thinkup.com.apprunning.model.Filtro;
@@ -31,7 +32,7 @@ public class AmigosPagerAdapter extends FragmentPagerAdapter implements PagerSli
         this.amigo = amigo;
         fragmentMap = new HashMap<>();
         fragmentMap.put(0, new DetalleAmigoFragment());
-        fragmentMap.put(1, new TiemposCarrerasFragment());
+        fragmentMap.put(1, new CarrerasAmigosFragment());
 
 
     }
@@ -69,13 +70,10 @@ public class AmigosPagerAdapter extends FragmentPagerAdapter implements PagerSli
     @Override
     public Fragment getItem(int i) {
         Bundle b = new Bundle();
-        Filtro f = new Filtro();
+
         if (amigo != null) {
-            f.clean();
-            f.setIdUsuario(amigo.getIdAmigo());
-            f.setOrdenarPor(CamposOrdenEnum.NOMBRE.getLabel());
-            f.setSentido(Filtro.SENTIDO_ORDEN[0]);
-            b.putSerializable(Filtro.FILTRO_ID, f);
+
+            b.putSerializable(AmigosDTO.FIELD_ID, amigo);
         }
         Fragment frag = this.fragmentMap.get(i);
         frag.setArguments(b);

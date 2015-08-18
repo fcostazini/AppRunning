@@ -15,9 +15,9 @@ public class AmigosDTO implements Serializable {
 	private String nick;
 	private String grupo;
 	private String urlFoto;
-	private Boolean esAmigo;
-	private Boolean esPendiente;
-	private Boolean esBloqueado;
+	private Boolean esAmigo = false;
+	private Boolean esPendiente = false;
+	private Boolean esBloqueado = false;
 	
 	public AmigosDTO(){
 		

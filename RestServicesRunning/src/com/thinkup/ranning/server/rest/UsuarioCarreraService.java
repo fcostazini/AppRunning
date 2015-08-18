@@ -94,6 +94,9 @@ public class UsuarioCarreraService implements IUsuarioCarreraProvider {
 	}
 
 	
+	
+	
+	
 	@Path("/findAll/{id}")
 	@GET()
 	@Produces(MediaType.APPLICATION_JSON)

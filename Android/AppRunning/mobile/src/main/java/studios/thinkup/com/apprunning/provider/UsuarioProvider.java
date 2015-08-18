@@ -8,9 +8,14 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.List;
 import java.util.Vector;
 
+import studios.thinkup.com.apprunning.model.entity.CheckUsuarioPassDTO;
 import studios.thinkup.com.apprunning.model.entity.IEntity;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
+import studios.thinkup.com.apprunning.provider.exceptions.CredencialesInvalidasException;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
+import studios.thinkup.com.apprunning.provider.exceptions.UsuarioBloqueadoException;
+import studios.thinkup.com.apprunning.provider.exceptions.UsuarioInexistenteException;
+import studios.thinkup.com.apprunning.provider.exceptions.UsuarioNoVerificadoException;
 
 /**
  * Created by FaQ on 28/05/2015.
@@ -96,12 +101,20 @@ public class UsuarioProvider extends GenericProvider<UsuarioApp> implements IUsu
         SQLiteDatabase db = null;
         Cursor c = null;
         try {
-            db = this.dbProvider.getWritableDatabase();
+            List<UsuarioApp> existentes =this.findAll(UsuarioApp.class);
 
+            db = this.dbProvider.getWritableDatabase();
+            db.beginTransaction();
+            if(existentes.size()>= 1){
+                for(UsuarioApp u : existentes){
+                    this.deleteUsuario(u);
+                }
+            }
             long result = db.insertOrThrow(this.getTableName(entidad.getClass()),
                     null, this.getUpdateFields(entidad));
             if (result >= 0) {
                 entidad.setId(Long.valueOf(result).intValue());
+                db.setTransactionSuccessful();
                 return entidad;
             } else {
                 throw new EntidadNoGuardadaException("No se realizó el insert" + entidad.getId().toString());
@@ -109,9 +122,13 @@ public class UsuarioProvider extends GenericProvider<UsuarioApp> implements IUsu
         } catch (Exception e) {
             throw new EntidadNoGuardadaException(e);
         } finally {
-            if (db != null && db.isOpen()) {
-                db.close();
+            if(db!= null) {
+                db.endTransaction();
+                if(db.isOpen()){
+                    db.close();
+                }
             }
+
         }
     }
 
@@ -140,6 +157,16 @@ public class UsuarioProvider extends GenericProvider<UsuarioApp> implements IUsu
 
         }
 
+    }
+
+    @Override
+    public UsuarioApp loginUsuario(CheckUsuarioPassDTO param) throws CredencialesInvalidasException, UsuarioBloqueadoException, UsuarioNoVerificadoException {
+        throw new RuntimeException("No implementado");
+    }
+
+    @Override
+    public Boolean recuperarPass(String email) throws UsuarioInexistenteException {
+        throw new RuntimeException("No implementado");
     }
 
     @Override
@@ -220,4 +247,27 @@ public class UsuarioProvider extends GenericProvider<UsuarioApp> implements IUsu
         }
 
     }
+
+    public boolean deleteUsuario(UsuarioApp u) {
+        UsuarioApp aBorrar = this.findById(UsuarioApp.class, u.getId());
+        SQLiteDatabase db = null;
+        if (aBorrar != null) {
+            try {
+                db = this.dbProvider.getWritableDatabase();
+                db.delete("USUARIO_CARRERA", "USUARIO = " + u.getId(), null);
+                return db.delete("USUARIO_APP", "ID = " + u.getId(), null) > 0;
+
+            } catch (Exception e) {
+                return false;
+            } finally {
+                if (db != null && db.isOpen()) {
+                    db.close();
+                }
+
+            }
+        }else{
+            return false;
+        }
+    }
 }
+

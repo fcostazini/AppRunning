@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="../../resources/js/bootstrap-3.3.5-dist/css/bootstrap.css"
+	rel="stylesheet" type="text/css" />
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script type="text/javascript"
+	src="../../resources/js/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+<meta charset="ISO-8859-1">
+
+
+<title>Cambio de Password</title>
+</head>
+<body>
+
+
+	<div class="jumbotron row vertical-center bg-info"
+		style="background-color: #FF00AAFF">
+		<div class="col-md-5 center">
+			<img
+				src="http://191.237.16.124/RestServicesRunning-0.0.1-SNAPSHOT/resources/img/logoRecorriendo.png"
+				style="padding-left: 20px" />
+		</div>
+		<div class="col-md-7">
+			<h2>Cambio de Password</h2>
+		</div>
+	</div>
+
+
+	<form class="form-horizontal">
+		<div id="passPan" class="form-group">
+			<label for="pass" class="col-sm-offset-2 col-sm-2 control-label">Nuevo
+				Password</label>
+			<div class="col-sm-6">
+				<input type="password" class="form-control required" id="pass"
+					placeholder="Nuevo Password" />
+
+			</div>
+		</div>
+		<div id="confirmarPan" class="form-group">
+			<label for="conf" class="col-sm-offset-2 col-sm-2 control-label">Confirmar</label>
+			<div class="col-sm-6">
+				<input type="password" class="form-control required" id="conf"
+					placeholder="Confirmar Password" />
+
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-8 col-sm-3">
+				<button id="confirmar" type="button" class="btn-lg btn-info">Cambiar</button>
+			</div>
+		</div>
+	</form>
+	<div id="messages" role="alert"
+		class=" alert alert-danger col-md-offset-2 col-md-8">
+		<span id="message"> </span>
+	</div>
+
+</body>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#confirmar").click(confirmarCambio);
+	$(".alert").hide();
+});
+
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+function confirmarCambio(e){
+	
+	var pass = $("#pass");
+	var conf = $("#conf");
+	var error = false;
+	if(pass.val().trim().length <=7){
+		$("#passPan").addClass("has-error");
+		error = true;
+	}
+	if(conf.val().trim().length <=7){
+		$("#confirmarPan").addClass("has-error");
+		error = true;
+	}	
+	if(error){
+		e.preventDefault();
+		showMessage("e","Complete todos los campos. Longitud minima 8 caracteres.");
+		
+	}else{
+		$("#passPan").removeClass("has-error");
+		$("#confirmPan").removeClass("has-error");
+	
+		if(pass.val() == conf.val()){
+			$.ajax({
+				  type: "POST",
+				  url: "../../running/usuarios/changePass",
+				  data: JSON.stringify({"email":getUrlParameter("email"),"pass": pass.val(), "token":getUrlParameter("token")}),
+				  success: function(){showMessage("s","Password Actualizado");},
+					error: function(par){showMessage("e",par.responseText);},
+				   dataType: 'application/json',
+	             contentType: "application/json; charset=utf-8"
+				});
+			e.preventDefault();
+		}else{
+			e.preventDefault();
+			showMessage("e","No coinciden los campos");
+		}
+	}
+		
+}
+
+function showMessage(type,message){
+	var clazz ="";
+	if(type == "e"){
+		clazz= "alert-danger";
+		}else if(type == "s"){ clazz = "alert-success"
+			}
+	$("#message").html(message);
+	$("#messages").removeClass("alert-danger").removeClass("alert-success").addClass(clazz).show("slow");setTimeout(function() {
+		$("#messages").hide("slow");
+	},5000);
+}
+</script>
+</html>
