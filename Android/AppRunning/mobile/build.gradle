@@ -15,7 +15,7 @@ android {
         release {
             keyAlias 'recorriendo'
             keyPassword 'R3C0Rr13nd011!'
-            storeFile file('C:/Users/fcostazini/prodkeystore.jks')
+            storeFile file('C:/Users/fcostazini/totalitkeystore')
             storePassword 'R3C0Rr13nd011!'
 
         }
