@@ -1,5 +1,6 @@
 package studios.thinkup.com.apprunning;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -22,6 +23,7 @@ import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.TiemposDrawerItem;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.ConfigProvider;
+import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 
 
@@ -38,6 +40,9 @@ public abstract class MainNavigationActivity extends FragmentActivity {
         if (ua != null) {
             return ua.getId();
         } else {
+            Intent i = new Intent(this,SeleccionarUsuarioActivity.class);
+            startActivity(i);
+            finish();
             return 0;
         }
 
@@ -48,6 +53,9 @@ public abstract class MainNavigationActivity extends FragmentActivity {
         if (ua != null) {
             return ua;
         } else {
+            Intent i = new Intent(this,SeleccionarUsuarioActivity.class);
+            startActivity(i);
+            finish();
             return null;
         }
 

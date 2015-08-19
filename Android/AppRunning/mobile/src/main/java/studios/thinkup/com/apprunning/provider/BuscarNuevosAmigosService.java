@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Vector;
 
 import studios.thinkup.com.apprunning.R;

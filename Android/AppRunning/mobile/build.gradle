@@ -13,10 +13,11 @@ android {
             storePassword 'android'
         }
         release {
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
-            storeFile file('C:/Users/fcostazini/.android/debug.keystore')
-            storePassword 'android'
+            keyAlias 'recorriendo'
+            keyPassword 'R3C0Rr13nd011!'
+            storeFile file('C:/Users/fcostazini/prodkeystore.jks')
+            storePassword 'R3C0Rr13nd011!'
+
         }
     }
     compileSdkVersion 22
@@ -33,6 +34,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            debuggable false
         }
         debug {
             signingConfig signingConfigs.debug

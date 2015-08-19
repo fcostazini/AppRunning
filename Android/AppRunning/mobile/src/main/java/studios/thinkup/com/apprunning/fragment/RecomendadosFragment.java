@@ -32,7 +32,6 @@ import studios.thinkup.com.apprunning.provider.restProviders.UsuarioCarreraServi
 public class RecomendadosFragment extends FilteredFragment implements CarreraCabeceraService.OnResultsHandler, OnSingleResultHandler<UsuarioCarrera> {
 
     private static ProgressDialog pd;
-    private CarreraListAdapter adapter;
     private UsuarioCarreraService uc;
 
     protected static void showProgress(Context context, String message) {
@@ -125,19 +124,21 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
     @Override
     public void actualizarResultados(List<CarreraCabecera> resultados) {
         if (isAdded()) {
-            this.adapter = new CarreraListAdapter(this.getActivity(), resultados);
+            CarreraListAdapter adapter = new CarreraListAdapter(this.getActivity(), resultados);
             setListAdapter(adapter);
         }
     }
 
     @Override
     public void actualizarResultado(UsuarioCarrera resultado) {
-        hideProgress();
-        Intent intent = new Intent(this.getActivity(), DetalleCarreraActivity.class);
-        Bundle b = new Bundle();
-        b.putSerializable("carrera", resultado);
-        intent.putExtras(b); //Put your id to your next Intent
-        startActivity(intent);
+        if(isAdded()) {
+            hideProgress();
+            Intent intent = new Intent(this.getActivity(), DetalleCarreraActivity.class);
+            Bundle b = new Bundle();
+            b.putSerializable("carrera", resultado);
+            intent.putExtras(b); //Put your id to your next Intent
+            startActivity(intent);
+        }
     }
 
     @Override

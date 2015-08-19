@@ -83,7 +83,7 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Busc
         if (s.length() > 3) {
             BuscarNuevosAmigosService up = new BuscarNuevosAmigosService(this.getActivity(), this.getUsuario(), this);
             up.execute(s.toString());
-        }else{
+        } else {
             onDataRetrived(new Vector<AmigosDTO>());
         }
     }
@@ -102,20 +102,21 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Busc
 
     @Override
     public void onDataRetrived(List<AmigosDTO> amigos) {
-        this.adapter = new AmigosListAdapter(this.getActivity(), amigos);
-        if (this.getView() != null) {
-            ListView lv = (ListView) this.getView().findViewById(R.id.lv_resultados);
-            lv.setOnItemClickListener(this);
-            lv.setEmptyView((TextView) getView().findViewById(android.R.id.empty));
-            lv.setAdapter(this.adapter);
+        if (isAdded()) {
+            this.adapter = new AmigosListAdapter(this.getActivity(), amigos);
+            if (this.getView() != null) {
+                ListView lv = (ListView) this.getView().findViewById(R.id.lv_resultados);
+                lv.setOnItemClickListener(this);
+                lv.setEmptyView(getView().findViewById(android.R.id.empty));
+                lv.setAdapter(this.adapter);
 
+            }
         }
-
     }
 
     /**
      * Called when the Fragment is visible to the user.  This is generally
-     * tied to {@link Activity#onStart() Activity.onStart} of the containing
+     * tied to  of the containing
      * Activity's lifecycle.
      */
     @Override

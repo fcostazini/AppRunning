@@ -21,7 +21,6 @@ public class TutorialFragment extends Fragment implements View.OnTouchListener {
 
     private ViewFlipper viewFlipper;
     private float lastX;
-    private int firstScreen = 0;
 
 
     @Override
@@ -142,6 +141,7 @@ public class TutorialFragment extends Fragment implements View.OnTouchListener {
     }
 
     public int getFirstScreen() {
+        int firstScreen = 0;
         if (this.getActivity().getIntent().getExtras() != null &&
                 this.getActivity().getIntent().getExtras().containsKey(TutorialActivity.PAGINA_TUTORIAL)) {
             if (this.getActivity().getIntent().getExtras().getInt(TutorialActivity.PAGINA_TUTORIAL) > 0) {

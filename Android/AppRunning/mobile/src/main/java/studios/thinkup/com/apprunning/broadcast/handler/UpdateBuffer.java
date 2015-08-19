@@ -90,8 +90,9 @@ public class UpdateBuffer {
             UpdateBuffer.getInstance().ucMapTemp = new HashMap<>();
         }
 
+        @SafeVarargs
         @Override
-        protected Integer doInBackground(Map<Integer, UsuarioCarreraDTO>... params) {
+        protected final Integer doInBackground(Map<Integer, UsuarioCarreraDTO>... params) {
             UsuarioCarreraProviderRemote usuarioCarreraProviderRemote = new UsuarioCarreraProviderRemote(context);
             try {
                 return usuarioCarreraProviderRemote.syncCarreras(params[0].values());

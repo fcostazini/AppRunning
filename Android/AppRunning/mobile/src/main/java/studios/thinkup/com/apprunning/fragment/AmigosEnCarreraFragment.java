@@ -115,8 +115,10 @@ public class AmigosEnCarreraFragment extends ListFragment implements AmigosEnCar
 
     @Override
     public void onDataRetrived(List<AmigosDTO> amigos) {
-        this.adapter = new AmigosListAdapter(this.getActivity(), amigos);
-        setListAdapter(adapter);
+        if(isAdded()) {
+            this.adapter = new AmigosListAdapter(this.getActivity(), amigos);
+            setListAdapter(adapter);
+        }
     }
 
     @Override

@@ -42,8 +42,8 @@ public interface IAmigosProvider {
     /**
      * Actualiza el estado de un amigo con relacion al usuario
      *
-     * @param param
-     * @return
+     * @param param request
+     * @return AmigoDTO
      */
     AmigosDTO actualizarEstadoAmigo(AmigoRequest param);
 

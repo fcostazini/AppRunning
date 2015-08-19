@@ -8,9 +8,6 @@
         android:id="@+id/ll_rango_dias"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/sp_ciudad"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:orientation="vertical">
@@ -35,7 +32,7 @@
                 android:layout_gravity="center_vertical" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:inputType="date"
                 android:ems="10"
@@ -69,8 +66,7 @@
             android:layout_height="fill_parent"
             android:id="@+id/ll_fechas"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp
-            "
+            android:layout_marginTop="20dp"
             android:layout_marginRight="10dp">
 
             <TextView
@@ -84,7 +80,7 @@
                 android:layout_gravity="center_vertical" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:inputType="date"
                 android:ems="10"

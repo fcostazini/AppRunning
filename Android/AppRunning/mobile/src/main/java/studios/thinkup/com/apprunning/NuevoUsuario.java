@@ -312,13 +312,7 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
             TextView txtPass = (TextView) findViewById(R.id.txt_pass);
             TextView confPass = (TextView) findViewById(R.id.txt_confirm_pass);
 
-            if (notEmptyText(txtEmail) &
-                    notEmptyText(txtNickname) &
-                    notEmptyText(txtFechaNac) & notEmptyText(txtPass) & notEmptyText(confPass)) {
-                return verificarPassword();
-            } else {
-                return false;
-            }
+            return notEmptyText(txtEmail) & notEmptyText(txtNickname) & notEmptyText(txtFechaNac) & notEmptyText(txtPass) & notEmptyText(confPass) && verificarPassword();
 
         } else {
             return notEmptyText(txtEmail) &

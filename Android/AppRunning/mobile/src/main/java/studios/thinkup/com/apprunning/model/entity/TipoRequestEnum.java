@@ -9,7 +9,7 @@ public enum TipoRequestEnum {
 		return id;
 	}
 
-	private TipoRequestEnum(Integer id) {
+	TipoRequestEnum(Integer id) {
 		this.id = id;
 	}
 

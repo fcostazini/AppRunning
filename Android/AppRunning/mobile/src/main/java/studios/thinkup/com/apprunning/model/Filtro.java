@@ -208,9 +208,7 @@ public class Filtro implements Serializable {
             return false;
         if (meGusta != null ? !meGusta.equals(filtro.meGusta) : filtro.meGusta != null)
             return false;
-        if (nombreCarrera != null ? !nombreCarrera.equals(filtro.nombreCarrera) : filtro.nombreCarrera != null)
-            return false;
-        return !(ciudad != null ? !ciudad.equals(filtro.ciudad) : filtro.ciudad != null);
+        return !(nombreCarrera != null ? !nombreCarrera.equals(filtro.nombreCarrera) : filtro.nombreCarrera != null) && !(ciudad != null ? !ciudad.equals(filtro.ciudad) : filtro.ciudad != null);
 
     }
 

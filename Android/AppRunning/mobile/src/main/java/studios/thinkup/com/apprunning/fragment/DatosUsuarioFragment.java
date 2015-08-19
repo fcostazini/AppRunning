@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.internal.app.ToolbarActionBar;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -333,11 +332,13 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
         @Override
         protected void onPostExecute(UsuarioApp usuarioApp) {
             super.onPostExecute(usuarioApp);
-            hideProgress();
-            if (usuarioApp == null) {
-                Toast.makeText(DatosUsuarioFragment.this.getActivity(), "No se puede guardar el usuario", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(DatosUsuarioFragment.this.getActivity(), "Usuario Guardado", Toast.LENGTH_LONG).show();
+            if(isAdded()) {
+                hideProgress();
+                if (usuarioApp == null) {
+                    Toast.makeText(DatosUsuarioFragment.this.getActivity(), "No se puede guardar el usuario", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(DatosUsuarioFragment.this.getActivity(), "Usuario Guardado", Toast.LENGTH_LONG).show();
+                }
             }
 
         }

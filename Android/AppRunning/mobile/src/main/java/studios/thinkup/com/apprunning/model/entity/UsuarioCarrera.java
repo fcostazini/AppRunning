@@ -150,8 +150,7 @@ public class UsuarioCarrera implements Serializable, IEntity {
         try {
             return sf.parse(carrera.getFechaInicio());
         } catch (ParseException e) {
-            Date d = new Date(Long.valueOf(carrera.getFechaInicio()));
-            return d;
+            return new Date(Long.valueOf(carrera.getFechaInicio()));
         }
     }
 

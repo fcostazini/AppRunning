@@ -30,7 +30,7 @@ public class UsuarioProvider extends GenericProvider<UsuarioApp> implements IUsu
     @Override
 
     protected String[] getFields(Class<? extends IEntity> clazz) {
-        String[] fields = {
+        return new String[]{
                 UsuarioApp.EMAIL,
                 UsuarioApp.ID,
                 UsuarioApp.TIPO_CUENTA,
@@ -43,7 +43,6 @@ public class UsuarioProvider extends GenericProvider<UsuarioApp> implements IUsu
                 UsuarioApp.VERIFICADO
 
         };
-        return fields;
     }
 
 
@@ -71,6 +70,7 @@ public class UsuarioProvider extends GenericProvider<UsuarioApp> implements IUsu
     protected String getTableName(Class<? extends IEntity> clazz) {
         return "USUARIO_APP";
     }
+
 
     @Override
     public UsuarioApp update(UsuarioApp entidad) throws EntidadNoGuardadaException {

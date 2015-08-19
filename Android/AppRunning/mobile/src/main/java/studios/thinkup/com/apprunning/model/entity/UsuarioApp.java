@@ -30,7 +30,7 @@ public class UsuarioApp implements Serializable, IEntity {
     private String password = "";
     private String nick = "";
     private String email = "";
-    private String fechaNacimiento = new String();
+    private String fechaNacimiento = "";
     private String tipoCuenta = "";
     private String fotoPerfil;
     private String grupoId;

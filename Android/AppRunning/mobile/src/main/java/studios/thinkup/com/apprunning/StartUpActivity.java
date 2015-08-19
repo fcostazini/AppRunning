@@ -32,17 +32,15 @@ import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemo
  */
 public class StartUpActivity extends Activity {
     private UsuarioApp usuario;
-    private ProgressBar pb;
-    private TextView txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.startup_activity);
         initUsuario(savedInstanceState);
-        this.pb = (ProgressBar) findViewById(R.id.progressBar);
-        this.txt = (TextView) findViewById(R.id.txt_status);
-        new UpdateAppData(this.txt, this.pb).execute(this.usuario);
+        ProgressBar pb = (ProgressBar) findViewById(R.id.progressBar);
+        TextView txt = (TextView) findViewById(R.id.txt_status);
+        new UpdateAppData(txt, pb).execute(this.usuario);
 
     }
 

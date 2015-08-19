@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import studios.thinkup.com.apprunning.adapter.AmigosPagerAdapter;

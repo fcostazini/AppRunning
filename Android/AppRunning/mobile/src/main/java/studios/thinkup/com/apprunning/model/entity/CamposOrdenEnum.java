@@ -5,6 +5,7 @@ import java.util.Vector;
 
 /**
  * Created by Facundo on 21/07/2015.
+ * Tipo de orden
  */
 public enum CamposOrdenEnum {
     NINGUNO("Ninguno", "NINGUNO"),

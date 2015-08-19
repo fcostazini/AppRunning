@@ -25,7 +25,7 @@ public class ContentValueFactory {
     }
 
     private static Set<Class<?>> getWrapperTypes() {
-        Set<Class<?>> ret = new HashSet<Class<?>>();
+        Set<Class<?>> ret = new HashSet<>();
         ret.add(Boolean.class);
         ret.add(boolean.class);
         ret.add(Character.class);

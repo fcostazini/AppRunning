@@ -14,7 +14,6 @@ import java.util.Vector;
 
 import studios.thinkup.com.apprunning.AmigosListAdapter;
 import studios.thinkup.com.apprunning.DetalleAmigoActivity;
-import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.AmigosDTO;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;

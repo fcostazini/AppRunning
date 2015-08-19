@@ -16,6 +16,7 @@ import studios.thinkup.com.apprunning.provider.exceptions.EntityNotFoundExceptio
 
 /**
  * Created by fcostazini on 31/07/2015.
+ * Locales
  */
 public class CarreraProviderRemote extends RemoteService implements ICarreraProvider {
     private static final String MODULO_CARRERAS = "/carreras";

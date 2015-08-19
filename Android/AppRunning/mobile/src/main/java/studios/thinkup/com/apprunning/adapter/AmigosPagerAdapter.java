@@ -13,10 +13,7 @@ import java.util.Map;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.fragment.CarrerasAmigosFragment;
 import studios.thinkup.com.apprunning.fragment.DetalleAmigoFragment;
-import studios.thinkup.com.apprunning.fragment.TiemposCarrerasFragment;
-import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.entity.AmigosDTO;
-import studios.thinkup.com.apprunning.model.entity.CamposOrdenEnum;
 
 /**
  * Created by fcostazini on 21/05/2015.

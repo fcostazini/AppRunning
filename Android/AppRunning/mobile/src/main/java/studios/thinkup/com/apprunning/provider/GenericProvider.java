@@ -143,7 +143,7 @@ public abstract class GenericProvider<T extends IEntity> implements IProvider<T>
                     null, this.getUpdateFields(entidad));
             if (result >= 0) {
                 if (entidad.getId() == null || entidad.getId() <= 0) {
-                    entidad.setId(new Long(result).intValue());
+                    entidad.setId(Long.valueOf(result).intValue());
                 }
                 return entidad;
             } else {

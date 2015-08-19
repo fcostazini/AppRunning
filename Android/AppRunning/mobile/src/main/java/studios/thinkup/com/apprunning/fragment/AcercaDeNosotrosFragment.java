@@ -92,9 +92,9 @@ public class AcercaDeNosotrosFragment extends Fragment implements View.OnClickLi
             public void onClick(View v) {
                 //final String appPackageName = getActivity().getPackageName(); // getPackageName() from Context or Activity object
                 try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.facebook.katana")));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=studios.thinkup.com.apprunning")));
                 } catch (android.content.ActivityNotFoundException anfe) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=com.facebook.katana")));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=studios.thinkup.com.apprunning")));
                 }
             }
 

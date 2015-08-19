@@ -190,7 +190,7 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
     }
 
     protected String[] getFields(Class<? extends IEntity> clazz) {
-        String[] fields = {
+        return new String[]{
                 UsuarioCarrera.ANOTADO,
                 UsuarioCarrera.CARRERA,
                 UsuarioCarrera.ID,
@@ -200,7 +200,6 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
                 UsuarioCarrera.TIEMPO,
                 UsuarioCarrera.ID_USUARIO
         };
-        return fields;
     }
 
     private ContentValues getUpdateFields(UsuarioCarrera ent) {

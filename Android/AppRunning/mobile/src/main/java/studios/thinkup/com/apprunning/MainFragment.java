@@ -26,6 +26,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -38,20 +39,6 @@ import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemo
 
 public class MainFragment extends Fragment implements OnRequestDetailedSocialPersonCompleteListener, SocialNetworkManager.OnInitializationCompleteListener, OnLoginCompleteListener {
     public static SocialNetworkManager mSocialNetworkManager;
-    /**
-     * SocialNetwork Ids in ASNE:
-     * 1 - Twitter
-     * 2 - LinkedIn
-     * 3 - Google Plus
-     * 4 - Facebook
-     * 5 - Vkontakte
-     * 6 - Odnoklassniki
-     * 7 - Instagram
-     */
-    private Button facebook;
-    private Button googleplus;
-    private Button nuevoUsuario;
-    private Button sinRedSocial;
     private SocialNetwork socialNetwork;
     private View.OnClickListener loginClick = new View.OnClickListener() {
         @Override
@@ -95,12 +82,22 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
         // init buttons and set Listener
-        facebook = (Button) rootView.findViewById(R.id.facebook);
+        /*
+      SocialNetwork Ids in ASNE:
+      1 - Twitter
+      2 - LinkedIn
+      3 - Google Plus
+      4 - Facebook
+      5 - Vkontakte
+      6 - Odnoklassniki
+      7 - Instagram
+     */
+        Button facebook = (Button) rootView.findViewById(R.id.facebook);
         facebook.setOnClickListener(loginClick);
-        googleplus = (Button) rootView.findViewById(R.id.googleplus);
+        Button googleplus = (Button) rootView.findViewById(R.id.googleplus);
         googleplus.setOnClickListener(loginClick);
 
-        sinRedSocial = (Button)rootView.findViewById(R.id.bt_sin_red_social);
+        Button sinRedSocial = (Button) rootView.findViewById(R.id.bt_sin_red_social);
         sinRedSocial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,13 +106,13 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
             }
         });
 
-                nuevoUsuario = (Button)rootView.findViewById(R.id.nuevoUsuario);
+        Button nuevoUsuario = (Button) rootView.findViewById(R.id.nuevoUsuario);
         nuevoUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UsuarioApp u = new UsuarioApp();
                 u.setTipoCuenta("P");
-                nuevoUsuario(u,true);
+                nuevoUsuario(u, true);
             }
         });
         rootView.findViewById(R.id.login_buttons).setVisibility(View.VISIBLE);
@@ -123,8 +120,8 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
         i.setImageResource(R.drawable.loggin_bg);
         i.setAlpha(0.35f);
         //Chose permissions
-        ArrayList<String> fbScope = new ArrayList<String>();
-        fbScope.addAll(Arrays.asList("public_profile, email, user_friends,user_birthday"));
+        ArrayList<String> fbScope = new ArrayList<>();
+        fbScope.addAll(Collections.singletonList("public_profile, email, user_friends,user_birthday"));
 
         //Use manager to manage SocialNetworks
         mSocialNetworkManager = (SocialNetworkManager) getFragmentManager().findFragmentByTag(MainActivity.SOCIAL_NETWORK_TAG);

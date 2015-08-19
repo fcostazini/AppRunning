@@ -23,6 +23,7 @@ import studios.thinkup.com.apprunning.provider.ICarreraCabeceraProvider;
 
 /**
  * Created by fcostazini on 30/07/2015.
+ * Provider Remoto de carreras
  */
 public class CarreraCabeceraProviderRemote extends RemoteService implements ICarreraCabeceraProvider {
     private static final String MODULO_CARRERA = "/carreras";

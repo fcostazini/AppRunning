@@ -23,7 +23,7 @@ public class CarreraLocalProvider extends GenericProvider<Carrera> implements IC
 
     @Override
     protected String[] getFields(Class<? extends IEntity> clazz) {
-        String[] fields = {
+        return new String[]{
                 Carrera.ID,
                 Carrera.CIUDAD,
                 Carrera.RECOMENDADA,
@@ -37,7 +37,6 @@ public class CarreraLocalProvider extends GenericProvider<Carrera> implements IC
                 Carrera.NOMBRE,
                 Carrera.URL_IMAGEN,
                 Carrera.URL_WEB};
-        return fields;
     }
 
     @Override

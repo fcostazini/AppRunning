@@ -192,7 +192,7 @@ public class ConfigProvider extends GenericProvider<DefaultSettings> implements 
                 long result = db.insertOrThrow(this.getTableName(entidad.getClass()),
                         null, this.getUpdateFields(entidad));
                 if (result >= 0) {
-                    entidad.setId(new Long(result).intValue());
+                    entidad.setId(Long.valueOf(result).intValue());
                     return entidad;
                 } else {
                     throw new EntidadNoGuardadaException("No se realizó el insert" + entidad.getId().toString());

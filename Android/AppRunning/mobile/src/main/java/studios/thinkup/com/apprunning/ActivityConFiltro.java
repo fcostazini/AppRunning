@@ -6,6 +6,7 @@ import studios.thinkup.com.apprunning.model.Filtro;
 
 /**
  * Created by fcostazini on 30/07/2015.
+ * Activity con un parametro de filtro y el menu de filtro
  */
 public abstract class ActivityConFiltro extends MainNavigationActivity {
     protected Filtro filtro;

@@ -19,14 +19,12 @@ import studios.thinkup.com.apprunning.provider.helper.DataBaseHelper;
  */
 public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
 
-    private GenericProvider dbProvider;
     private Context context;
-    private Filtro filtro;
 
 
     public CarreraCabeceraProvider(Context context) {
         this.context = context;
-        dbProvider = new GenericProvider(new DataBaseHelper(context));
+        GenericProvider dbProvider = new GenericProvider(new DataBaseHelper(context));
 
     }
 
@@ -34,7 +32,7 @@ public class CarreraCabeceraProvider implements ICarreraCabeceraProvider {
     public List<CarreraCabecera> getCarrerasByFiltro(Filtro filtro) {
         QueryGenerator qGen = new QueryGenerator(filtro);
         SQLiteOpenHelper db = new DataBaseHelper(context);
-        this.filtro = filtro;
+        Filtro filtro1 = filtro;
         String fields = "c.ID_CARRERA, c.NOMBRE,c.FECHA_INICIO, c.HORA_INICIO, c.DISTANCIA_DISPONIBLE," +
                 " c.DESCRIPCION, c.URL_IMAGEN, c.PROVINCIA, c.CIUDAD, uc.ID_USUARIO_CARRERA, uc.DISTANCIA, uc.MODALIDAD, " +
                 " ifnull(uc.me_gusta,0) as ME_GUSTA," +
