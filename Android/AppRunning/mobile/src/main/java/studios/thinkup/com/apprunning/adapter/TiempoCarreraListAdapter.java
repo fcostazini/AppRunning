@@ -13,10 +13,8 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 import studios.thinkup.com.apprunning.R;
-import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 
 /**
@@ -30,11 +28,10 @@ public class TiempoCarreraListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private SimpleDateFormat sf;
 
-    public TiempoCarreraListAdapter(Context context, List<UsuarioCarrera> carreras) {
+    public TiempoCarreraListAdapter(Activity context, List<UsuarioCarrera> carreras) {
         this.carreras = carreras;
         this.context = context;
-        this.inflater = (LayoutInflater) this.getContext()
-                .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+        this.inflater = context.getLayoutInflater();
     }
 
     public Context getContext() {
@@ -64,7 +61,7 @@ public class TiempoCarreraListAdapter extends BaseAdapter {
         if (convertView == null) {
 
             convertView = inflater.inflate(R.layout.carrera_tiempos, null);
-            viewHolder.nombre = (TextView) convertView.findViewById(R.id.txt_nombre_carrera);
+            viewHolder.nombre = (TextView) convertView.findViewById(R.id.txt_nombre_usuario);
             viewHolder.distancia = (TextView) convertView.findViewById(R.id.txt_distancia);
             viewHolder.tiempo = (TextView) convertView.findViewById(R.id.txt_tiempo);
             viewHolder.tiempoPorDistancia = (TextView) convertView.findViewById(R.id.txt_tiempo_km);
@@ -89,8 +86,8 @@ public class TiempoCarreraListAdapter extends BaseAdapter {
                 viewHolder.tiempo.setText(getTimeString(p.getTiempo()));
             }
             if (p.getTiempo() != null && p.getTiempo() > 0 && p.getDistancia() != null && p.getDistancia() > 0) {
-
-                viewHolder.tiempoPorDistancia.setText(getTimeString(p.getTiempo() / p.getDistancia()));
+                Double d = p.getTiempo() / p.getDistancia();
+                viewHolder.tiempoPorDistancia.setText(getTimeString(d.longValue()));
             } else {
                 viewHolder.tiempoPorDistancia.setText(" - ");
             }

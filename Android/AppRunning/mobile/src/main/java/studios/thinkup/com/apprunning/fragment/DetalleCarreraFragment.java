@@ -14,20 +14,16 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import studios.thinkup.com.apprunning.R;
-import studios.thinkup.com.apprunning.model.EstadoCarrera;
-import studios.thinkup.com.apprunning.model.RunningApplication;
-import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
-import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
-import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
 
 /**
  * Created by fcostazini on 21/05/2015.
  * Detalle de la carrera
  */
-public class DetalleCarreraFragment extends Fragment implements IUsuarioCarreraObserver {
+public class DetalleCarreraFragment extends Fragment {
 
     private IUsuarioCarreraObservable usuarioObservable;
 
@@ -36,30 +32,22 @@ public class DetalleCarreraFragment extends Fragment implements IUsuarioCarreraO
 
     }
 
-    public static DetalleCarreraFragment newInstance(int idCarrera) {
-        DetalleCarreraFragment fragment = new DetalleCarreraFragment();
-        Bundle args = new Bundle();
-        args.putInt(UsuarioCarrera.class.getSimpleName(), idCarrera);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detalle_carrera, container, false);
-        IUsuarioCarreraProvider cp = new UsuarioCarreraProvider(this.getActivity(), ((RunningApplication) this.getActivity().getApplication()).getUsuario().getId());
-        if(this.usuarioObservable == null){
+
+        if (this.usuarioObservable == null) {
             this.usuarioObservable = (IUsuarioCarreraObservable) this.getActivity();
         }
-        TextView txtNombre = (TextView) rootView.findViewById(R.id.txt_nombre_carrera);
+        TextView txtNombre = (TextView) rootView.findViewById(R.id.txt_nombre_usuario);
         if (this.usuarioObservable.getUsuarioCarrera() == null) {
             //Sin RESULTADO
             txtNombre.setText(this.getActivity().getResources().getString(R.string.sin_resultados));
             return rootView;
         }
 
-        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        //SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         if (this.usuarioObservable.getUsuarioCarrera().getUrlImage() != null && !this.usuarioObservable.getUsuarioCarrera().getUrlImage().isEmpty()) {
             ImageView logo = (ImageView) rootView.findViewById(R.id.img_logo);
             Picasso.with(this.getActivity()).load(this.usuarioObservable.getUsuarioCarrera().getUrlImage())
@@ -70,10 +58,16 @@ public class DetalleCarreraFragment extends Fragment implements IUsuarioCarreraO
 
         txtNombre.setText(this.usuarioObservable.getUsuarioCarrera().getNombre());
         TextView fecha = (TextView) rootView.findViewById(R.id.txt_fecha_largada);
-        if(this.usuarioObservable.getUsuarioCarrera().getHora()!= null && !this.usuarioObservable.getUsuarioCarrera().getHora().isEmpty()) {
-            fecha.setText(sf.format(this.usuarioObservable.getUsuarioCarrera().getFechaInicio()) + "   " + this.usuarioObservable.getUsuarioCarrera().getHora() + " hs.");
-        }else {
-            fecha.setText(sf.format(this.usuarioObservable.getUsuarioCarrera().getFechaInicio()));
+        if (this.usuarioObservable.getUsuarioCarrera().getFechaInicio() != null) {
+            Date d = this.usuarioObservable.getUsuarioCarrera().getFechaInicio();
+            SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            if (this.usuarioObservable.getUsuarioCarrera().getHora() != null && !this.usuarioObservable.getUsuarioCarrera().getHora().isEmpty()) {
+
+
+                fecha.setText(sf.format(d) + "   " + this.usuarioObservable.getUsuarioCarrera().getHora().substring(0,5) + " hs.");
+            } else {
+                fecha.setText(sf.format(d));
+            }
         }
 
         TextView descripcion = (TextView) rootView.findViewById(R.id.txt_descripcion);
@@ -103,6 +97,21 @@ public class DetalleCarreraFragment extends Fragment implements IUsuarioCarreraO
             }
         });
         direccion.setText(this.usuarioObservable.getUsuarioCarrera().getFullDireccion());
+        TextView lblInscripto = (TextView)rootView.findViewById(R.id.lbl_inscripto_en);
+        TextView txtInscripto = (TextView)rootView.findViewById(R.id.txt_inscripto_en);
+        if(this.usuarioObservable.getUsuarioCarrera().getDistancias().contains("/") &&
+                this.usuarioObservable.getUsuarioCarrera().isAnotado()){
+
+            lblInscripto.setVisibility(View.VISIBLE);
+
+            txtInscripto.setVisibility(View.VISIBLE);
+            txtInscripto.setText(usuarioObservable.getUsuarioCarrera().getDistancia() + " Km");
+        }else{
+            lblInscripto.setVisibility(View.GONE);
+
+            txtInscripto.setVisibility(View.GONE);
+            txtInscripto.setText("");
+        }
         return rootView;
     }
 
@@ -112,8 +121,5 @@ public class DetalleCarreraFragment extends Fragment implements IUsuarioCarreraO
         setHasOptionsMenu(true);
     }
 
-    @Override
-    public void actuliazarUsuarioCarrera(UsuarioCarrera usuario, EstadoCarrera estado) {
 
-    }
 }

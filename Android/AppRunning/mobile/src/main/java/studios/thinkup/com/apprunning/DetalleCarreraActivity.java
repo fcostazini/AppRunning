@@ -1,14 +1,15 @@
 package studios.thinkup.com.apprunning;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
+import android.support.v4.view.PagerAdapter;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
-
-import com.astuetz.PagerSlidingTabStrip;
+import android.widget.ImageView;
 
 import java.util.Date;
 import java.util.List;
@@ -19,54 +20,61 @@ import studios.thinkup.com.apprunning.fragment.IUsuarioCarreraObservable;
 import studios.thinkup.com.apprunning.fragment.IUsuarioCarreraObserver;
 import studios.thinkup.com.apprunning.model.EstadoCarrera;
 import studios.thinkup.com.apprunning.model.RunningApplication;
+import studios.thinkup.com.apprunning.model.TutorialesPaginaEnum;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
+import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 
 /**
  * Created by fcostazini on 21/05/2015.
  * Detalle de Carrera
  */
-public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsuarioCarreraObservable {
-    private int idCarrera;
+public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsuarioCarreraObservable {
+
     private UsuarioCarrera carrera;
     private Menu menu;
-    AlertDialog distanciaDialog;
     private List<IUsuarioCarreraObserver> observadoresUsuario;
+
+    @Override
+    protected PagerAdapter getAdapter() {
+        return new DetalleCarreraPagerAdapter(getSupportFragmentManager(), this);
+    }
+
+    @Override
+    public int getTutorialPage() {
+        return TutorialesPaginaEnum.DETALLE.getId();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(((RunningApplication) this.getApplication()).getUsuario()==null){
-            Intent intent = new Intent(this,MainActivity.class);
+        if (this.observadoresUsuario == null) {
+            this.observadoresUsuario = new Vector<>();
+        }
+        if (((RunningApplication) this.getApplication()).getUsuario() == null) {
+            Intent intent = new Intent(this, MainActivity.class);
             this.startActivity(intent);
             this.finish();
-        }else {
-            IUsuarioCarreraProvider provider = new UsuarioCarreraProvider(this, ((RunningApplication) this.getApplication()).getUsuario().getId());
-            this.observadoresUsuario = new Vector<>();
-            Bundle b = getIntent().getExtras();
-            int codigo;
-            if (b != null) {
-                if (b.containsKey(UsuarioCarrera.class.getSimpleName())) {
-                    this.idCarrera = b.getInt(UsuarioCarrera.class.getSimpleName());
-                    this.carrera = provider.getByIdCarrera(this.idCarrera);
-                    ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-                    viewPager.setAdapter(new DetalleCarreraPagerAdapter(getSupportFragmentManager(), this.idCarrera, this));
-                    // Give the PagerSlidingTabStrip the ViewPager
-                    PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-                    // Attach the view pager to the tab strip
-                    tabsStrip.setViewPager(viewPager);
-                } else {
-                    setContentView(R.layout.sin_resultados);
-                }
-
-            } else {
-                setContentView(R.layout.sin_resultados);
-
-            }
         }
+        startUp(savedInstanceState);
+
+        ImageView bg = (ImageView)findViewById(R.id.bg);
+        bg.setImageResource(R.drawable.detalle_bg);
     }
 
+    private void startUp(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey("carrera")) {
+                this.carrera = (UsuarioCarrera) savedInstanceState.getSerializable("carrera");
+            }
+        }
+        if (this.carrera == null && this.getIntent().getExtras().containsKey("carrera")) {
+            this.carrera = (UsuarioCarrera) this.getIntent().getExtras().getSerializable("carrera");
+
+        }
+
+    }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -78,7 +86,9 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
         super.onCreateOptionsMenu(menu);
         menu.clear();
         this.menu = menu;
-        getMenuInflater().inflate(R.menu.menu_detalle_carrera, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_detalle_carrera, menu);
+
         if (this.carrera != null) {
             if (this.carrera.isMeGusta()) {
                 menu.getItem(0).setIcon(R.drawable.ic_me_gusta);
@@ -107,9 +117,6 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
         if (this.carrera == null) {
             return super.onOptionsItemSelected(item);
         }
-
-        long usuarioId = ((RunningApplication) this
-                .getApplication()).getUsuario().getId();
         switch (item.getItemId()) {
             case R.id.mnu_me_gusta:
 
@@ -132,35 +139,50 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
                 if (this.carrera.isAnotado()) {
                     desanotarCarrera(item);
                 } else {
-                    Integer distancia = 0;
-                    if(this.carrera.getDistancias().contains("/")){
-                        this.seleccionarCarrera(item);
-                    }else {
-
-                        this.carrera.setDistancia(Integer.valueOf(this.carrera.getDistancias().replace("Km","").trim()));
-                        item.setIcon(R.drawable.ic_anotado);
-                        this.carrera.setAnotado(true);
-                        this.actualizarUsuarioCarrera(this.carrera, EstadoCarrera.ANOTADO);
+                    if (this.carrera.getDistancias().contains("/")) {
+                        new SelectorCarrera(this.carrera, new ISeleccionHandler() {
+                            @Override
+                            public void onSelected(Integer distancia) {
+                                item.setIcon(R.drawable.ic_anotado);
+                                if (distancia >= 0) {
+                                    String distSeleccionada = carrera.getDistancias().split("/")[distancia];
+                                    marcarAnotada(Double.valueOf(distSeleccionada.trim()), menu, true);
+                                }
+                            }
+                        }, this).seleccionarCarrera();
+                    } else {
+                        marcarAnotada(Double.valueOf(this.carrera.getDistancias().replace("Km", "").trim()), menu, true);
                     }
 
                 }
-
 
                 return true;
             case R.id.mnu_corrida:
                 if (this.carrera.isCorrida()) {
                     confirmarNoCorrida(item);
-
                 } else {
                     if (this.carrera.getFechaInicio().compareTo(new Date()) <= 0) {
-
                         if (this.menu != null) {
-                            menu.getItem(1).setIcon(R.drawable.ic_anotado);
-                            this.carrera.setAnotado(true);
+                            if (this.carrera.getDistancias().contains("/") && !this.carrera.isAnotado()) {
+                                new SelectorCarrera(this.carrera, new ISeleccionHandler() {
+                                    @Override
+                                    public void onSelected(Integer distancia) {
+                                        if (distancia >= 0) {
+                                            String distSeleccionada = carrera.getDistancias().split("/")[distancia];
+                                            Double distanciaElegida = Double.valueOf(distSeleccionada.replace("Km", "").trim());
+                                            marcarCorrida(distanciaElegida, menu);
+                                        }
+                                    }
+                                }, this).seleccionarCarrera();
+                            } else {
+                                if(this.carrera.isAnotado()){
+                                    marcarCorrida(this.carrera.getDistancia(), menu);
+                                }else{
+                                    marcarCorrida(Double.valueOf(this.carrera.getDistancias().replace("Km", "").trim()), menu);
+                                }
+
+                            }
                         }
-                        this.actualizarUsuarioCarrera(this.carrera, EstadoCarrera.CORRIDA);
-                        item.setIcon(R.drawable.ic_corrida);
-                        this.carrera.setCorrida(true);
                     }
                 }
 
@@ -168,7 +190,43 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
 
+    private void marcarCorrida(Double distanciaElegida, Menu menu) {
+        marcarAnotada(distanciaElegida, menu, false);
+        menu.getItem(2).setIcon(R.drawable.ic_corrida);
+        carrera.setCorrida(true);
+
+        actualizarUsuarioCarrera(carrera, EstadoCarrera.CORRIDA);
+    }
+
+    private void marcarAnotada(Double distanciaElegida, Menu menu, Boolean actualizar) {
+        menu.getItem(1).setIcon(R.drawable.ic_anotado);
+        carrera.setAnotado(true);
+        carrera.setDistancia(distanciaElegida);
+        if (actualizar) {
+
+            actualizarUsuarioCarrera(carrera, EstadoCarrera.ANOTADO);
+        }
+    }
+
+    @Override
+    public void updateUsuarioCarrera() {
+        try {
+            IUsuarioCarreraProvider up = new UsuarioCarreraProvider(this, this.getUsuario());
+            up.actualizarCarrera(this.carrera);
+        } catch (EntidadNoGuardadaException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(this.carrera != null){
+            UsuarioCarreraProvider up = new UsuarioCarreraProvider(this, getUsuario());
+            this.carrera = up.getByIdCarrera(this.carrera.getCodigoCarrera());
+        }
     }
 
     private void confirmarNoCorrida(final MenuItem item) {
@@ -184,6 +242,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
                 carrera.setTiempo(0l);
                 carrera.setVelocidad(0);
                 actualizarUsuarioCarrera(carrera, EstadoCarrera.NO_CORRIDA);
+
 
             }
         });
@@ -201,7 +260,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
     private void desanotarCarrera(final MenuItem item) {
         if (!this.carrera.isCorrida()) {
             AlertDialog dialog = new AlertDialog.Builder(this).create();
-            dialog.setTitle("Borrar Inscripción");
+            dialog.setTitle("Borrar Carreras");
             dialog.setMessage(getString(R.string.confirmar_Desanotar));
             dialog.setCancelable(false);
             dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Si", new DialogInterface.OnClickListener() {
@@ -223,8 +282,12 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
         }
     }
 
+
     @Override
     public void registrarObservadorUsuario(IUsuarioCarreraObserver ob) {
+        if (this.observadoresUsuario == null) {
+            this.observadoresUsuario = new Vector<>();
+        }
         this.observadoresUsuario.add(ob);
     }
 
@@ -233,51 +296,75 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements  IUsu
         for (IUsuarioCarreraObserver ob : this.observadoresUsuario) {
             ob.actuliazarUsuarioCarrera(usuarioCarrera, estado);
         }
+        updateUsuarioCarrera();
     }
 
     @Override
     public UsuarioCarrera getUsuarioCarrera() {
-    return this.carrera;
+        return this.carrera;
     }
-    private void seleccionarCarrera(final MenuItem menuItem){
 
 
-        // Strings to Show In Dialog with Radio Buttons
-
-
-        // Creating and Building the Dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getString(R.string.que_distancia_recorres));
-        String[] distancias = this.carrera.getDistancias().replace("Km","").split("/");
-        int i = 0;
-        for(String s : distancias){
-            s = s.trim();
-            if(Integer.valueOf(s.trim()) < 10){
-
-                s = " " + s;
-            }
-            distancias[i] = s + " Km";
-            i++;
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (this.getUsuarioCarrera() != null) {
+            outState.putSerializable("carrera", this.carrera);
         }
-        builder.setSingleChoiceItems(distancias, -1, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-
-                if( item >= 0){
-                    String distSeleccionada =carrera.getDistancias().split("/")[item];
-                    Integer distancia = Integer.valueOf(distSeleccionada.replace("Km", "").trim());
-                    carrera.setDistancia(distancia);
-                    menuItem.setIcon(R.drawable.ic_anotado);
-                    carrera.setAnotado(true);
-                    actualizarUsuarioCarrera(carrera, EstadoCarrera.ANOTADO);
-                }
-                distanciaDialog.dismiss();
-            }
-        });
-
-        distanciaDialog= builder.create();
-        distanciaDialog.setIcon(R.drawable.ic_anotado);
-        distanciaDialog.show();
     }
+
+    public interface ISeleccionHandler {
+        void onSelected(Integer distancia);
+
+    }
+
+    public class SelectorCarrera {
+
+        AlertDialog seleccionDialog;
+        private UsuarioCarrera carrera;
+        private ISeleccionHandler handler;
+        private Context context;
+
+        public SelectorCarrera(UsuarioCarrera carrera, ISeleccionHandler handler, Context context) {
+            this.carrera = carrera;
+            this.handler = handler;
+            this.context = context;
+        }
+
+        public void setOnSelectedHandler(ISeleccionHandler handler) {
+            this.handler = handler;
+        }
+
+        public void seleccionarCarrera() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle(this.context.getString(R.string.que_distancia_recorres));
+            String[] distancias = this.carrera.getDistancias().replace("Km", "").split("/");
+            int i = 0;
+            for (String s : distancias) {
+                s = s.trim();
+                if (Double.valueOf(s.trim()) < 10) {
+
+                    s = " " + s;
+                }
+                distancias[i] = s + " Km";
+                i++;
+            }
+            builder.setSingleChoiceItems(distancias, -1, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int item) {
+
+                    if (handler != null) {
+                        handler.onSelected(item);
+                    }
+                    seleccionDialog.dismiss();
+                }
+            });
+
+            seleccionDialog = builder.create();
+            seleccionDialog.setIcon(R.drawable.ic_anotado);
+            seleccionDialog.show();
+        }
+    }
+
 
 }
 

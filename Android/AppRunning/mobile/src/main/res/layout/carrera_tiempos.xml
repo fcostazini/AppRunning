@@ -12,24 +12,23 @@
         android:layout_alignParentRight="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
         android:orientation="horizontal"
 
         android:background="@drawable/item_background"
-        android:id="@+id/linearLayout4">
+        android:id="@+id/linearLayout4"
+        android:layout_marginTop="5dp">
 
         <ImageView
             android:id="@+id/img_logo_carrera"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/txt_distancia"
             android:layout_weight="0.2"
             android:background="@null"
             android:src="@mipmap/ic_launcher"
             android:layout_gravity="center"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -38,12 +37,14 @@
             android:orientation="vertical"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
-            android:paddingTop="10dp"
+            android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:id="@+id/ll_informacion">
+            android:id="@+id/ll_informacion"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
 
             <TextView
-                android:id="@+id/txt_nombre_carrera"
+                android:id="@+id/txt_nombre_usuario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
@@ -64,8 +65,8 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/distancia"
-                android:id="@+id/lbl_distancia"
-                android:layout_below="@+id/txt_nombre_carrera"
+                android:id="@+id/lbl_email"
+                android:layout_below="@+id/txt_nombre_usuario"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
@@ -75,9 +76,9 @@
                 android:layout_height="wrap_content"
                 android:text="50 Km"
                 android:textColor="#ff00003c"
-                android:layout_alignBottom="@+id/lbl_distancia"
-                android:layout_toRightOf="@+id/lbl_distancia"
-                android:layout_toEndOf="@+id/lbl_distancia"
+                android:layout_alignBottom="@+id/lbl_email"
+                android:layout_toRightOf="@+id/lbl_email"
+                android:layout_toEndOf="@+id/lbl_email"
                 android:layout_marginLeft="10dp"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -87,7 +88,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/lbl_tiempo"
                 android:id="@+id/lbl_tiempo"
-                android:layout_below="@+id/lbl_distancia"
+                android:layout_below="@+id/lbl_email"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="10dp" />
@@ -120,7 +121,6 @@
                 android:id="@+id/txt_tiempo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
                 android:text="04:00"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ff00003c"

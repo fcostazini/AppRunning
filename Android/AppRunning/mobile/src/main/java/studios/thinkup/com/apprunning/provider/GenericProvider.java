@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.List;
 
 import studios.thinkup.com.apprunning.model.entity.IEntity;
-import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.exceptions.CampoNoMapeableException;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 import studios.thinkup.com.apprunning.provider.helper.DataBaseHelper;
@@ -19,15 +18,14 @@ import studios.thinkup.com.apprunning.provider.helper.DataBaseHelper;
  *
  * @param <T> tipo de entidad
  */
-public abstract class GenericProvider<T  extends IEntity> implements IProvider<T> {
+public abstract class GenericProvider<T extends IEntity> implements IProvider<T> {
     protected DataBaseHelper dbProvider;
-
+    protected Context c;
 
     public GenericProvider(Context c) {
         this.dbProvider = new DataBaseHelper(c);
+        this.c = c;
     }
-
-    ;
 
     protected String getTableName(Class<? extends IEntity> clazz) {
         return clazz.getSimpleName().toUpperCase();
@@ -40,13 +38,13 @@ public abstract class GenericProvider<T  extends IEntity> implements IProvider<T
         SQLiteDatabase db = null;
         Cursor c = null;
         try {
-        db = this.dbProvider.getReadableDatabase();
-        String[] params = {id.toString()};
-        c = null;
+            db = this.dbProvider.getReadableDatabase();
+            String[] params = {id.toString()};
+            c = null;
 
-            c = db.query(this.getTableName(clazz), this.getFields(clazz), "ID_USUARIO_CARRERA = ?", params, null, null, "ID_USUARIO_CARRERA");
+            c = db.query(this.getTableName(clazz), this.getFields(clazz), "ID = ?", params, null, null, "ID");
 
-            return  this.toEntity(c);
+            return this.toEntity(c);
 
 
         } catch (Exception e) {
@@ -73,7 +71,7 @@ public abstract class GenericProvider<T  extends IEntity> implements IProvider<T
         SQLiteDatabase db = this.dbProvider.getReadableDatabase();
         Cursor c = null;
         try {
-            c = db.query(this.getTableName(clazz), this.getFields(clazz), null, null, null, null, "ID_USUARIO_CARRERA");
+            c = db.query(this.getTableName(clazz), this.getFields(clazz), null, null, null, null, "ID");
             List<T> ent = this.toList(c);
             c.close();
             db.close();
@@ -95,37 +93,33 @@ public abstract class GenericProvider<T  extends IEntity> implements IProvider<T
 
     @Override
     public T update(T entidad) throws EntidadNoGuardadaException {
-        if (entidad.getId() != null && entidad.getId()>0) {
-            SQLiteDatabase db = null;
-            Cursor c = null;
-            String[] params = {entidad.getId().toString()};
-            try {
-                db = this.dbProvider.getWritableDatabase();
 
-                int result = db.update(this.getTableName(entidad.getClass()),
-                                        getUpdateFields(entidad), entidad.getNombreId() + " = ?",params);
-                if(result > 0 ){
-                    return  entidad;
-                }else{
-                    throw new EntidadNoGuardadaException("No se realizó el update" + entidad.getId().toString());
-                }
-            } catch (Exception e) {
-                throw new EntidadNoGuardadaException(e);
-            } finally {
-                if (c != null && !c.isClosed()) {
-                    c.close();
-                }
-                if (db != null && db.isOpen()) {
-                    db.close();
-                }
+        SQLiteDatabase db = null;
+        Cursor c = null;
+        String[] params = {entidad.getId().toString()};
+        try {
+            db = this.dbProvider.getWritableDatabase();
+
+            int result = db.update(this.getTableName(entidad.getClass()),
+                    getUpdateFields(entidad), entidad.getNombreId() + " = ?", params);
+            if (result > 0) {
+                return entidad;
+            } else {
+                throw new EntidadNoGuardadaException("No se realizó el update" + entidad.getId().toString());
             }
-
-        } else {
-            throw new EntidadNoGuardadaException("Entidad sin id");
+        } catch (Exception e) {
+            throw new EntidadNoGuardadaException(e);
+        } finally {
+            if (c != null && !c.isClosed()) {
+                c.close();
+            }
+            if (db != null && db.isOpen()) {
+                db.close();
+            }
         }
 
-    }
 
+    }
 
 
     private ContentValues getUpdateFields(T ent) {
@@ -140,33 +134,32 @@ public abstract class GenericProvider<T  extends IEntity> implements IProvider<T
 
     @Override
     public T grabar(T entidad) throws EntidadNoGuardadaException {
-        if (entidad.getId() ==null || entidad.getId() <=0 ) {
-            SQLiteDatabase db = null;
-            Cursor c = null;
-            try {
-                db = this.dbProvider.getWritableDatabase();
+        SQLiteDatabase db = null;
+        Cursor c = null;
+        try {
+            db = this.dbProvider.getWritableDatabase();
 
-                long result = db.insertOrThrow(this.getTableName(entidad.getClass()),
-                        null, this.getUpdateFields(entidad));
-                if(result >= 0 ){
-                    entidad.setId(new Long(result).intValue());
-                    return  entidad;
-                }else{
-                    throw new EntidadNoGuardadaException("No se realizó el insert" + entidad.getId().toString());
+            long result = db.insertOrThrow(this.getTableName(entidad.getClass()),
+                    null, this.getUpdateFields(entidad));
+            if (result >= 0) {
+                if (entidad.getId() == null || entidad.getId() <= 0) {
+                    entidad.setId(Long.valueOf(result).intValue());
                 }
-            } catch (Exception e) {
-                throw new EntidadNoGuardadaException(e);
-            } finally {
-                if (c != null && !c.isClosed()) {
-                    c.close();
-                }
-                if (db != null && db.isOpen()) {
-                    db.close();
-                }
+                return entidad;
+            } else {
+                throw new EntidadNoGuardadaException("No se realizó el insert" + entidad.getId().toString());
             }
-
-        } else {
-            throw new EntidadNoGuardadaException("Entidad tiene ID, usar UPDATE");
+        } catch (Exception e) {
+            throw new EntidadNoGuardadaException(e);
+        } finally {
+            if (c != null && !c.isClosed()) {
+                c.close();
+            }
+            if (db != null && db.isOpen()) {
+                db.close();
+            }
         }
+
+
     }
 }

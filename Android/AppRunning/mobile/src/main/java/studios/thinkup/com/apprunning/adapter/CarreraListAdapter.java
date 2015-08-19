@@ -12,11 +12,15 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import studios.thinkup.com.apprunning.R;
+import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.CarreraCabecera;
+import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
+import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
 
 /**
  * Created by fcostazini on 22/05/2015.
@@ -27,12 +31,14 @@ public class CarreraListAdapter extends BaseAdapter {
     private List<CarreraCabecera> carreras;
     private Context context;
     private LayoutInflater inflater;
+    private UsuarioCarreraProvider provider;
 
-    public CarreraListAdapter(Context context, List<CarreraCabecera> carreras) {
+    public CarreraListAdapter(Activity context, List<CarreraCabecera> carreras) {
         this.carreras = carreras;
         this.context = context;
-        this.inflater = (LayoutInflater) this.getContext()
-                .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+        this.inflater = LayoutInflater.from(context);
+        this.provider = new UsuarioCarreraProvider(context, ((RunningApplication) context.getApplication()).getUsuario());
+
     }
 
     public Context getContext() {
@@ -62,76 +68,80 @@ public class CarreraListAdapter extends BaseAdapter {
         if (convertView == null) {
 
             convertView = inflater.inflate(R.layout.carrera_item, null);
-            viewHolder.nombre = (TextView) convertView.findViewById(R.id.txt_nombre_carrera);
+            viewHolder.nombre = (TextView) convertView.findViewById(R.id.txt_nombre_usuario);
             viewHolder.zona = (TextView) convertView.findViewById(R.id.txt_zona);
             viewHolder.fecha = (TextView) convertView.findViewById(R.id.txt_fecha);
-            viewHolder.corrida = (ImageView) convertView.findViewById(R.id.img_corrida);
-            viewHolder.meGusta = (ImageView) convertView.findViewById(R.id.img_favorito);
-            viewHolder.anotado = (ImageView) convertView.findViewById(R.id.img_anotado_carrera);
+            viewHolder.corrida = (ImageView) convertView.findViewById(R.id.corrida);
+            viewHolder.meGusta = (ImageView) convertView.findViewById(R.id.me_gusta);
+            viewHolder.anotado = (ImageView) convertView.findViewById(R.id.anotado);
             viewHolder.logo = (ImageView) convertView.findViewById(R.id.img_logo_carrera);
             viewHolder.distancia = (TextView) convertView.findViewById(R.id.txt_distancia);
-           // viewHolder.descripcion = (TextView) convertView.findViewById(R.id.txt_descripcion);
-            viewHolder.corrida.setImageResource(R.drawable.ic_no_corrida);
-            viewHolder.meGusta.setImageResource(R.drawable.ic_no_me_gusta);
-            viewHolder.anotado.setImageResource(R.drawable.ic_no_anotado);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
-            viewHolder.corrida.setImageResource(R.drawable.ic_no_corrida);
-            viewHolder.meGusta.setImageResource(R.drawable.ic_no_me_gusta);
-            viewHolder.anotado.setImageResource(R.drawable.ic_no_anotado);
+
 
         }
 
         CarreraCabecera p = (CarreraCabecera) getItem(position);
-
+        UsuarioCarrera uc = provider.getByIdCarrera(p.getCodigoCarrera());
+        if (uc != null) {
+            p.setUsuarioCarrera(uc);
+        }
         if (p != null) {
 
             if (p.getNombre() != null) {
                 viewHolder.nombre.setText(p.getNombre());
             }
-            if(p.getZona()!= null ){
+            if (p.getZona() != null) {
                 viewHolder.zona.setText(p.getZona());
             }
            /* if (p.getDescripcion() != null) {
                 viewHolder.descripcion.setText(p.getDescripcion());
             }*/
 
-            if(p.isEstoyInscripto()){
-                if (p.getDistancia() != null) {
-                    viewHolder.distancia.setText(p.getDistancia() + " Km");
-                }
-            }else{
-                if (p.getDistanciaDisponible() != null) {
-                    viewHolder.distancia.setText(p.getDistanciaDisponible() + " Km");
-                }
+            if (p.getDistanciaDisponible() != null) {
+                viewHolder.distancia.setText(p.getDistanciaDisponible() + " Km");
             }
+
 
             if (p.getFechaInicio() != null) {
-                SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd hh:mm", Locale.getDefault());
+                Date d = new Date();
+                try {
+                    d = sf.parse(p.getFechaInicio());
+                    sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                    if(p.getHora().length()> 3) {
+                        viewHolder.fecha.setText(sf.format(d) + "   " + p.getHora().substring(0, 5) + "hs");
+                    }else{
+                        viewHolder.fecha.setText(sf.format(d) + "   " + p.getHora());
+                    }
+                } catch (Exception e) {
+                    d = new Date(Long.valueOf(p.getFechaInicio()));
+                    sf = new SimpleDateFormat("dd/MM/yyyy hh:mm", Locale.getDefault());
+                    viewHolder.fecha.setText(sf.format(d));
+                }
 
-                viewHolder.fecha.setText(sf.format(p.getFechaInicio())+ "   " + p.getHora());
             }
-
-            if (p.isEstoyInscripto()) {
-                viewHolder.anotado.setImageResource(R.drawable.ic_anotado);
-            }else{
-                viewHolder.anotado.setImageResource(R.drawable.ic_no_anotado);
-            }
-
             if (p.isFueCorrida()) {
-                viewHolder.corrida.setImageResource(R.drawable.ic_corrida);
-            }else{
-                viewHolder.corrida.setImageResource(R.drawable.ic_no_corrida);
+                viewHolder.corrida.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.corrida.setVisibility(View.GONE);
+            }
+
+            if (!p.isFueCorrida() && p.isEstoyInscripto()) {
+                viewHolder.anotado.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.anotado.setVisibility(View.GONE);
             }
 
             if (p.isMeGusta()) {
-                viewHolder.meGusta.setImageResource(R.drawable.ic_me_gusta);
-            }else{
-                viewHolder.meGusta.setImageResource(R.drawable.ic_no_me_gusta);
+                viewHolder.meGusta.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.meGusta.setVisibility(View.GONE);
             }
-            if (p.getUrlImage() != null) {
-                Picasso.with(context).load(p.getUrlImage())
+            if (p.getUrlImagen() != null) {
+                Picasso.with(context).load(p.getUrlImagen())
                         .placeholder(R.mipmap.ic_launcher)
                         .error(R.mipmap.ic_launcher).into(viewHolder.logo);
 

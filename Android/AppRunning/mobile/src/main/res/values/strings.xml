@@ -38,6 +38,8 @@
     <string name="nav_menu_buscar">Buscar Carreras</string>
     <string name="nav_menu_recomendados">Recomendadas</string>
     <string name="nav_menu_preferencias">Preferencias</string>
+    <string name="nav_menu_acerca_de">Acerca de Nosotros</string>
+    <string name="nav_menu_mis_amigos">Mis Amigos</string>
     <string name="sin_resultados">Sin Resultados</string>
     <string name="lbl_mas_info">Mas Información</string>
 
@@ -48,11 +50,77 @@
     <string name="btn_revoke_access">Revoke Access</string>
     <string name="nav_menu_logout">Logout</string>
     <string name="face_key">930000867023317</string>
+    <string name="btn_guardar">Guardar</string>
 
     <string name="lbl_tiempo">Tiempo</string>
     <string name="lbl_tiempo_km">Tiempo/Km</string>
     <string name="que_distancia_recorres">Que distancia vas a ReCorrer?</string>
-    <string name="confirmar_Desanotar">Está seguro que desea borrar la inscripción de la carrera?</string>
+    <string name="confirmar_Desanotar">Está seguro que desea borrar la carrera de "Mis Carreras"?</string>
     <string name="confirmar_no_corrida">Está por desmarcar la carrera como \"Corrida\". Se borrarán todos los datos asociados a la carrera. Desea continuar?</string>
-    <string name="app_version">Versión 0.1.0</string>
+    <string name="app_version">Versión 0.1.20</string>
+    <string name="title_activity_nuevo_usuario">Nuevo Usuario</string>
+    <string name="title_activity_datos_usuario">Mi Info</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="corres_grupo">Corres con un grupo?</string>
+    <string name="title_activity_filtro_carrera">Filtrar Carreras</string>
+    <string name="lbl_ordenamiento">Ordenamiento</string>
+    <string name="lbl_campo">Campo</string>
+    <string name="lbl_forma">Sentido</string>
+    <string name="lbl_filtros_disponibles">Filtros disponibles</string>
+    <string name="lbl_modalidad">Modalidad</string>
+    <string name="lbl_provincia">Provincia</string>
+    <string name="lbl_ciudad">Ciudad</string>
+    <string name="lbl_rango_de_fechas">Rango de fechas</string>
+    <string name="filtrar">Filtrar</string>
+    <string name="lbl_filtrar">Filtrar</string>
+    <string name="title_elija_opcion">Elija una opción</string>
+    <string name="ok">OK</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="sin_carreras">No se encontraron carreras</string>
+    <string name="confirmacion_desvinculacion_cuenta">Se borrará su cuenta de este dispositivo. Desde continuar?</string>
+    <string name="desvincular_cuenta">Desvincular Cuenta</string>
+    <string name="title_meses_busqueda">Meses de Búsqueda</string>
+    <string name="title_activity_aceca_de_nosotros">Acerca de Nosotros</string>
+    <string name="seguinos_en_facebook">Seguinos en Facebook</string>
+    <string name="terminos_y_condiciones">Acepto los términos y condiciones</string>
+    <string name="title_activity_terminos_ycondiciones">Términos y Condiciones</string>
+
+
+    <string name="acepto_los_terminos">Acepto los Términos</string>
+    <string name="danos_tu_opinion">Danos tu opinión</string>
+
+    <!--<string name="host_url">http://192.168.151.70:8080/</string>
+     <string name="base_service_url">RestServicesRunning/running</string>-->
+
+    <!--<string name="host_url">http://192.168.0.2:8080/</string>
+     <string name="base_service_url">RestServicesRunning/running</string>-->
+
+     <string name="host_url">http://191.237.16.124/</string>
+         <string name="base_service_url">RestServicesRunning-0.0.1-SNAPSHOT/running</string>
+
+    <string name="siguiente" >Siguiente</string>
+    <string name="anterior" >Anterior</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="nav_menu_ayuda">Ayuda</string>
+    <string name="background">background</string>
+   <string name="title_amigos">Amigos</string>
+   <string name="sin_conexion">Sin conexión a internet</string>
+   <string name="cargando_carrera">Cargando Carrera…</string>
+   <string name="buscando_amigos">Buscando amigos…</string>
+   <string name="guardando_usuario">Guardando Usuario…</string>
+   <string name="agregar_amigo">Agregar Amigo</string>
+   <string name="no_informado">No Informado</string>
+   <string name="borrar_amigo">Borrar Amigo</string>
+   <string name="bloquear_amigo">Bloquear Amigo</string>
+   <string name="desbloquear_amigo">Desbloquear Amigo</string>
+   <string name="pendiente_confirmacion">Tu usuario se encuentra pendiente de confirmación. Verificá tu cuenta de email.</string>
+    <string name="lbl_inscript_en">Inscripto en:</string>
+    <string name="mnu_me_gusta">Me Gusta</string>
+    <string name="mnu_inscripto">Agregar a Mis Carreras</string>
+    <string name="mnu_corrida">Corrida</string>
+    <string name="title_activity_login_sin_red_social">ReCorriendo</string>
+    <string name="loggin">Entrar</string>
+    <string name="entrando">Entrando…</string>
+    <string name="usuario_invalido">Usuario Invalido</string>
 </resources>

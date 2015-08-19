@@ -3,38 +3,30 @@ package studios.thinkup.com.apprunning.model.entity;
 import android.database.Cursor;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Vector;
-
-import studios.thinkup.com.apprunning.model.IObservableCarrera;
-import studios.thinkup.com.apprunning.model.IObservadorCarrera;
-import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
-import studios.thinkup.com.apprunning.provider.helper.Id;
-import studios.thinkup.com.apprunning.provider.helper.Ignore;
+import java.util.Locale;
 
 /**
  * Created by FaQ on 08/06/2015.
  */
-public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity {
-
-    public static final String CARRERA      =  "CARRERA"     ;
-    public static final String TIEMPO       =  "TIEMPO"      ;
-    public static final String ANOTADO      =  "ANOTADO"     ;
-    public static final String ME_GUSTA     =  "ME_GUSTA"    ;
-    public static final String CORRIDA      =  "CORRIDA"     ;
-    public static final String ID           =  "ID_USUARIO_CARRERA"          ;
-    public static final String ID_USUARIO           =  "USUARIO"          ;
-    public static final String DISTANCIA           =  "DISTANCIA";
-    public static final String MODALIDAD           =  "MODALIDAD"          ;
-
-
-
+public class UsuarioCarrera implements Serializable, IEntity {
+    public static final String CARRERA = "CARRERA";
+    public static final String TIEMPO = "TIEMPO";
+    public static final String ANOTADO = "ANOTADO";
+    public static final String ME_GUSTA = "ME_GUSTA";
+    public static final String CORRIDA = "CORRIDA";
+    public static final String ID = "ID_USUARIO_CARRERA";
+    public static final String ID_USUARIO = "USUARIO";
+    public static final String DISTANCIA = "DISTANCIA";
+    public static final String MODALIDAD = "MODALIDAD";
+    private static final long serialVersionUID = 24474114445126838L;
     private Integer idUsuarioCarrera;
     private Carrera carrera;
     private boolean corrida;
-    private Integer distancia;
+    private Double distancia;
     private String modalidad;
     private boolean meGusta;
     private boolean anotado;
@@ -45,7 +37,41 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
 
     private String recorrido;
 
-    private List<IObservadorCarrera> observadores;
+    public UsuarioCarrera(Carrera c) {
+        this.idUsuarioCarrera = null;
+        this.anotado = false;
+        this.corrida = false;
+        this.meGusta = false;
+        this.tiempo = 0l;
+
+        this.distancia = 0d;
+        this.modalidad = "";
+        this.carrera = c;
+    }
+
+    public UsuarioCarrera(Cursor c) {
+        if (c.getInt(c.getColumnIndex(UsuarioCarrera.ID)) == 0) {
+            this.idUsuarioCarrera = null;
+            this.anotado = false;
+            this.corrida = false;
+            this.meGusta = false;
+            this.tiempo = 0l;
+
+            this.distancia = 0d;
+            this.modalidad = "";
+        } else {
+            this.idUsuarioCarrera = c.getInt(c.getColumnIndex(UsuarioCarrera.ID));
+            this.anotado = c.getInt(c.getColumnIndex(UsuarioCarrera.ANOTADO)) == 1;
+            this.corrida = c.getInt(c.getColumnIndex(UsuarioCarrera.CORRIDA)) == 1;
+            this.meGusta = c.getInt(c.getColumnIndex(UsuarioCarrera.ME_GUSTA)) == 1;
+            this.tiempo = c.getLong(c.getColumnIndex(UsuarioCarrera.TIEMPO));
+
+            this.distancia = c.getDouble(c.getColumnIndex(UsuarioCarrera.DISTANCIA));
+            this.modalidad = c.getString(c.getColumnIndex(UsuarioCarrera.MODALIDAD));
+        }
+        this.usuario = c.getInt(c.getColumnIndex(UsuarioCarrera.ID_USUARIO));
+        this.setCarrera(new Carrera(c));
+    }
 
     public Integer getUsuario() {
         return usuario;
@@ -53,32 +79,6 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
 
     public void setUsuario(Integer usuario) {
         this.usuario = usuario;
-    }
-
-    public void setDistancia(Integer distancia) {
-        this.distancia = distancia;
-        this.actualizarObservadores();
-    }
-
-    public void setModalidad(String modalidad) {
-        this.modalidad = modalidad;
-        this.actualizarObservadores();
-    }
-
-    public UsuarioCarrera() {
-        this.observadores = new Vector<>();
-    }
-    public UsuarioCarrera(Cursor c){
-        this();
-        this.idUsuarioCarrera = c.getInt(c.getColumnIndex(UsuarioCarrera.ID));
-        this.anotado = c.getInt(c.getColumnIndex(UsuarioCarrera.ANOTADO)) == 1;
-        this.corrida = c.getInt(c.getColumnIndex(UsuarioCarrera.CORRIDA)) == 1;
-        this.meGusta = c.getInt(c.getColumnIndex(UsuarioCarrera.ME_GUSTA)) == 1;
-        this.tiempo = c.getLong(c.getColumnIndex(UsuarioCarrera.TIEMPO));
-        this.usuario = c.getInt(c.getColumnIndex(UsuarioCarrera.ID_USUARIO));
-        this.distancia = c.getInt(c.getColumnIndex(UsuarioCarrera.DISTANCIA));
-        this.modalidad = c.getString(c.getColumnIndex(UsuarioCarrera.MODALIDAD));
-        this.setCarrera(new Carrera(c));
     }
 
     public String getProvincia() {
@@ -99,7 +99,6 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
 
     public void setCorrida(boolean corrida) {
         this.corrida = corrida;
-        this.actualizarObservadores();
     }
 
     public boolean isMeGusta() {
@@ -108,7 +107,6 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
 
     public void setMeGusta(boolean meGusta) {
         this.meGusta = meGusta;
-        this.actualizarObservadores();
     }
 
     public boolean isAnotado() {
@@ -117,7 +115,6 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
 
     public void setAnotado(boolean anotado) {
         this.anotado = anotado;
-        this.actualizarObservadores();
     }
 
     public Long getTiempo() {
@@ -126,7 +123,6 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
 
     public void setTiempo(Long tiempo) {
         this.tiempo = tiempo;
-        this.actualizarObservadores();
     }
 
     public long getVelocidad() {
@@ -135,7 +131,6 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
 
     public void setVelocidad(long velocidad) {
         this.velocidad = velocidad;
-        this.actualizarObservadores();
     }
 
     public String getRecorrido() {
@@ -144,24 +139,6 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
 
     public void setRecorrido(String recorrido) {
         this.recorrido = recorrido;
-        this.actualizarObservadores();
-    }
-
-    @Override
-    public void registrarObservador(IObservadorCarrera observador) {
-        this.observadores.add(observador);
-    }
-
-    @Override
-    public void actualizarObservadores() {
-        UsuarioCarrera uc = null;
-        try {
-            for (IObservadorCarrera ob : this.observadores) {
-                uc = ob.actualizarCarrera(this);
-            }
-        } catch (EntidadNoGuardadaException e) {
-            e.printStackTrace();
-        }
     }
 
     public Integer getCodigoCarrera() {
@@ -169,7 +146,12 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
     }
 
     public Date getFechaInicio() {
-        return carrera.getFechaInicio();
+        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        try {
+            return sf.parse(carrera.getFechaInicio());
+        } catch (ParseException e) {
+            return new Date(Long.valueOf(carrera.getFechaInicio()));
+        }
     }
 
     public String getDireccion() {
@@ -180,8 +162,12 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
         return carrera.getUrlWeb();
     }
 
-    public Integer getDistancia() {
+    public Double getDistancia() {
         return this.distancia;
+    }
+
+    public void setDistancia(Double distancia) {
+        this.distancia = distancia;
     }
 
     public String getUrlImage() {
@@ -227,9 +213,18 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
     public String getModalidad() {
         return this.modalidad;
     }
-    public String getModalidades() { return this.getCarrera().getModalidades();}
 
-    public String getDistancias() { return this.getCarrera().getDistancias();}
+    public void setModalidad(String modalidad) {
+        this.modalidad = modalidad;
+    }
+
+    public String getModalidades() {
+        return this.getCarrera().getModalidades();
+    }
+
+    public String getDistancias() {
+        return this.getCarrera().getDistanciaDisponible();
+    }
 
     public String getUrlImagen() {
         return carrera.getUrlImagen();
@@ -238,17 +233,21 @@ public class UsuarioCarrera implements IObservableCarrera, Serializable, IEntity
     public String getDescripcion() {
         return carrera.getDescripcion();
     }
-    public String getHora(){return carrera.getHora();}
+
+    public String getHora() {
+        return carrera.getHoraInicio();
+    }
+
     public String getFullDireccion() {
-        String direccionStr ="";
-        if(this.getDireccion()!= null && !this.getDireccion().isEmpty() ){
+        String direccionStr = "";
+        if (this.getDireccion() != null && !this.getDireccion().isEmpty()) {
             direccionStr = this.getDireccion();
         }
-        if(this.getCiudad()!= null && !this.getCiudad().isEmpty()){
-            direccionStr += direccionStr.isEmpty()?this.getCiudad(): ", " + this.getCiudad();
+        if (this.getCiudad() != null && !this.getCiudad().isEmpty()) {
+            direccionStr += direccionStr.isEmpty() ? this.getCiudad() : ", " + this.getCiudad();
         }
-        if(this.getProvincia()!= null && !this.getProvincia().isEmpty()){
-            if(this.getCiudad()!=null && !this.getCiudad().isEmpty() && !this.getProvincia().equals(this.getCiudad())) {
+        if (this.getProvincia() != null && !this.getProvincia().isEmpty()) {
+            if (this.getCiudad() != null && !this.getCiudad().isEmpty() && !this.getProvincia().equals(this.getCiudad())) {
                 direccionStr += direccionStr.isEmpty() ? this.getProvincia() : ", " + this.getProvincia();
 
             }

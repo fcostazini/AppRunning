@@ -10,8 +10,6 @@ import java.util.Set;
 
 import studios.thinkup.com.apprunning.model.entity.IEntity;
 import studios.thinkup.com.apprunning.provider.exceptions.CampoNoMapeableException;
-import studios.thinkup.com.apprunning.provider.helper.Id;
-import studios.thinkup.com.apprunning.provider.helper.Ignore;
 
 /**
  * Created by FaQ on 13/06/2015.
@@ -22,6 +20,30 @@ public class ContentValueFactory {
 
     private static final Set<Class<?>> WRAPPER_TYPES = getWrapperTypes();
 
+    public static boolean isWrapperType(Class<?> clazz) {
+        return WRAPPER_TYPES.contains(clazz);
+    }
+
+    private static Set<Class<?>> getWrapperTypes() {
+        Set<Class<?>> ret = new HashSet<>();
+        ret.add(Boolean.class);
+        ret.add(boolean.class);
+        ret.add(Character.class);
+        ret.add(char.class);
+        ret.add(Byte.class);
+        ret.add(byte.class);
+        ret.add(Short.class);
+        ret.add(int.class);
+        ret.add(Integer.class);
+        ret.add(long.class);
+        ret.add(Long.class);
+        ret.add(float.class);
+        ret.add(Float.class);
+        ret.add(double.class);
+        ret.add(Double.class);
+        ret.add(String.class);
+        return ret;
+    }
 
     public ContentValues getContentValues(IEntity ent) throws CampoNoMapeableException {
 
@@ -31,7 +53,7 @@ public class ContentValueFactory {
                 if (java.lang.reflect.Modifier.isStatic(f.getModifiers())) {
                     continue;
                 }
-                if (ent.getIgnoredFields().contains(f.getName())|| f.getName().equals(ent.getNombreId())) {
+                if (ent.getIgnoredFields().contains(f.getName())) {
                     continue;
                 }
                 if (IEntity.class.isAssignableFrom(f.getType())) {
@@ -57,7 +79,7 @@ public class ContentValueFactory {
     private void putPrimitiveParameter(ContentValues parametros, Object o, Field f) throws IllegalAccessException {
         f.setAccessible(true);
         if (f.getType().equals(String.class)) {
-            parametros.put(CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE,f.getName()), (String) f.get(o));
+            parametros.put(CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, f.getName()), (String) f.get(o));
         } else if (f.getType().equals(Boolean.class) || f.getType().equals(boolean.class)) {
             parametros.put(CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, f.getName()), (Boolean) f.get(o));
         } else if (f.getType().equals(Character.class) || f.getType().equals(char.class)) {
@@ -77,30 +99,5 @@ public class ContentValueFactory {
         }
 
         f.setAccessible(false);
-    }
-
-    public static boolean isWrapperType(Class<?> clazz) {
-        return WRAPPER_TYPES.contains(clazz);
-    }
-
-    private static Set<Class<?>> getWrapperTypes() {
-        Set<Class<?>> ret = new HashSet<Class<?>>();
-        ret.add(Boolean.class);
-        ret.add(boolean.class);
-        ret.add(Character.class);
-        ret.add(char.class);
-        ret.add(Byte.class);
-        ret.add(byte.class);
-        ret.add(Short.class);
-        ret.add(int.class);
-        ret.add(Integer.class);
-        ret.add(long.class);
-        ret.add(Long.class);
-        ret.add(float.class);
-        ret.add(Float.class);
-        ret.add(double.class);
-        ret.add(Double.class);
-        ret.add(String.class);
-        return ret;
     }
 }

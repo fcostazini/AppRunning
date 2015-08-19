@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/mnu_agregar_amigo"
+        android:icon="@drawable/ic_menu_agregar_amigo"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="@string/agregar_amigo" />
+    <item
+        android:id="@+id/mnu_borrar_amigo"
+        android:icon="@drawable/ic_borrar_amigo"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="@string/borrar_amigo" />
+    <item
+        android:id="@+id/mnu_bloquear_amigo"
+        android:icon="@drawable/ic_bloquear_amigo"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="@string/bloquear_amigo" />
+    <item
+        android:id="@+id/mnu_desbloquear_amigo"
+        android:icon="@drawable/ic_desbloquear_amigo"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="@string/desbloquear_amigo" />
+</menu>

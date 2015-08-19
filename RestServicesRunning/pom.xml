@@ -1,0 +1,243 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>RestServicesRunning</groupId>
+  <artifactId>RestServicesRunning</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  
+  <properties>
+		<javaee-api.version>7.0</javaee-api.version>
+		<junit.version>4.11</junit.version>
+		<jboss-ejb-api.version>3.0.0.CR2</jboss-ejb-api.version>
+		<jboss-remote-naming.version>1.0.7.Final</jboss-remote-naming.version>
+		<jboss-ejb-api.version>3.0.0.CR2</jboss-ejb-api.version>
+		<arquillian-bom.version>1.1.5.Final</arquillian-bom.version>
+		<arquillian-weld-ee-embedded-1.1.version>1.0.0.CR3</arquillian-weld-ee-embedded-1.1.version>
+		<arquillian-bom.version>1.1.5.Final</arquillian-bom.version>
+		<weld-core.version>1.1.5.Final</weld-core.version>
+		<mockito-all.version>1.9.5</mockito-all.version>
+		<xnio-nio.version>3.0.0.CR7</xnio-nio.version>
+		<shrinkwrap-descriptors-impl.version>0.1.7</shrinkwrap-descriptors-impl.version>
+		<joda-time.version>2.5</joda-time.version>
+		<slf4j-simple.version>1.6.4</slf4j-simple.version>
+		<commons-collections4.version>4.0</commons-collections4.version>
+		<commons-lang3.version>3.3.2</commons-lang3.version>
+		<commons-beanutils.version>1.8.3</commons-beanutils.version>
+		<javaee-api.version>7.0</javaee-api.version>
+		<log4j.version>1.2.17</log4j.version>
+		<resteasy-jaxrs.version>3.0.6.Final</resteasy-jaxrs.version>
+		<resteasy-client.version>3.0.6.Final</resteasy-client.version>
+		<resteasy-jaxb-provider.version>3.0.6.Final</resteasy-jaxb-provider.version>
+		<resteasy-multipart-provider.version>3.0.6.Final</resteasy-multipart-provider.version>
+		<commons-io.version>1.3.2</commons-io.version>
+		<commons-logging.version>1.1.3</commons-logging.version>
+		<log4j-apache.version>2.0-beta9</log4j-apache.version>
+		<commons-lang3.version>3.2.1</commons-lang3.version>
+		<commons-collections.version>3.2.1</commons-collections.version>
+		<commons-codec.version>1.8</commons-codec.version>
+		<gson.version>2.2.4</gson.version>
+		<ejb-definitions-view-data.version>1.0.0</ejb-definitions-view-data.version>
+		<ejb-view-data-layer.version>1.0.0</ejb-view-data-layer.version>
+		<cargo-maven2-plugin.version>1.4.8</cargo-maven2-plugin.version>
+		<jboss-javaee-7.0.version>1.0.0.Final</jboss-javaee-7.0.version>
+		<arquillian-bom.version>1.1.5.Final</arquillian-bom.version>
+		<arquillian-weld-ee-embedded-1.1.version>1.0.0.CR5</arquillian-weld-ee-embedded-1.1.version>
+		<slf4j-simple.version>1.6.4</slf4j-simple.version>
+		<jersey-client.version>1.8</jersey-client.version>
+		<jersey-json.version>1.17.1</jersey-json.version>
+		<weld-core.version>1.1.9.Final</weld-core.version>
+		<jersey-common.version>2.4.1</jersey-common.version>
+		<hibernate-core-version>4.3.7.Final</hibernate-core-version>
+		
+
+		<!-- Versiones ONE General -->
+		<common-data-object.version>0.0.18</common-data-object.version>
+
+		<!-- Plugins -->
+		<maven-checkstyle-plugin.version>2.9.1</maven-checkstyle-plugin.version>
+		<maven-compiler-plugin.version>3.2</maven-compiler-plugin.version>
+		<maven-resources-plugin.version>2.5</maven-resources-plugin.version>
+		<maven-jxr-plugin.version>2.3</maven-jxr-plugin.version>
+		<maven-source-plugin.version>2.4</maven-source-plugin.version>
+		<maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
+		<maven-war-plugin.version>2.4</maven-war-plugin.version>
+		<maven-eclipse-plugin.version>2.9</maven-eclipse-plugin.version>
+		<maven-ear-plugin.version>2.8</maven-ear-plugin.version>
+		<maven-ejb-plugin.version>2.3</maven-ejb-plugin.version>
+		<wildfly-maven-plugin.version>1.0.0.Final</wildfly-maven-plugin.version>
+
+		<!-- Others -->
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<checkstyle.config.location>\\VM-ONE-PRD\shared\checkstyle\checkstyle.xml</checkstyle.config.location>
+	</properties>
+  
+  <dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.jboss.spec</groupId>
+				<artifactId>jboss-javaee-7.0</artifactId>
+				<version>1.0.0.Final</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
+  <dependencies>
+ 
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-json</artifactId>
+			<version>1.17.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>${javaee-api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+		</dependency>
+		<!-- Import the Common Annotations API (JSR-250) -->
+		<dependency>
+			<groupId>org.jboss.spec.javax.annotation</groupId>
+			<artifactId>jboss-annotations-api_1.2_spec</artifactId>
+		</dependency>
+		
+		<!-- Import the CDI API -->
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+		</dependency>
+		<!-- Import the Servlet API -->
+		<dependency>
+			<groupId>org.jboss.spec.javax.servlet</groupId>
+			<artifactId>jboss-servlet-api_3.1_spec</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<version>${resteasy-jaxrs.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-client</artifactId>
+			<version>${resteasy-client.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxb-provider</artifactId>
+			<version>${resteasy-jaxb-provider.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>jaxrs-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-multipart-provider</artifactId>
+			<version>${resteasy-multipart-provider.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>${commons-logging.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j-apache.version}</version>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons-lang3.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>${commons-collections.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>${commons-codec.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jackson-provider</artifactId>
+			<version>3.0.4.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate-core-version}</version>
+		</dependency>
+
+  </dependencies>
+	
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+	<resources>
+		<resource>
+			<directory>resources</directory>
+		</resource>
+	</resources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.4</version>
+		<configuration>
+			<warSourceDirectory>WebContent</warSourceDirectory>
+			<failOnMissingWebXml>false</failOnMissingWebXml>
+	
+			<webResources>
+				<resource>
+					<!-- this is relative to the pom.xml directory -->
+					<directory>${project.basedir}/resources
+					</directory>
+	
+				</resource>
+			</webResources>
+		</configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

@@ -10,11 +10,13 @@ import java.util.ArrayList;
 public interface IEntity {
     /**
      * Retorna el Id de la entidad
+     *
      * @return Integer Id, null si no tiene
      */
-   Integer getId();
+    Integer getId();
 
     void setId(Integer id);
+
     String getNombreId();
 
     ArrayList<String> getIgnoredFields();

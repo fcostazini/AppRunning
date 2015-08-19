@@ -4,14 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/background"
-        android:src="@drawable/detalle_bg"
-        android:alpha="0.25"
-        android:scaleType="fitCenter" />
-
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
@@ -21,7 +13,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
         >
 
@@ -36,7 +28,7 @@
                 android:layout_marginTop="15dp" />
 
             <TextView
-                android:id="@+id/txt_nombre_carrera"
+                android:id="@+id/txt_nombre_usuario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/txt_descripcion"
@@ -59,7 +51,7 @@
                 android:layout_alignLeft="@+id/lbl_modalidad"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/lbl_modalidad"
+                android:layout_below="@+id/lbl_inscripto_en"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/lbl_fecha_largada"
@@ -77,7 +69,32 @@
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/lbl_distancia"
+                android:id="@+id/lbl_inscripto_en"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/lbl_modalidad"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/lbl_modalidad"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/lbl_inscript_en"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txt_inscripto_en"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10Km"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_alignTop="@+id/lbl_inscripto_en"
+                android:layout_toRightOf="@+id/lbl_inscripto_en"
+                android:layout_marginLeft="20dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/lbl_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txt_descripcion"
@@ -90,10 +107,10 @@
                 android:id="@+id/txt_distancia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/lbl_distancia"
+                android:layout_alignTop="@+id/lbl_email"
                 android:layout_marginLeft="15dp"
-                android:layout_toEndOf="@+id/lbl_distancia"
-                android:layout_toRightOf="@+id/lbl_distancia"
+                android:layout_toEndOf="@+id/lbl_email"
+                android:layout_toRightOf="@+id/lbl_email"
                 android:text="20 Km"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -101,9 +118,9 @@
                 android:id="@+id/lbl_modalidad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/lbl_distancia"
-                android:layout_alignStart="@+id/lbl_distancia"
-                android:layout_below="@+id/lbl_distancia"
+                android:layout_alignLeft="@+id/lbl_email"
+                android:layout_alignStart="@+id/lbl_email"
+                android:layout_below="@+id/lbl_email"
                 android:layout_marginTop="10dp"
                 android:text="@string/lbl_genero"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -113,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/lbl_modalidad"
-                android:layout_below="@+id/lbl_distancia"
+                android:layout_below="@+id/lbl_email"
                 android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@id/lbl_modalidad"
                 android:text="Todos"
@@ -123,8 +140,8 @@
                 android:id="@+id/lbl_direccion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/lbl_distancia"
-                android:layout_alignStart="@+id/lbl_distancia"
+                android:layout_alignLeft="@+id/lbl_email"
+                android:layout_alignStart="@+id/lbl_email"
                 android:layout_below="@+id/lbl_fecha_largada"
                 android:layout_marginTop="10dp"
                 android:text="@string/lbl_direccion"
@@ -154,7 +171,7 @@
                 android:text="Una carrera para los fanaticos de StarWars que promete...."
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <studios.thinkup.com.apprunning.IconTextView
+            <studios.thinkup.com.apprunning.view.IconTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
@@ -165,12 +182,12 @@
                 android:textColor="@color/link_text_material_light"
                 android:gravity="center_vertical"
                 android:layout_below="@+id/txt_direccion"
-                android:layout_alignLeft="@+id/lbl_distancia"
+                android:layout_alignLeft="@+id/lbl_email"
                 android:layout_marginTop="10dp"
                 android:layout_alignBottom="@+id/lbl_mas_info"
                 android:layout_marginLeft="10dp">
 
-            </studios.thinkup.com.apprunning.IconTextView>
+            </studios.thinkup.com.apprunning.view.IconTextView>
 
             <TextView
                 android:id="@+id/lbl_mas_info"

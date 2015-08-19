@@ -27,29 +27,65 @@ import java.util.Locale;
 import studios.thinkup.com.apprunning.CarrerasActivity;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.dialogs.DatePicker;
+import studios.thinkup.com.apprunning.model.DefaultSettings;
 import studios.thinkup.com.apprunning.model.Filtro;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.Modalidad;
+import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
+import studios.thinkup.com.apprunning.provider.ConfigProvider;
 import studios.thinkup.com.apprunning.provider.FiltrosProvider;
+import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 
 /**
  * Created by FaQ on 23/05/2015.
  * Formulario de Busqueda de Carreras
  */
 public class BusquedaFormulario extends Fragment implements View.OnClickListener, TextWatcher {
-    private Filtro filtro;
+
+    protected Filtro filtro;
     private Spinner spCiudad;
 
     public static BusquedaFormulario newInstance() {
         return new BusquedaFormulario();
     }
 
+    private void initFilter(Bundle savedInstanceState) {
+
+        if (savedInstanceState != null) {
+            this.filtro = (Filtro) savedInstanceState.getSerializable(Filtro.FILTRO_ID);
+        } else {
+            if (getArguments() != null) {
+                this.filtro = (Filtro) getArguments().getSerializable(Filtro.FILTRO_ID);
+            }
+
+        }
+        if (this.filtro == null) {
+            this.filtro = new Filtro(getDefaultSettings());
+        }
+    }
+
+    protected DefaultSettings getDefaultSettings() {
+        ConfigProvider cp = new ConfigProvider(this.getActivity().getApplication());
+        UsuarioApp ua = ((RunningApplication) this.getActivity().getApplication()).getUsuario();
+
+        DefaultSettings defaultSettings = cp.getByUsuario(ua.getId());
+        if (defaultSettings == null) {
+            defaultSettings = new DefaultSettings(ua.getId());
+            try {
+                cp.grabar(defaultSettings);
+            } catch (EntidadNoGuardadaException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return defaultSettings;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final FiltrosProvider filtrosProvider = new FiltrosProvider(this.getActivity());
-        this.filtro = new Filtro(((RunningApplication) this.getActivity().getApplication()).getDefaultSettings());
+        initFilter(savedInstanceState);
         SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
         View rootView = inflater.inflate(R.layout.fragment_formulario_busqueda, container, false);
@@ -71,9 +107,12 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
         RangeBar sb_distancia = (RangeBar) rootView.findViewById(R.id.sb_distancia);
 
         TextView left = (TextView) rootView.findViewById(R.id.lbl_dist_desde);
+        left.setText(String.valueOf(filtro.getMinDistancia()) + "Km");
         TextView right = (TextView) rootView.findViewById(R.id.lbl_dist_hasta);
+        right.setText(String.valueOf(filtro.getMaxDistancia()) + "Km");
 
         sb_distancia.setOnRangeBarChangeListener(new DistanciaSeekBarChangeListener(this.filtro, left, right));
+        sb_distancia.setThumbIndices(filtro.getMinDistancia() / 10, filtro.getMaxDistancia() / 10);
 
         spCiudad = (Spinner) rootView.findViewById(R.id.sp_ciudad);
         spCiudad.setVisibility(View.GONE);
@@ -105,7 +144,7 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
                             BusquedaFormulario.this.filtro.setCiudad(FiltrosProvider.TODAS_LAS_CIUDADES);
                         }
                     });
-
+                    spCiudad.setSelection(adapterZona.getPosition(filtro.getCiudad()));
                 } else {
                     spCiudad.setVisibility(View.GONE);
                     BusquedaFormulario.this.filtro.setCiudad(FiltrosProvider.TODAS_LAS_CIUDADES);
@@ -118,6 +157,7 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
                 spCiudad.setVisibility(View.GONE);
             }
         });
+        spProvincia.setSelection(adapterProvincia.getPosition(filtro.getProvincia()));
         TextView txtDesde = (TextView) rootView.findViewById(R.id.txt_fecha_desde);
         txtDesde.setOnClickListener(new DatePickerListener(txtDesde));
         if (filtro.getFechaDesde() != null)
@@ -132,17 +172,6 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
         rootView.findViewById(R.id.img_fecha_hasta).setOnClickListener(new DatePickerListener(txtHasta));
         rootView.findViewById(R.id.img_close_hasta).setOnClickListener(new Cleaner(txtHasta, this.filtro));
 
-
-
-/*        // Add to layout
-        LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.seekbar_placeholder);
-        layout.addView(rangeSeekBar);
-        TextView txtMinDistancia = (TextView) rootView.findViewById(R.id.lbl_dist_desde);
-        txtMinDistancia.setText(Filtro.DISTANCIAS[filtro.getRangoDistancia()]);
-        sbMinDistancia.setProgress(filtro.getRangoDistancia());
-        sbMinDistancia.setOnSeekBarChangeListener(new DistanciaSeekBarChangeListener(filtro, txtMinDistancia));
-        */
-
         return rootView;
     }
 
@@ -152,7 +181,9 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
 
         if (v != null && v.getId() == R.id.btn_buscar) {
             Intent i = new Intent(this.getActivity(), CarrerasActivity.class);
-            i.putExtra(Filtro.class.getSimpleName(), this.filtro);
+            Bundle b = new Bundle();
+            b.putSerializable(Filtro.FILTRO_ID, this.filtro);
+            i.putExtras(b);
             this.getActivity().startActivity(i);
         }
 
@@ -172,6 +203,7 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
     public void afterTextChanged(Editable s) {
         this.filtro.setNombreCarrera(s.toString());
     }
+
 
     private class GeneroSpinnerItemSelectedListener implements AdapterView.OnItemSelectedListener {
         private Filtro filtro;
@@ -207,10 +239,22 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
 
         @Override
         public void onIndexChangeListener(RangeBar rangeBar, int i, int i1) {
-            this.left.setText(String.valueOf(i * 10) + " Km");
-            this.right.setText(String.valueOf(i1 * 10)+ " Km");
-            filtro.setMinDistancia(i*10);
-            filtro.setMaxDistancia(i1*10);
+            if (i >= FiltrosProvider.MIN_DISTANCIA && i <= FiltrosProvider.MAX_DISTANCIA) {
+                this.left.setText(String.valueOf(i * 10) + " Km");
+                filtro.setMinDistancia(i * 10);
+            } else {
+                this.left.setText(String.valueOf(0) + " Km");
+                filtro.setMinDistancia(0);
+            }
+            if (i1 >= FiltrosProvider.MIN_DISTANCIA && i1 <= FiltrosProvider.MAX_DISTANCIA) {
+                this.right.setText(String.valueOf(i1 * 10) + " Km");
+                filtro.setMaxDistancia(i1 * 10);
+            } else {
+                this.right.setText(String.valueOf(0) + " Km");
+                filtro.setMaxDistancia(0);
+            }
+
+            filtro.setMaxDistancia(i1 * 10);
 
         }
     }
@@ -235,7 +279,7 @@ public class BusquedaFormulario extends Fragment implements View.OnClickListener
                 newFragment.setListener(new FechaHastaListener(BusquedaFormulario.this.filtro, fechaToUpdate));
 
             }
-            SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy",Locale.getDefault());
+            SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             try {
                 newFragment.setInitialDate(sf.parse(fechaToUpdate.getText().toString()));
             } catch (ParseException e) {

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical"
         android:id="@+id/main_content"
         android:layout_width="fill_parent"
@@ -23,8 +23,18 @@
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white" />
-    </LinearLayout>
+            android:layout_below="@id/tabs" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bg"
+            android:alpha="0.15"
+            android:src="@drawable/path"
+            android:scaleType="fitXY"
+            android:layout_below="@+id/tabs" />
+
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/left_drawer"

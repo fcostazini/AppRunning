@@ -14,13 +14,13 @@ import studios.thinkup.com.apprunning.provider.helper.DataBaseHelper;
  * Created by FaQ on 23/05/2015.
  * Application
  */
-public class RunningApplication extends Application{
-    private DefaultSettings defaultSettings;
+public class RunningApplication extends Application {
+
     private UsuarioApp usuario;
 
-    public RunningApplication(){
+
+    public RunningApplication() {
         super();
-        defaultSettings = new DefaultSettings();
 
     }
 
@@ -30,7 +30,8 @@ public class RunningApplication extends Application{
         FontsOverride.overrideFont(getApplicationContext(), "SERIF", TypefaceProvider.MAINFONT);
 
     }
-   private void init() {
+
+    private void init() {
         initDB();
     }
 
@@ -43,16 +44,17 @@ public class RunningApplication extends Application{
         }
     }
 
-    private boolean doesDatabaseExist(ContextWrapper context, String dbName)       {
+    private boolean doesDatabaseExist(ContextWrapper context, String dbName) {
         File dbFile = context.getDatabasePath(dbName);
         return dbFile.exists();
     }
 
-    public DefaultSettings getDefaultSettings() {
-        return defaultSettings;
+    public UsuarioApp getUsuario() {
+        return this.usuario;
     }
-    public UsuarioApp getUsuario(){return this.usuario;}
+
     public void setUsuario(UsuarioApp usuario) {
         this.usuario = usuario;
     }
+
 }

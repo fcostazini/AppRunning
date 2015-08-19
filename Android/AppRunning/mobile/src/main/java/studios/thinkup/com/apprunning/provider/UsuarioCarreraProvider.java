@@ -1,5 +1,6 @@
 package studios.thinkup.com.apprunning.provider;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,10 +8,12 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.List;
 import java.util.Vector;
 
+import studios.thinkup.com.apprunning.broadcast.handler.UpdateBuffer;
 import studios.thinkup.com.apprunning.model.Filtro;
-import studios.thinkup.com.apprunning.model.IObservadorCarrera;
 import studios.thinkup.com.apprunning.model.entity.IEntity;
+import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
+import studios.thinkup.com.apprunning.model.entity.UsuarioCarreraDTO;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 
 /**
@@ -18,11 +21,14 @@ import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaExcep
  * <p/>
  * Provider de las carreras
  */
-public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> implements IUsuarioCarreraProvider, IObservadorCarrera {
+public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> implements IUsuarioCarreraProvider {
 
-    private Integer idUsuario;
-    public UsuarioCarreraProvider(Context c, Integer usuarioId) {
-        super(c);this.idUsuario = usuarioId;
+
+    private UsuarioApp u;
+
+    public UsuarioCarreraProvider(Context c, UsuarioApp usuarioApp) {
+        super(c);
+        this.u = usuarioApp;
     }
 
     @Override
@@ -34,7 +40,7 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
         try {
             db = this.dbProvider.getReadableDatabase();
             String fields = getStringFields();
-            String[] params = { String.valueOf(this.idUsuario),String.valueOf(carrera)};
+            String[] params = {String.valueOf(this.u.getId()), String.valueOf(carrera)};
             c = db.rawQuery("SELECT " + fields + " FROM CARRERA c LEFT JOIN USUARIO_CARRERA uc ON c.ID_CARRERA = uc.CARRERA AND uc.USUARIO = ? WHERE c.ID_CARRERA = ?", params);
             return this.toEntity(c);
         } catch (Exception e) {
@@ -58,10 +64,10 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
         try {
             db = this.dbProvider.getReadableDatabase();
             String fields = getStringFields();
-            String[] params = { String.valueOf(this.idUsuario)};
-            c = db.rawQuery("SELECT " + fields + " FROM CARRERA c JOIN USUARIO_CARRERA uc ON c.ID_CARRERA = uc.CARRERA AND uc.ANOTADO = 1 AND " +
-                    " uc.USUARIO = ? and uc.TIEMPO > 0", params);
-
+            QueryGenerator qGen = new QueryGenerator(filtro);
+            String query = "SELECT " + fields + " FROM CARRERA c JOIN USUARIO_CARRERA uc ON c.ID_CARRERA = uc.CARRERA and uc.TIEMPO > 0 ";
+            query += qGen.getWhereCondition();
+            c = db.rawQuery(query, null);
             return this.toList(c);
         } catch (Exception e) {
             return null;
@@ -103,14 +109,20 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
 
     @Override
     public UsuarioCarrera actualizarCarrera(UsuarioCarrera usuarioCarrera) throws EntidadNoGuardadaException {
-        if(usuarioCarrera.getUsuario() == null || usuarioCarrera.getUsuario() == 0){
-            usuarioCarrera.setUsuario(this.idUsuario);
+        UsuarioCarrera uc = null;
+        if (usuarioCarrera.getUsuario() == null || usuarioCarrera.getUsuario() == 0) {
+            usuarioCarrera.setUsuario(this.u.getId());
         }
-        if (usuarioCarrera.getId() !=null && usuarioCarrera.getId() >0) {
-            return this.update(usuarioCarrera);
+        if (usuarioCarrera.getId() != null && usuarioCarrera.getId() > 0) {
+            uc = this.update(usuarioCarrera);
         } else {
-            return this.grabar(usuarioCarrera);
+            uc = this.grabar(usuarioCarrera);
         }
+
+
+        UpdateBuffer.getInstance().bufferUsuarioCarrera(uc, this.c);
+
+        return uc;
     }
 
 
@@ -122,7 +134,6 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
             UsuarioCarrera uc = null;
             c.moveToFirst();
             uc = new UsuarioCarrera(c);
-            uc.registrarObservador(this);
             return uc;
 
         }
@@ -134,14 +145,13 @@ public class UsuarioCarreraProvider extends GenericProvider<UsuarioCarrera> impl
     @Override
     protected List<UsuarioCarrera> toList(Cursor c) {
         List<UsuarioCarrera> results = new Vector<>();
-UsuarioCarrera uc = null;
+        UsuarioCarrera uc = null;
         if (c.getCount() <= 0) {
             return results;
         } else {
             c.moveToFirst();
             while (!c.isAfterLast()) {
                 uc = new UsuarioCarrera(c);
-                uc.registrarObservador(this);
                 results.add(uc);
                 c.moveToNext();
             }
@@ -164,7 +174,7 @@ UsuarioCarrera uc = null;
         try {
             db = this.dbProvider.getReadableDatabase();
             String fields = getStringFields();
-            String[] params = {String.valueOf(this.idUsuario), String.valueOf(id)};
+            String[] params = {String.valueOf(this.u.getId()), String.valueOf(id)};
             c = db.rawQuery("SELECT " + fields + " FROM CARRERA c LEFT JOIN USUARIO_CARRERA uc ON c.ID_CARRERA = uc.CARRERA AND uc.USUARIO = ? WHERE uc.ID_USUARIO_CARRERA = ?", params);
             return this.toEntity(c);
         } catch (Exception e) {
@@ -180,7 +190,7 @@ UsuarioCarrera uc = null;
     }
 
     protected String[] getFields(Class<? extends IEntity> clazz) {
-        String[] fields = {
+        return new String[]{
                 UsuarioCarrera.ANOTADO,
                 UsuarioCarrera.CARRERA,
                 UsuarioCarrera.ID,
@@ -190,7 +200,50 @@ UsuarioCarrera uc = null;
                 UsuarioCarrera.TIEMPO,
                 UsuarioCarrera.ID_USUARIO
         };
-        return fields;
+    }
+
+    private ContentValues getUpdateFields(UsuarioCarrera ent) {
+
+        ContentValues parametros = new ContentValues();
+        parametros.put(UsuarioCarreraDTO.ID, ent.getId());
+        parametros.put(UsuarioCarreraDTO.ANOTADO, ent.isAnotado() ? 1 : 0);
+        parametros.put(UsuarioCarreraDTO.ME_GUSTA, ent.isMeGusta() ? 1 : 0);
+        parametros.put(UsuarioCarreraDTO.CORRIDA, ent.isCorrida() ? 1 : 0);
+        parametros.put(UsuarioCarreraDTO.CARRERA, ent.getCarrera().getId());
+        parametros.put(UsuarioCarreraDTO.DISTANCIA, ent.getDistancia());
+        parametros.put(UsuarioCarreraDTO.TIEMPO, ent.getTiempo());
+        parametros.put(UsuarioCarreraDTO.ID_USUARIO, ent.getUsuario());
+        parametros.put(UsuarioCarreraDTO.MODALIDAD, ent.getModalidad());
+
+        return parametros;
+
+    }
+
+    @Override
+    public UsuarioCarrera grabar(UsuarioCarrera uc) throws EntidadNoGuardadaException {
+        SQLiteDatabase db = null;
+        Cursor c = null;
+        try {
+            db = this.dbProvider.getWritableDatabase();
+
+            long result = db.insertOrThrow("USUARIO_CARRERA",
+                    null, this.getUpdateFields(uc));
+            if (result >= 0) {
+                if (uc.getId() == null || uc.getId() <= 0) {
+                    uc.setId(Long.valueOf(result).intValue());
+                }
+                return uc;
+            } else {
+                throw new EntidadNoGuardadaException("No se realizó el insert" + uc.getId().toString());
+            }
+        } catch (Exception e) {
+            throw new EntidadNoGuardadaException(e);
+        } finally {
+            if (db != null && db.isOpen()) {
+                db.close();
+            }
+        }
+
     }
 }
 

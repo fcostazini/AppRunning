@@ -14,17 +14,27 @@ public class UsuarioApp implements Serializable, IEntity {
     public static final String NOMBRE = "NOMBRE";
     public static final String EMAIL = "EMAIL";
     public static final String TIPO_CUENTA = "TIPO_CUENTA";
+    public static final String APELLIDO = "APELLIDO";
+    public static final String FOTO_PERFIL_URL = "FOTO_PERFIL";
+    public static final String FECHA_NACIMIENTO = "FECHA_NACIMIENTO";
+    public static final String NICK = "NICK";
+    public static final String GRUPO_ID = "GRUPO_ID";
+    public static final String VERIFICADO = "VERIFICADO";
+    public static final String FIELD_ID = "usuario";
 
 
     @Id
     private Integer id;
-    private String nombre;
-    private String email;
-    private String tipoCuenta;
-
-    public UsuarioApp() {
-
-    }
+    private String nombre = "";
+    private String apellido = "";
+    private String password = "";
+    private String nick = "";
+    private String email = "";
+    private String fechaNacimiento = "";
+    private String tipoCuenta = "";
+    private String fotoPerfil;
+    private String grupoId;
+    private boolean verificado;
 
     public String getTipoCuenta() {
         return tipoCuenta;
@@ -50,6 +60,46 @@ public class UsuarioApp implements Serializable, IEntity {
         this.nombre = nombre;
     }
 
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
+    }
+
+    public String getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setFechaNacimiento(String fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public boolean getVerificado() {
+        return verificado;
+    }
+
+    public void setVerificado(boolean verificado) {
+        this.verificado = verificado;
+    }
+
     @Override
     public Integer getId() {
         return this.id;
@@ -65,8 +115,24 @@ public class UsuarioApp implements Serializable, IEntity {
         return "id";
     }
 
+    public String getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
+    }
+
     @Override
     public ArrayList<String> getIgnoredFields() {
         return new ArrayList<>();
+    }
+
+    public String getGrupoId() {
+        return grupoId;
+    }
+
+    public void setGrupoId(String grupo) {
+        this.grupoId = grupo;
     }
 }

@@ -1,7 +1,6 @@
 package studios.thinkup.com.apprunning.model.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by fcostazini on 22/05/2015.
@@ -11,25 +10,33 @@ public class CarreraCabecera implements Serializable {
 
     private Integer codigoCarrera;
     private String nombre;
-    private Date fechaInicio;
+    private String fechaInicio;
     private String hora;
-    private Integer distancia;
     private String descripcion;
-    private String urlImage;
+    private String urlImagen;
     private String provincia;
     private String distanciaDisponible;
     private String zona;
-    private boolean fueCorrida;
-    private boolean estoyInscripto;
-    private boolean meGusta;
+    private UsuarioCarrera usuarioCarrera;
+
 
     private CarreraCabecera() {
+    }
 
+    public static CarreraCabeceraBuilder getBuilder() {
+        return new CarreraCabeceraBuilder();
+    }
 
+    public UsuarioCarrera getUsuarioCarrera() {
+        return usuarioCarrera;
+    }
+
+    public void setUsuarioCarrera(UsuarioCarrera usuarioCarrera) {
+        this.usuarioCarrera = usuarioCarrera;
     }
 
     public String getZona() {
-        return zona;
+        return this.zona;
     }
 
     public String getDistanciaDisponible() {
@@ -40,20 +47,23 @@ public class CarreraCabecera implements Serializable {
         return nombre;
     }
 
-    public Date getFechaInicio() {
+    public String getFechaInicio() {
         return fechaInicio;
     }
 
-    public Integer getDistancia() {
-        return distancia;
+    public Double getDistancia() {
+        if (this.usuarioCarrera != null && this.isEstoyInscripto()) {
+            return this.usuarioCarrera.getDistancia();
+        }
+        return 0d;
     }
 
     public String getDescripcion() {
         return descripcion;
     }
 
-    public String getUrlImage() {
-        return urlImage;
+    public String getUrlImagen() {
+        return urlImagen;
     }
 
     public Integer getCodigoCarrera() {
@@ -61,23 +71,19 @@ public class CarreraCabecera implements Serializable {
     }
 
     public boolean isFueCorrida() {
-        return fueCorrida;
+        return usuarioCarrera != null && usuarioCarrera.isCorrida();
     }
 
     public boolean isEstoyInscripto() {
-        return estoyInscripto;
+        return usuarioCarrera != null && usuarioCarrera.isAnotado();
     }
 
     public boolean isMeGusta() {
-        return meGusta;
+        return usuarioCarrera != null && usuarioCarrera.isMeGusta();
     }
 
     public String getHora() {
         return hora;
-    }
-
-    public static CarreraCabeceraBuilder getBuilder() {
-        return new CarreraCabeceraBuilder();
     }
 
     public static class CarreraCabeceraBuilder {
@@ -88,18 +94,13 @@ public class CarreraCabecera implements Serializable {
             return this;
         }
 
-        public CarreraCabeceraBuilder fechaInicio(Date fechaInicio) {
+        public CarreraCabeceraBuilder fechaInicio(String fechaInicio) {
             this.instance.fechaInicio = fechaInicio;
             return this;
         }
 
         public CarreraCabeceraBuilder codigoCarrera(Integer codigo) {
             this.instance.codigoCarrera = codigo;
-            return this;
-        }
-
-        public CarreraCabeceraBuilder distancia(Integer distancia) {
-            this.instance.distancia = distancia;
             return this;
         }
 
@@ -114,22 +115,7 @@ public class CarreraCabecera implements Serializable {
         }
 
         public CarreraCabeceraBuilder urlImage(String urlImage) {
-            this.instance.urlImage = urlImage;
-            return this;
-        }
-
-        public CarreraCabeceraBuilder fueCorrida(boolean flag) {
-            this.instance.fueCorrida = flag;
-            return this;
-        }
-
-        public CarreraCabeceraBuilder estoyInscripto(boolean flag) {
-            this.instance.estoyInscripto = flag;
-            return this;
-        }
-
-        public CarreraCabeceraBuilder meGusta(boolean flag) {
-            this.instance.meGusta = flag;
+            this.instance.urlImagen = urlImage;
             return this;
         }
 
@@ -139,7 +125,7 @@ public class CarreraCabecera implements Serializable {
         }
 
         public CarreraCabeceraBuilder hora(String hora) {
-            if (hora == null && hora.isEmpty()) {
+            if (hora == null || hora.isEmpty()) {
                 this.instance.hora = "-:-";
             } else {
                 this.instance.hora = hora;
