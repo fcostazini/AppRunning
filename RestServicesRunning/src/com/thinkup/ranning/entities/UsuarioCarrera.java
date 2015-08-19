@@ -65,7 +65,7 @@ public class UsuarioCarrera implements Serializable {
 	private Boolean corrida;
 
 	@Column(name = "distancia")
-	private Integer distancia;
+	private Double distancia;
 
 	@Column(name = "modalidad")
 	private String modalidad;
@@ -125,11 +125,11 @@ public class UsuarioCarrera implements Serializable {
 		this.corrida = corrida;
 	}
 
-	public Integer getDistancia() {
+	public Double getDistancia() {
 		return distancia;
 	}
 
-	public void setDistancia(Integer distancia) {
+	public void setDistancia(Double distancia) {
 		this.distancia = distancia;
 	}
 

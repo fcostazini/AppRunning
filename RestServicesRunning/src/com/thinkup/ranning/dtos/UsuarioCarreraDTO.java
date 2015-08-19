@@ -22,7 +22,7 @@ public class UsuarioCarreraDTO implements Serializable{
 	@Id
 	private boolean corrida;
 	@Id
-	private Integer distancia;
+	private Double distancia;
 	@Id
 	private String modalidad;
 	@Id
@@ -60,11 +60,11 @@ public class UsuarioCarreraDTO implements Serializable{
 		this.corrida = corrida;
 	}
 
-	public Integer getDistancia() {
+	public Double getDistancia() {
 		return distancia;
 	}
 
-	public void setDistancia(Integer distancia) {
+	public void setDistancia(Double distancia) {
 		this.distancia = distancia;
 	}
 

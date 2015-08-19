@@ -51,11 +51,11 @@ public class CarreraCabecera implements Serializable {
         return fechaInicio;
     }
 
-    public Integer getDistancia() {
+    public Double getDistancia() {
         if (this.usuarioCarrera != null && this.isEstoyInscripto()) {
             return this.usuarioCarrera.getDistancia();
         }
-        return 0;
+        return 0d;
     }
 
     public String getDescripcion() {

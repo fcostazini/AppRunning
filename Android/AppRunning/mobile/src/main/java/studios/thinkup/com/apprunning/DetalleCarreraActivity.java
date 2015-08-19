@@ -146,12 +146,12 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                                 item.setIcon(R.drawable.ic_anotado);
                                 if (distancia >= 0) {
                                     String distSeleccionada = carrera.getDistancias().split("/")[distancia];
-                                    marcarAnotada(Integer.valueOf(distSeleccionada.trim()), menu, true);
+                                    marcarAnotada(Double.valueOf(distSeleccionada.trim()), menu, true);
                                 }
                             }
                         }, this).seleccionarCarrera();
                     } else {
-                        marcarAnotada(Integer.valueOf(this.carrera.getDistancias().replace("Km", "").trim()), menu, true);
+                        marcarAnotada(Double.valueOf(this.carrera.getDistancias().replace("Km", "").trim()), menu, true);
                     }
 
                 }
@@ -169,7 +169,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                                     public void onSelected(Integer distancia) {
                                         if (distancia >= 0) {
                                             String distSeleccionada = carrera.getDistancias().split("/")[distancia];
-                                            Integer distanciaElegida = Integer.valueOf(distSeleccionada.replace("Km", "").trim());
+                                            Double distanciaElegida = Double.valueOf(distSeleccionada.replace("Km", "").trim());
                                             marcarCorrida(distanciaElegida, menu);
                                         }
                                     }
@@ -178,7 +178,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                                 if(this.carrera.isAnotado()){
                                     marcarCorrida(this.carrera.getDistancia(), menu);
                                 }else{
-                                    marcarCorrida(Integer.valueOf(this.carrera.getDistancias().replace("Km", "").trim()), menu);
+                                    marcarCorrida(Double.valueOf(this.carrera.getDistancias().replace("Km", "").trim()), menu);
                                 }
 
                             }
@@ -192,7 +192,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
         }
     }
 
-    private void marcarCorrida(Integer distanciaElegida, Menu menu) {
+    private void marcarCorrida(Double distanciaElegida, Menu menu) {
         marcarAnotada(distanciaElegida, menu, false);
         menu.getItem(2).setIcon(R.drawable.ic_corrida);
         carrera.setCorrida(true);
@@ -200,7 +200,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
         actualizarUsuarioCarrera(carrera, EstadoCarrera.CORRIDA);
     }
 
-    private void marcarAnotada(Integer distanciaElegida, Menu menu, Boolean actualizar) {
+    private void marcarAnotada(Double distanciaElegida, Menu menu, Boolean actualizar) {
         menu.getItem(1).setIcon(R.drawable.ic_anotado);
         carrera.setAnotado(true);
         carrera.setDistancia(distanciaElegida);
@@ -342,7 +342,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
             int i = 0;
             for (String s : distancias) {
                 s = s.trim();
-                if (Integer.valueOf(s.trim()) < 10) {
+                if (Double.valueOf(s.trim()) < 10) {
 
                     s = " " + s;
                 }

@@ -86,8 +86,8 @@ public class TiempoCarreraListAdapter extends BaseAdapter {
                 viewHolder.tiempo.setText(getTimeString(p.getTiempo()));
             }
             if (p.getTiempo() != null && p.getTiempo() > 0 && p.getDistancia() != null && p.getDistancia() > 0) {
-
-                viewHolder.tiempoPorDistancia.setText(getTimeString(p.getTiempo() / p.getDistancia()));
+                Double d = p.getTiempo() / p.getDistancia();
+                viewHolder.tiempoPorDistancia.setText(getTimeString(d.longValue()));
             } else {
                 viewHolder.tiempoPorDistancia.setText(" - ");
             }

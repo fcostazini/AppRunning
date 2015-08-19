@@ -20,7 +20,7 @@ public class UsuarioCarreraDTO {
     private Integer idUsuarioCarrera;
     private Integer idCarrera;
     private boolean corrida;
-    private Integer distancia;
+    private Double distancia;
     private String modalidad;
     private boolean meGusta;
     private boolean anotado;
@@ -52,7 +52,7 @@ public class UsuarioCarreraDTO {
         this.meGusta = c.getInt(c.getColumnIndex(UsuarioCarreraDTO.ME_GUSTA)) == 1;
         this.tiempo = c.getLong(c.getColumnIndex(UsuarioCarreraDTO.TIEMPO));
 
-        this.distancia = c.getInt(c.getColumnIndex(UsuarioCarreraDTO.DISTANCIA));
+        this.distancia = c.getDouble(c.getColumnIndex(UsuarioCarreraDTO.DISTANCIA));
         this.modalidad = c.getString(c.getColumnIndex(UsuarioCarreraDTO.MODALIDAD));
 
         this.usuario = c.getInt(c.getColumnIndex(UsuarioCarreraDTO.ID_USUARIO));
@@ -117,11 +117,11 @@ public class UsuarioCarreraDTO {
         this.corrida = corrida;
     }
 
-    public Integer getDistancia() {
+    public Double getDistancia() {
         return distancia;
     }
 
-    public void setDistancia(Integer distancia) {
+    public void setDistancia(Double distancia) {
         this.distancia = distancia;
     }
 

@@ -115,7 +115,7 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
             public void onClick(View v) {
                 UsuarioApp u = new UsuarioApp();
                 u.setTipoCuenta("P");
-                nuevoUsuario(u);
+                nuevoUsuario(u,true);
             }
         });
         rootView.findViewById(R.id.login_buttons).setVisibility(View.VISIBLE);
@@ -228,7 +228,7 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
             super.onPostExecute(usuarioApp);
             MainActivity.hideProgress();
             if (usuarioApp.getId() == null) {
-                nuevoUsuario(usuarioApp);
+                nuevoUsuario(usuarioApp,false);
             } else {
                 usuarioRegistrado(usuarioApp);
             }
@@ -324,10 +324,10 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
         startActivity(intent);
     }
 
-    private void nuevoUsuario(UsuarioApp usuarioApp) {
+    private void nuevoUsuario(UsuarioApp usuarioApp, boolean nuevoUsuario) {
         Bundle extras = new Bundle();
         extras.putSerializable(UsuarioApp.FIELD_ID, usuarioApp);
-        extras.putBoolean("nuevoUsuario", true);
+        extras.putBoolean("nuevoUsuario", nuevoUsuario);
         Intent intent = new Intent(MainFragment.this.getActivity(), NuevoUsuario.class);
         intent.putExtras(extras);
         startActivity(intent);

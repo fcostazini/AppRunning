@@ -26,7 +26,7 @@ public class UsuarioCarrera implements Serializable, IEntity {
     private Integer idUsuarioCarrera;
     private Carrera carrera;
     private boolean corrida;
-    private Integer distancia;
+    private Double distancia;
     private String modalidad;
     private boolean meGusta;
     private boolean anotado;
@@ -44,7 +44,7 @@ public class UsuarioCarrera implements Serializable, IEntity {
         this.meGusta = false;
         this.tiempo = 0l;
 
-        this.distancia = 0;
+        this.distancia = 0d;
         this.modalidad = "";
         this.carrera = c;
     }
@@ -57,7 +57,7 @@ public class UsuarioCarrera implements Serializable, IEntity {
             this.meGusta = false;
             this.tiempo = 0l;
 
-            this.distancia = 0;
+            this.distancia = 0d;
             this.modalidad = "";
         } else {
             this.idUsuarioCarrera = c.getInt(c.getColumnIndex(UsuarioCarrera.ID));
@@ -66,7 +66,7 @@ public class UsuarioCarrera implements Serializable, IEntity {
             this.meGusta = c.getInt(c.getColumnIndex(UsuarioCarrera.ME_GUSTA)) == 1;
             this.tiempo = c.getLong(c.getColumnIndex(UsuarioCarrera.TIEMPO));
 
-            this.distancia = c.getInt(c.getColumnIndex(UsuarioCarrera.DISTANCIA));
+            this.distancia = c.getDouble(c.getColumnIndex(UsuarioCarrera.DISTANCIA));
             this.modalidad = c.getString(c.getColumnIndex(UsuarioCarrera.MODALIDAD));
         }
         this.usuario = c.getInt(c.getColumnIndex(UsuarioCarrera.ID_USUARIO));
@@ -163,11 +163,11 @@ public class UsuarioCarrera implements Serializable, IEntity {
         return carrera.getUrlWeb();
     }
 
-    public Integer getDistancia() {
+    public Double getDistancia() {
         return this.distancia;
     }
 
-    public void setDistancia(Integer distancia) {
+    public void setDistancia(Double distancia) {
         this.distancia = distancia;
     }
 
