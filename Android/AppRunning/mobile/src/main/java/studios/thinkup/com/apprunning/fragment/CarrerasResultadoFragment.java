@@ -3,6 +3,7 @@ package studios.thinkup.com.apprunning.fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -68,7 +69,7 @@ public class CarrerasResultadoFragment extends FilteredFragment implements Carre
             actualizarResultados(new Vector<CarreraCabecera>());
         } else {
             CarreraCabeceraService cb = new CarreraCabeceraService(this, this.getActivity(), this.getUsuario());
-            cb.execute(this.filtro);
+            cb.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,this.filtro);
         }
     }
 
@@ -125,9 +126,7 @@ public class CarrerasResultadoFragment extends FilteredFragment implements Carre
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(pd != null && pd.isShowing()){
-            hideProgress();
-        }
+        hideProgress();
         if(this.uc != null){
             uc.cancel(true);
         }
@@ -148,6 +147,7 @@ public class CarrerasResultadoFragment extends FilteredFragment implements Carre
     @Override
     public void onResume() {
         super.onResume();
+        hideProgress();
         if(this.adapter != null && this.filtro!= null){
             this.getData();
         }

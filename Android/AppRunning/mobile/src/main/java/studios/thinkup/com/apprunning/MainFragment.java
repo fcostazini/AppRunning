@@ -212,7 +212,7 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
 
                 MainActivity.showProgress("Buscando Usuario");
                 UsuarioProviderTask task = new UsuarioProviderTask();
-                task.execute(socialPerson);
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, socialPerson);
             }
         }
     }

@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -58,7 +59,7 @@ public class LoginSinRedSocialActivity extends Activity implements LoginUsuarioS
                     CheckUsuarioPassDTO c = new CheckUsuarioPassDTO(usuario.getText().toString(), PasswordEncoder.encodePass(password.getText().toString()));
                     showProgress(LoginSinRedSocialActivity.this,getString(R.string.entrando));
                     us = new LoginUsuarioService(LoginSinRedSocialActivity.this,LoginSinRedSocialActivity.this);
-                    us.execute(c);
+                    us.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, c);
                 }
 
 
@@ -75,7 +76,7 @@ public class LoginSinRedSocialActivity extends Activity implements LoginUsuarioS
                 }else{
                     showProgress(LoginSinRedSocialActivity.this,"Espere por favor...");
                     rps = new RecuperarPassService(LoginSinRedSocialActivity.this,LoginSinRedSocialActivity.this);
-                    rps.execute(usuario.getText().toString());
+                    rps.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, usuario.getText().toString());
                 }
 
             }

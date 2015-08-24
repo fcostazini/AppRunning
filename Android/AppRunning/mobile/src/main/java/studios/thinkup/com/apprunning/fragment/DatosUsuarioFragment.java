@@ -281,7 +281,7 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
             if (NetworkUtils.isConnected(this.getActivity())) {
                 UsuarioProviderTask usuarioProviderTask = new UsuarioProviderTask();
                 showProgress(this.getActivity(), this.getActivity().getString(R.string.guardando_usuario));
-                usuarioProviderTask.execute(this.ua);
+                usuarioProviderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this.ua);
             } else {
                 Toast.makeText(this.getActivity(), this.getString(R.string.sin_conexion), Toast.LENGTH_LONG).show();
             }

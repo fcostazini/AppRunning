@@ -258,7 +258,7 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
                 UsuarioProviderTask usuarioProviderTask = new UsuarioProviderTask();
                 if (NetworkUtils.isConnected(this)) {
                     showProgress(this, "Guardando Usuario...");
-                    usuarioProviderTask.execute(this.ua);
+                    usuarioProviderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this.ua);
                 } else {
                     Toast.makeText(this, "Sin Conexión a internet", Toast.LENGTH_LONG).show();
                 }

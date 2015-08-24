@@ -40,7 +40,7 @@ public class StartUpActivity extends Activity {
         initUsuario(savedInstanceState);
         ProgressBar pb = (ProgressBar) findViewById(R.id.progressBar);
         TextView txt = (TextView) findViewById(R.id.txt_status);
-        new UpdateAppData(txt, pb).execute(this.usuario);
+        new UpdateAppData(txt, pb).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this.usuario);
 
     }
 

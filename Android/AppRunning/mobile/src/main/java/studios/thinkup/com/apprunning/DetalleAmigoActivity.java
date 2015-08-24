@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.Menu;
@@ -124,7 +125,7 @@ public class DetalleAmigoActivity extends DrawerPagerActivity implements Actuali
                 return super.onMenuItemSelected(featureId, item);
 
         }
-        new ActualizarAmigoService(this, this).execute(request);
+        new ActualizarAmigoService(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
         return true;
     }
 

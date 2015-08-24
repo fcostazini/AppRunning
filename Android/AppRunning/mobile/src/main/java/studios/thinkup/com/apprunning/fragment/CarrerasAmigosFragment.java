@@ -4,6 +4,7 @@ package studios.thinkup.com.apprunning.fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
@@ -88,7 +89,7 @@ public class CarrerasAmigosFragment extends ListFragment implements CarrerasAmig
         super.onActivityCreated(savedInstanceState);
         if (this.amigo != null) {
             CarrerasAmigosService ts = new CarrerasAmigosService(this.getActivity(), this);
-            ts.execute(this.amigo.getIdAmigo());
+            ts.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this.amigo.getIdAmigo());
         } else {
             onOk(new Vector<CarreraAmigoDTO>());
         }

@@ -4,6 +4,7 @@ package studios.thinkup.com.apprunning.fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
@@ -67,7 +68,7 @@ public class AmigosFragment extends ListFragment implements MisAmigosService.ISe
 
     private void getData() {
         this.as = new MisAmigosService(this.getActivity(), this);
-        as.execute(getUsuario().getId());
+        as.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getUsuario().getId());
     }
 
     private UsuarioApp getUsuario() {

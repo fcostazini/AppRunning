@@ -4,6 +4,7 @@ package studios.thinkup.com.apprunning.fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -67,7 +68,7 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
     private void getData() {
         if (NetworkUtils.isConnected(this.getActivity())) {
             CarreraCabeceraService cp = new CarreraCabeceraService(this, RecomendadosFragment.this.getActivity(), this.getUsuario());
-            cp.execute(getFiltro());
+            cp.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getFiltro());
         } else {
             Toast.makeText(this.getActivity(), "Sin Conexión a internet", Toast.LENGTH_SHORT).show();
             this.actualizarResultados(new Vector<CarreraCabecera>());
@@ -106,7 +107,7 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
         showProgress(this.getActivity(), "Cargando Carrera...");
         if (NetworkUtils.isConnected(this.getActivity())) {
             this.uc = new UsuarioCarreraService(this, this.getActivity(), getUsuario());
-            uc.execute(c.getCodigoCarrera());
+            uc.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, c.getCodigoCarrera());
         } else {
             UsuarioCarrera uc = this.getUsuarioCarreraLocal(c.getCodigoCarrera());
             if (uc == null) {
@@ -144,15 +145,14 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
     @Override
     public void onResume() {
         super.onResume();
+        hideProgress();
         this.getData();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(pd != null && pd.isShowing()){
-            hideProgress();
-        }
+        hideProgress();
         if(this.uc != null){
             uc.cancel(true);
         }

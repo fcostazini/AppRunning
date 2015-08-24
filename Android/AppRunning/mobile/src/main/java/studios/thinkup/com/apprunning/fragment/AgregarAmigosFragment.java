@@ -1,6 +1,7 @@
 package studios.thinkup.com.apprunning.fragment;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -82,7 +83,7 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Busc
     private void buscarAmigos(CharSequence s) {
         if (s.length() > 3) {
             BuscarNuevosAmigosService up = new BuscarNuevosAmigosService(this.getActivity(), this.getUsuario(), this);
-            up.execute(s.toString());
+            up.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, s.toString());
         } else {
             onDataRetrived(new Vector<AmigosDTO>());
         }

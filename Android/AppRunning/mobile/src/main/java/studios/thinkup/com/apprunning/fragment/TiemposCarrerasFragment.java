@@ -1,6 +1,7 @@
 package studios.thinkup.com.apprunning.fragment;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -46,7 +47,7 @@ public class TiemposCarrerasFragment extends FilteredFragment implements OnResul
         super.onActivityCreated(savedInstanceState);
 
         TiemposService ts = new TiemposService(this, this.getActivity());
-        ts.execute(this.getFiltro());
+        ts.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this.getFiltro());
 
 
     }

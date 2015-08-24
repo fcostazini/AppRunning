@@ -4,6 +4,7 @@ package studios.thinkup.com.apprunning.fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
@@ -71,7 +72,7 @@ public class AmigosEnCarreraFragment extends ListFragment implements AmigosEnCar
 
     private void getData() {
         this.as = new AmigosEnCarreraService(this.getActivity(), this,this.getUsuario());
-        as.execute(this.usuarioObservable.getUsuarioCarrera().getCodigoCarrera());
+        as.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this.usuarioObservable.getUsuarioCarrera().getCodigoCarrera());
     }
 
     private UsuarioApp getUsuario() {
