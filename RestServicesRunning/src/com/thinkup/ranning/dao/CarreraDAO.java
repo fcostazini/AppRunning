@@ -56,6 +56,7 @@ public class CarreraDAO {
 
 	@SuppressWarnings("unchecked")
 	public List<CarreraCabeceraDTO> getCarrerasDTO(Filtro filtro) {
+		List<CarreraCabeceraDTO>  r = null;
 		String query = this.crearQuery(filtro);
 		List<QueryParam> parametros = new Vector<>();
 		if (filtro != null) {
@@ -71,8 +72,12 @@ public class CarreraDAO {
 
 			}
 		}
-
-		return q.getResultList();
+		try {
+			r = q.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return r;
 	}
 
 	private String crearQuery(Filtro filtro) {
