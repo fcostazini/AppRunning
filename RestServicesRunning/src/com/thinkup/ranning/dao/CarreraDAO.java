@@ -1,6 +1,7 @@
 package com.thinkup.ranning.dao;
 
 import java.util.List;
+import java.util.Vector;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -8,11 +9,12 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import com.thinkup.ranning.dtos.CarreraCabeceraDTO;
 import com.thinkup.ranning.dtos.Filtro;
 import com.thinkup.ranning.entities.Carrera;
-import com.thinkup.ranning.entities.Usuario;
 import com.thinkup.ranning.exceptions.PersistenciaException;
 
 @Stateless
@@ -52,17 +54,25 @@ public class CarreraDAO {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<CarreraCabeceraDTO> getCarrerasDTO(Filtro filtro) {
 		String query = this.crearQuery(filtro);
+		List<QueryParam> parametros = new Vector<>();
 		if (filtro != null) {
-			query += this.qGen.getWhereCondition(filtro);
-		}
-		@SuppressWarnings("unchecked")
-		List<CarreraCabeceraDTO> carreras = this.entityManager
-				.createNativeQuery(query, CarreraCabeceraDTO.class)
-				.getResultList();
 
-		return carreras;
+			query += this.qGen.getWhereCondition(filtro, parametros);
+
+		}
+
+		Query q = this.entityManager.createNativeQuery(query, CarreraCabeceraDTO.class);
+		if (parametros.size() > 0) {
+			for (QueryParam queryParam : parametros) {
+				q.setParameter(queryParam.getNombre(), queryParam.getValor());
+
+			}
+		}
+
+		return q.getResultList();
 	}
 
 	private String crearQuery(Filtro filtro) {

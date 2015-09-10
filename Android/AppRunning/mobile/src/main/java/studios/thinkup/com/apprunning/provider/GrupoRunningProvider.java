@@ -2,6 +2,7 @@ package studios.thinkup.com.apprunning.provider;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,6 +37,30 @@ public class GrupoRunningProvider extends GenericProvider<GrupoRunning> implemen
         } else {
             c.moveToFirst();
             return new GrupoRunning(c);
+
+        }
+    }
+    @Override
+    public List<GrupoRunning> findAll(Class<GrupoRunning> clazz) {
+        SQLiteDatabase db = this.dbProvider.getReadableDatabase();
+        Cursor c = null;
+        try {
+            c = db.query(this.getTableName(clazz), this.getFields(clazz), null, null, null, null, "NOMBRE");
+            List<GrupoRunning> ent = this.toList(c);
+            c.close();
+            db.close();
+            return ent;
+
+
+        } catch (Exception e) {
+            return null;
+        } finally {
+            if (c != null && !c.isClosed()) {
+                c.close();
+            }
+            if (db != null && db.isOpen()) {
+                db.close();
+            }
 
         }
     }

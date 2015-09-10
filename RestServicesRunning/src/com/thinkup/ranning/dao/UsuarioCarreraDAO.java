@@ -10,11 +10,11 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import com.thinkup.ranning.dtos.CarreraAmigoDTO;
 import com.thinkup.ranning.dtos.Filtro;
-import com.thinkup.ranning.dtos.UsuarioCarreraDTO;
-import com.thinkup.ranning.entities.Usuario;
 import com.thinkup.ranning.entities.UsuarioCarrera;
 import com.thinkup.ranning.exceptions.PersistenciaException;
 import com.thinkup.ranning.server.rest.exception.EntidadInexistenteException;
@@ -122,6 +122,7 @@ public class UsuarioCarreraDAO {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<UsuarioCarrera> getByFiltro(Filtro filtro)
 			throws PersistenciaException {
 		StringBuffer select = new StringBuffer();
@@ -129,18 +130,23 @@ public class UsuarioCarreraDAO {
 		select.append(" c.provincia as provincia, c.ciudad as ciudad, uc.id as usuarioCarrera, uc.distancia as distancia, uc.me_gusta as meGusta, uc.anotado as estoyAnotado, uc.corrida as corrida ");
 		select.append(" FROM CARRERA c JOIN USUARIO_CARRERA uc ON c.ID_CARRERA = uc.CARRERA and uc.TIEMPO > 0 ");
 		String query = select.toString();
+		List<QueryParam> parametros = new Vector<>();
 		if (filtro != null) {
-			query += this.qGen.getWhereCondition(filtro);
+			query += this.qGen.getWhereCondition(filtro, parametros);
 		}
 		try {
-			@SuppressWarnings("unchecked")
-			List<UsuarioCarrera> carreras = this.entityManager
-					.createNativeQuery(query, UsuarioCarrera.class)
-					.getResultList();
-			if (carreras == null) {
-				return new Vector<UsuarioCarrera>();
+
+			Query q = this.entityManager.createNativeQuery(
+					query, UsuarioCarrera.class);
+			if (parametros.size() > 0) {
+				for (QueryParam queryParam : parametros) {
+					q.setParameter(queryParam.getNombre(),
+							queryParam.getValor());
+
+				}
 			}
-			return carreras;
+
+			return q.getResultList();
 		} catch (Exception e) {
 			throw new PersistenciaException("Error inesperado", e);
 		}
