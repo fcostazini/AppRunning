@@ -125,7 +125,7 @@ public class StartUpActivity extends Activity {
                     for (UsuarioCarrera uc : carreras) {
                         uc.setUsuario(usuarioApps[0].getId());
                         upLocal.grabar(uc);
-                        cLocal.grabar(uc.getCarrera());
+                        cLocal.actualizarCarrera(uc.getCarrera());
                     }
                 } catch (EntidadNoGuardadaException e) {
                     publishProgress(100);
