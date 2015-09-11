@@ -24,8 +24,8 @@ public class QueryGenerator {
 					+ " upper(TRANSLATE("
 					+ ":nombre"
 					+ ",'ÁÉÍÓÚÑáéíóúñ','AEIOUNaeioun')) \n";
-			parametros.add(new QueryParam("nombre", "'%"
-					+ filtro.getNombreCarrera() + "%'"));
+			parametros.add(new QueryParam("nombre", "%"
+					+ filtro.getNombreCarrera() + "%"));
 		}
 		if (filtro.getProvincia() != null && !filtro.getProvincia().isEmpty()
 				&& !filtro.getProvincia().equals(TODAS_PROVINCIAS)) {
@@ -42,8 +42,8 @@ public class QueryGenerator {
 		if (filtro.getModalidad() != null
 				&& !filtro.getModalidad().equals(TODAS_MODALIDADES)) {
 			query += " AND upper(c.modalidades) LIKE " + ":modalidad" + "\n";
-			parametros.add(new QueryParam("modalidad", "'%"
-					+ filtro.getModalidad() + "%'"));
+			parametros.add(new QueryParam("modalidad", "%"
+					+ filtro.getModalidad() + "%"));
 
 		}
 
@@ -169,7 +169,7 @@ public class QueryGenerator {
 	}
 	
 	private Date getFechaDate(String fecha){
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy hh:mm:ss");
 		Date fechaDate = null;
 		try {
 			fechaDate = formatter.parse(fecha);
