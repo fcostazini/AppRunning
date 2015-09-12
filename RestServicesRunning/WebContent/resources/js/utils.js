@@ -9,7 +9,12 @@ function getFormData(form) {
 					formData[e.name] = new Date($(e).val());
 					break;
 				case "time":
-					formData[e.name] = $(e).val();
+					if($(e).val().length == 5){
+						formData[e.name] = $(e).val() + ":00";
+					}else{
+						formData[e.name] = $(e).val();	
+					}
+					
 					break;
 				case "checkbox":
 					formData[e.name] = $(e).is(":checked");
@@ -80,6 +85,11 @@ function getDateFromTime(time) {
 	return d.getFullYear() + '-' + (month < 10 ? '0' + month : month) + '-'
 			+ (d.getDate() < 10 ? '0' + d.getDate() : d.getDate());
 
+}
+
+function vistaPrevia(imagen, valor){
+	$("#"+imagen).attr("src", valor);
+	
 }
 function getUrlParameter(sParam) {
 	var sPageURL = decodeURIComponent(window.location.search.substring(1)), sURLVariables = sPageURL

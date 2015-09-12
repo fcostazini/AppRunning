@@ -79,14 +79,14 @@
 						<form class="form-horizontal" id="f1" name="f1">
 							<div class="form-group">
 								<label for="url" class="control-label col-xs-2"> <img
-									class="dataField" src="#" name="urlImagen"
+									class="dataField" src="#" id="urlImagen" name="urlImagen"
 									onerror="this.src='../img/logo_pestaña.png'" height="100px"
 									width="100px" />
 								</label>
 								<div class="col-xs-5 bottom-aligned-text">
 									<!-- URL -->
 									<input autocomplete="off" class="form-control dataField"
-										name="urlImagen" onchange="vistaPrevia(this.value)"
+										name="urlImagen" onchange="vistaPrevia('urlImagen',this.value)"
 										placeholder="Ingrese la url de la imagen..." type="text">
 								</div>
 							</div>
@@ -273,10 +273,12 @@
 			});
 
 		}
-
+		
 		$(document)
 				.ready(
 						function() {
+							
+							
 
 							var codigo = getUrlParameter("codigo");
 							if (codigo) {
