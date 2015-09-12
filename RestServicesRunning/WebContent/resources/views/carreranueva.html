@@ -2,291 +2,307 @@
 
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta content="IE=edge" http-equiv="X-UA-Compatible">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <meta content="" name="description">
-    <meta content="" name="author">
+<meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<meta content="" name="description">
+<meta content="" name="author">
 
-    <title>ReCorriendo</title>
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/estilos.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="../img/logo_pestaña.png" rel="shortcut icon">
+<title>ReCorriendo</title>
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+<link href="../css/estilos.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet"
+	type="text/css">
+<link href="../img/logo_pestaña.png" rel="shortcut icon">
+
 </head>
 
 <body>
 
-    <div id="wrapper">
-        <nav class="navbar navbar-default navbar-static-top" style=
-        "margin-bottom: 0;background-color:#83C2FB;">
-            <div class="navbar-header">
-                <img height="100px" src="../img/logo.png"> 
-            </div><!-- Logo -->
+	<div id="wrapper">
+		<nav class="navbar navbar-default navbar-static-top"
+			style="margin-bottom: 0; background-color: #83C2FB;">
+			<div class="navbar-header">
+				<img height="100px" src="../img/logo.png">
+			</div>
+			<!-- Logo -->
 
-            <div class="navbar-default sidebar" style="margin-top: 8%;">
-                <div class="sidebar-nav" style="-8px">
-                    <ul class="nav" id="side-menu">
-                        <li>
-                            <a href="modificarcarrera.html"><i class=
-                            "fa fa-flag-checkered fa-fw"></i>
-                            Carreras<span class="fa fa-angle-double-left"
-                            style="float: right;"></span></a>
+			<div class="navbar-default sidebar" style="margin-top: 8%;">
+				<div class="sidebar-nav" style="">
+					<ul class="nav" id="side-menu">
+						<li><a href="modificarcarrera.html"><i
+								class="fa fa-flag-checkered fa-fw"></i> Carreras<span
+								class="fa fa-angle-double-left" style="float: right;"></span></a>
 
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="carreranueva.html">Nueva</a>
-                                </li>
+							<ul class="nav nav-second-level">
+								<li><a href="carreranueva.html">Nueva</a></li>
 
-                                <li>
-                                    <a href="modificarcarrera.html">Modificar</a>
-                                </li>
-                            </ul>
-                        </li>
+								<li><a href="modificarcarrera.html">Modificar</a></li>
+							</ul></li>
 
-                        <li>
-                            <a href="#"><i class="fa fa-group fa-fw"></i>
-                            Grupos<span class="fa fa-angle-double-left" style=
-                            "float: right;"></span></a>
+						<li><a href="#"><i class="fa fa-group fa-fw"></i> Grupos<span
+								class="fa fa-angle-double-left" style="float: right;"></span></a>
 
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="gruponuevo.html">Nuevo</a>
-                                </li>
+							<ul class="nav nav-second-level">
+								<li><a href="gruponuevo.html">Nuevo</a></li>
 
-                                <li>
-                                    <a href="modificargrupo.html">Modificar</a>
-                                </li>
-                            </ul>
-                        </li>
+								<li><a href="modificargrupo.html">Modificar</a></li>
+							</ul></li>
 
-                        <li>
-                            <a href="#"><i class="fa fa-user"></i>
-                            Reportes<span class="fa fa-angle-double-left" style=
-                            "float: right;"></span></a>
+						<li><a href="#"><i class="fa fa-user"></i> Reportes<span
+								class="fa fa-angle-double-left" style="float: right;"></span></a>
 
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="usuarios.html">Usuarios</a>
-                                </li>
+							<ul class="nav nav-second-level">
+								<li><a href="usuarios.html">Usuarios</a></li>
 
-                            </ul>
-                        </li>
+							</ul></li>
 
-                    </ul>
-                </div>
-            </div> 
-        </nav><!-- Barra navegacion izquierda -->
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<!-- Barra navegacion izquierda -->
 
-        <div id="page-wrapper"> <!-- Formulario para nueva carrera -->
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">Nueva carrera</h1>
-                    </div>
+		<div id="page-wrapper">
+			<!-- Formulario para nueva carrera -->
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<h1 id="txtHeader" class="page-header"></h1>
+					</div>
 
-                    <img alt="" id="imagen_previa" src="" style="max-height:100px; margin-left:5%;"><!-- Previsualizacion imagen url -->
+					<img alt="" id="imagen_previa" src=""
+						style="max-height: 100px; margin-left: 5%;">
+					<!-- Previsualizacion imagen url -->
 
-                    <div class="col-lg-12">
-                        <form class="form-horizontal" id="f1" name="f1">
-                            <div class="form-group">
-                                <label class="control-label col-xs-2" for=
-                                "inputName">Imagen carrera</label>
+					<div class="col-lg-12">
+						<form class="form-horizontal" id="f1" name="f1">
+							<div class="form-group">
+								<label for="url" class="control-label col-xs-2"> <img
+									class="dataField" src="#" name="urlImagen"
+									onerror="this.src='../img/logo_pestaña.png'" height="100px"
+									width="100px" />
+								</label>
+								<div class="col-xs-5 bottom-aligned-text">
+									<!-- URL -->
+									<input autocomplete="off" class="form-control dataField"
+										name="urlImagen" onchange="vistaPrevia(this.value)"
+										placeholder="Ingrese la url de la imagen..." type="text">
+								</div>
+							</div>
 
-                                <div class="col-xs-5"> <!-- URL -->
-                                    <input autocomplete="off" class=
-                                    "form-control" name="url" onchange=
-                                    "vistaPrevia(this.value)" placeholder=
-                                    "Ingrese la url de la imagen..." type=
-                                    "text">
-                                </div>
-                            </div>
+							<div class="form-group">
+								<label class="control-label col-xs-2" for="inputName">Nombre
+									carrera</label>
 
-                            <div class="form-group">
-                                <label class="control-label col-xs-2" for=
-                                "inputName">Nombre carrera</label>
+								<div class="col-xs-5">
+									<input class="form-control dataField" name="nombre"
+										placeholder="Nombre de carrera" size="15" type="name">
+								</div>
+							</div>
 
-                                <div class="col-xs-5">
-                                    <input class="form-control" name="usarname"
-                                    placeholder="Nombre de carrera" size="15"
-                                    type="name">
-                                </div>
-                            </div>
+							<div class="form-group">
+								<label class="control-label col-xs-2">Modalidades</label>
 
-                            <div class="form-group">
-                                <label class=
-                                "control-label col-xs-2">Modalidad</label>
+								<div class="col-xs-5">
+									<input class="form-control dataField" name="modalidades"
+										placeholder="Modalidades separadas por ';' " size="15"
+										type="text">
+								</div>
+							</div>
 
-                                <div class="col-xs-5">
-                                    <select class="form-control">
-                                        <option>
-                                            Todas las modalidades
-                                        </option>
+							<div class="form-group">
+								<label class="control-label col-xs-2">Provincia</label>
 
-                                        <option>
-                                            Equipos
-                                        </option>
+								<div class="col-xs-5">
+									<select class="form-control dataField" name="provincia"
+										onchange="cambia_provincia()">
+										<option value="0">Todas las provincias</option>
 
-                                        <option>
-                                            Individual
-                                        </option>
+										<option value="1">Buenos Aires</option>
 
-                                        <option>
-                                            Kids
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
+										<option value="2">Capital Federal</option>
 
-                            <div class="form-group">
-                                <label class=
-                                "control-label col-xs-2">Provincia</label>
+										<option value="3">Córdoba</option>
 
-                                <div class="col-xs-5">
-                                    <select class="form-control" name="pais"
-                                    onchange="cambia_provincia()">
-                                        <option value="0">
-                                            Todas las provincias
-                                        </option>
+										<option value="4">Entre Ríos</option>
 
-                                        <option value="1">
-                                            Buenos Aires
-                                        </option>
+										<option value="5">La Pampa</option>
 
-                                        <option value="2">
-                                            Capital Federal
-                                        </option>
+										<option value="6">Mendoza</option>
 
-                                        <option value="3">
-                                            Córdoba
-                                        </option>
+										<option value="7">Misiones</option>
 
-                                        <option value="4">
-                                            Entre Ríos
-                                        </option>
+										<option value="8">Neuquen</option>
 
-                                        <option value="5">
-                                            La Pampa
-                                        </option>
+										<option value="9">Río Negro</option>
 
-                                        <option value="6">
-                                            Mendoza
-                                        </option>
+										<option value="10">Salta</option>
 
-                                        <option value="7">
-                                            Misiones
-                                        </option>
+										<option value="11">San Juan</option>
 
-                                        <option value="8">
-                                            Neuquen
-                                        </option>
+										<option value="12">Santa Cruz</option>
 
-                                        <option value="9">
-                                            Río Negro
-                                        </option>
+										<option value="13">Santa Fe</option>
+									</select>
+								</div>
+							</div>
 
-                                        <option value="10">
-                                            Salta
-                                        </option>
+							<div class="form-group">
+								<label class="control-label col-xs-2" for="ciudad">Ciudad</label>
 
-                                        <option value="11">
-                                            San Juan
-                                        </option>
+								<div class="col-xs-5">
+									<input class="form-control dataField" name="ciudad"
+										placeholder="Ingrese nombre de la ciudad" size="15"
+										type="text">
+								</div>
+							</div>
 
-                                        <option value="12">
-                                            Santa Cruz
-                                        </option>
+							<div class="form-group">
+								<label class="control-label col-xs-2" for="ciudad">Dirección</label>
 
-                                        <option value="13">
-                                            Santa Fe
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
+								<div class="col-xs-5">
+									<input class="form-control dataField" name="direccion"
+										placeholder="Dirección de la carrera" size="15"
+										type="text">
+								</div>
+							</div>
 
-                            <div class="form-group">
-                                <label class="control-label col-xs-2" for=
-                                "inputName">Ciudad</label>
+							<div class="form-group">
+								<label class="control-label col-xs-2" for="fechaInicio">Fecha
+									Salida</label>
 
-                                <div class="col-xs-5">
-                                    <input class="form-control" name="ciudad"
-                                    placeholder="Ingrese nombre de la ciudad"
-                                    size="15" type="text">
-                                </div>
-                            </div>
+								<div class="col-xs-5">
+									<input class="form-control dataField" name="fechaInicio"
+										placeholder="Nombre de carrera" size="15" type="date">
+								</div>
+							</div>
 
-                            <div class="form-group">
-                                <label class="control-label col-xs-2" for=
-                                "inputName">Desde</label>
+							<div class="form-group">
+								<label class="control-label col-xs-2" for="horaInicio">Hora
+									Salida</label>
 
-                                <div class="col-xs-5">
-                                    <input class="form-control" name="desde"
-                                    placeholder="Nombre de carrera" size="15"
-                                    type="date">
-                                </div>
-                            </div>
+								<div class="col-xs-5">
+									<input class="form-control dataField" name="horaInicio"
+										placeholder="Nombre de carrera" size="15" type="time">
+								</div>
+							</div>
 
-                            <div class="form-group">
-                                <label class="control-label col-xs-2" for=
-                                "inputName">Hasta</label>
+							<div class="form-group">
+								<label class="control-label col-xs-2" for="distanciaDisponible">Distancias
+									en kilometros</label>
 
-                                <div class="col-xs-5">
-                                    <input class="form-control" name="hasta"
-                                    placeholder="Nombre de carrera" size="15"
-                                    type="date">
-                                </div>
-                            </div>
+								<div class="col-xs-5">
+									<input class="form-control dataField"
+										name="distanciaDisponible" placeholder="Separadas por '/' "
+										type="text" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-xs-2" for="recomendada">Es
+									Recomendada</label>
 
-                            <div class="form-group">
-                                <label class="control-label col-xs-2" for=
-                                "inputName">Distancia en kilometros</label>
+								<div class="col-xs-2">
+									<input class="form-control dataField" name="recomendada"
+										type="checkbox">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-xs-2" for="descripcion">Descripción</label>
 
-                                <div class="col-xs-5">
-                                    <input class="form-control" min="1" name=
-                                    "distancia" placeholder="Distancia" size=
-                                    "10" type="number">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-xs-2" for=
-                                "inputName">Descripcion</label>
-
-                                <div class="col-xs-5">
-                                    <textarea class="form-control">
+								<div class="col-xs-5">
+									<textarea name="descripcion" class="form-control dataField">
                                     </textarea>
-                                </div>
-                            </div>
-                        </form>
-                    </div><!-- /.col-lg-12 -->
-                </div><!-- /.row -->
+								</div>
+							</div>
+						</form>
+					</div>
+					<!-- /.col-lg-12 -->
+				</div>
+				<!-- /.row -->
 
-                <div class="row" style="margin-bottom:20px;"><!-- Boton guardar -->
-                    <div class="col-xs-6">
-                        <input class="btn" style="float: right;margin-right:20px" type="button"
-                        value="Guardar">
-                    </div>
+				<div class="row" style="margin-bottom: 20px;">
+					<!-- Boton guardar -->
+					<div class="col-xs-6">
+						<input class="btn" style="float: right; margin-right: 20px"
+							type="button" id="btnGuardar" value="Guardar">
+					</div>
 
-                    <div class="col-xs-4"> <!-- Boton Cancelar -->
-                        <input class="btn" style="margin-left:-7%;" type=
-                        "button" value="Cancelar">
-                    </div>
-                </div>
-            </div><!-- /.container-fluid -->
-        </div><!-- /#page-wrapper -->
-    </div><!-- /#wrapper -->
-    <!-- jQuery -->
-    <script src="../jquery/jquery.min.js"></script> <!-- Bootstrap Core JavaScript -->
-     <script src="../js/bootstrap.min.js"></script> <!-- Custom Theme JavaScript -->
-     <script src="../js/custom.js"></script> 
+					<div class="col-xs-4">
+						<!-- Boton Cancelar -->
+						<input class="btn" style="margin-left: -7%;" type="button"
+							onClick="window.history.back();" value="Cancelar">
+					</div>
+				</div>
+			</div>
+			<!-- /.container-fluid -->
+		</div>
+		<!-- /#page-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+	<!-- jQuery -->
+	<script src="../jquery/jquery.min.js"></script>
+	<script src="../js/utils.js"></script>
+	<!-- Bootstrap Core JavaScript -->
+	<script src="../js/bootstrap.min.js"></script>
+	<!-- Custom Theme JavaScript -->
+	<script src="../js/custom.js"></script>
 
-     <script> 
-    function vistaPrevia(valor){
+	<script>
 
-    document.getElementById("imagen_previa").src=valor;
+		var carrera = {};
+		function guardarCarrera() {
+			carrera = getFormData($("#f1"));
+			var codigo = getUrlParameter("codigo");
+			if(codigo){
+				carrera.idCarrera = codigo;
+			}
+			var settings = {
+				"async" : true,
+				"url" : "http://localhost:8080/RestServicesRunning/running/carreras/createCarrera",
+				"method" : "POST",
+				"headers" : {
+					"accept" : "application/json",
+					"content-type" : "application/json; charset=UTF-8"
+				},
+				"data" : JSON.stringify(carrera)
+			}
 
-    }
+			$.ajax(settings).done(function(data) {
+				console.log(data);
+			});
 
-    </script> <!-- Logica para preview de imagen -->
+		}
+
+		$(document)
+				.ready(
+						function() {
+
+							var codigo = getUrlParameter("codigo");
+							if (codigo) {
+								$("#txtHeader").html("Modificar Carrera");
+								var settings = {
+									"async" : true,
+									"crossDomain" : true,
+									"url" : "http://localhost:8080/RestServicesRunning/running/carreras/carreraByNro/"
+											+ codigo,
+									"method" : "GET",
+									"headers" : {
+										"accept" : "application/json",
+										"content-type" : "application/json; charset=UTF-8"
+									}
+								}
+								$.ajax(settings).done(function(data) {
+									carrera = data.dto;
+									mapToForm(carrera, $("#f1"));
+								});
+
+							} else {
+								$("#txtHeader").html("Nueva Carrera");
+							}
+							$("#btnGuardar").bind("click", guardarCarrera);
+						})
+	</script>
+	<!-- Logica para preview de imagen -->
 </body>
 </html>

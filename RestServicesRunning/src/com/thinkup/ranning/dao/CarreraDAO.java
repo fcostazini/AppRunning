@@ -48,7 +48,11 @@ public class CarreraDAO {
 
 	public void saveCarrera(Carrera carrera) throws PersistenciaException {
 		try {
-			this.entityManager.persist(carrera);
+			if (carrera.getIdCarrera() != null) {
+				this.entityManager.merge(carrera);
+			} else {
+				this.entityManager.persist(carrera);
+			}
 		} catch (Exception e) {
 			throw new PersistenciaException("No se pude persistir", e);
 		}
@@ -56,7 +60,7 @@ public class CarreraDAO {
 
 	@SuppressWarnings("unchecked")
 	public List<CarreraCabeceraDTO> getCarrerasDTO(Filtro filtro) {
-		List<CarreraCabeceraDTO>  r = null;
+		List<CarreraCabeceraDTO> r = null;
 		String query = this.crearQuery(filtro);
 		List<QueryParam> parametros = new Vector<>();
 		if (filtro != null) {
@@ -65,7 +69,8 @@ public class CarreraDAO {
 
 		}
 
-		Query q = this.entityManager.createNativeQuery(query, CarreraCabeceraDTO.class);
+		Query q = this.entityManager.createNativeQuery(query,
+				CarreraCabeceraDTO.class);
 		if (parametros.size() > 0) {
 			for (QueryParam queryParam : parametros) {
 				q.setParameter(queryParam.getNombre(), queryParam.getValor());

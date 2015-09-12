@@ -51,23 +51,23 @@ public class QueryGenerator {
 				filtro.getFechaDesde(), filtro.getFechaHasta(), parametros);
 
 		if (filtro.getRecomendadas() != null) {
-			query += " AND  c.recomendada  is " + filtro.getRecomendadas();			
+			query += " AND  c.recomendada  is " + filtro.getRecomendadas();
 		}
 		if (filtro.getIdUsuario() > 0) {
 			query += " AND uc.id = " + filtro.getIdUsuario();
 			if (filtro.getMeGusta() != null) {
 				query += " AND uc.me_gusta is " + filtro.getMeGusta();
-		
+
 			}
 
 			if (filtro.getInscripto() != null) {
 				query += " AND uc.anotado is " + filtro.getInscripto();
-				
+
 			}
 
 			if (filtro.getCorrida() != null) {
 				query += " AND uc.corrida is " + filtro.getCorrida();
-				
+
 			}
 			if (filtro.getCorrida() == null && filtro.getInscripto() == null
 					&& filtro.getMeGusta() == null) {
@@ -75,38 +75,40 @@ public class QueryGenerator {
 						+ " OR  uc.anotado is true "
 						+ " OR  uc.me_gusta is true )";
 			}
+
 			query += this.getIntegerRange("distancia", "uc.distancia",
 					filtro.getMinDistancia(), filtro.getMaxDistancia(),
 					parametros);
-
+			query += this.getOrderBy(filtro);
 		}
-
-		query += this.getOrderBy(filtro);
 		return query;
 	}
 
 	private String getFechaRange(String paramName, String field, String min,
 			String max, List<QueryParam> parametros) {
 		String resultado = "";
-		
-		
+
 		if (min == null && max == null) {
 			return resultado;
 		}
 		if (this.getFechaDate(min) != null && this.getFechaDate(max) != null) {
-			
+
 			resultado += " AND " + field + " BETWEEN  :" + paramName
 					+ "_min AND :" + paramName + "_max \n";
-			parametros.add(new QueryParam(paramName + "_min", this.getFechaDate(min)));
-			parametros.add(new QueryParam(paramName + "_max", this.getFechaDate(max)));
+			parametros.add(new QueryParam(paramName + "_min", this
+					.getFechaDate(min)));
+			parametros.add(new QueryParam(paramName + "_max", this
+					.getFechaDate(max)));
 		} else {
-			if (this.getFechaDate(min) != null){				
+			if (this.getFechaDate(min) != null) {
 				resultado += " AND " + field + " >= :" + paramName + "_min \n";
-				parametros.add(new QueryParam(paramName + "_min", this.getFechaDate(min)));
+				parametros.add(new QueryParam(paramName + "_min", this
+						.getFechaDate(min)));
 			}
-			if (this.getFechaDate(max) != null){				
+			if (this.getFechaDate(max) != null) {
 				resultado += " AND " + field + " <= :" + paramName + "_max \n";
-				parametros.add(new QueryParam(paramName + "_max", this.getFechaDate(max)));
+				parametros.add(new QueryParam(paramName + "_max", this
+						.getFechaDate(max)));
 			}
 		}
 
@@ -167,17 +169,22 @@ public class QueryGenerator {
 
 		return orderBy;
 	}
-	
-	private Date getFechaDate(String fecha){
-		SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy hh:mm:ss");
+
+	private Date getFechaDate(String fecha) {
+		SimpleDateFormat formatter = new SimpleDateFormat(
+				"MMM dd, yyyy hh:mm:ss");
 		Date fechaDate = null;
 		try {
 			fechaDate = formatter.parse(fecha);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			formatter = new SimpleDateFormat("yyyy-MM-dd");
+			try {
+				fechaDate = formatter.parse(fecha);
+			} catch (ParseException e1) {
+				e.printStackTrace();
+			}
 		}
-		
+
 		return fechaDate;
 	}
 }
