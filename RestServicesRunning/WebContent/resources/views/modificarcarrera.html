@@ -33,7 +33,7 @@
 			<div class="navbar-default sidebar" style="margin-top: 8%;">
 				<div class="sidebar-nav" style="">
 					<ul class="nav" id="side-menu">
-						<li><a href="modificarcarrera.html"><i
+						<li><a class="active" href="#"><i
 								class="fa fa-flag-checkered fa-fw"></i> Carreras<span
 								class="fa fa-angle-double-left" style="float: right;"></span></a>
 
@@ -230,6 +230,7 @@
 		$(table).find("tbody").empty();
 		$(data).each(
 				function(i, e) {
+					
 					row = rowTemplate.clone();
 					$(row).data("carrera", e);
 					row.find("td:not([skip])").each(
@@ -251,48 +252,57 @@
 
 	var rowTemplate;
 	$(document)
-			.ready(
-					function() {
-						rowTemplate = $("#dataTable tr[name='template']")
-								.clone()
-						rowTemplate.removeAttr('display').removeAttr('name');
-						$("#dataTable tbody").empty();
-						$("#btnBuscar")
-								.bind(
-										"click",
-										function() {
-											var settings = {
-												"async" : true,
-												"url" : "http://localhost:8080/RestServicesRunning/running/carreras/carreraByFiltro",
-												"method" : "POST",
-												"headers" : {
-													"accept" : "application/json",
-													"content-type" : "application/json; charset=UTF-8"
-												},
-												"data" : JSON
-														.stringify(getFormData($("#formBusqueda")))
-											}
+    .ready(
+        function() {
 
-											$
-													.ajax(settings)
-													.done(
-															function(data) {
-																mapToTable(
-																		data.dto,
-																		$("#dataTable"));
-																$(data.dto)
-																		.each()
-																console
-																		.log(data);
-															});
-										})
+            $("#formBusqueda input").keyup(function(event) {
+                if (event.keyCode == 13) {
+                    $("#btnBuscar").click();
+                }
+            });
+            rowTemplate = $("#dataTable tr[name='template']")
+                .clone()
+            rowTemplate.removeAttr('display').removeAttr('name');
+            $("#dataTable tbody").empty();
+            $("#btnBuscar")
+                .bind(
+                    "click",
+                    function() {
+                        var formBusqueda = getFormData("#formBusqueda");
+                        if (!jQuery.isEmptyObject(formBusqueda)) {
+                                var settings = {
+                                    "async": true,
+                                    "url": "http://localhost:8080/RestServicesRunning/running/carreras/carreraByFiltro",
+                                    "method": "POST",
+                                    "headers": {
+                                        "accept": "application/json",
+                                        "content-type": "application/json; charset=UTF-8"
+                                    },
+                                    "data": JSON
+                                        .stringify(getFormData($("#formBusqueda")))
+                                }
 
-						var formBusqueda = getFormData($("#formBusqueda"));
-						if(!jQuery.isEmptyObject(formBusqueda)){
-							$("#btnBuscar").click()
+                                $
+                                    .ajax(settings)
+                                    .done(
+                                        function(data) {
+                                            mapToTable(
+                                                data.dto,
+                                                $("#dataTable"));
+                                            $(data.dto)
+                                                .each()
+                                            console
+                                                .log(data);
+                                        });
+                            }
+                        })
 
-						}
+                    var formBusqueda = getFormData($("#formBusqueda"));
+                    if (!jQuery.isEmptyObject(formBusqueda)) {
+                        $("#btnBuscar").click()
 
-					});
+                    }
+
+                });
 </script>
 </html>

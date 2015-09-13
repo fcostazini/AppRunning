@@ -2,238 +2,199 @@
 
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta content="IE=edge" http-equiv="X-UA-Compatible">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <meta content="" name="description">
-    <meta content="" name="author">
+<meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<meta content="" name="description">
+<meta content="" name="author">
 
-    <title>ReCorriendo</title>
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/estilos.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="../img/logo_pestaña.png" rel="shortcut icon">
+<title>ReCorriendo</title>
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+<link href="../css/estilos.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet"
+	type="text/css">
+<link href="../img/logo_pestaña.png" rel="shortcut icon">
 </head>
 
 <body>
-    <div id="wrapper">
+	<div id="wrapper">
 
-        <nav class="navbar navbar-default navbar-static-top" style=
-        "margin-bottom: 0;background-color:#83C2FB;">
-            <div class="navbar-header">
-                <img height="100px" src="../img/logo.png"> 
-            </div><!-- Logo -->
+		<nav class="navbar navbar-default navbar-static-top"
+			style="margin-bottom: 0; background-color: #83C2FB;">
+			<div class="navbar-header">
+				<img height="100px" src="../img/logo.png">
+			</div>
+			<!-- Logo -->
 
-            <div class="navbar-default sidebar" style="margin-top: 8%;">
-                <div class="sidebar-nav" style="-8px">
-                    <ul class="nav" id="side-menu">
-                        <li>
-                            <a href="modificarcarrera.html"><i class=
-                            "fa fa-flag-checkered fa-fw"></i>
-                            Carreras<span class="fa fa-angle-double-left"
-                            style="float: right;"></span></a>
+			<div class="navbar-default sidebar" style="margin-top: 8%;">
+				<div class="sidebar-nav" style="">
+					<ul class="nav" id="side-menu">
+						<li><a href="modificarcarrera.html"><i
+								class="fa fa-flag-checkered fa-fw"></i> Carreras<span
+								class="fa fa-angle-double-left" style="float: right;"></span></a>
 
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="carreranueva.html">Nueva</a>
-                                </li>
+							<ul class="nav nav-second-level">
+								<li><a href="carreranueva.html">Nueva</a></li>
 
-                                <li>
-                                    <a href="modificarcarrera.html">Modificar</a>
-                                </li>
-                            </ul>
-                        </li>
+								<li><a href="modificarcarrera.html">Modificar</a></li>
+							</ul></li>
 
-                        <li>
-                            <a href="#"><i class="fa fa-group fa-fw"></i>
-                            Grupos<span class="fa fa-angle-double-left" style=
-                            "float: right;"></span></a>
+						<li><a class="active" href="#"><i
+								class="fa fa-group fa-fw"></i> Grupos<span
+								class="fa fa-angle-double-left" style="float: right;"></span></a>
 
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="gruponuevo.html">Nuevo</a>
-                                </li>
+							<ul class="nav nav-second-level">
+								<li><a href="gruponuevo.html">Nuevo</a></li>
 
-                                <li>
-                                    <a href="modificargrupo.html">Modificar</a>
-                                </li>
-                            </ul>
-                        </li>
+								<li><a href="modificargrupo.html">Modificar</a></li>
+							</ul></li>
 
-                        <li>
-                            <a href="#"><i class="fa fa-user"></i>
-                            Reportes<span class="fa fa-angle-double-left" style=
-                            "float: right;"></span></a>
+						<li><a href="#"><i class="fa fa-user"></i> Reportes<span
+								class="fa fa-angle-double-left" style="float: right;"></span></a>
 
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="usuarios.html">Usuarios</a>
-                                </li>
+							<ul class="nav nav-second-level">
+								<li><a href="usuarios.html">Usuarios</a></li>
 
-                            </ul>
-                        </li>
+							</ul></li>
 
-                    </ul>
-                </div>
-            </div> 
-        </nav><!-- Barra navegacion izquierda -->
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<!-- Barra navegacion izquierda -->
 
-        <div id="page-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">Modificar grupo</h1>
-                    </div>
+		<div id="page-wrapper">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<h1 class="page-header">Modificar grupo</h1>
+					</div>
 
-                    <div class="row">
-                        <div class="col-lg-12"><!-- Boton colapse -->
+					<div class="row">
+						<div class="col-lg-6 col-md-offset-3">
+							<div id="formBusqueda" class="collapse in">
+								<!-- Parametros de busqueda -->
 
+								<div class="input-group">
+									<input type="text" class="form-control dataField"
+										placeholder="Nombre del grupo" name="nombre" id="input_nombre"> <span
+										class="input-group-btn">
+										<button class="btn btn-default" id="btnBuscar" type="button">Go!</button>
+									</span>
+								</div>
 
-                        <button id="botonBusqueda" type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" style="margin-bottom:15px; padding-right:20px">Parametros de busqueda <i class="fa fa-bars" style="margin-left:40%"></i></button>
+							</div>
+						</div>
 
-                            <div id="demo" class="collapse"><!-- Parametros de busqueda -->
+					</div>
 
-                            <div class="dataTables_filter" id="filtro4">
-                                <label>Nombre<input class=
-                                "form-control input-sm" placeholder="" type=
-                                "search"></label>
-                            </div>
+					<div class="row" style="margin-top:30px">
+						<!-- Tabla resultado -->
+						<table cellspacing="0" class="table table-striped table-bordered"
+							id="dataTable" style="margin-left: 15px;" width="100%">
+							<thead>
+								<tr>
+									<th>Nombre</th>
+									<th style="">Acciones</th>
 
-                            <div class="dataTables_filter" id="filtro5">
-                                <label>Descripción<input class=
-                                "form-control input-sm" placeholder="" type=
-                                "search"></label>
-                            </div>
+								</tr>
+							</thead>
 
-                                 <div class="dataTables_filter" id="filtro7">
-                                <input class="btn" style=
-                                "margin-top: 5px; margin-bottom: 15px;
-                                border: 1px solid grey;"
-                                type="button" value="Buscar">
-                            </div>
+							<tbody>
+								<tr name="template" display='none'>
+									<td name="nombre"></td>
+									<td name="actions" skip><a href="#" name="edit"
+										class="btn btn-info btn-sm"> <span
+											class="glyphicon glyphicon-pencil"></span>
+									</a> <!-- <a href="#" name="delete"  class="btn btn-danger btn-sm">
+    									<span class="glyphicon glyphicon-trash"></span>
+  									</a> --></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- /.col-lg-12 -->
+				</div>
+				<!-- /.row -->
+			</div>
+			<!-- /.container-fluid -->
+		</div>
+		<!-- /#page-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+	<!-- jQuery -->
+	<script src="../jquery/jquery.min.js"></script>
+	<!-- Bootstrap Core JavaScript -->
+	<script src="../js/bootstrap.min.js"></script>
+	<!-- Custom Theme JavaScript -->
+	<script src="../js/custom.js"></script>
+	<script src="../js/utils.js"></script>
+	<script>
+		function mapToTable(data, table) {
+			var row;
+			$(table).find("tbody").empty();
+			$(data).each(function(i, e) {
+				row = rowTemplate.clone();
+				$(row).data("grupo", e);
+				row.find("td[name='nombre']").html(e.nombre);
+				row.find("a[name='edit']").attr("href",
 
-                        </div>
-                        </div>
+				"gruponuevo.html?idGrupo=" + e.id);
+				$(table).append(row);
 
-                    </div>
+			})
+		}
 
-                    <div class="row"> <!-- Tabla resultado -->
-                        <table cellspacing="0" class=
-                        "table table-striped table-bordered" id="example"
-                        style="margin-left:15px;" width="100%">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
+		var rowTemplate;
 
-                                    <th>Descripción</th>
+		$(document)
+				.ready(
+						function() {
+							$("#input_nombre").keyup(function(event){
+							    if(event.keyCode == 13){
+							        $("#btnBuscar").click();
+							    }
+							});
+							rowTemplate = $("#dataTable tr[name='template']")
+									.clone()
+							rowTemplate.removeAttr('display')
+									.removeAttr('name');
+							$("#dataTable tbody").empty();
+							$("#btnBuscar")
+									.bind(
+											"click",
+											function() {
+												var settings = {
+													"async" : true,
+													"url" : "http://localhost:8080/RestServicesRunning/running/grupos/getGrupos/"
+															+ $("#input_nombre")
+																	.val(),
+													"method" : "GET",
+													"headers" : {
+														"accept" : "application/json",
+														"content-type" : "application/json; charset=UTF-8"
+													}
+												}
 
-                                    <th style="">Acciones</th>
+												$
+														.ajax(settings)
+														.done(
+																function(data) {
+																	console
+																			.log(data.dto);
+																	mapToTable(
+																			data.dto,
+																			$("#dataTable"));
+																});
+											})
 
-                                </tr>
-                            </thead>
+							var formBusqueda = getFormData($("#formBusqueda"));
+							if (!jQuery.isEmptyObject(formBusqueda)) {
+								$("#btnBuscar").click()
 
-                            <tbody>
-                                <tr>
-                                    <td>Grupo 1</td>
+							}
 
-                                    <td>Un buen grupo</td>
-
-                                    <td id="row_nueva">
-                                        <a href="carreranueva.html" id="icon_nueva">
-                                        <p data-placement="top" data-toggle=
-                                        "tooltip" title="Edit"><button class=
-                                        "btn btn-primary btn-xs" data-target=
-                                        "#edit" data-title="Edit" data-toggle=
-                                        "modal"><span class=
-                                        "glyphicon glyphicon-pencil"></span></button></p></a>
-
-                                        <p data-placement="top" data-toggle=
-                                        "tooltip" title="Delete"><button class=
-                                        "btn btn-danger btn-xs" data-target=
-                                        "#delete" data-title="Delete"
-                                        data-toggle="modal"><span class=
-                                        "glyphicon glyphicon-trash"></span></button></p>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>Grupo 2</td>
-
-                                    <td>Un buen grupo</td>
-
-                                    <td id="row_nueva">
-                                        <a href="carreranueva.html" id="icon_nueva">
-                                        <p data-placement="top" data-toggle=
-                                        "tooltip" title="Edit"><button class=
-                                        "btn btn-primary btn-xs" data-target=
-                                        "#edit" data-title="Edit" data-toggle=
-                                        "modal"><span class=
-                                        "glyphicon glyphicon-pencil"></span></button></p></a>
-
-                                        <p data-placement="top" data-toggle=
-                                        "tooltip" title="Delete"><button class=
-                                        "btn btn-danger btn-xs" data-target=
-                                        "#delete" data-title="Delete"
-                                        data-toggle="modal"><span class=
-                                        "glyphicon glyphicon-trash"></span></button></p>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>Grupo 3</td>
-
-                                    <td>Un buen grupo</td>
-
-                                    <td id="row_nueva">
-                                        <a href="carreranueva.html" id="icon_nueva">
-                                        <p data-placement="top" data-toggle=
-                                        "tooltip" title="Edit"><button class=
-                                        "btn btn-primary btn-xs" data-target=
-                                        "#edit" data-title="Edit" data-toggle=
-                                        "modal"><span class=
-                                        "glyphicon glyphicon-pencil"></span></button></p></a>
-
-                                        <p data-placement="top" data-toggle=
-                                        "tooltip" title="Delete"><button class=
-                                        "btn btn-danger btn-xs" data-target=
-                                        "#delete" data-title="Delete"
-                                        data-toggle="modal"><span class=
-                                        "glyphicon glyphicon-trash"></span></button></p>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>Grupo 4</td>
-
-                                    <td>Un buen grupo</td>
-
-                                    <td id="row_nueva">
-                                        <a href="carreranueva.html" id="icon_nueva">
-                                        <p data-placement="top" data-toggle=
-                                        "tooltip" title="Edit"><button class=
-                                        "btn btn-primary btn-xs" data-target=
-                                        "#edit" data-title="Edit" data-toggle=
-                                        "modal"><span class=
-                                        "glyphicon glyphicon-pencil"></span></button></p></a>
-
-                                        <p data-placement="top" data-toggle=
-                                        "tooltip" title="Delete"><button class=
-                                        "btn btn-danger btn-xs" data-target=
-                                        "#delete" data-title="Delete"
-                                        data-toggle="modal"><span class=
-                                        "glyphicon glyphicon-trash"></span></button></p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div><!-- /.col-lg-12 -->
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </div><!-- /#page-wrapper -->
-    </div><!-- /#wrapper -->
-    <!-- jQuery -->
-    <script src="../jquery/jquery.min.js"></script> <!-- Bootstrap Core JavaScript -->
-     <script src="../js/bootstrap.min.js"></script> <!-- Custom Theme JavaScript -->
-     <script src="../js/custom.js"></script>
+						});
+	</script>
 </body>
 </html>

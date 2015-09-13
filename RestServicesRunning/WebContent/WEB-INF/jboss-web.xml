@@ -1,0 +1,3 @@
+   <jboss-web>
+       <security-domain>MyDomain</security-domain>
+   </jboss-web>

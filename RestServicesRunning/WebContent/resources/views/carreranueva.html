@@ -30,7 +30,7 @@
 			<div class="navbar-default sidebar" style="margin-top: 8%;">
 				<div class="sidebar-nav" style="">
 					<ul class="nav" id="side-menu">
-						<li><a href="modificarcarrera.html"><i
+						<li><a class="active" href="#"><i
 								class="fa fa-flag-checkered fa-fw"></i> Carreras<span
 								class="fa fa-angle-double-left" style="float: right;"></span></a>
 
@@ -91,13 +91,14 @@
 								</div>
 							</div>
 
-							<div class="form-group">
+							<div class="form-group has-feedback">
 								<label class="control-label col-xs-2" for="inputName">Nombre
 									carrera</label>
 
 								<div class="col-xs-5">
-									<input class="form-control dataField" name="nombre"
+									<input required class="form-control dataField has-feedfack" name="nombre"
 										placeholder="Nombre de carrera" size="15" type="name">
+										
 								</div>
 							</div>
 
@@ -115,7 +116,7 @@
 								<label class="control-label col-xs-2">Provincia</label>
 
 								<div class="col-xs-5">
-									<select class="form-control dataField" name="provincia"
+									<select required class="form-control dataField" name="provincia"
 										onchange="cambia_provincia()">
 										<option value="0">Todas las provincias</option>
 
@@ -152,7 +153,7 @@
 								<label class="control-label col-xs-2" for="ciudad">Ciudad</label>
 
 								<div class="col-xs-5">
-									<input class="form-control dataField" name="ciudad"
+									<input required class="form-control dataField" name="ciudad"
 										placeholder="Ingrese nombre de la ciudad" size="15"
 										type="text">
 								</div>
@@ -193,7 +194,7 @@
 									en kilometros</label>
 
 								<div class="col-xs-5">
-									<input class="form-control dataField"
+									<input required class="form-control dataField"
 										name="distanciaDisponible" placeholder="Separadas por '/' "
 										type="text" required>
 								</div>
@@ -231,7 +232,7 @@
 					<div class="col-xs-4">
 						<!-- Boton Cancelar -->
 						<input class="btn" style="margin-left: -7%;" type="button"
-							onClick="window.history.back();" value="Cancelar">
+							onClick="location.href='modificarcarrera.html'" value="Cancelar">
 					</div>
 				</div>
 			</div>
@@ -251,27 +252,35 @@
 	<script>
 
 		var carrera = {};
+		
 		function guardarCarrera() {
-			carrera = getFormData($("#f1"));
-			var codigo = getUrlParameter("codigo");
-			if(codigo){
-				carrera.idCarrera = codigo;
+			var form = $("#f1");
+			if(isValidForm(form)){
+				carrera = getFormData(form);
+				var codigo = getUrlParameter("codigo");
+				if(codigo){
+					carrera.idCarrera = codigo;
+				}
+				var settings = {
+					"async" : true,
+					"url" : "http://localhost:8080/RestServicesRunning/running/carreras/createCarrera",
+					"method" : "POST",
+					"headers" : {
+						"accept" : "application/json",
+						"content-type" : "application/json; charset=UTF-8"
+					},
+					"data" : JSON.stringify(carrera)
+				}
+	
+				$.ajax(settings).done(function(data) {
+					if(data.codigoRespuesta == '201'){
+						displayMessage(data.mensajes[0],"S",$("#txtHeader").parent() )
+					}else{
+						displayMessage(data.mensajes[0] + ' - ' + data.codigoRespuesta,"E",$("#txtHeader").parent() )
+					}
+					
+				});
 			}
-			var settings = {
-				"async" : true,
-				"url" : "http://localhost:8080/RestServicesRunning/running/carreras/createCarrera",
-				"method" : "POST",
-				"headers" : {
-					"accept" : "application/json",
-					"content-type" : "application/json; charset=UTF-8"
-				},
-				"data" : JSON.stringify(carrera)
-			}
-
-			$.ajax(settings).done(function(data) {
-				console.log(data);
-			});
-
 		}
 		
 		$(document)
@@ -296,7 +305,12 @@
 								}
 								$.ajax(settings).done(function(data) {
 									carrera = data.dto;
-									mapToForm(carrera, $("#f1"));
+									if(data.codigoRespuesta == '200'){
+										mapToForm(carrera, $("#f1"));	
+									}else{
+										displayMessage(data.mensajes[0] + ' - ' + data.codigoRespuesta,"E",$("#txtHeader").parent() )
+									}
+									
 								});
 
 							} else {

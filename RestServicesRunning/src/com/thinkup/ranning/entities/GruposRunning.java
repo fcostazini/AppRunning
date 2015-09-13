@@ -23,6 +23,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 		@NamedQuery(name = GruposRunning.QUERY_ALL, query = "Select g FROM GruposRunning g"),
 		@NamedQuery(name = GruposRunning.QUERY_BY_NOMBRE, query = "Select g FROM GruposRunning g WHERE g.nombre = :"
 				+ GruposRunning.PARAM_NOMBRE),
+	    @NamedQuery(name = GruposRunning.QUERY_BY_NOMBRE_LIKE, query = "Select g FROM GruposRunning g "
+	    		+ " WHERE upper(g.nombre) LIKE :"
+						+ GruposRunning.PARAM_NOMBRE ),
 		@NamedQuery(name = GruposRunning.QUERY_BY_ID, query = "Select g FROM GruposRunning g WHERE g.id = :"
 				+ GruposRunning.PARAM_ID) })
 @XmlRootElement
@@ -35,6 +38,7 @@ public class GruposRunning implements Serializable {
 	// Named Queries
 	public static final String QUERY_ALL = "getAllGrupos";
 	public static final String QUERY_BY_NOMBRE = "getGrupoByNombre";
+	public static final String QUERY_BY_NOMBRE_LIKE = "getGrupoByNombreLike";
 	public static final String QUERY_BY_ID = "getGrupoByID";
 
 	/**

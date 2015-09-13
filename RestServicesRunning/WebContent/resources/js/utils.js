@@ -1,7 +1,23 @@
+function isValidForm(form) {
+	$(form).find(".has-error").removeClass("has-error");
+	$(form).find(".form-control[required]").each(function(i, e) {
+		if ($(e).val() == "") {
+			$(e).parent().parent().addClass("has-error has-feedback");
+		}
+	})
+	if ($(form).find(".has-error").length > 0) {
+		displayMessage(
+				"Falta completar campos obligatorios. Se marcaron en <strong style='color:red'>Rojo</strong>",
+				"E", $("#txtHeader").parent());
+		return false;
+	}
+	return true;
+}
 function getFormData(form) {
 	var formData = {};
 	$(form).find(".dataField").each(function(i, e) {
-		if($(e).val()!=""){
+
+		if ($(e).val() != "") {
 			switch (e.tagName) {
 			case "INPUT":
 				switch (e.type) {
@@ -9,12 +25,12 @@ function getFormData(form) {
 					formData[e.name] = new Date($(e).val());
 					break;
 				case "time":
-					if($(e).val().length == 5){
+					if ($(e).val().length == 5) {
 						formData[e.name] = $(e).val() + ":00";
-					}else{
-						formData[e.name] = $(e).val();	
+					} else {
+						formData[e.name] = $(e).val();
 					}
-					
+
 					break;
 				case "checkbox":
 					formData[e.name] = $(e).is(":checked");
@@ -36,10 +52,42 @@ function getFormData(form) {
 			default:
 				break;
 			}
-		
+
 		}
 	});
+
 	return formData;
+}
+
+function displayMessage(message, type, container) {
+	$("#alertDiv").remove();
+	var divStr = "<div id='alertDiv' class='alert'>"
+			+ "   <a href='#' class='close' data-dismiss='alert'>&times;</a>"
+			+ "   <span style='margin-right:20px' class='glyphicon' id='iconAlert'></span>"
+			+ message + "</div>";
+	var alertDiv = $(divStr);
+
+	switch (type) {
+	case "E":
+		alertDiv.addClass("alert-warning");
+		alertDiv.find("#iconAlert").addClass("glyphicon-warning-sign")
+		break;
+	case "W":
+		alertDiv.addClass("alert-info");
+		alertDiv.find("#iconAlert").addClass("glyphicon-question-sign")
+		break;
+	case "S":
+		alertDiv.addClass("alert-success");
+		alertDiv.find("#iconAlert").addClass("glyphicon-ok")
+		break;
+	default:
+		alertDiv.addClass("alert-warning");
+		alertDiv.find("#iconAlert").addClass("glyphicon-warning-sign")
+	}
+	container.append(alertDiv);
+	alertDiv.focus();
+	location.href = "#";
+
 }
 
 function mapToForm(data, form) {
@@ -87,9 +135,9 @@ function getDateFromTime(time) {
 
 }
 
-function vistaPrevia(imagen, valor){
-	$("#"+imagen).attr("src", valor);
-	
+function vistaPrevia(imagen, valor) {
+	$("#" + imagen).attr("src", valor);
+
 }
 function getUrlParameter(sParam) {
 	var sPageURL = decodeURIComponent(window.location.search.substring(1)), sURLVariables = sPageURL

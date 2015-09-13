@@ -3,6 +3,7 @@ package com.thinkup.ranning.server.rest;
 import java.util.List;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -126,17 +127,18 @@ public class CarreraService {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed("SUPER_USER")
 	public Respuesta<Carrera> createCarrera(Carrera carrera) {
 		try {
 			service.saveCarrera(carrera);
 			Respuesta<Carrera> r = new Respuesta<Carrera>();
-			r.addMensaje("La carrera se persistió con exito.");
+			r.addMensaje("La carrera se guardó correctamente.");
 			r.setCodigoRespuesta(Respuesta.CODIGO_CREACION_MODIFICACION_OK);
 			return r;
 
 		} catch (PersistenciaException e) {
 			Respuesta<Carrera> r = new Respuesta<Carrera>();
-			r.addMensaje("No se pudo persistir por problemas en la base de datos.");
+			r.addMensaje("No se pudo guardar por problemas en la base de datos.");
 			r.setCodigoRespuesta(Respuesta.CODIGO_ERROR_INTERNO);
 			return r;
 		}

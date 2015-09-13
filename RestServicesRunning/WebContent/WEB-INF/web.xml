@@ -3,5 +3,47 @@
 	xmlns="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
-  
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Public Area</web-resource-name>
+			<url-pattern>/resources/css</url-pattern>
+			<url-pattern>/resources/fonts</url-pattern>
+			<url-pattern>/resources/img</url-pattern>
+			<url-pattern>/resources/jquery</url-pattern>
+			<url-pattern>/resources/js</url-pattern>
+			<url-pattern>/resources/mentisMenu</url-pattern>
+			<url-pattern>/resources/views/index.html</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Super User Area</web-resource-name>
+			<url-pattern>/resources/views/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>SUPER_USER</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>REST Super user</web-resource-name>
+			<url-pattern>/running/carreras/createCarrera</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>SUPER_USER</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-role>
+		<description>Super User</description>
+		<role-name>SUPER_USER</role-name>
+	</security-role>
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<realm-name>MyDomain</realm-name>
+		<form-login-config>
+			<form-login-page>/resources/views/index.html</form-login-page>
+			<form-error-page>/resources/views/index.html?error=200</form-error-page>
+		</form-login-config>
+	</login-config>
 </web-app>

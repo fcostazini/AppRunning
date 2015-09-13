@@ -45,7 +45,7 @@
                         </li>
 
                         <li>
-                            <a href="#"><i class="fa fa-group fa-fw"></i>
+                            <a class="active" href="#"><i class="fa fa-group fa-fw"></i>
                             Grupos<span class="fa fa-angle-double-left" style=
                             "float: right;"></span></a>
 
@@ -82,29 +82,19 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Nuevo grupo</h1>
+                        <h1 id="txtHeader" class="page-header"></h1>
                     </div>
 
                     <div class="col-lg-12">
-                        <form class="form-horizontal">
+                        <form class="form-horizontal" id="f1">
                             <div class="form-group">
                                 <label class="control-label col-xs-2" for=
                                 "inputName">Nombre grupo</label>
 
                                 <div class="col-xs-5">
-                                    <input class="form-control" name="usarname"
-                                    placeholder="Ingrese nombre de grupo" size=
+                                    <input required class="form-control dataField" name="nombre"
+                                    placeholder="Ingrese nombre  de grupo" size=
                                     "15" type="name">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-xs-2" for=
-                                "inputName">Descripcion</label>
-
-                                <div class="col-xs-5">
-                                    <textarea class="form-control text2">
-                                    </textarea>
                                 </div>
                             </div>
                         </form>
@@ -113,13 +103,13 @@
 
                 <div class="row"> 
                     <div class="col-xs-6"><!-- Boton guardar -->
-                        <input class="btn" style="float: right; margin-right:20px" type="button"
+                        <input id="btnGuardar" class="btn" style="float: right; margin-right:20px" type="button"
                         value="Guardar">
                     </div>
 
                     <div class="col-xs-4"><!-- Boton Cancelar -->
                         <input class="btn" style="margin-left:-7%;" type=
-                        "button" value="Cancelar">
+                        "button" value="Cancelar" onClick="location.href='modificargrupo.html'"> 
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -129,5 +119,69 @@
     <script src="../jquery/jquery.min.js"></script> <!-- Bootstrap Core JavaScript -->
      <script src="../js/bootstrap.min.js"></script> <!-- Custom Theme JavaScript -->
      <script src="../js/custom.js"></script>
+     <script src="../js/utils.js"></script>
+     <script>
+     var grupo = {};
+     function guardarGrupo() {
+			var form = $("#f1");
+			if(isValidForm(form)){
+				grupo = getFormData(form);
+				var idGrupo = getUrlParameter("idGrupo");
+				if(idGrupo){
+					grupo.id = idGrupo;
+				}
+				var settings = {
+					"async" : true,
+					"url" : "http://localhost:8080/RestServicesRunning/running/grupos/crearGrupo",
+					"method" : "POST",
+					"headers" : {
+						"accept" : "application/json",
+						"content-type" : "application/json; charset=UTF-8"
+					},
+					"data" : JSON.stringify(grupo)
+				}
+	
+				$.ajax(settings).done(function(data) {
+					if(data.codigoRespuesta == '201'){
+						displayMessage(data.mensajes[0],"S",$("#txtHeader").parent() )
+					}else{
+						displayMessage(data.mensajes[0] + ' - ' + data.codigoRespuesta,"E",$("#txtHeader").parent() )
+					}
+					
+				});
+			}
+		}
+     $(document).ready(function(){
+    	 var idGrupo = getUrlParameter("idGrupo");
+			if (idGrupo) {
+				$("#txtHeader").html("Modificar Grupo");
+				var settings = {
+					"async" : true,
+					"crossDomain" : true,
+					"url" : "http://localhost:8080/RestServicesRunning/running/grupos/getGrupoById/"
+							+ idGrupo,
+					"method" : "GET",
+					"headers" : {
+						"accept" : "application/json",
+						"content-type" : "application/json; charset=UTF-8"
+					}
+				}
+				$.ajax(settings).done(function(data) {
+					carrera = data.dto;
+					if(data.codigoRespuesta == '200'){
+						mapToForm(carrera, $("#f1"));	
+					}else{
+						displayMessage(data.mensajes[0] + ' - ' + data.codigoRespuesta,"E",$("#txtHeader").parent() )
+					}
+					
+				});
+
+			} else {
+				$("#txtHeader").html("Nuevo Grupo");
+			}
+			$("#btnGuardar").bind("click", guardarGrupo);
+    	 
+     });
+     </script>
 </body>
 </html>

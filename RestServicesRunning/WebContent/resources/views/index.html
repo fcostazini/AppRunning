@@ -29,13 +29,13 @@
 <center>
  <div class="container" style="margin-top:10%;">
 
-      <form class="form-signin" style="width:30%">
+     <form name="loginForm" method="POST" action="j_security_check">
         <h3 class="form-signin-heading">Sign in</h3>
         <label for="inputEmail" class="sr-only">Usuario</label>
-        <input type="text" id="inputEmail" class="form-control" placeholder="Nombre de usuario" autofocus="" style="margin-bottom:20px">
+        <input name="j_username" type="text" id="inputEmail" class="form-control" placeholder="Nombre de usuario" autofocus="" style="margin-bottom:20px">
         <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password"  maxlength="8" style="margin-bottom:20px">
-        <a href="modificarcarrera.html"> <button class="btn btn-lg btn-primary btn-block" type="button">Ingresar</button> </a>
+        <input name="j_password" type="password" id="inputPassword" class="form-control" placeholder="Password" style="margin-bottom:20px">
+        <a href="modificarcarrera.html"> <button class="btn btn-lg btn-primary btn-block" type="submit">Ingresar</button> </a>
       </form>
 
     </div> 
