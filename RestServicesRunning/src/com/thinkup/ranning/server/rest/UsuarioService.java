@@ -250,7 +250,7 @@ public class UsuarioService {
 				r.setCodigoRespuesta(Respuesta.CODIGO_SOLICITUD_INCORRECTA);
 				return r;
 			}
-			Usuario u = null;
+			
 			if (usuariosDTO.getTipoCuenta().equals(TipoCuenta.PROPIA.getTipo())) {
 
 				usuariosDTO.setVerificado(false);

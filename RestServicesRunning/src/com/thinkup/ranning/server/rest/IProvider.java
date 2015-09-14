@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.thinkup.ranning.dtos.Respuesta;
-import com.thinkup.ranning.entities.UsuarioCarrera;
 import com.thinkup.ranning.server.rest.exception.EntidadNoGuardadaException;
 
 /**

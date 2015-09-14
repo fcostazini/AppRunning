@@ -14,7 +14,6 @@ import javax.ws.rs.core.MediaType;
 import com.thinkup.ranning.dao.FiltrosDao;
 import com.thinkup.ranning.dtos.ProvinciaCiudadDTO;
 import com.thinkup.ranning.dtos.Respuesta;
-import com.thinkup.ranning.entities.UsuarioCarrera;
 
 @Path("/filtros")
 public class FiltrosService {
