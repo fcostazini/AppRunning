@@ -99,7 +99,20 @@ public class AcercaDeNosotrosFragment extends Fragment implements View.OnClickLi
             }
 
         });
+        RelativeLayout email = (RelativeLayout) rootView.findViewById(R.id.email);
+        email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("message/rfc822");
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getResources().getString(R.string.email_contact)});
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Sugerencias");
+                Intent mailer = Intent.createChooser(intent, null);
+                startActivity(mailer);
 
+            }
+
+        });
 
     }
 
