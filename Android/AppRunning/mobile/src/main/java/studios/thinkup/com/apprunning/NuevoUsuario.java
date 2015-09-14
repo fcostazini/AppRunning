@@ -10,21 +10,22 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,24 +36,44 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Vector;
 
 import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
 import studios.thinkup.com.apprunning.model.PasswordEncoder;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.GrupoRunning;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
-import studios.thinkup.com.apprunning.provider.GrupoRunningProvider;
-import studios.thinkup.com.apprunning.provider.IGrupoRunningProvider;
+import studios.thinkup.com.apprunning.provider.GrupoRunningService;
 import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemote;
 
 
-public class NuevoUsuario extends Activity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class NuevoUsuario extends Activity implements View.OnClickListener, AdapterView.OnItemSelectedListener, GrupoRunningService.IServiceGruposHandler {
     public static final String NUEVO_USUARIO = "nuevoUsuario";
     private static ProgressDialog pd;
     private UsuarioApp ua;
     private boolean nuevoUsuario;
+    private ArrayAdapter<String> autoCompleteAdapter;
+
+    final TextWatcher textChecker = new TextWatcher() {
+        public void afterTextChanged(Editable s) {
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (s.length() >2) {
+
+                GrupoRunningService gp = new GrupoRunningService(NuevoUsuario.this, NuevoUsuario.this);
+                gp.execute(s.toString());
+            }else{
+                autoCompleteAdapter.clear();
+            }
+
+        }
+    };
 
     protected static void showProgress(Context context, String message) {
         pd = new ProgressDialog(context);
@@ -159,45 +180,12 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
         calendario.setOnClickListener(dl);
         txtFechaNac.setOnClickListener(dl);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item) {
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-
-
-                return super.getView(position, convertView, parent);
-            }
-
-            @Override
-            public int getCount() {
-                return super.getCount(); // you dont display last item. It is used as hint.
-            }
-
-        };
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        IGrupoRunningProvider gp = new GrupoRunningProvider(this);
-        List<GrupoRunning> grupos = gp.findAll(GrupoRunning.class);
-        int selection = -1;
-        int count = 0;
-        for (GrupoRunning g : grupos) {
-            adapter.add(g.getNombre());
-            if (this.ua.getGrupoId() != null && !this.ua.getGrupoId().isEmpty()) {
-                if (g.getNombre().equals(this.ua.getGrupoId())) {
-                    selection = count;
-                }
-            }
-            count++;
-        }
-
-        Spinner spinner = (Spinner) findViewById(R.id.sp_grupo);
-        spinner.setAdapter(adapter);
-        if (selection >= 0) {
-            spinner.setSelection(selection); //display hint
-        } else {
-            spinner.setSelection(0); //display hint
-        }
-        spinner.setOnItemSelectedListener(this);
+        AutoCompleteTextView actv = (AutoCompleteTextView) findViewById(R.id.txt_auto_grupo);
+        actv.setVisibility(View.VISIBLE);
+        autoCompleteAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line);
+        autoCompleteAdapter.setNotifyOnChange(true);
+        actv.setAdapter(autoCompleteAdapter);
+        actv.addTextChangedListener(textChecker);
 
         if (nuevoUsuario) {
             TextView pass = (TextView) findViewById(R.id.txt_pass);
@@ -293,15 +281,15 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
         TextView txtEmail = (TextView) findViewById(R.id.txt_email);
         this.ua.setEmail(txtEmail.getText().toString());
         TextView txtFechaNac = (TextView) findViewById(R.id.txt_fecha_nac);
+
+        AutoCompleteTextView grupo =(AutoCompleteTextView)findViewById(R.id.txt_auto_grupo);
+        this.ua.setGrupoId(grupo.getText().toString());
         if (nuevoUsuario) {
             TextView txtPass = (TextView) findViewById(R.id.txt_pass);
             this.ua.setPassword(PasswordEncoder.encodePass(txtPass.getText().toString()));
         }
         this.ua.setFechaNacimiento(txtFechaNac.getText().toString());
-        Spinner grupo = (Spinner) findViewById(R.id.sp_grupo);
-        if (!grupo.getSelectedItem().equals(getString(R.string.corres_grupo))) {
-            this.ua.setGrupoId((String) grupo.getSelectedItem());
-        }
+
     }
 
     private boolean verificarCamposObligatorios() {
@@ -447,5 +435,20 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
         }
     }
 
+    @Override
+    public void onDataRetrived(List<GrupoRunning> grupos) {
+        List<String> gruposStr = new Vector<>();
+        for (GrupoRunning g : grupos) {
+            gruposStr.add(g.getNombre());
+        }
+        this.autoCompleteAdapter.addAll(gruposStr);
+        this.autoCompleteAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onError(String error) {
+        this.autoCompleteAdapter.addAll(new Vector<String>());
+        this.autoCompleteAdapter.notifyDataSetChanged();
+    }
 
 }

@@ -122,7 +122,7 @@ public class UsuarioDAO {
 		usuario.setPassword(usuariosDTO.getPassword());
 		usuario.setTipoCuenta(usuariosDTO.getTipoCuenta());
 		usuario.setVerificado(usuariosDTO.getVerificado());
-		if (!usuariosDTO.getGrupoId().equals("Ninguno")) {
+		if (!usuariosDTO.getGrupoId().trim().equals("")) {
 			TypedQuery<GruposRunning> q = entityManager.createNamedQuery(
 					GruposRunning.QUERY_BY_NOMBRE, GruposRunning.class);
 			q.setParameter(GruposRunning.PARAM_NOMBRE, usuariosDTO.getGrupoId());

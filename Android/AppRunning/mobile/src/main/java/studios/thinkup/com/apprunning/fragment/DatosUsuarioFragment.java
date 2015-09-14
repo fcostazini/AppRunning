@@ -9,15 +9,17 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Vector;
 
 import studios.thinkup.com.apprunning.DatosUsuarioActivity;
 import studios.thinkup.com.apprunning.MainActivity;
@@ -37,8 +40,7 @@ import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.GrupoRunning;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
-import studios.thinkup.com.apprunning.provider.GrupoRunningProvider;
-import studios.thinkup.com.apprunning.provider.IGrupoRunningProvider;
+import studios.thinkup.com.apprunning.provider.GrupoRunningService;
 import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemote;
@@ -46,9 +48,30 @@ import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemo
 /**
  * Fragment de datos de usuario
  */
-public class DatosUsuarioFragment extends Fragment implements View.OnClickListener {
+public class DatosUsuarioFragment extends Fragment implements View.OnClickListener, GrupoRunningService.IServiceGruposHandler {
     private static ProgressDialog pd;
     private Boolean displayOnly;
+    private ArrayAdapter<String> autoCompleteAdapter;
+
+    final TextWatcher textChecker = new TextWatcher() {
+        public void afterTextChanged(Editable s) {
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (s.length() > 2) {
+
+                GrupoRunningService gp = new GrupoRunningService(DatosUsuarioFragment.this.getActivity(), DatosUsuarioFragment.this);
+                gp.execute(s.toString());
+            } else {
+                autoCompleteAdapter.clear();
+            }
+
+        }
+    };
+
     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
@@ -60,13 +83,13 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
                         UsuarioProvider up = new UsuarioProvider(getActivity());
-                        if(up.deleteUsuario(ua)) {
+                        if (up.deleteUsuario(ua)) {
                             getActivity().startActivity(i);
                             getActivity().finish();
-                        }else{
-                            Toast.makeText(getActivity(),"No se pudo desvincular la cuenta",Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getActivity(), "No se pudo desvincular la cuenta", Toast.LENGTH_SHORT).show();
                         }
-                    //TODO: BORRAR EL USUARIO LOCAL
+                        //TODO: BORRAR EL USUARIO LOCAL
                     }
                     dialog.dismiss();
                     break;
@@ -147,7 +170,8 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
         TextView txtEmail = (TextView) rootView.findViewById(R.id.txt_email);
         txtEmail.setText(this.ua.getEmail());
         TextView txtFechaNac = (TextView) rootView.findViewById(R.id.txt_fecha_nac);
-
+        AutoCompleteTextView actv = (AutoCompleteTextView) rootView.findViewById(R.id.txt_auto_grupo);
+        actv.setText(this.ua.getGrupoId());
         txtFechaNac.setText(this.ua.getFechaNacimiento());
         txtFechaNac.setInputType(InputType.TYPE_NULL);
         ImageView perfil = (ImageView) rootView.findViewById(R.id.img_profile);
@@ -162,7 +186,6 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
         DatePickerListener dl = new DatePickerListener(txtFechaNac);
 
 
-        Spinner spinner = (Spinner) rootView.findViewById(R.id.sp_grupo);
         Button guardar = (Button) rootView.findViewById(R.id.btn_guardar);
         Button logout = (Button) rootView.findViewById(R.id.btn_logout);
 
@@ -182,41 +205,18 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
             TextView txtGrupo = (TextView) rootView.findViewById(R.id.txt_grupo);
             txtGrupo.setText(ua.getGrupoId());
             txtGrupo.setVisibility(View.VISIBLE);
-            spinner.setVisibility(View.GONE);
+            actv.setInputType(InputType.TYPE_NULL);
+            actv.setFocusable(false);
+
+
         } else {
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_dropdown_item) {
-                @Override
-                public View getView(int position, View convertView, ViewGroup parent) {
-                    return super.getView(position, convertView, parent);
-                }
 
-                @Override
-                public int getCount() {
-                    return super.getCount(); // you dont display last item. It is used as hint.
-                }
-            };
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-            IGrupoRunningProvider gp = new GrupoRunningProvider(this.getActivity());
-            List<GrupoRunning> grupos = gp.findAll(GrupoRunning.class);
-            int selection = -1;
-            int count = 0;
-            for (GrupoRunning g : grupos) {
-                adapter.add(g.getNombre());
-                if (this.ua.getGrupoId() != null && !this.ua.getGrupoId().isEmpty()) {
-                    if (g.getNombre().equals(this.ua.getGrupoId())) {
-                        selection = count;
-                    }
-                }
-                count++;
-            }
+            autoCompleteAdapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_dropdown_item_1line);
+            autoCompleteAdapter.setNotifyOnChange(true);
+            actv.setAdapter(autoCompleteAdapter);
+            actv.addTextChangedListener(textChecker);
 
-            spinner.setAdapter(adapter);
-            if (selection >= 0) {
-                spinner.setSelection(selection); //display hint
-            } else {
-                spinner.setSelection(0); //display hint
-            }
 
             guardar.setOnClickListener(this);
             calendario.setOnClickListener(dl);
@@ -274,10 +274,8 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
             TextView txtFechaNac = (TextView) getView().findViewById(R.id.txt_fecha_nac);
 
             this.ua.setFechaNacimiento(txtFechaNac.getText().toString());
-            Spinner grupo = (Spinner) getView().findViewById(R.id.sp_grupo);
-            if (!grupo.getSelectedItem().equals(getString(R.string.corres_grupo))) {
-                this.ua.setGrupoId((String) grupo.getSelectedItem());
-            }
+            AutoCompleteTextView grupo = (AutoCompleteTextView) getView().findViewById(R.id.txt_auto_grupo);
+            this.ua.setGrupoId(grupo.getText().toString());
             if (NetworkUtils.isConnected(this.getActivity())) {
                 UsuarioProviderTask usuarioProviderTask = new UsuarioProviderTask();
                 showProgress(this.getActivity(), this.getActivity().getString(R.string.guardando_usuario));
@@ -286,6 +284,22 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
                 Toast.makeText(this.getActivity(), this.getString(R.string.sin_conexion), Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    @Override
+    public void onDataRetrived(List<GrupoRunning> grupos) {
+        List<String> gruposStr = new Vector<>();
+        for (GrupoRunning g : grupos) {
+            gruposStr.add(g.getNombre());
+        }
+        this.autoCompleteAdapter.addAll(gruposStr);
+        this.autoCompleteAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onError(String error) {
+        this.autoCompleteAdapter.addAll(new Vector<String>());
+        this.autoCompleteAdapter.notifyDataSetChanged();
     }
 
     private class DatePickerListener implements View.OnClickListener {
@@ -332,7 +346,7 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
         @Override
         protected void onPostExecute(UsuarioApp usuarioApp) {
             super.onPostExecute(usuarioApp);
-            if(isAdded()) {
+            if (isAdded()) {
                 hideProgress();
                 if (usuarioApp == null) {
                     Toast.makeText(DatosUsuarioFragment.this.getActivity(), "No se puede guardar el usuario", Toast.LENGTH_LONG).show();

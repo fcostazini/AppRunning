@@ -137,8 +137,8 @@ public class UsuarioDTO implements Serializable {
 		String dateToStr = format.format(usuario.getFechaNacimiento());
 		this.fechaNacimiento = dateToStr;
 		this.fotoPerfilUrl = usuario.getFotoPerfil();
-		this.grupoId = usuario.getGrupo() != null ? usuario.getGrupo()
-				.getId().toString() : "Ninguno";
+		this.grupoId = usuario.getGrupo() != null ? usuario.getGrupo().getNombre()
+				 : "Ninguno";
 		this.id = usuario.getId();
 		this.nick = usuario.getNick();
 		this.nombre = usuario.getNombre();
