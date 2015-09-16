@@ -1,5 +1,9 @@
 package studios.thinkup.com.apprunning;
 
+import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuItem;
+
 import studios.thinkup.com.apprunning.model.TutorialesPaginaEnum;
 
 /**
@@ -16,4 +20,12 @@ public class BuscarAmigosActivity extends MainNavigationActivity {
     public int getTutorialPage() {
         return TutorialesPaginaEnum.BUSCAR_AMIGO.getId();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_buscar_amigos, menu);
+        return true;
+    }
+
+
 }

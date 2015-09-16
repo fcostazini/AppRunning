@@ -16,6 +16,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.List;
+import java.util.Vector;
+
 import studios.thinkup.com.apprunning.adapter.AmigosPagerAdapter;
 import studios.thinkup.com.apprunning.model.entity.AmigoRequest;
 import studios.thinkup.com.apprunning.model.entity.AmigosDTO;
@@ -125,14 +128,16 @@ public class DetalleAmigoActivity extends DrawerPagerActivity implements Actuali
                 return super.onMenuItemSelected(featureId, item);
 
         }
-        new ActualizarAmigoService(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, request);
+        List<AmigoRequest> ar = new Vector<>();
+        ar.add(request);
+        new ActualizarAmigoService(this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, ar);
         return true;
     }
 
     @Override
-    public void onOk(AmigosDTO amigo) {
-        if (amigo != null) {
-            this.amigo = amigo;
+    public void onOk(List<AmigosDTO> amigo) {
+        if (amigo != null && amigo.size()==1) {
+            this.amigo = amigo.get(0);
         }
         hideProgress();
         actualizarBotonera(menu);

@@ -187,12 +187,12 @@ public class AmigosProviderRemote extends RemoteService implements IAmigosProvid
      * @return Integer codigo de respuesta
      */
     @Override
-    public AmigosDTO actualizarEstadoAmigo(AmigoRequest request) {
+    public List<AmigosDTO> actualizarEstadoAmigo(List<AmigoRequest> request) {
         try {
             HttpURLConnection conn = getPostHttpURLConnection(request,REQUEST);
             Gson g = new Gson();
-            Respuesta<AmigosDTO> r = g.fromJson(new BufferedReader(
-                    new InputStreamReader(conn.getInputStream())), new TypeToken<Respuesta<AmigosDTO>>() {
+            Respuesta<List<AmigosDTO>> r = g.fromJson(new BufferedReader(
+                    new InputStreamReader(conn.getInputStream())), new TypeToken<Respuesta<List<AmigosDTO>>>() {
             }.getType());
 
             if (r.getCodigoRespuesta().equals(Respuesta.CODIGO_OK) && r.getDto() != null) {
@@ -207,7 +207,7 @@ public class AmigosProviderRemote extends RemoteService implements IAmigosProvid
 
     }
 
-    protected HttpURLConnection getPostHttpURLConnection(AmigoRequest entidad,String service) throws IOException {
+    protected HttpURLConnection getPostHttpURLConnection(List<AmigoRequest> entidad,String service) throws IOException {
         URL url = new URL(this.getBaseURL() + service);
         Gson g = new Gson();
         String json = g.toJson(entidad);

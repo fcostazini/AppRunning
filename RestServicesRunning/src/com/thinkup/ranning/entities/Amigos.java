@@ -30,6 +30,7 @@ public class Amigos implements Serializable {
 	private static final long serialVersionUID = 4057295711928628388L;
 	public static final String GET_BY_OWNER = "getByOwner";
 	public static final String OWNER_ID = "usuario_owner";
+	public static final String EMAIL_AMIGO = "amigoEmail";
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")

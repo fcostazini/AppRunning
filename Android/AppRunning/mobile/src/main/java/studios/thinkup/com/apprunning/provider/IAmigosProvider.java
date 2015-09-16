@@ -45,7 +45,7 @@ public interface IAmigosProvider {
      * @param param request
      * @return AmigoDTO
      */
-    AmigosDTO actualizarEstadoAmigo(AmigoRequest param);
+    List<AmigosDTO> actualizarEstadoAmigo(List<AmigoRequest> param);
 
     /**
      * Obtiene todas las carreras donde este inscripto un amigo

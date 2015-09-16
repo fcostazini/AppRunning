@@ -29,6 +29,8 @@ public class AmigosDTO implements Serializable {
 	private Boolean esPendiente;
 	@Id
 	private Boolean esBloqueado;
+	@Id
+	private String email;
 	
 	public AmigosDTO(){
 		
@@ -42,6 +44,7 @@ public class AmigosDTO implements Serializable {
 		this.esPendiente = a.getEsPendiente();
 		this.urlFoto = a.getUsuarioAmigo().getFotoPerfil();
 		this.nick = a.getUsuarioAmigo().getNick();
+		this.email =a.getUsuarioAmigo().getEmail();
 		if(a.getUsuarioAmigo().getGrupo()!=null){
 			this.grupo = a.getUsuarioAmigo().getGrupo().getNombre();	
 		}else{
@@ -99,6 +102,14 @@ public class AmigosDTO implements Serializable {
 	}
 	public void setEsBloqueado(Boolean esBloqueado) {
 		this.esBloqueado = esBloqueado;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	

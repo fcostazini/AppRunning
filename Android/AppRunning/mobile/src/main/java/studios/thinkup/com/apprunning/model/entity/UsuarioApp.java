@@ -34,7 +34,16 @@ public class UsuarioApp implements Serializable, IEntity {
     private String tipoCuenta = "";
     private String fotoPerfil;
     private String grupoId;
+    private String socialId;
     private boolean verificado;
+
+    public String getSocialId() {
+        return socialId;
+    }
+
+    public void setSocialId(String socialId) {
+        this.socialId = socialId;
+    }
 
     public String getTipoCuenta() {
         return tipoCuenta;

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import java.util.List;
+
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
 import studios.thinkup.com.apprunning.model.entity.AmigoRequest;
@@ -16,7 +18,7 @@ import studios.thinkup.com.apprunning.provider.restProviders.Respuesta;
  * Created by Facundo on 11/08/2015.
  * Servicio para obtener los amigos
  */
-public class ActualizarAmigoService extends AsyncTask<AmigoRequest, Integer, AmigosDTO> {
+public class ActualizarAmigoService extends AsyncTask<List<AmigoRequest>, Integer, List<AmigosDTO>> {
     private Context context;
     private IAmigosProvider ap;
     private UsuarioApp usuarioApp;
@@ -30,13 +32,13 @@ public class ActualizarAmigoService extends AsyncTask<AmigoRequest, Integer, Ami
     }
 
     @Override
-    protected void onPostExecute(AmigosDTO amigo) {
-        super.onPostExecute(amigo);
+    protected void onPostExecute(List<AmigosDTO> amigos) {
+        super.onPostExecute(amigos);
         if (handler != null) {
-            if (amigo == null) {
+            if (amigos == null) {
                 handler.onError(Respuesta.CODIGO_NO_ENCONTRADO);
             } else {
-                handler.onOk(amigo);
+                handler.onOk(amigos);
 
             }
 
@@ -63,14 +65,14 @@ public class ActualizarAmigoService extends AsyncTask<AmigoRequest, Integer, Ami
     }
 
     @Override
-    protected AmigosDTO doInBackground(AmigoRequest... params) {
+    protected List<AmigosDTO> doInBackground(List<AmigoRequest>... params) {
 
         return this.ap.actualizarEstadoAmigo(params[0]);
 
     }
 
     public interface IServicioActualizacionAmigoHandler {
-        void onOk(AmigosDTO amigosDTO);
+        void onOk(List<AmigosDTO> amigosDTO);
 
         void onError(Integer estado);
     }

@@ -12,6 +12,7 @@ import javax.persistence.PersistenceContext;
 
 import com.thinkup.ranning.dtos.AmigosDTO;
 import com.thinkup.ranning.entities.Amigos;
+import com.thinkup.ranning.entities.Usuario;
 import com.thinkup.ranning.entities.UsuarioCarrera;
 import com.thinkup.ranning.exceptions.PersistenciaException;
 
@@ -30,14 +31,11 @@ public class AmigoDao {
 
 	}
 
-	
-	
-	
 	public List<AmigosDTO> buscarAmigos(int idOwner, String param)
 			throws PersistenciaException {
 		List<AmigosDTO> amigos = new Vector<>();
 		StringBuffer query = new StringBuffer();
-		query.append(" select :"+Amigos.OWNER_ID+ "  as idOwner, ");
+		query.append(" select :" + Amigos.OWNER_ID + "  as idOwner, ");
 		query.append("        u.id as idAmigo, ");
 		query.append("        u.nick, ");
 		query.append("        u.email,");
@@ -49,10 +47,10 @@ public class AmigoDao {
 		query.append(" from usuario_app u ");
 		query.append(" left join amigos_usuario am ");
 		query.append(" on u.id = am.usuario_amigo ");
-		query.append("  and am.usuario_owner = :"+Amigos.OWNER_ID);
+		query.append("  and am.usuario_owner = :" + Amigos.OWNER_ID);
 		query.append("  left join grupos_running g  ");
 		query.append("  on u.grupo_id = g.id	");
-		query.append(" where u.id <> :"+Amigos.OWNER_ID);
+		query.append(" where u.id <> :" + Amigos.OWNER_ID);
 		query.append(" and COALESCE(am.es_amigo,false) = false  ");
 		query.append(" and (upper(u.nick) LIKE :param OR upper(u.email) LIKE :param )  ");
 		query.append(" order by u.nick ");
@@ -91,10 +89,11 @@ public class AmigoDao {
 
 	}
 
-	public List<AmigosDTO> getAmigosEnCarrera(int idOwner, int idCarrera) throws PersistenciaException {
-		StringBuffer  query = new StringBuffer();
+	public List<AmigosDTO> getAmigosEnCarrera(int idOwner, int idCarrera)
+			throws PersistenciaException {
+		StringBuffer query = new StringBuffer();
 		query.append(" select ");
-		query.append(" :"+ Amigos.OWNER_ID +" as idOwner, ");
+		query.append(" :" + Amigos.OWNER_ID + " as idOwner, ");
 		query.append("       u.id as idAmigo, ");
 		query.append("       u.nick, ");
 		query.append("       u.email, ");
@@ -108,14 +107,15 @@ public class AmigoDao {
 		query.append("	on a.usuario_amigo = uc.usuario_id ");
 		query.append("	and a.es_bloqueado = false ");
 		query.append("	and a.es_amigo = true ");
-		query.append("	and a.usuario_owner = :"+ Amigos.OWNER_ID);
+		query.append("	and a.usuario_owner = :" + Amigos.OWNER_ID);
 		query.append(" join usuario_app u ");
 		query.append("	on a.usuario_amigo = u.id ");
 		query.append("  left join grupos_running g  ");
 		query.append("  on u.grupo_id = g.id	");
-		query.append(" where uc.anotado = true and uc.carrera_id = :"+ UsuarioCarrera.PARAM_ID_CARRERA);
+		query.append(" where uc.anotado = true and uc.carrera_id = :"
+				+ UsuarioCarrera.PARAM_ID_CARRERA);
 		try {
-			
+
 			List<AmigosDTO> amigos = entityManager
 					.createNativeQuery(query.toString(), AmigosDTO.class)
 					.setParameter(Amigos.OWNER_ID, idOwner)
@@ -125,8 +125,22 @@ public class AmigoDao {
 		} catch (Exception e) {
 			throw new PersistenciaException("Error al buscar", e);
 		}
-		
-		
-		
 	}
+
+	public Amigos getAmigosByPkEmail(String email, Integer idOwner)
+			throws PersistenciaException {
+		StringBuffer queryStr = new StringBuffer();
+		queryStr.append("Select a from Amigos a ");
+		queryStr.append(" where a.usuarioOwner.id = :idOwner");
+		queryStr.append(" and a.usuarioAmigo.email = " + Usuario.PARAM_EMAIL);
+		try {
+			return entityManager.createQuery(queryStr.toString(), Amigos.class)
+					.setParameter("idOwner", idOwner)
+					.setParameter(Usuario.PARAM_EMAIL, email).getSingleResult();
+		} catch (NoResultException e) {
+			throw new PersistenciaException("Sin resultados", e);
+		}
+
+	}
+
 }

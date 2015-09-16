@@ -79,8 +79,9 @@ public class QueryGenerator {
 			query += this.getIntegerRange("distancia", "uc.distancia",
 					filtro.getMinDistancia(), filtro.getMaxDistancia(),
 					parametros);
-			query += this.getOrderBy(filtro);
+			
 		}
+		query += this.getOrderBy(filtro);
 		return query;
 	}
 

@@ -287,6 +287,7 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
 
                 u.setNombre(gp.name);
                 u.setNick(gp.nickname);
+                u.setSocialId("G" + gp.id);
 
             }
             if (socialNetwork.getID() == FacebookSocialNetwork.ID) {
@@ -305,6 +306,7 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
                     }
                     sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                     u.setFechaNacimiento(sf.format(bd));
+                    u.setSocialId("F" + fp.id);
                 }
 
 

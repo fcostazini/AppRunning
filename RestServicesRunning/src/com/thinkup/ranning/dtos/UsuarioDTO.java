@@ -29,7 +29,7 @@ public class UsuarioDTO implements Serializable {
 	private String apellido;
 
 	private boolean verificado;
-	
+
 	private String fechaNacimiento;
 
 	private String fotoPerfilUrl;
@@ -37,6 +37,8 @@ public class UsuarioDTO implements Serializable {
 	private String nick;
 
 	private String grupoId;
+
+	private String socialId;
 
 	public Integer getId() {
 		return id;
@@ -130,6 +132,14 @@ public class UsuarioDTO implements Serializable {
 		super();
 	}
 
+	public String getSocialId() {
+		return socialId;
+	}
+
+	public void setSocialId(String socialId) {
+		this.socialId = socialId;
+	}
+
 	public UsuarioDTO(Usuario usuario) {
 		this.apellido = usuario.getApellido();
 		this.email = usuario.getEmail();
@@ -137,14 +147,15 @@ public class UsuarioDTO implements Serializable {
 		String dateToStr = format.format(usuario.getFechaNacimiento());
 		this.fechaNacimiento = dateToStr;
 		this.fotoPerfilUrl = usuario.getFotoPerfil();
-		this.grupoId = usuario.getGrupo() != null ? usuario.getGrupo().getNombre()
-				 : "Ninguno";
+		this.grupoId = usuario.getGrupo() != null ? usuario.getGrupo()
+				.getNombre() : "Ninguno";
 		this.id = usuario.getId();
 		this.nick = usuario.getNick();
 		this.nombre = usuario.getNombre();
 		this.password = usuario.getPassword();
 		this.tipoCuenta = usuario.getTipoCuenta();
 		this.verificado = usuario.getVerificado();
-		
+		this.socialId = usuario.getSocialId();
+
 	}
 }

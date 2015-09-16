@@ -85,7 +85,9 @@ public class Usuario implements Serializable {
 
 	@Column(name = "nick")
 	private String nick;
-
+	@Column(name="social_id")
+	private String socialId;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "grupo_id", nullable = true)
 	private GruposRunning grupo;
@@ -221,6 +223,14 @@ public class Usuario implements Serializable {
 
 	public void setFechaVigencia(Date fechaVigencia) {
 		this.fechaVigencia = fechaVigencia;
+	}
+
+	public String getSocialId() {
+		return socialId;
+	}
+
+	public void setSocialId(String socialId) {
+		this.socialId = socialId;
 	}
 	
 	

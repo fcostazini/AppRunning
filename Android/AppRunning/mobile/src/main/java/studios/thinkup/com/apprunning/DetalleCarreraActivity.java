@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.Menu;
@@ -11,6 +12,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.github.gorbin.asne.facebook.FacebookSocialNetwork;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -207,6 +211,9 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
         if (actualizar) {
 
             actualizarUsuarioCarrera(carrera, EstadoCarrera.ANOTADO);
+            if(this.getUsuario().getTipoCuenta() == "F"){
+                ArrayList<String> fbScope = new ArrayList<String>();
+            }
         }
     }
 

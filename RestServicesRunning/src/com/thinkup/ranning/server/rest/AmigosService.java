@@ -36,7 +36,7 @@ public class AmigosService {
 	private AmigoDao dao;
 	@Inject
 	private UsuarioDAO usuarioDao;
-	
+
 	@Inject
 	private UsuarioCarreraDAO carreraDao;
 
@@ -77,8 +77,8 @@ public class AmigosService {
 		List<AmigosDTO> amigos = new Vector<>();
 		Respuesta<List<AmigosDTO>> r = new Respuesta<>();
 		try {
-			amigos = dao.getAmigosEnCarrera(idOwner,idCarrera);
-			
+			amigos = dao.getAmigosEnCarrera(idOwner, idCarrera);
+
 			r.addMensaje("Operacion ejecutada con éxito.");
 			r.setCodigoRespuesta(Respuesta.CODIGO_OK);
 			r.setDto(amigos);
@@ -92,8 +92,6 @@ public class AmigosService {
 
 	}
 
-	
-	
 	@Path("/buscarAmigos/{idOwner}/{param}")
 	@GET()
 	@Produces(MediaType.APPLICATION_JSON)
@@ -148,62 +146,73 @@ public class AmigosService {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Respuesta<AmigosDTO> manejarRequestAmigos(AmigoRequest amigoRequest) {
+	public Respuesta<List<AmigosDTO>> manejarRequestAmigos(
+			List<AmigoRequest> amigosRequest) {
 
 		try {
+
 			Amigos a;
-			try {
-				 a = dao.getAmigosByPk(amigoRequest.getIdAmigo(),
-						amigoRequest.getIdOwner());
-			} catch (PersistenciaException e) {
-				a = null;
-			}
-			switch (amigoRequest.getTipoRequest()) {
-			case ACEPTAR_AMIGO:
-			case RECHAZAR_AMIGO:
-			case SOLICITUD_AMIGO:
+			List<AmigosDTO> result = new Vector<>();
+			for (AmigoRequest amigoRequest : amigosRequest) {
 
-				if (a == null) {
-					a = crearNuevoAmigo(amigoRequest.getIdOwner(),
-							amigoRequest.getIdAmigo());
+				try {
+					if(amigoRequest.getIdAmigo() == null){
+						a = dao.getAmigosByPkEmail(amigoRequest.getEmailAmigo(),
+								amigoRequest.getIdOwner());
+					}else{
+					a = dao.getAmigosByPk(amigoRequest.getIdAmigo(),
+							amigoRequest.getIdOwner());
+					}
+				} catch (PersistenciaException e) {
+					a = null;
 				}
-				a.setEsAmigo(true);
-				break;
-			case BLOQUEAR_AMIGO:
-				a.setEsAmigo(false);
-				a.setEsBloqueado(true);
-				break;
-			case DESBLOQUEAR_AMIGO:
-				a.setEsBloqueado(false);
+				switch (amigoRequest.getTipoRequest()) {
+				case ACEPTAR_AMIGO:
+				case RECHAZAR_AMIGO:
+				case SOLICITUD_AMIGO:
 
-				break;
-			case QUITA_AMIGO:
-				a.setEsAmigo(false);
-				break;
-			default:
-				break;
+					if (a == null) {
+						a = crearNuevoAmigo(amigoRequest.getIdOwner(),
+								amigoRequest.getIdAmigo());
+					}
+					a.setEsAmigo(true);
+					break;
+				case BLOQUEAR_AMIGO:
+					a.setEsAmigo(false);
+					a.setEsBloqueado(true);
+					break;
+				case DESBLOQUEAR_AMIGO:
+					a.setEsBloqueado(false);
+
+					break;
+				case QUITA_AMIGO:
+					a.setEsAmigo(false);
+					break;
+				default:
+					break;
+				}
+				this.dao.guardarEstadoAmigo(a);
+				result.add(new AmigosDTO(a));
 			}
-			this.dao.guardarEstadoAmigo(a);
-
-			Respuesta<AmigosDTO> r = new Respuesta<>();
+			Respuesta<List<AmigosDTO>> r = new Respuesta<>();
 			r.addMensaje("Guardado Correctamente");
 			r.setCodigoRespuesta(Respuesta.CODIGO_OK);
-			r.setDto(new AmigosDTO(a));
+			r.setDto(result);
 			return r;
 		} catch (PersistenciaException e) {
-			Respuesta<AmigosDTO> r = new Respuesta<>();
+			Respuesta<List<AmigosDTO>> r = new Respuesta<>();
 			r.addMensaje(e.getMessage());
 			r.setCodigoRespuesta(Respuesta.CODIGO_SOLICITUD_INCORRECTA);
 			return r;
 		}
 	}
 
-	
 	@Path("/findCarrerasByUsuario/{id}")
 	@GET()
 	@Produces(MediaType.APPLICATION_JSON)
 	@PermitAll
-	public Respuesta<List<CarreraAmigoDTO>> findCarrerasByUsuario(@PathParam("id") Integer id) {
+	public Respuesta<List<CarreraAmigoDTO>> findCarrerasByUsuario(
+			@PathParam("id") Integer id) {
 		Respuesta<List<CarreraAmigoDTO>> r = new Respuesta<List<CarreraAmigoDTO>>();
 		try {
 
@@ -219,7 +228,7 @@ public class AmigosService {
 			return r;
 		}
 	}
-	
+
 	private Amigos crearNuevoAmigo(int idOwner, int idAmigo)
 			throws PersistenciaException {
 		Amigos a = new Amigos();
