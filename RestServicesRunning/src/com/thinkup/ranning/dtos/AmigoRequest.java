@@ -11,7 +11,7 @@ public class AmigoRequest implements Serializable{
 	private Integer idOwner;
 	private Integer idAmigo;
 	private TipoRequestEnum tipoRequest;
-	private String emailAmigo;
+	private String socialId;
 	public Integer getIdOwner() {
 		return idOwner;
 	}
@@ -30,11 +30,11 @@ public class AmigoRequest implements Serializable{
 	public void setTipoRequest(TipoRequestEnum tipoRequest) {
 		this.tipoRequest = tipoRequest;
 	}
-	public String getEmailAmigo() {
-		return emailAmigo;
+	public String getSocialId() {
+		return socialId;
 	}
-	public void setEmailAmigo(String emailAmigo) {
-		this.emailAmigo = emailAmigo;
+	public void setSocialId(String socialId) {
+		this.socialId = socialId;
 	}
 
 	

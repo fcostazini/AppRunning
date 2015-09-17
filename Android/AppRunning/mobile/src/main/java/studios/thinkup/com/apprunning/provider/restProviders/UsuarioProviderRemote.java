@@ -171,11 +171,10 @@ public class UsuarioProviderRemote extends RemoteService implements IUsuarioProv
             if (r.getCodigoRespuesta().equals(Respuesta.CODIGO_CREACION_MODIFICACION_OK) && r.getDto() != null) {
                 return r.getDto();
             } else {
-                return null;
+                throw new EntidadNoGuardadaException(r.getMensajes().get(0));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        }catch (IOException e){
+            throw new EntidadNoGuardadaException("Error interno");
         }
     }
 
@@ -192,11 +191,10 @@ public class UsuarioProviderRemote extends RemoteService implements IUsuarioProv
             if (r.getCodigoRespuesta().equals(Respuesta.CODIGO_OK) && r.getDto() != null) {
                 return r.getDto();
             } else {
-                return null;
+                throw new EntidadNoGuardadaException(r.getMensajes().get(0));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        }catch (IOException e){
+            throw new EntidadNoGuardadaException("Error interno");
         }
     }
 

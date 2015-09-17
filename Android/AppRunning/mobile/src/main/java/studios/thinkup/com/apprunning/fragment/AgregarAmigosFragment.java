@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
+import studios.thinkup.com.apprunning.AmigosActivity;
 import studios.thinkup.com.apprunning.AmigosListAdapter;
 import studios.thinkup.com.apprunning.DetalleAmigoActivity;
 import studios.thinkup.com.apprunning.MainActivity;
@@ -158,6 +160,12 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Busc
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.mnu_amigos_facebook) {
+            InputMethodManager inputManager = (InputMethodManager)
+                    AgregarAmigosFragment.this.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (AgregarAmigosFragment.this.getActivity().getCurrentFocus() != null) {
+                inputManager.hideSoftInputFromWindow(AgregarAmigosFragment.this.getActivity().getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+            }
             this.getAmigos();
             return true;
         }
@@ -187,7 +195,6 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Busc
 
     private void obtenerAmigosFacebook(int networkId, final List<AmigosDTO> amigos) {
         showProgress(this.getActivity(), "Buscando tus amigos...");
-        final List<AmigosDTO> amigosEncontrados = amigos;
         final List<SocialPerson> amigosAAgregar = new Vector<>();
         mSocialNetworkManager.getSocialNetwork(networkId).requestGetFriends(new OnRequestGetFriendsCompleteListener() {
             @Override
@@ -199,85 +206,101 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Busc
             public void OnGetFriendsComplete(int i, ArrayList<SocialPerson> arrayList) {
                 hideProgress();
 
-                List<SocialPerson> filtrado = new Vector<>();
-                for (SocialPerson s : arrayList) {
-                    if (!amigosEncontrados.contains(s)) {
-                        filtrado.add(s);
+                    List<SocialPerson> filtrado = new Vector<>();
+
+                    AmigosDTO a;
+                    for (SocialPerson s : arrayList) {
+                        a = new AmigosDTO();
+                        if (i == FacebookSocialNetwork.ID) {
+                            a.setSocialId("F" + s.id);
+                        }
+                        if (!amigos.contains(a)) {
+                            filtrado.add(s);
+                        }
                     }
-                }
+                if (filtrado.size() <= 0) {
+                    Toast.makeText(AgregarAmigosFragment.this.getActivity(), "No hay amigos a agregar", Toast.LENGTH_LONG).show();
+                } else {
+                    AlertDialog.Builder builderSingle = new AlertDialog.Builder(
+                            AgregarAmigosFragment.this.getActivity());
+                    builderSingle.setIcon(R.drawable.ic_amigos);
+                    builderSingle.setTitle("Agregar amigos");
+                    final AmigosSocialPersonaListAdapter adapter = new AmigosSocialPersonaListAdapter(
+                            AgregarAmigosFragment.this.getActivity(), filtrado);
+                    builderSingle.setNegativeButton("Cancelar",
+                            new DialogInterface.OnClickListener() {
 
-                AlertDialog.Builder builderSingle = new AlertDialog.Builder(
-                        AgregarAmigosFragment.this.getActivity());
-                builderSingle.setIcon(R.drawable.ic_amigos);
-                builderSingle.setTitle("Agregar amigos");
-                final AmigosSocialPersonaListAdapter adapter = new AmigosSocialPersonaListAdapter(
-                        AgregarAmigosFragment.this.getActivity(), filtrado);
-                builderSingle.setNegativeButton("Cancelar",
-                        new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
 
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
+                    builderSingle.setAdapter(adapter, null);
+                    builderSingle.setPositiveButton("Agregar", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            showProgress(AgregarAmigosFragment.this.getActivity(), "Agregando Amigos...");
+
+
+                            ActualizarAmigoService ms = new ActualizarAmigoService(AgregarAmigosFragment.this.getActivity(),
+                                    new ActualizarAmigoService.IServicioActualizacionAmigoHandler() {
+                                        @Override
+                                        public void onOk(List<AmigosDTO> amigosDTO) {
+                                            hideProgress();
+
+                                            Toast.makeText(AgregarAmigosFragment.this.getActivity(), "Amigos Agregados", Toast.LENGTH_LONG).show();
+
+                                        }
+
+                                        @Override
+                                        public void onError(Integer estado) {
+                                            hideProgress();
+                                            onDataRetrived(new Vector<AmigosDTO>());
+                                        }
+                                    });
+                            ArrayList<AmigoRequest> ar = new ArrayList<>();
+                            AmigoRequest request;
+
+                            for (SocialPerson a : amigosAAgregar) {
+                                request = new AmigoRequest();
+                                request.setIdAmigo(null);
+                                request.setSocialId("F" + a.id);
+                                request.setIdOwner(getUsuario().getId());
+                                request.setTipoRequest(TipoRequestEnum.SOLICITUD_AMIGO);
+                                ar.add(request);
                             }
-                        });
+                            ms.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, ar);
+                            dialog.dismiss();
 
-                builderSingle.setAdapter(adapter, null);
-                builderSingle.setPositiveButton("Agregar", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        showProgress(AgregarAmigosFragment.this.getActivity(),"Agregando Amigos...");
-
-
-                        ActualizarAmigoService ms = new ActualizarAmigoService(AgregarAmigosFragment.this.getActivity(),
-                                new ActualizarAmigoService.IServicioActualizacionAmigoHandler() {
-                                    @Override
-                                    public void onOk(List<AmigosDTO> amigosDTO) {
-                                        hideProgress();
-                                        onDataRetrived(amigosDTO);
-
-                                    }
-
-                                    @Override
-                                    public void onError(Integer estado) {
-                                        hideProgress();
-                                        onDataRetrived(new Vector<AmigosDTO>());
-                                    }
-                                });
-                        ArrayList<AmigoRequest> ar = new ArrayList<>();
-                        AmigoRequest request;
-
-                        for(SocialPerson a : amigosAAgregar){
-                            request = new AmigoRequest();
-                            request.setIdAmigo(null);
-                            request.setEmailAmigo(a.email);
-                            request.setIdOwner(getUsuario().getId());
-                            request.setTipoRequest(TipoRequestEnum.SOLICITUD_AMIGO);
-                            ar.add(request);
                         }
-                        ms.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, ar);
-                        dialog.dismiss();
 
-                    }
-                });
-                final AlertDialog alertDialog = builderSingle.create();
-                alertDialog.getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-                alertDialog.getListView().setDivider(null);
-                alertDialog.getListView().setItemsCanFocus(false);
-                alertDialog.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    });
+                    final AlertDialog alertDialog = builderSingle.create();
+                    alertDialog.getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                    alertDialog.getListView().setDivider(null);
+                    alertDialog.getListView().setItemsCanFocus(false);
+                    alertDialog.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        view.setSelected(!view.isSelected());
-                        if (view.isSelected()) {
-                            amigosAAgregar.add((SocialPerson) parent.getItemAtPosition(position));
-                        } else {
-                            amigosAAgregar.remove((SocialPerson) parent.getItemAtPosition(position));
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            if (!amigosAAgregar.contains(parent.getItemAtPosition(position))) {
+                                amigosAAgregar.add((SocialPerson) parent.getItemAtPosition(position));
+                                alertDialog.getListView().setItemChecked(position, true);
+                                view.findViewById(R.id.item_ly).setBackgroundResource(R.drawable.item_background_selected);
+                            } else {
+                                amigosAAgregar.remove(parent.getItemAtPosition(position));
+                                view.findViewById(R.id.item_ly).setBackgroundResource(R.drawable.item_background);
+                                alertDialog.getListView().setItemChecked(position, false);
+
+                            }
                         }
-                    }
-                });
-                alertDialog.show();
+                    });
+                    alertDialog.show();
+                }
             }
 
             @Override
@@ -377,6 +400,21 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Busc
         super.onResume();
         buscarAmigos("");
 
+    }
+
+
+    private class SocialPersonCustom extends SocialPerson {
+        @Override
+        public boolean equals(Object o) {
+            if (o instanceof SocialPerson) {
+                return super.equals(o);
+            } else if (o instanceof AmigosDTO) {
+                AmigosDTO a = (AmigosDTO) o;
+                return a.getSocialId().substring(1).equals(this.id);
+            } else {
+                return false;
+            }
+        }
     }
 
 

@@ -10,7 +10,7 @@ public class AmigoRequest implements Serializable {
     private static final long serialVersionUID = -99882798975628835L;
     private Integer idOwner;
     private Integer idAmigo;
-    private String emailAmigo;
+    private String socialId;
     private TipoRequestEnum tipoRequest;
 
     public Integer getIdOwner() {
@@ -37,11 +37,11 @@ public class AmigoRequest implements Serializable {
         this.tipoRequest = tipoRequest;
     }
 
-    public String getEmailAmigo() {
-        return emailAmigo;
+    public String getSocialId() {
+        return socialId;
     }
 
-    public void setEmailAmigo(String emailAmigo) {
-        this.emailAmigo = emailAmigo;
+    public void setSocialId(String socialId) {
+        this.socialId = socialId;
     }
 }

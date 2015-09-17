@@ -35,6 +35,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 				+ Usuario.PARAM_NOMBRE),
 		@NamedQuery(name = Usuario.QUERY_BY_EMAIL, query = "Select u FROM Usuario u WHERE u.email = :"
 				+ Usuario.PARAM_EMAIL),
+	    @NamedQuery(name = Usuario.QUERY_BY_SOCIAL_ID, query = "Select u FROM Usuario u WHERE u.socialId = :"
+						+ Usuario.PARAM_SOCIALID),
 		@NamedQuery(name = Usuario.QUERY_USUARIO_BY_ID, query = "Select u FROM Usuario u WHERE u.id = :"
 				+ Usuario.PARAM_USUARIO_ID) })
 @XmlRootElement
@@ -44,12 +46,14 @@ public class Usuario implements Serializable {
 	public static final String PARAM_USUARIO_ID = "usuario_ID";
 	public static final String PARAM_NOMBRE = "nombre";
 	public static final String PARAM_EMAIL = "email";
+	public static final String PARAM_SOCIALID = "social_id";
 
 	// Named Queries
 	public static final String QUERY_ALL = "getUsuariosById";
 	public static final String QUERY_USUARIO_BY_ID = "getAllUsuarios";
 	public static final String QUERY_BY_NOMBRE = "getUsuarioByNombre";
 	public static final String QUERY_BY_EMAIL = "getUsuarioByEmail";
+	public static final String QUERY_BY_SOCIAL_ID = "getUsuarioBySocialID";
 	public static final String QUERY_ALL_BY_PARAM = "getByParametro";
 
 	/**

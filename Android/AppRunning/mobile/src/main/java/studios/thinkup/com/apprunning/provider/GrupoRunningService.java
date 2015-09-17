@@ -34,7 +34,7 @@ public class GrupoRunningService extends AsyncTask<String, Integer, List<GrupoRu
         super.onPostExecute(usuarioApps);
         if (handler != null) {
             if (usuarioApps == null) {
-                handler.onError("Error al Buscar los amigos");
+                handler.onError("Error al buscar los grupos");
             } else {
                 handler.onDataRetrived(usuarioApps);
             }

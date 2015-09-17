@@ -16,7 +16,14 @@
 <link href="../img/logo_pestaña.png" rel="shortcut icon">
 
 </head>
-
+<script src="http://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js"></script>
+<!-- polyfiller file to detect and load polyfills -->
+<script src="http://cdn.jsdelivr.net/webshim/1.12.4/polyfiller.js"></script>
+<script>
+  webshims.setOptions('waitReady', false);
+  webshims.setOptions('forms-ext', {types: 'date'});
+  webshims.polyfill('forms forms-ext');
+</script>
 <body>
 
 	<div id="wrapper">
@@ -118,33 +125,32 @@
 								<div class="col-xs-5">
 									<select required class="form-control dataField" name="provincia"
 										onchange="cambia_provincia()">
-										<option value="0">Todas las provincias</option>
-
-										<option value="1">Buenos Aires</option>
-
-										<option value="2">Capital Federal</option>
-
-										<option value="3">Córdoba</option>
-
-										<option value="4">Entre Ríos</option>
-
-										<option value="5">La Pampa</option>
-
-										<option value="6">Mendoza</option>
-
-										<option value="7">Misiones</option>
-
-										<option value="8">Neuquen</option>
-
-										<option value="9">Río Negro</option>
-
-										<option value="10">Salta</option>
-
-										<option value="11">San Juan</option>
-
-										<option value="12">Santa Cruz</option>
-
-										<option value="13">Santa Fe</option>
+					                      <option value="none">Todas las Provincias</option>
+					                      <option value="C">Capital Federal</option>
+					                      <option value="B">Buenos Aires</option>
+					                      <option value="K">Catamarca</option>
+					                      <option value="H">Chaco</option>
+					                      <option value="U">Chubut</option>
+					                      <option value="X">Cordoba</option>
+					                      <option value="W">Corrientes</option>
+					                      <option value="E">Entre Rios</option>
+					                      <option value="P">Formosa</option>
+					                      <option value="Y">Jujuy</option>
+					                      <option value="L">La Pampa</option>
+					                      <option value="F">La Rioja</option>
+					                      <option value="M">Mendoza</option>
+					                      <option value="N">Misiones</option>
+					                      <option value="Q">Neuquen</option>
+					                      <option value="R">Rio Negro</option>
+					                      <option value="A">Salta</option>
+					                      <option value="J">San Juan</option>
+					                      <option value="D">San Luis</option>
+					                      <option value="Z">Santa Cruz</option>
+					                      <option value="S">Santa Fe</option>
+					                      <option value="G">Santiago del Estero</option>
+					                      <option value="V">Tierra del Fuego</option>
+					                      <option value="T">Tucuman</option>
+					                  </select>
 									</select>
 								</div>
 							</div>

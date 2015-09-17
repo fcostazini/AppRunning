@@ -12,8 +12,9 @@
         android:layout_marginRight="5dp"
         android:orientation="horizontal"
 
+
         android:background="@drawable/item_background"
-        android:id="@+id/linearLayout4"
+        android:id="@+id/item_ly"
         android:layout_marginTop="5dp">
 
         <ImageView

@@ -125,18 +125,18 @@ public class AmigoDao {
 		} catch (Exception e) {
 			throw new PersistenciaException("Error al buscar", e);
 		}
+	
 	}
-
-	public Amigos getAmigosByPkEmail(String email, Integer idOwner)
+	public Amigos getAmigosByPkSocialId(String socialId, Integer idOwner)
 			throws PersistenciaException {
 		StringBuffer queryStr = new StringBuffer();
 		queryStr.append("Select a from Amigos a ");
 		queryStr.append(" where a.usuarioOwner.id = :idOwner");
-		queryStr.append(" and a.usuarioAmigo.email = " + Usuario.PARAM_EMAIL);
+		queryStr.append(" and a.usuarioAmigo.socialId = :" + Usuario.PARAM_SOCIALID);
 		try {
 			return entityManager.createQuery(queryStr.toString(), Amigos.class)
 					.setParameter("idOwner", idOwner)
-					.setParameter(Usuario.PARAM_EMAIL, email).getSingleResult();
+					.setParameter(Usuario.PARAM_SOCIALID, socialId).getSingleResult();
 		} catch (NoResultException e) {
 			throw new PersistenciaException("Sin resultados", e);
 		}

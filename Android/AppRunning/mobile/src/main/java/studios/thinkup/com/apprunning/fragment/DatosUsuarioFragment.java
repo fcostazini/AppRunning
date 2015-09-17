@@ -43,6 +43,7 @@ import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.GrupoRunningService;
 import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioProvider;
+import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemote;
 
 /**
@@ -338,18 +339,18 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    private class UsuarioProviderTask extends AsyncTask<UsuarioApp, Integer, UsuarioApp> {
+    private class UsuarioProviderTask extends AsyncTask<UsuarioApp, Integer, Resultado> {
 
         public UsuarioProviderTask() {
         }
 
         @Override
-        protected void onPostExecute(UsuarioApp usuarioApp) {
-            super.onPostExecute(usuarioApp);
+        protected void onPostExecute(Resultado r) {
+            super.onPostExecute(r);
             if (isAdded()) {
                 hideProgress();
-                if (usuarioApp == null) {
-                    Toast.makeText(DatosUsuarioFragment.this.getActivity(), "No se puede guardar el usuario", Toast.LENGTH_LONG).show();
+                if (r.getU() == null) {
+                    Toast.makeText(DatosUsuarioFragment.this.getActivity(), r.getMensajeError(), Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(DatosUsuarioFragment.this.getActivity(), "Usuario Guardado", Toast.LENGTH_LONG).show();
                 }
@@ -357,18 +358,9 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
 
         }
 
-        @Override
-        protected void onCancelled(UsuarioApp usuarioApp) {
-            super.onCancelled(usuarioApp);
-        }
 
         @Override
-        protected void onCancelled() {
-            super.onCancelled();
-        }
-
-        @Override
-        protected UsuarioApp doInBackground(UsuarioApp... params) {
+        protected Resultado doInBackground(UsuarioApp... params) {
             if (NetworkUtils.getConnectivityStatus(DatosUsuarioFragment.this.getActivity()) == NetworkUtils.NETWORK_STATUS_NOT_CONNECTED) {
                 return null;
             }
@@ -376,15 +368,39 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
             try {
                 up.update(params[0]);
                 up = new UsuarioProvider(DatosUsuarioFragment.this.getActivity());
-                return up.update(params[0]);
+                return new Resultado(up.update(params[0]),"");
 
-            } catch (Exception e) {
+            } catch (EntidadNoGuardadaException e) {
 
-                return null;
+                return  new Resultado(null,e.getMessage());
             }
         }
 
     }
 
+private class Resultado{
+    private UsuarioApp u;
+    private String mensajeError;
 
+    public Resultado(UsuarioApp u, String mensajeError) {
+        this.u = u;
+        this.mensajeError = mensajeError;
+    }
+
+    public UsuarioApp getU() {
+        return u;
+    }
+
+    public void setU(UsuarioApp u) {
+        this.u = u;
+    }
+
+    public String getMensajeError() {
+        return mensajeError;
+    }
+
+    public void setMensajeError(String mensajeError) {
+        this.mensajeError = mensajeError;
+    }
+}
 }

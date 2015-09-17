@@ -14,6 +14,7 @@ public class AmigosDTO implements Serializable {
     public static final String FIELD_ID = "amigo";
     private Integer idOwner;
     private Integer idAmigo;
+    private String socialId;
     private String nick;
     private String grupo;
     private String urlFoto;
@@ -24,6 +25,14 @@ public class AmigosDTO implements Serializable {
 
     public AmigosDTO() {
 
+    }
+
+    public String getSocialId() {
+        return socialId;
+    }
+
+    public void setSocialId(String socialId) {
+        this.socialId = socialId;
     }
 
     public String getUrlFoto() {
@@ -101,12 +110,12 @@ public class AmigosDTO implements Serializable {
     @Override
     public boolean equals(Object o) {
 
-        if (o instanceof SocialPerson) {
-            SocialPerson s = (SocialPerson) o;
-            return s.email.equals(this.email);
-        } else if (o instanceof AmigosDTO) {
+       if (o instanceof AmigosDTO) {
             AmigosDTO a = (AmigosDTO) o;
-            return this.email.equals(this.email);
+           if(a.getSocialId()!=null){
+               return a.getSocialId().equals(this.socialId);
+           }
+            return a.email.equals(this.email);
         } else {
             return false;
         }

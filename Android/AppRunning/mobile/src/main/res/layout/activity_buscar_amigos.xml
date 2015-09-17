@@ -3,8 +3,14 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/resultados_bg">
-
+    >
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/imageView11"
+        android:src="@drawable/path"
+        android:alpha="0.15"
+        android:scaleType="fitXY" />
     <fragment
         android:id="@+id/content_fragment"
         android:name="studios.thinkup.com.apprunning.fragment.AgregarAmigosFragment"

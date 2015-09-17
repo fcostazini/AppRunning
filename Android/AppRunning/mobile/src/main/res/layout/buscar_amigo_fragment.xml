@@ -6,9 +6,16 @@
 <RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/transparent_panel"
-    android:id="@+id/ly_busqueda"
-    android:padding="10dp">
+    android:id="@+id/ly_busqueda">
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/imageView11"
+        android:src="@drawable/path"
+        android:alpha="0.15"
+        android:scaleType="fitXY" />
+
+
     <EditText
         android:id="@+id/txt_dato_amigo"
         android:layout_width="wrap_content"

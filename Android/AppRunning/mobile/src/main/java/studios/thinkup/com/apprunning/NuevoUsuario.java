@@ -368,38 +368,29 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
         }
     }
 
-    private class UsuarioProviderTask extends AsyncTask<UsuarioApp, Integer, UsuarioApp> {
+    private class UsuarioProviderTask extends AsyncTask<UsuarioApp, Integer, Resultado> {
 
         @Override
-        protected void onPostExecute(UsuarioApp usuarioApp) {
-            super.onPostExecute(usuarioApp);
+        protected void onPostExecute(Resultado r) {
+            super.onPostExecute(r);
             hideProgress();
-            if (usuarioApp == null) {
-                Toast.makeText(NuevoUsuario.this, "No se puede crear el usuario", Toast.LENGTH_LONG).show();
+            if (r.getU() == null) {
+                Toast.makeText(NuevoUsuario.this, r.getMensajeError(), Toast.LENGTH_LONG).show();
             } else {
-                ((RunningApplication) NuevoUsuario.this.getApplication()).setUsuario(usuarioApp);
+                ((RunningApplication) NuevoUsuario.this.getApplication()).setUsuario(r.getU());
                 Intent intent = new Intent(NuevoUsuario.this, StartUpActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 Bundle b = new Bundle();
-                b.putSerializable(UsuarioApp.FIELD_ID, usuarioApp);
+                b.putSerializable(UsuarioApp.FIELD_ID, r.getU());
                 intent.putExtras(b);
                 NuevoUsuario.this.startActivity(intent);
             }
 
         }
 
-        @Override
-        protected void onCancelled(UsuarioApp usuarioApp) {
-            super.onCancelled(usuarioApp);
-        }
 
         @Override
-        protected void onCancelled() {
-            super.onCancelled();
-        }
-
-        @Override
-        protected UsuarioApp doInBackground(UsuarioApp... params) {
+        protected Resultado doInBackground(UsuarioApp... params) {
 
             IUsuarioProvider up = null;
             up = new UsuarioProviderRemote(NuevoUsuario.this);
@@ -408,17 +399,16 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
                 if (params[0].getId() == null) {
                     u = up.grabar(params[0]);
                     if (u == null) {
-                        return null;
+                        return new Resultado(null,"No se puede guardar el usuario");
                     } else {
-                        return getUsuarioAppLocale(u, params[0]);
+                        return new Resultado(getUsuarioAppLocale(u, params[0]),"No se puede guardar el usuario");
                     }
                 } else {
-                    return null;
+                    return new Resultado(null,"No se puede guardar el usuario");
 
                 }
             } catch (Exception e) {
-                e.printStackTrace();
-                return null;
+                return new Resultado(null,e.getMessage());
             }
 
 
@@ -451,4 +441,29 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
         this.autoCompleteAdapter.notifyDataSetChanged();
     }
 
+    private class Resultado{
+        private UsuarioApp u;
+        private String mensajeError;
+
+        public Resultado(UsuarioApp u, String mensajeError) {
+            this.u = u;
+            this.mensajeError = mensajeError;
+        }
+
+        public UsuarioApp getU() {
+            return u;
+        }
+
+        public void setU(UsuarioApp u) {
+            this.u = u;
+        }
+
+        public String getMensajeError() {
+            return mensajeError;
+        }
+
+        public void setMensajeError(String mensajeError) {
+            this.mensajeError = mensajeError;
+        }
+    }
 }

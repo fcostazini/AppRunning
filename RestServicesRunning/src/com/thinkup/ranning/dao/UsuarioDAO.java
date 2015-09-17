@@ -122,6 +122,7 @@ public class UsuarioDAO {
 		usuario.setPassword(usuariosDTO.getPassword());
 		usuario.setTipoCuenta(usuariosDTO.getTipoCuenta());
 		usuario.setVerificado(usuariosDTO.getVerificado());
+		usuario.setSocialId(usuariosDTO.getSocialId());
 		if (!usuariosDTO.getGrupoId().trim().equals("")) {
 			TypedQuery<GruposRunning> q = entityManager.createNamedQuery(
 					GruposRunning.QUERY_BY_NOMBRE, GruposRunning.class);
@@ -133,6 +134,17 @@ public class UsuarioDAO {
 				throw new PersistenciaException("Grupo no encontrado", e);
 			}
 
+		}
+	}
+
+	public Usuario getBySocialId(String socialId) {
+		try {
+			Usuario usuario = this.entityManager
+					.createNamedQuery(Usuario.QUERY_BY_SOCIAL_ID, Usuario.class)
+					.setParameter(Usuario.PARAM_SOCIALID, socialId).getSingleResult();
+			return usuario;
+		} catch (NoResultException e) {
+			return null;
 		}
 	}
 

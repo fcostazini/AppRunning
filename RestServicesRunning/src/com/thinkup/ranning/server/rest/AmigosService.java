@@ -156,13 +156,13 @@ public class AmigosService {
 			for (AmigoRequest amigoRequest : amigosRequest) {
 
 				try {
-					if(amigoRequest.getIdAmigo() == null){
-						a = dao.getAmigosByPkEmail(amigoRequest.getEmailAmigo(),
+					if (amigoRequest.getIdAmigo() == null) {
+						a = null;
+					} else {
+						a = dao.getAmigosByPk(amigoRequest.getIdAmigo(),
 								amigoRequest.getIdOwner());
-					}else{
-					a = dao.getAmigosByPk(amigoRequest.getIdAmigo(),
-							amigoRequest.getIdOwner());
 					}
+
 				} catch (PersistenciaException e) {
 					a = null;
 				}
@@ -172,8 +172,7 @@ public class AmigosService {
 				case SOLICITUD_AMIGO:
 
 					if (a == null) {
-						a = crearNuevoAmigo(amigoRequest.getIdOwner(),
-								amigoRequest.getIdAmigo());
+						a = crearNuevoAmigo(amigoRequest);
 					}
 					a.setEsAmigo(true);
 					break;
@@ -191,8 +190,11 @@ public class AmigosService {
 				default:
 					break;
 				}
-				this.dao.guardarEstadoAmigo(a);
-				result.add(new AmigosDTO(a));
+				
+				if (a.getUsuarioAmigo() != null) {
+					this.dao.guardarEstadoAmigo(a);
+					result.add(new AmigosDTO(a));
+				}
 			}
 			Respuesta<List<AmigosDTO>> r = new Respuesta<>();
 			r.addMensaje("Guardado Correctamente");
@@ -229,11 +231,18 @@ public class AmigosService {
 		}
 	}
 
-	private Amigos crearNuevoAmigo(int idOwner, int idAmigo)
+	private Amigos crearNuevoAmigo(AmigoRequest ar)
 			throws PersistenciaException {
 		Amigos a = new Amigos();
-		a.setUsuarioOwner(usuarioDao.getById(idOwner));
-		a.setUsuarioAmigo(usuarioDao.getById(idAmigo));
+		a.setUsuarioOwner(usuarioDao.getById(ar.getIdOwner()));
+		if (ar.getIdAmigo() == null) {
+			if (ar.getSocialId() != null && !ar.getSocialId().isEmpty()) {
+				a.setUsuarioAmigo(usuarioDao.getBySocialId(ar.getSocialId()));
+			}
+
+		} else {
+			a.setUsuarioAmigo(usuarioDao.getById(ar.getIdAmigo()));
+		}
 		a.setEsAmigo(false);
 		a.setEsBloqueado(false);
 		a.setEsPendiente(false);

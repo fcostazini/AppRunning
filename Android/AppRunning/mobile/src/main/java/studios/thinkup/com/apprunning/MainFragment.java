@@ -35,6 +35,7 @@ import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioProvider;
+import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
 import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemote;
 
 public class MainFragment extends Fragment implements OnRequestDetailedSocialPersonCompleteListener, SocialNetworkManager.OnInitializationCompleteListener, OnLoginCompleteListener {
@@ -197,7 +198,7 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
             this.getActivity().getIntent().getExtras().remove("LOGOUT");
             socialNetwork.logout();
             Intent intent = new Intent(this.getActivity(), MainActivity.class);
-            UsuarioApp u = ((RunningApplication)this.getActivity().getApplication()).getUsuario();
+            UsuarioApp u = ((RunningApplication) this.getActivity().getApplication()).getUsuario();
             UsuarioProvider up = new UsuarioProvider(this.getActivity());
             up.deleteUsuario(u);
             this.getActivity().startActivity(intent);
@@ -225,7 +226,7 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
             super.onPostExecute(usuarioApp);
             MainActivity.hideProgress();
             if (usuarioApp.getId() == null) {
-                nuevoUsuario(usuarioApp,false);
+                nuevoUsuario(usuarioApp, false);
             } else {
                 usuarioRegistrado(usuarioApp);
             }
@@ -252,8 +253,22 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
             IUsuarioProvider up = new UsuarioProviderRemote(MainFragment.this.getActivity());
             u = up.getUsuarioByEmail(params[0].email);
             if (u != null) {
+                if (u.getSocialId() == null) {
+
+                    if (u.getTipoCuenta().equals(String.valueOf(FacebookSocialNetwork.ID))) {
+                        u.setSocialId("F" + params[0].id);
+                    } else {
+
+                    }
+                    try {
+                        up.update(u);
+                    } catch (EntidadNoGuardadaException e) {
+                        e.printStackTrace();
+                        return this.getUsuarioApp(socialNetwork, params[0]);
+                    }
+                }
                 return u;
-            }else{
+            } else {
                 return this.getUsuarioApp(socialNetwork, params[0]);
             }
 
