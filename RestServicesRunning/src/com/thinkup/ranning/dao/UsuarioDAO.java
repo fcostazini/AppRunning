@@ -31,24 +31,23 @@ public class UsuarioDAO {
 				Usuario.QUERY_ALL, Usuario.class).getResultList();
 		return usuario;
 	}
-	public Usuario save(Usuario u) throws PersistenciaException{
-		try{
-		return this.entityManager.merge(u);
-		}catch (Exception e){
+
+	public Usuario save(Usuario u) throws PersistenciaException {
+		try {
+			return this.entityManager.merge(u);
+		} catch (Exception e) {
 			throw new PersistenciaException("Error al guardar el usuario", e);
 		}
 	}
-	
+
 	public List<Usuario> getAllUsuariosByData(Integer idOwner, String param) {
-		List<Usuario> usuario = this.entityManager.createNamedQuery(
-				Usuario.QUERY_ALL_BY_PARAM, Usuario.class)
+		List<Usuario> usuario = this.entityManager
+				.createNamedQuery(Usuario.QUERY_ALL_BY_PARAM, Usuario.class)
 				.setParameter(Usuario.PARAM_USUARIO_ID, idOwner)
 				.setParameter(Usuario.PARAM_NOMBRE, param + "%")
-				.setParameter(Usuario.PARAM_EMAIL, param + "%")
-				.getResultList();
+				.setParameter(Usuario.PARAM_EMAIL, param + "%").getResultList();
 		return usuario;
 	}
-
 
 	public Usuario getById(int id) throws PersistenciaException {
 		try {
@@ -88,15 +87,16 @@ public class UsuarioDAO {
 	public void saveUsuario(UsuarioDTO usuarioDTO) throws PersistenciaException {
 		this.saveUsuario(usuarioDTO, null);
 	}
-	
-	public void saveUsuario(UsuarioDTO usuarioDTO, String token) throws PersistenciaException {
+
+	public void saveUsuario(UsuarioDTO usuarioDTO, String token)
+			throws PersistenciaException {
 		Usuario usuario = new Usuario();
 		this.updateDatosUsuario(usuario, usuarioDTO);
 		this.entityManager.persist(usuario);
-		if(token != null && !token.isEmpty()){
+		if (token != null && !token.isEmpty()) {
 			usuario.setToken(token);
 			Calendar c = Calendar.getInstance();
-			c.add(Calendar.DATE,1 );
+			c.add(Calendar.DATE, 1);
 			usuario.setFechaVigencia(c.getTime());
 		}
 		usuarioDTO.setId(usuario.getId());
@@ -126,7 +126,13 @@ public class UsuarioDAO {
 			TypedQuery<GruposRunning> q = entityManager.createNamedQuery(
 					GruposRunning.QUERY_BY_NOMBRE, GruposRunning.class);
 			q.setParameter(GruposRunning.PARAM_NOMBRE, usuariosDTO.getGrupoId());
-			usuario.setGrupo(q.getSingleResult());
+			try {
+				GruposRunning g = q.getSingleResult();
+				usuario.setGrupo(g);
+			} catch (NoResultException e) {
+				throw new PersistenciaException("Grupo no encontrado", e);
+			}
+
 		}
 	}
 

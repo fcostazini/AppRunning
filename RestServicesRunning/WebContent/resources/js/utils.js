@@ -23,6 +23,7 @@ function getFormData(form) {
 				switch (e.type) {
 				case "date":
 					formData[e.name] = new Date($(e).val());
+					formData[e.name].setTime(formData[e.name].getTime() + formData[e.name].getTimezoneOffset()*60*1000 )
 					break;
 				case "time":
 					if ($(e).val().length == 5) {
