@@ -43,13 +43,15 @@ public class AmigoDao {
 		query.append("        COALESCE(g.nombre,'Ninguno') as grupo, ");
 		query.append("        coalesce(am.es_amigo,false) as esAmigo, ");
 		query.append("        coalesce(am.es_bloqueado,false) as esBloqueado, ");
-		query.append("        coalesce(am.es_pendiente,false) as esPendiente  ");
+		query.append("        coalesce(am.es_pendiente,false) as esPendiente,  ");
+		query.append("        coalesce(ua.social_id,'') as socialId  ");
 		query.append(" from usuario_app u ");
 		query.append(" left join amigos_usuario am ");
 		query.append(" on u.id = am.usuario_amigo ");
 		query.append("  and am.usuario_owner = :" + Amigos.OWNER_ID);
 		query.append("  left join grupos_running g  ");
 		query.append("  on u.grupo_id = g.id	");
+		query.append("  left join usuario_app ua on ua.id = am.usuario_amigo ");
 		query.append(" where u.id <> :" + Amigos.OWNER_ID);
 		query.append(" and COALESCE(am.es_amigo,false) = false  ");
 		query.append(" and (upper(u.nick) LIKE :param OR upper(u.email) LIKE :param )  ");
@@ -68,8 +70,13 @@ public class AmigoDao {
 	}
 
 	public Amigos guardarEstadoAmigo(Amigos amigo) throws PersistenciaException {
-
-		return entityManager.merge(amigo);
+		if (!amigo.getEsAmigo() && !amigo.getEsBloqueado()
+				&& !amigo.getEsPendiente()) {
+			entityManager.remove(entityManager.find(Amigos.class,amigo.getId()));
+			return amigo;
+		} else {
+			return entityManager.merge(amigo);
+		}
 
 	}
 
@@ -102,6 +109,7 @@ public class AmigoDao {
 		query.append("       coalesce(a.es_amigo,false) as esAmigo, ");
 		query.append("       coalesce(a.es_bloqueado,false) as esBloqueado, ");
 		query.append("       coalesce(a.es_pendiente,false) as esPendiente ");
+		query.append("        coalesce(ua.social_id,'') as socialId  ");
 		query.append(" from usuario_carrera uc ");
 		query.append(" join amigos_usuario a ");
 		query.append("	on a.usuario_amigo = uc.usuario_id ");
@@ -112,6 +120,7 @@ public class AmigoDao {
 		query.append("	on a.usuario_amigo = u.id ");
 		query.append("  left join grupos_running g  ");
 		query.append("  on u.grupo_id = g.id	");
+		query.append("  left join usuario_app ua on ua.id = am.usuario_amigo ");
 		query.append(" where uc.anotado = true and uc.carrera_id = :"
 				+ UsuarioCarrera.PARAM_ID_CARRERA);
 		try {
@@ -125,18 +134,21 @@ public class AmigoDao {
 		} catch (Exception e) {
 			throw new PersistenciaException("Error al buscar", e);
 		}
-	
+
 	}
+
 	public Amigos getAmigosByPkSocialId(String socialId, Integer idOwner)
 			throws PersistenciaException {
 		StringBuffer queryStr = new StringBuffer();
 		queryStr.append("Select a from Amigos a ");
 		queryStr.append(" where a.usuarioOwner.id = :idOwner");
-		queryStr.append(" and a.usuarioAmigo.socialId = :" + Usuario.PARAM_SOCIALID);
+		queryStr.append(" and a.usuarioAmigo.socialId = :"
+				+ Usuario.PARAM_SOCIALID);
 		try {
 			return entityManager.createQuery(queryStr.toString(), Amigos.class)
 					.setParameter("idOwner", idOwner)
-					.setParameter(Usuario.PARAM_SOCIALID, socialId).getSingleResult();
+					.setParameter(Usuario.PARAM_SOCIALID, socialId)
+					.getSingleResult();
 		} catch (NoResultException e) {
 			throw new PersistenciaException("Sin resultados", e);
 		}

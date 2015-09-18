@@ -1,6 +1,7 @@
 package studios.thinkup.com.apprunning;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -26,6 +27,14 @@ public class BuscarAmigosActivity extends MainNavigationActivity {
         getMenuInflater().inflate(R.menu.menu_buscar_amigos, menu);
         return true;
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(MainActivity.SOCIAL_NETWORK_TAG);
+        if (fragment != null) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
 }

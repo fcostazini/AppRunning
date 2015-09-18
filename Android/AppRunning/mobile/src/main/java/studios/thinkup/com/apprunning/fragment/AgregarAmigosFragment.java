@@ -21,24 +21,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.gorbin.asne.core.SocialNetwork;
 import com.github.gorbin.asne.core.SocialNetworkManager;
-import com.github.gorbin.asne.core.listener.OnLoginCompleteListener;
-import com.github.gorbin.asne.core.listener.OnRequestGetFriendsCompleteListener;
 import com.github.gorbin.asne.core.persons.SocialPerson;
-import com.github.gorbin.asne.facebook.FacebookSocialNetwork;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
-import studios.thinkup.com.apprunning.AmigosActivity;
 import studios.thinkup.com.apprunning.AmigosListAdapter;
 import studios.thinkup.com.apprunning.DetalleAmigoActivity;
-import studios.thinkup.com.apprunning.MainActivity;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.adapter.AmigosSocialPersonaListAdapter;
+import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.AmigoRequest;
 import studios.thinkup.com.apprunning.model.entity.AmigosDTO;
@@ -52,13 +46,15 @@ import studios.thinkup.com.apprunning.provider.MisAmigosService;
  * Created by Facundo on 11/08/2015.
  * Fragmento para agregar amigos
  */
-public class AgregarAmigosFragment extends Fragment implements TextWatcher, BuscarNuevosAmigosService.IServiceAmigosHandler, AdapterView.OnItemClickListener, SocialNetworkManager.OnInitializationCompleteListener, OnLoginCompleteListener {
-    private static ProgressDialog pd;
+public class AgregarAmigosFragment extends Fragment implements TextWatcher, FacebookService.ILoginHandler, FacebookService.IFriendHandler, BuscarNuevosAmigosService.IServiceAmigosHandler, AdapterView.OnItemClickListener {
+
     private AmigosListAdapter adapter;
     private Integer previousLenght = 0;
     private String aBuscar;
+    private FacebookService fbService;
 
     public static SocialNetworkManager mSocialNetworkManager;
+    private static ProgressDialog pd;
 
     protected static void showProgress(Context context, String message) {
         pd = new ProgressDialog(context);
@@ -83,6 +79,7 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Busc
         super.onCreate(savedInstanceState);
         previousLenght = 0;
         init(savedInstanceState);
+        this.fbService = new FacebookService(this);
         setHasOptionsMenu(true);
     }
 
@@ -98,6 +95,7 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Busc
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.buscar_amigo_fragment, container, false);
 
         TextView txtABuscar = (TextView) rootView.findViewById(R.id.txt_dato_amigo);
@@ -105,57 +103,16 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Busc
         previousLenght = txtABuscar.length();
         ListView resultados = (ListView) rootView.findViewById(R.id.lv_resultados);
         resultados.setAdapter(this.adapter);
-        //Chose permissions
-        ArrayList<String> fbScope = new ArrayList<>();
-        fbScope.addAll(Collections.singletonList("public_profile, email, user_friends,user_birthday"));
-
-        //Use manager to manage SocialNetworks
-        mSocialNetworkManager = (SocialNetworkManager) getFragmentManager().findFragmentByTag(MainActivity.SOCIAL_NETWORK_TAG);
-
-        //Check if manager exist
-        if (mSocialNetworkManager == null || mSocialNetworkManager.getInitializedSocialNetworks().isEmpty()) {
-            mSocialNetworkManager = new SocialNetworkManager();
-
-            //Init and add to manager FacebookSocialNetwork
-            FacebookSocialNetwork fbNetwork = new FacebookSocialNetwork(this, fbScope);
-            mSocialNetworkManager.addSocialNetwork(fbNetwork);
-            //Initiate every network from mSocialNetworkManager
-            getFragmentManager().beginTransaction().add(mSocialNetworkManager, MainActivity.SOCIAL_NETWORK_TAG).commit();
-            mSocialNetworkManager.setOnInitializationCompleteListener(this);
-        } else {
-            //if manager exist - get and setup login only for initialized SocialNetworks
-            if (!mSocialNetworkManager.getInitializedSocialNetworks().isEmpty()) {
-                List<SocialNetwork> socialNetworks = mSocialNetworkManager.getInitializedSocialNetworks();
-                for (SocialNetwork socialNetwork : socialNetworks) {
-                    socialNetwork.setOnLoginCompleteListener(this);
-                    //initSocialNetwork(socialNetwork);
-                }
-            }
-        }
         return rootView;
     }
 
-    @Override
-    public void onSocialNetworkManagerInitialized() {
-        //when init SocialNetworks - get and setup login only for initialized SocialNetworks
-        for (SocialNetwork socialNetwork : mSocialNetworkManager.getInitializedSocialNetworks()) {
-            socialNetwork.setOnLoginCompleteListener(this);
-            //initSocialNetwork(socialNetwork);
-        }
-    }
 
     @Override
-    public void onLoginSuccess(int networkId) {
-    }
+    public void onError(int i, String s, String s1, Object o) {
 
-    @Override
-    public void onError(int networkId, String requestID, String errorMessage, Object data) {
-        hideProgress();
-        Toast.makeText(getActivity(), "ERROR: No se encontró conexión a internet", Toast.LENGTH_LONG).show();
-
+        Toast.makeText(this.getActivity(),"Error de conectividad - " + s,Toast.LENGTH_LONG).show();
 
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -166,149 +123,121 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Busc
                 inputManager.hideSoftInputFromWindow(AgregarAmigosFragment.this.getActivity().getCurrentFocus().getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
             }
-            this.getAmigos();
+
+            this.fbService.setLoginHandler(this);
+            this.fbService.setFrindHandler(this);
+            if(NetworkUtils.isConnected(this.getActivity())){
+                this.fbService.obtenerAmigosFacebook();
+            }else{
+                Toast.makeText(this.getActivity(),"No se puede conectar a Facebook",Toast.LENGTH_LONG).show();
+            }
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void getAmigos() {
-        MisAmigosService as = new MisAmigosService(this.getActivity(), new MisAmigosService.IServiceAmigosHandler() {
-            @Override
-            public void onDataRetrived(List<AmigosDTO> amigos) {
-                if (isAdded()) {
-                    if (getUsuario().getTipoCuenta().equals(String.valueOf((FacebookSocialNetwork.ID)))) {
-                        obtenerAmigosFacebook(FacebookSocialNetwork.ID, amigos);
-                    }
-                }
-            }
+    private void obtenerCandidatos(final List<AmigosDTO> amigos, final List<SocialPerson> amigosFace) {
 
-            @Override
-            public void onError(String error) {
-                this.onDataRetrived(new Vector<AmigosDTO>());
-            }
-        });
-        as.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getUsuario().getId());
-    }
-
-
-    private void obtenerAmigosFacebook(int networkId, final List<AmigosDTO> amigos) {
-        showProgress(this.getActivity(), "Buscando tus amigos...");
         final List<SocialPerson> amigosAAgregar = new Vector<>();
-        mSocialNetworkManager.getSocialNetwork(networkId).requestGetFriends(new OnRequestGetFriendsCompleteListener() {
-            @Override
-            public void OnGetFriendsIdComplete(int i, String[] strings) {
-                hideProgress();
+        final List<SocialPerson> filtrado = new Vector<>();
+
+        AmigosDTO a;
+        for (SocialPerson s : amigosFace) {
+            a = new AmigosDTO();
+            a.setSocialId("F" + s.id);
+
+            if (!amigos.contains(a)) {
+                filtrado.add(s);
             }
-
-            @Override
-            public void OnGetFriendsComplete(int i, ArrayList<SocialPerson> arrayList) {
-                hideProgress();
-
-                    List<SocialPerson> filtrado = new Vector<>();
-
-                    AmigosDTO a;
-                    for (SocialPerson s : arrayList) {
-                        a = new AmigosDTO();
-                        if (i == FacebookSocialNetwork.ID) {
-                            a.setSocialId("F" + s.id);
-                        }
-                        if (!amigos.contains(a)) {
-                            filtrado.add(s);
-                        }
-                    }
-                if (filtrado.size() <= 0) {
-                    Toast.makeText(AgregarAmigosFragment.this.getActivity(), "No hay amigos a agregar", Toast.LENGTH_LONG).show();
-                } else {
-                    AlertDialog.Builder builderSingle = new AlertDialog.Builder(
-                            AgregarAmigosFragment.this.getActivity());
-                    builderSingle.setIcon(R.drawable.ic_amigos);
-                    builderSingle.setTitle("Agregar amigos");
-                    final AmigosSocialPersonaListAdapter adapter = new AmigosSocialPersonaListAdapter(
-                            AgregarAmigosFragment.this.getActivity(), filtrado);
-                    builderSingle.setNegativeButton("Cancelar",
-                            new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-
-                    builderSingle.setAdapter(adapter, null);
-                    builderSingle.setPositiveButton("Agregar", new DialogInterface.OnClickListener() {
+        }
+        if (filtrado.size() <= 0) {
+            Toast.makeText(AgregarAmigosFragment.this.getActivity(), "No hay amigos a agregar", Toast.LENGTH_LONG).show();
+        } else {
+            AlertDialog.Builder builderSingle = new AlertDialog.Builder(
+                    AgregarAmigosFragment.this.getActivity());
+            builderSingle.setIcon(R.drawable.ic_amigos);
+            builderSingle.setTitle("Agregar amigos");
+            final AmigosSocialPersonaListAdapter adapter = new AmigosSocialPersonaListAdapter(
+                    AgregarAmigosFragment.this.getActivity(), filtrado);
+            builderSingle.setNegativeButton("Cancelar",
+                    new DialogInterface.OnClickListener() {
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
-                            showProgress(AgregarAmigosFragment.this.getActivity(), "Agregando Amigos...");
-
-
-                            ActualizarAmigoService ms = new ActualizarAmigoService(AgregarAmigosFragment.this.getActivity(),
-                                    new ActualizarAmigoService.IServicioActualizacionAmigoHandler() {
-                                        @Override
-                                        public void onOk(List<AmigosDTO> amigosDTO) {
-                                            hideProgress();
-
-                                            Toast.makeText(AgregarAmigosFragment.this.getActivity(), "Amigos Agregados", Toast.LENGTH_LONG).show();
-
-                                        }
-
-                                        @Override
-                                        public void onError(Integer estado) {
-                                            hideProgress();
-                                            onDataRetrived(new Vector<AmigosDTO>());
-                                        }
-                                    });
-                            ArrayList<AmigoRequest> ar = new ArrayList<>();
-                            AmigoRequest request;
-
-                            for (SocialPerson a : amigosAAgregar) {
-                                request = new AmigoRequest();
-                                request.setIdAmigo(null);
-                                request.setSocialId("F" + a.id);
-                                request.setIdOwner(getUsuario().getId());
-                                request.setTipoRequest(TipoRequestEnum.SOLICITUD_AMIGO);
-                                ar.add(request);
-                            }
-                            ms.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, ar);
-                            dialog.dismiss();
-
-                        }
-
-                    });
-                    final AlertDialog alertDialog = builderSingle.create();
-                    alertDialog.getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-                    alertDialog.getListView().setDivider(null);
-                    alertDialog.getListView().setItemsCanFocus(false);
-                    alertDialog.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                            if (!amigosAAgregar.contains(parent.getItemAtPosition(position))) {
-                                amigosAAgregar.add((SocialPerson) parent.getItemAtPosition(position));
-                                alertDialog.getListView().setItemChecked(position, true);
-                                view.findViewById(R.id.item_ly).setBackgroundResource(R.drawable.item_background_selected);
-                            } else {
-                                amigosAAgregar.remove(parent.getItemAtPosition(position));
-                                view.findViewById(R.id.item_ly).setBackgroundResource(R.drawable.item_background);
-                                alertDialog.getListView().setItemChecked(position, false);
-
-                            }
+                            hideProgress(); dialog.dismiss();
                         }
                     });
-                    alertDialog.show();
+
+            builderSingle.setAdapter(adapter, null);
+            builderSingle.setPositiveButton("Agregar", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    showProgress(AgregarAmigosFragment.this.getActivity(), "Agregando Amigos...");
+
+
+                    ActualizarAmigoService ms = new ActualizarAmigoService(AgregarAmigosFragment.this.getActivity(),
+                            new ActualizarAmigoService.IServicioActualizacionAmigoHandler() {
+                                @Override
+                                public void onOk(List<AmigosDTO> amigosDTO) {
+                                    hideProgress();
+
+                                    Toast.makeText(AgregarAmigosFragment.this.getActivity(), "Amigos Agregados", Toast.LENGTH_LONG).show();
+
+                                }
+
+                                @Override
+                                public void onError(Integer estado) {
+                                    hideProgress();
+                                    onDataRetrived(new Vector<AmigosDTO>());
+                                }
+                            });
+                    ArrayList<AmigoRequest> ar = new ArrayList<>();
+                    AmigoRequest request;
+
+                    for (SocialPerson a : amigosAAgregar) {
+                        request = new AmigoRequest();
+                        request.setIdAmigo(null);
+                        request.setSocialId("F" + a.id);
+                        request.setIdOwner(getUsuario().getId());
+                        request.setTipoRequest(TipoRequestEnum.SOLICITUD_AMIGO);
+                        ar.add(request);
+                    }
+                    ms.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, ar);
+                    dialog.dismiss();
+
                 }
-            }
 
-            @Override
-            public void onError(int i, String s, String s1, Object o) {
-                hideProgress();
-                Toast.makeText(AgregarAmigosFragment.this.getActivity(), "No se pudo obtener tus amigos", Toast.LENGTH_SHORT).show();
-            }
-        });
+            });
+
+            final AlertDialog alertDialog = builderSingle.create();
+            alertDialog.getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+            alertDialog.getListView().setDivider(null);
+            alertDialog.getListView().setItemsCanFocus(false);
+            alertDialog.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    if (!amigosAAgregar.contains(parent.getItemAtPosition(position))) {
+
+                        amigosAAgregar.add((SocialPerson) parent.getItemAtPosition(position));
+                        alertDialog.getListView().setItemChecked(position, true);
+                        view.findViewById(R.id.item_ly).setBackgroundResource(R.drawable.item_background_selected);
+                    } else {
+                        amigosAAgregar.remove(parent.getItemAtPosition(position));
+                        view.findViewById(R.id.item_ly).setBackgroundResource(R.drawable.item_background);
+                        alertDialog.getListView().setItemChecked(position, false);
+
+                    }
+                }
+            });
+            alertDialog.show();
+        }
+
+
     }
 
     @Override
@@ -363,19 +292,9 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Busc
         }
     }
 
-    /**
-     * Called when the Fragment is visible to the user.  This is generally
-     * tied to  of the containing
-     * Activity's lifecycle.
-     */
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
     @Override
     public void onError(String error) {
+        Toast.makeText(this.getActivity(), error, Toast.LENGTH_LONG).show();
         this.onDataRetrived(new Vector<AmigosDTO>());
     }
 
@@ -402,19 +321,27 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Busc
 
     }
 
+    @Override
+    public void onSuccess(SocialPerson usuario) {
+        this.fbService.obtenerAmigosFacebook();
+    }
 
-    private class SocialPersonCustom extends SocialPerson {
-        @Override
-        public boolean equals(Object o) {
-            if (o instanceof SocialPerson) {
-                return super.equals(o);
-            } else if (o instanceof AmigosDTO) {
-                AmigosDTO a = (AmigosDTO) o;
-                return a.getSocialId().substring(1).equals(this.id);
-            } else {
-                return false;
+    @Override
+    public void onSuccess(final List<SocialPerson> amigosFace) {
+        MisAmigosService as = new MisAmigosService(this.getActivity(), new MisAmigosService.IServiceAmigosHandler() {
+            @Override
+            public void onDataRetrived(List<AmigosDTO> amigos) {
+                if (isAdded()) {
+                    obtenerCandidatos(amigos, amigosFace);
+                }
             }
-        }
+
+            @Override
+            public void onError(String error) {
+                this.onDataRetrived(new Vector<AmigosDTO>());
+            }
+        });
+        as.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getUsuario().getId());
     }
 
 

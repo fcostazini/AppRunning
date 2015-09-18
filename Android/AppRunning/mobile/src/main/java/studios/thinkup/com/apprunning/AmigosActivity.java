@@ -1,8 +1,12 @@
 package studios.thinkup.com.apprunning;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import studios.thinkup.com.apprunning.broadcast.handler.NetworkStateReceiver;
+import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
 
 /**
  * Created by Facundo on 11/08/2015.
@@ -24,10 +28,16 @@ public class AmigosActivity extends MainNavigationActivity {
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
 
         if (item.getItemId() == R.id.mnu_agregar_amigo) {
-            Intent i = new Intent(this, BuscarAmigosActivity.class);
-            startActivity(i);
-            return true;
+            if (NetworkUtils.isConnected(this)) {
+                Intent i = new Intent(this, BuscarAmigosActivity.class);
+                startActivity(i);
+                return true;
+            } else {
+                return false;
+            }
         }
         return super.onMenuItemSelected(featureId, item);
     }
+
+
 }
