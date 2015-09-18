@@ -172,6 +172,9 @@ public class QueryGenerator {
 	}
 
 	private Date getFechaDate(String fecha) {
+		if(fecha == null){
+			return null;
+		}
 		SimpleDateFormat formatter = new SimpleDateFormat(
 				"MMM dd, yyyy hh:mm:ss");
 		Date fechaDate = null;

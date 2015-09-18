@@ -60,6 +60,9 @@ function getFormData(form) {
 					case "IMG":
 						break;
 					case "SELECT":
+						if(e.name== 'provincia' && $(e).find("option:selected").text() == 'Todas las Provincias'){
+							break;
+						}
 						formData[e.name] = $(e).find("option:selected").text();
 						break;
 					default:
