@@ -15,47 +15,59 @@ function isValidForm(form) {
 }
 function getFormData(form) {
 	var formData = {};
-	$(form).find(".dataField").each(function(i, e) {
+	$(form).find(".dataField").each(
+			function(i, e) {
 
-		if ($(e).val() != "") {
-			switch (e.tagName) {
-			case "INPUT":
-				switch (e.type) {
-				case "date":
-					formData[e.name] = new Date($(e).val());
-					formData[e.name].setTime(formData[e.name].getTime() + formData[e.name].getTimezoneOffset()*60*1000 )
-					break;
-				case "time":
-					if ($(e).val().length == 5) {
-						formData[e.name] = $(e).val() + ":00";
-					} else {
+				if (e.name != "" && $(e).val() != "") {
+					switch (e.tagName) {
+					case "INPUT":
+						switch (e.type) {
+						case "date":
+							formData[e.name] = new Date($(e).val());
+							formData[e.name].setTime(formData[e.name].getTime()
+									+ formData[e.name].getTimezoneOffset() * 60
+									* 1000)
+							break;
+						case "time":
+							if ($(e).val().length == 5) {
+								formData[e.name] = $(e).val() + ":00";
+							} else {
+								formData[e.name] = $(e).val();
+							}
+
+							break;
+						case "checkbox":
+							formData[e.name] = $(e).is(":checked");
+							break;
+						default:
+							if (e.name == "horaInicio") {
+								if ($(e).val().length == 5) {
+									formData[e.name] = $(e).val() + ":00";
+								} else {
+									formData[e.name] = $(e).val();
+								}
+
+							} else {
+								formData[e.name] = $(e).val();
+							}
+
+							break;
+						}
+						break;
+					case "TEXTAREA":
 						formData[e.name] = $(e).val();
+						break;
+					case "IMG":
+						break;
+					case "SELECT":
+						formData[e.name] = $(e).find("option:selected").text();
+						break;
+					default:
+						break;
 					}
 
-					break;
-				case "checkbox":
-					formData[e.name] = $(e).is(":checked");
-					break;
-				default:
-
-					formData[e.name] = $(e).val();
-					break;
 				}
-				break;
-			case "TEXTAREA":
-				formData[e.name] = $(e).val();
-				break;
-			case "IMG":
-				break;
-			case "SELECT":
-				formData[e.name] = $(e).find("option:selected").text();
-				break;
-			default:
-				break;
-			}
-
-		}
-	});
+			});
 
 	return formData;
 }

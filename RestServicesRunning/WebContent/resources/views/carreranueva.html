@@ -151,7 +151,6 @@
 					                      <option value="V">Tierra del Fuego</option>
 					                      <option value="T">Tucuman</option>
 					                  </select>
-									</select>
 								</div>
 							</div>
 
@@ -181,7 +180,7 @@
 
 								<div class="col-xs-5">
 									<input class="form-control dataField" name="fechaInicio"
-										placeholder="Nombre de carrera" size="15" type="date">
+										placeholder="Fecha de largada" size="15" type="date">
 								</div>
 							</div>
 
@@ -191,7 +190,7 @@
 
 								<div class="col-xs-5">
 									<input class="form-control dataField" name="horaInicio"
-										placeholder="Nombre de carrera" size="15" type="time">
+										placeholder="hora salida pm/am" size="15" type="time">
 								</div>
 							</div>
 
@@ -206,6 +205,15 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="control-label col-xs-2" for="urlWeb">Url más info</label>
+
+								<div class="col-xs-5">
+									<input class="form-control dataField"
+										name="urlWeb" placeholder=" url Completa de la web"
+										type="text" >
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="control-label col-xs-2" for="recomendada">Es
 									Recomendada</label>
 
@@ -214,12 +222,13 @@
 										type="checkbox">
 								</div>
 							</div>
+							
+							
 							<div class="form-group">
 								<label class="control-label col-xs-2" for="descripcion">Descripción</label>
 
 								<div class="col-xs-5">
-									<textarea name="descripcion" class="form-control dataField">
-                                    </textarea>
+									<textarea name="descripcion" class="form-control dataField"></textarea>
 								</div>
 							</div>
 						</form>
@@ -269,7 +278,7 @@
 				}
 				var settings = {
 					"async" : true,
-					"url" : "http://191.237.16.124/RestServicesRunning-0.0.1-SNAPSHOT/running/carreras/createCarrera",
+					"url" : "http://localhost:8080/RestServicesRunning/running/carreras/createCarrera",
 					"method" : "POST",
 					"headers" : {
 						"accept" : "application/json",
