@@ -123,7 +123,7 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Face
                 inputManager.hideSoftInputFromWindow(AgregarAmigosFragment.this.getActivity().getCurrentFocus().getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
             }
-
+            showProgress(this.getActivity(),"Conectando...");
             this.fbService.setLoginHandler(this);
             this.fbService.setFrindHandler(this);
             if(NetworkUtils.isConnected(this.getActivity())){
@@ -138,7 +138,7 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Face
     }
 
     private void obtenerCandidatos(final List<AmigosDTO> amigos, final List<SocialPerson> amigosFace) {
-
+        hideProgress();
         final List<SocialPerson> amigosAAgregar = new Vector<>();
         final List<SocialPerson> filtrado = new Vector<>();
 
@@ -294,6 +294,7 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Face
 
     @Override
     public void onError(String error) {
+        hideProgress();
         Toast.makeText(this.getActivity(), error, Toast.LENGTH_LONG).show();
         this.onDataRetrived(new Vector<AmigosDTO>());
     }
@@ -323,11 +324,12 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Face
 
     @Override
     public void onSuccess(SocialPerson usuario) {
-        this.fbService.obtenerAmigosFacebook();
+        hideProgress(); this.fbService.obtenerAmigosFacebook();
     }
 
     @Override
     public void onSuccess(final List<SocialPerson> amigosFace) {
+        hideProgress();
         MisAmigosService as = new MisAmigosService(this.getActivity(), new MisAmigosService.IServiceAmigosHandler() {
             @Override
             public void onDataRetrived(List<AmigosDTO> amigos) {

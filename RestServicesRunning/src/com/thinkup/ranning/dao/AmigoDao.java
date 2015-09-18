@@ -108,7 +108,7 @@ public class AmigoDao {
 		query.append("       COALESCE(g.nombre,'Ninguno') as grupo, ");
 		query.append("       coalesce(a.es_amigo,false) as esAmigo, ");
 		query.append("       coalesce(a.es_bloqueado,false) as esBloqueado, ");
-		query.append("       coalesce(a.es_pendiente,false) as esPendiente ");
+		query.append("       coalesce(a.es_pendiente,false) as esPendiente, ");
 		query.append("        coalesce(ua.social_id,'') as socialId  ");
 		query.append(" from usuario_carrera uc ");
 		query.append(" join amigos_usuario a ");
@@ -120,7 +120,7 @@ public class AmigoDao {
 		query.append("	on a.usuario_amigo = u.id ");
 		query.append("  left join grupos_running g  ");
 		query.append("  on u.grupo_id = g.id	");
-		query.append("  left join usuario_app ua on ua.id = am.usuario_amigo ");
+		query.append("  left join usuario_app ua on ua.id = a.usuario_amigo ");
 		query.append(" where uc.anotado = true and uc.carrera_id = :"
 				+ UsuarioCarrera.PARAM_ID_CARRERA);
 		try {
