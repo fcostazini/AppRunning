@@ -43,7 +43,7 @@ public class QueryGenerator {
 				&& !filtro.getModalidad().equals(TODAS_MODALIDADES)) {
 			query += " AND upper(c.modalidades) LIKE " + ":modalidad" + "\n";
 			parametros.add(new QueryParam("modalidad", "%"
-					+ filtro.getModalidad() + "%"));
+					+ filtro.getModalidad().toUpperCase() + "%"));
 
 		}
 
