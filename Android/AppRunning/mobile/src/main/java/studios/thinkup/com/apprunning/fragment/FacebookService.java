@@ -1,11 +1,13 @@
 package studios.thinkup.com.apprunning.fragment;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
 import com.github.gorbin.asne.core.SocialNetwork;
 import com.github.gorbin.asne.core.SocialNetworkManager;
 import com.github.gorbin.asne.core.listener.OnLoginCompleteListener;
+import com.github.gorbin.asne.core.listener.OnPostingCompleteListener;
 import com.github.gorbin.asne.core.listener.OnRequestDetailedSocialPersonCompleteListener;
 import com.github.gorbin.asne.core.listener.OnRequestGetFriendsCompleteListener;
 import com.github.gorbin.asne.core.listener.base.SocialNetworkListener;
@@ -29,6 +31,7 @@ public class FacebookService implements SocialNetworkManager.OnInitializationCom
 
     public IFriendHandler frindHandler;
     public ILoginHandler loginHandler;
+    public IPostHandler postHandler;
     public Fragment context;
 
 
@@ -122,7 +125,6 @@ public class FacebookService implements SocialNetworkManager.OnInitializationCom
 
                     @Override
                     public void onError(int i, String s, String s1, Object o) {
-
                         if (frindHandler != null) {
                             frindHandler.onError(i, s, s1, o);
                         }
@@ -132,7 +134,19 @@ public class FacebookService implements SocialNetworkManager.OnInitializationCom
                 Toast.makeText(this.context.getActivity(), "Error de conexión", Toast.LENGTH_LONG).show();
             }
         } else {
-            mSocialNetworkManager.getSocialNetwork(FacebookSocialNetwork.ID).requestLogin();
+            mSocialNetworkManager.getSocialNetwork(FacebookSocialNetwork.ID).requestLogin(new OnLoginCompleteListener() {
+                @Override
+                public void onLoginSuccess(int i) {
+                    obtenerAmigosFacebook();
+                }
+
+                @Override
+                public void onError(int i, String s, String s1, Object o) {
+                    if(frindHandler!= null){
+                        frindHandler.onError(i,s,s1,o);
+                    }
+                }
+            });
         }
 
     }
@@ -162,16 +176,67 @@ public class FacebookService implements SocialNetworkManager.OnInitializationCom
         this.loginHandler = loginHandler;
     }
 
+    public void post(final Bundle b) {
+
+
+        if (mSocialNetworkManager.getSocialNetwork(FacebookSocialNetwork.ID).isConnected()) {
+            try {
+                mSocialNetworkManager.getSocialNetwork(FacebookSocialNetwork.ID).requestPostDialog(b, new OnPostingCompleteListener() {
+                    @Override
+                    public void onPostSuccessfully(int i) {
+                        if (postHandler != null) {
+                            postHandler.onSuccess();
+                        }
+                    }
+
+                    @Override
+                    public void onError(int i, String s, String s1, Object o) {
+                        if (postHandler != null) {
+                            postHandler.onError(i, s, s1, o);
+                        }
+                    }
+                });
+            } catch (Exception e) {
+                Toast.makeText(this.context.getActivity(), "Error de conexión", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            mSocialNetworkManager.getSocialNetwork(FacebookSocialNetwork.ID).requestLogin(new OnLoginCompleteListener() {
+                @Override
+                public void onLoginSuccess(int i) {
+                    post(b);
+                }
+
+                @Override
+                public void onError(int i, String s, String s1, Object o) {
+                    if(postHandler!= null){
+                        postHandler.onError(i,s,s1,o);
+                    }
+                }
+            });
+        }
+    }
+
     public interface IFriendHandler extends SocialNetworkListener {
-
         void onSuccess(List<SocialPerson> amigos);
+    }
 
+    public IPostHandler getPostHandler() {
+        return postHandler;
+    }
 
+    public void setPostHandler(IPostHandler postHandler) {
+        this.postHandler = postHandler;
     }
 
     public interface ILoginHandler extends SocialNetworkListener {
 
         void onSuccess(SocialPerson usuario);
+    }
+
+
+    public interface IPostHandler extends SocialNetworkListener {
+
+        void onSuccess();
 
 
     }

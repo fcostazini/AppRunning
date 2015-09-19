@@ -1,18 +1,26 @@
 package studios.thinkup.com.apprunning.fragment;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.gorbin.asne.core.SocialNetwork;
+import com.google.common.base.Utf8;
 import com.squareup.picasso.Picasso;
 
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -23,9 +31,10 @@ import studios.thinkup.com.apprunning.R;
  * Created by fcostazini on 21/05/2015.
  * Detalle de la carrera
  */
-public class DetalleCarreraFragment extends Fragment {
+public class DetalleCarreraFragment extends Fragment implements FacebookService.IPostHandler{
 
     private IUsuarioCarreraObservable usuarioObservable;
+    private FacebookService fService;
 
     public void setUsuarioObsercable(IUsuarioCarreraObservable usuarioObservable) {
         this.usuarioObservable = usuarioObservable;
@@ -33,10 +42,59 @@ public class DetalleCarreraFragment extends Fragment {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.mnu_me_gusta:
+                return true;
+            case R.id.mnu_corrida:
+                if(!usuarioObservable.getUsuarioCarrera().isCorrida()){
+                    publicar();
+
+                }
+                return true;
+            case R.id.mnu_inscripto:
+                if(!usuarioObservable.getUsuarioCarrera().isAnotado()){
+                    publicar();
+
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void publicar() {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        Bundle b = new Bundle();
+                        b.putString(SocialNetwork.BUNDLE_MESSAGE,usuarioObservable.getUsuarioCarrera().getCarrera().getDescripcion());
+                        b.putString(SocialNetwork.BUNDLE_CAPTION,usuarioObservable.getUsuarioCarrera().getCarrera().getNombre());
+                        b.putString(SocialNetwork.BUNDLE_PICTURE, usuarioObservable.getUsuarioCarrera().getCarrera().getUrlImagen());
+                        b.putString(SocialNetwork.BUNDLE_LINK, "https://play.google.com/store/apps/details?id=studios.thinkup.com.apprunning");
+                        fService.setPostHandler(DetalleCarreraFragment.this);
+                        fService.post(b);
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
+        builder.setMessage("Querés compartir en Facebook?").setPositiveButton("Si", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).setTitle("Compartir").setIcon(R.drawable.ic_amigos).show();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detalle_carrera, container, false);
-
+        setHasOptionsMenu(true);
         if (this.usuarioObservable == null) {
             this.usuarioObservable = (IUsuarioCarreraObservable) this.getActivity();
         }
@@ -96,6 +154,8 @@ public class DetalleCarreraFragment extends Fragment {
 
             }
         });
+
+
         direccion.setText(this.usuarioObservable.getUsuarioCarrera().getFullDireccion());
         TextView lblInscripto = (TextView)rootView.findViewById(R.id.lbl_inscripto_en);
         TextView txtInscripto = (TextView)rootView.findViewById(R.id.txt_inscripto_en);
@@ -112,8 +172,10 @@ public class DetalleCarreraFragment extends Fragment {
             txtInscripto.setVisibility(View.GONE);
             txtInscripto.setText("");
         }
+        fService = new FacebookService(this);
         return rootView;
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -122,4 +184,13 @@ public class DetalleCarreraFragment extends Fragment {
     }
 
 
+    @Override
+    public void onSuccess() {
+
+    }
+
+    @Override
+    public void onError(int i, String s, String s1, Object o) {
+
+    }
 }

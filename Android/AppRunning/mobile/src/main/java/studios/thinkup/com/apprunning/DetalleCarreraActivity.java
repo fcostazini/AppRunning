@@ -6,12 +6,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.github.gorbin.asne.core.SocialNetwork;
 import com.github.gorbin.asne.facebook.FacebookSocialNetwork;
 
 import java.util.ArrayList;
@@ -20,6 +22,8 @@ import java.util.List;
 import java.util.Vector;
 
 import studios.thinkup.com.apprunning.adapter.DetalleCarreraPagerAdapter;
+import studios.thinkup.com.apprunning.fragment.FacebookFragment;
+import studios.thinkup.com.apprunning.fragment.FacebookService;
 import studios.thinkup.com.apprunning.fragment.IUsuarioCarreraObservable;
 import studios.thinkup.com.apprunning.fragment.IUsuarioCarreraObserver;
 import studios.thinkup.com.apprunning.model.EstadoCarrera;
@@ -39,6 +43,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
     private UsuarioCarrera carrera;
     private Menu menu;
     private List<IUsuarioCarreraObserver> observadoresUsuario;
+    private FacebookService fbService;
 
     @Override
     protected PagerAdapter getAdapter() {
@@ -65,6 +70,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
 
         ImageView bg = (ImageView)findViewById(R.id.bg);
         bg.setImageResource(R.drawable.detalle_bg);
+
     }
 
     private void startUp(Bundle savedInstanceState) {
@@ -156,11 +162,13 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                         }, this).seleccionarCarrera();
                     } else {
                         marcarAnotada(Double.valueOf(this.carrera.getDistancias().replace("Km", "").trim()), menu, true);
+
                     }
+                    return false;
 
                 }
-
                 return true;
+
             case R.id.mnu_corrida:
                 if (this.carrera.isCorrida()) {
                     confirmarNoCorrida(item);
@@ -178,12 +186,14 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                                         }
                                     }
                                 }, this).seleccionarCarrera();
+                                return false;
                             } else {
                                 if(this.carrera.isAnotado()){
                                     marcarCorrida(this.carrera.getDistancia(), menu);
                                 }else{
                                     marcarCorrida(Double.valueOf(this.carrera.getDistancias().replace("Km", "").trim()), menu);
                                 }
+                                return false;
 
                             }
                         }
@@ -211,9 +221,10 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
         if (actualizar) {
 
             actualizarUsuarioCarrera(carrera, EstadoCarrera.ANOTADO);
-            if(this.getUsuario().getTipoCuenta() == "F"){
-                ArrayList<String> fbScope = new ArrayList<String>();
-            }
+            Bundle b = new Bundle();
+            b.putString(SocialNetwork.BUNDLE_PICTURE, getUsuarioCarrera().getCarrera().getUrlImagen());
+            b.putString(SocialNetwork.BUNDLE_LINK, "https://play.google.com/store/apps/details?id=studios.thinkup.com.apprunning");
+
         }
     }
 
@@ -371,6 +382,18 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
             seleccionDialog.show();
         }
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(MainActivity.SOCIAL_NETWORK_TAG);
+        if (fragment != null) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+
+
 
 
 }

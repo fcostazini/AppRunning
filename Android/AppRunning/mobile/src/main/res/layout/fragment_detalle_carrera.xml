@@ -33,7 +33,6 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/txt_descripcion"
                 android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/img_logo"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="20dp"
@@ -41,7 +40,8 @@
                 android:layout_toRightOf="@id/img_logo"
                 android:gravity="center"
                 android:text="Carrera de StarWars"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_alignTop="@+id/img_logo" />
 
 
             <TextView
@@ -202,6 +202,8 @@
                 android:text="@string/lbl_mas_info"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/link_text_material_light" />
+
+
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

@@ -1,5 +1,7 @@
 package studios.thinkup.com.apprunning.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -11,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.github.gorbin.asne.core.SocialNetwork;
 
 import java.util.Calendar;
 
@@ -25,9 +29,9 @@ import studios.thinkup.com.apprunning.view.IconTextView;
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
-public class EstadisticaCarreraFragment extends Fragment implements View.OnClickListener, IUsuarioCarreraObserver {
+public class EstadisticaCarreraFragment extends Fragment implements View.OnClickListener, IUsuarioCarreraObserver, FacebookService.IPostHandler {
     private IUsuarioCarreraObservable usuarioObservable;
-
+    private FacebookService fService;
     public EstadisticaCarreraFragment() {
         // Required empty public constructor
     }
@@ -84,7 +88,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
             }
 
         });
-
+        fService = new FacebookService(this);
         return rootView;
     }
 
@@ -198,6 +202,7 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
                     tiempo += Integer.valueOf(min.getText().toString()) * 60000;
                     tiempo += Integer.valueOf(sec.getText().toString()) * 1000;
                     this.usuarioObservable.getUsuarioCarrera().setTiempo(tiempo);
+                    this.publicarTiempo();
                     this.usuarioObservable.updateUsuarioCarrera();
                     updateEstadoEdicionTiempo();
                     editIcon.setPressed(false);
@@ -229,6 +234,34 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
             }
 
         }
+    }
+
+    private void publicarTiempo() {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        Bundle b = new Bundle();
+                        b.putString(SocialNetwork.BUNDLE_NAME,getTimeString(usuarioObservable.getUsuarioCarrera().getTiempo()) + " - " +
+                                usuarioObservable.getUsuarioCarrera().getCarrera().getNombre());
+                        b.putString(SocialNetwork.BUNDLE_PICTURE, usuarioObservable.getUsuarioCarrera().getCarrera().getUrlImagen());
+                        b.putString(SocialNetwork.BUNDLE_LINK, "https://play.google.com/store/apps/details?id=studios.thinkup.com.apprunning");
+                        fService.setPostHandler(EstadisticaCarreraFragment.this);
+                        fService.post(b);
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
+        builder.setMessage("Querés compartir en Facebook?").setPositiveButton("Si", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).setTitle("Compartir").setIcon(R.drawable.ic_amigos).show();
+
     }
 
     private void actualizarValores(View view) {
@@ -263,6 +296,16 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         if (getView() != null) {
             actualizarValores(getView());
         }
+
+    }
+
+    @Override
+    public void onSuccess() {
+
+    }
+
+    @Override
+    public void onError(int i, String s, String s1, Object o) {
 
     }
 
@@ -329,5 +372,22 @@ public class EstadisticaCarreraFragment extends Fragment implements View.OnClick
         }
     }
 
+    private String getTimeString(long tiempo) {
+        long second = (tiempo / 1000) % 60;
+        long minute = (tiempo / (1000 * 60)) % 60;
+        long hour = (tiempo / (1000 * 60 * 60)) % 24;
 
+        String str = "";
+        if (hour > 0) {
+            str += String.format("%02d", hour) + "h ";
+        }
+        if (minute > 0) {
+            str += String.format("%02d", minute) + "m ";
+        }
+        if (second > 0) {
+            str += String.format("%02d", second) + "s ";
+        }
+
+        return str;
+    }
 }
