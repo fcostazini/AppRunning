@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Vector;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -14,6 +15,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import com.thinkup.ranning.dtos.UsuarioBusquedaDto;
 import com.thinkup.ranning.dtos.UsuarioDTO;
 import com.thinkup.ranning.entities.GruposRunning;
 import com.thinkup.ranning.entities.Usuario;
@@ -146,6 +148,57 @@ public class UsuarioDAO {
 		} catch (NoResultException e) {
 			return null;
 		}
+	}
+
+	public List<Usuario> getUsuariosByFilter(UsuarioBusquedaDto usuarioForm) {
+		StringBuffer queryBf = new StringBuffer();
+		List<QueryParam> parametros = new Vector<>();
+		queryBf.append("Select u from Usuario u WHERE 1 = 1 ");
+		if(stringNotEmpty(usuarioForm.getNombre())){
+			queryBf.append(" AND upper(u.nombre) like :nombre");
+			parametros.add(new QueryParam("nombre", usuarioForm.getNombre().toUpperCase() + "%"));
+		}
+		if(stringNotEmpty(usuarioForm.getApellido())){
+			queryBf.append(" AND upper(u.apellido) like :apellido");
+			parametros.add(new QueryParam("apellido", usuarioForm.getApellido().toUpperCase() + "%"));
+		}
+		if(stringNotEmpty(usuarioForm.getEmail())){
+			queryBf.append(" AND upper(u.email) = :email");
+			parametros.add(new QueryParam("email", usuarioForm.getEmail().toUpperCase()));
+		}
+		if(stringNotEmpty(usuarioForm.getNickName())){
+			queryBf.append(" AND upper(u.nick) like :nick");
+			parametros.add(new QueryParam("nick", usuarioForm.getNickName().toUpperCase() + "%"));
+		}
+		if(stringNotEmpty(usuarioForm.getGrupo())){
+			if(usuarioForm.getGrupo().toUpperCase().equals("NINGUNO")){
+				queryBf.append(" AND u.grupo is null");
+			}else{
+			queryBf.append(" AND upper(u.grupo.nombre) like :grupo");
+			parametros.add(new QueryParam("grupo", usuarioForm.getGrupo().toUpperCase() + "%"));
+			}
+		}
+		
+		TypedQuery<Usuario> q = entityManager.createQuery(queryBf.toString(),Usuario.class);
+		if (parametros.size() > 0) {
+			for (QueryParam queryParam : parametros) {
+				q.setParameter(queryParam.getNombre(), queryParam.getValor());
+
+			}
+		}
+		try {
+			
+			return q.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// TODO Auto-generated method stub
+		return new Vector<Usuario>();
+	}
+
+	private boolean stringNotEmpty(String nombre) {
+		// TODO Auto-generated method stub
+		return nombre!=null && !nombre.isEmpty();
 	}
 
 }

@@ -27,6 +27,7 @@ import com.thinkup.ranning.dtos.PasswordEncoder;
 import com.thinkup.ranning.dtos.PasswordWrapper;
 import com.thinkup.ranning.dtos.Respuesta;
 import com.thinkup.ranning.dtos.TipoCuenta;
+import com.thinkup.ranning.dtos.UsuarioBusquedaDto;
 import com.thinkup.ranning.dtos.UsuarioDTO;
 import com.thinkup.ranning.entities.Usuario;
 import com.thinkup.ranning.exceptions.PersistenciaException;
@@ -79,6 +80,34 @@ public class UsuarioService {
 		return r;
 	}
 
+	
+	@Path("/buscarUsuarios")
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+
+	public Respuesta<List<UsuarioDTO>> buscarUsuarios(UsuarioBusquedaDto usuarioForm) {
+		List<UsuarioDTO> usuariosDto = new Vector<>();
+		List<Usuario> usuarios = service.getUsuariosByFilter(usuarioForm);
+		for (Usuario usuario : usuarios) {
+			usuariosDto.add(new UsuarioDTO(usuario));
+		}
+
+		Respuesta<List<UsuarioDTO>> r = new Respuesta<List<UsuarioDTO>>();
+		r.addMensaje("Operacion ejecutada con éxito.");
+
+		if (usuarios.isEmpty()) {
+			r.setCodigoRespuesta(Respuesta.CODIGO_SIN_RESULTADOS);
+		} else
+			r.setCodigoRespuesta(Respuesta.CODIGO_OK);
+
+		r.setDto(usuariosDto);
+
+		return r;
+		
+	}
+	
 	/**
 	 * Este servicio permite obtener la lista de carreras que se encuentra en la
 	 * base de datos.
