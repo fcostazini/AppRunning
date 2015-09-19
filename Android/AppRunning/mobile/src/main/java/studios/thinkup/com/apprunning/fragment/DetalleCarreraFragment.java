@@ -70,8 +70,8 @@ public class DetalleCarreraFragment extends Fragment implements FacebookService.
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
                         Bundle b = new Bundle();
-                        b.putString(SocialNetwork.BUNDLE_MESSAGE,usuarioObservable.getUsuarioCarrera().getCarrera().getDescripcion());
-                        b.putString(SocialNetwork.BUNDLE_CAPTION,usuarioObservable.getUsuarioCarrera().getCarrera().getNombre());
+
+                        b.putString(SocialNetwork.BUNDLE_NAME,usuarioObservable.getUsuarioCarrera().getCarrera().getNombre());
                         b.putString(SocialNetwork.BUNDLE_PICTURE, usuarioObservable.getUsuarioCarrera().getCarrera().getUrlImagen());
                         b.putString(SocialNetwork.BUNDLE_LINK, "https://play.google.com/store/apps/details?id=studios.thinkup.com.apprunning");
                         fService.setPostHandler(DetalleCarreraFragment.this);
