@@ -152,7 +152,7 @@ public class UsuarioDTO implements Serializable {
 		this.id = usuario.getId();
 		this.nick = usuario.getNick();
 		this.nombre = usuario.getNombre();
-		this.password = usuario.getPassword();
+		//this.password = usuario.getPassword();
 		this.tipoCuenta = usuario.getTipoCuenta();
 		this.verificado = usuario.getVerificado();
 		this.socialId = usuario.getSocialId();
