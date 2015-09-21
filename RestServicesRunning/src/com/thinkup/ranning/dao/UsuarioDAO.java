@@ -171,12 +171,9 @@ public class UsuarioDAO {
 			parametros.add(new QueryParam("nick", usuarioForm.getNickName().toUpperCase() + "%"));
 		}
 		if(stringNotEmpty(usuarioForm.getGrupo())){
-			if(usuarioForm.getGrupo().toUpperCase().equals("NINGUNO")){
-				queryBf.append(" AND u.grupo is null");
-			}else{
-			queryBf.append(" AND upper(u.grupo.nombre) like :grupo");
+					queryBf.append(" AND upper(u.grupo.nombre) like :grupo");
 			parametros.add(new QueryParam("grupo", usuarioForm.getGrupo().toUpperCase() + "%"));
-			}
+		
 		}
 		
 		TypedQuery<Usuario> q = entityManager.createQuery(queryBf.toString(),Usuario.class);
