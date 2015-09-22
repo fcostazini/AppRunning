@@ -31,6 +31,7 @@
 			<url-pattern>/running/carreras/createCarrera</url-pattern>
 			<url-pattern>/running/carreras/borrarCarrera</url-pattern>
 			<url-pattern>/running/usuarios/buscarUsuarios</url-pattern>
+			<url-pattern>/running/grupos/borrarGrupo</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>SUPER_USER</role-name>

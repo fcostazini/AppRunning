@@ -152,13 +152,14 @@ public class CarreraService {
 	 * @return La respuesta del servicio contiene el codigo de respuesta y los
 	 *         mensajes asociados.
 	 */
-	@Path("/borrarCarrera/{id}")
-	@GET
+	@Path("/borrarCarrera")
+	@POST
 	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@RolesAllowed("SUPER_USER")
-	public Respuesta<Carrera> borrarCarrera(@PathParam("id") Integer id) {
+	public Respuesta<Carrera> borrarCarrera( Carrera carrera) {
 		try {
-			service.borrarCarrera(id);
+			service.borrarCarrera(carrera);
 			Respuesta<Carrera> r = new Respuesta<Carrera>();
 			r.addMensaje("La carrera se borró correctamente.");
 			r.setCodigoRespuesta(Respuesta.CODIGO_CREACION_MODIFICACION_OK);

@@ -77,17 +77,44 @@ public class GruposRunningService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@RolesAllowed("SUPER_USER")
-	public Respuesta<Carrera> createCarrera(GruposRunning grupo) {
+	public Respuesta<GruposRunning> createCarrera(GruposRunning grupo) {
 		try {
 			dao.guardarGrupo(grupo);
-			Respuesta<Carrera> r = new Respuesta<Carrera>();
+			Respuesta<GruposRunning> r = new Respuesta<GruposRunning>();
 			r.addMensaje("El grupo se guardó correctamente.");
 			r.setCodigoRespuesta(Respuesta.CODIGO_CREACION_MODIFICACION_OK);
 			return r;
 
 		} catch (PersistenciaException e) {
-			Respuesta<Carrera> r = new Respuesta<Carrera>();
+			Respuesta<GruposRunning> r = new Respuesta<GruposRunning>();
 			r.addMensaje("No se pudo guardar por problemas en la base de datos.");
+			r.setCodigoRespuesta(Respuesta.CODIGO_ERROR_INTERNO);
+			return r;
+		}
+	}
+	/**
+	 * Este servicio permite crear una nueva carrera.
+	 * 
+	 * @param carrera
+	 * @return La respuesta del servicio contiene el codigo de respuesta y los
+	 *         mensajes asociados.
+	 */
+	@Path("/borrarGrupo")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@RolesAllowed("SUPER_USER")
+	public Respuesta<GruposRunning> borrarGrupo( GruposRunning grupo) {
+		try {
+			dao.borrarGrupo(grupo);
+			Respuesta<GruposRunning> r = new Respuesta<GruposRunning>();
+			r.addMensaje("El Grupo se borró correctamente.");
+			r.setCodigoRespuesta(Respuesta.CODIGO_CREACION_MODIFICACION_OK);
+			return r;
+
+		} catch (PersistenciaException e) {
+			Respuesta<GruposRunning> r = new Respuesta<GruposRunning>();
+			r.addMensaje("No se pudo borrar el Grupo");
 			r.setCodigoRespuesta(Respuesta.CODIGO_ERROR_INTERNO);
 			return r;
 		}

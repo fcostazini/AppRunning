@@ -107,7 +107,7 @@ function displayMessage(message, type, container) {
 }
 
 function mapToForm(data, form) {
-
+	
 	form.find(".dataField").each(function(i, e) {
 
 		switch (e.tagName) {

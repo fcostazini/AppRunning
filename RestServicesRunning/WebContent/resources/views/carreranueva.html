@@ -315,23 +315,27 @@
 									var settings = {
 										"async" : true,
 										"crossDomain" : true,
-										"url" : "http://191.237.16.124/RestServicesRunning-0.0.1-SNAPSHOT/running/carreras/borrarCarrera/"
-												+ codigo,
-										"method" : "GET",
+										"url" : "http://191.237.16.124/RestServicesRunning-0.0.1-SNAPSHOT/running/carreras/borrarCarrera",
+										"method" : "POST",
 										"headers" : {
 											"accept" : "application/json",
 											"content-type" : "application/json; charset=UTF-8"
-										}
+										},
+										"data": JSON.stringify($("#f1").data("carrera"))
 									}
 									$.ajax(settings).done(function(data) {
 										carrera = data.dto;
-										if(data.codigoRespuesta == '200'){
-											mapToForm(carrera, $("#f1"));	
+										if(data.codigoRespuesta == '201'){
+											displayMessage("CARRERA BORRADA","S",$("#txtHeader").parent() )
+											setTimeout(function(){window.location.href='modificarcarrera.html'},3000);
+											
 										}else{
 											displayMessage(data.mensajes[0] + ' - ' + data.codigoRespuesta,"E",$("#txtHeader").parent() )
 										}
 										
-									}).error(displayMessage("NO SE PUEDE BORRAR","E",$("#txtHeader").parent() ));
+									}).error(function(data){ 
+												displayMessage("NO SE PUEDE BORRAR","E",$("#txtHeader").parent()); 
+														});
 
 
 								});
@@ -351,6 +355,7 @@
 									carrera = data.dto;
 									if(data.codigoRespuesta == '200'){
 										mapToForm(carrera, $("#f1"));	
+										$("#f1").data("carrera",data.dto);
 									}else{
 										displayMessage(data.mensajes[0] + ' - ' + data.codigoRespuesta,"E",$("#txtHeader").parent() )
 									}

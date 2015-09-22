@@ -114,9 +114,9 @@ public class CarreraDAO {
 
 	}
 
-	public void borrarCarrera(Integer id) throws PersistenciaException{
+	public void borrarCarrera(Carrera carrera) throws PersistenciaException{
 		try{
-			entityManager.remove(entityManager.find(Carrera.class,id));	
+			entityManager.remove(entityManager.find(Carrera.class,carrera.getIdCarrera()));	
 		}catch (Exception  e){
 			throw new PersistenciaException("NO SE PUEDE BORRAR", e);
 		}

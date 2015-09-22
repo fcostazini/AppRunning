@@ -101,16 +101,20 @@
                     </div><!-- /.col-lg-12 -->
                 </div><!-- /.row -->
 
-                <div class="row"> 
-                    <div class="col-xs-6"><!-- Boton guardar -->
-                        <input id="btnGuardar" class="btn" style="float: right; margin-right:20px" type="button"
+                <div class="row pull-right"style="margin-right:40% "> 
+                    
+                        <input id="btnGuardar" class="btn"  type="button"
                         value="Guardar">
-                    </div>
+                    
 
-                    <div class="col-xs-4"><!-- Boton Cancelar -->
-                        <input class="btn" style="margin-left:-7%;" type=
+                    
+                        <input class="btn"  type=
                         "button" value="Cancelar" onClick="location.href='modificargrupo.html'"> 
-                    </div>
+                    
+                    
+                        <input id="btnBorrar" class="btn btn-danger"  type="button"
+                        value="Borrar">
+                    
                 </div>
             </div><!-- /.container-fluid -->
         </div><!-- /#page-wrapper -->
@@ -154,6 +158,34 @@
      $(document).ready(function(){
     	 var idGrupo = getUrlParameter("idGrupo");
 			if (idGrupo) {
+				$("#btnBorrar").bind("click", function(){
+					var settings = {
+						"async" : true,
+						"crossDomain" : true,
+						"url" : "http://191.237.16.124/RestServicesRunning-0.0.1-SNAPSHOT/running/grupos/borrarGrupo",
+						"method" : "POST",
+						"headers" : {
+							"accept" : "application/json",
+							"content-type" : "application/json; charset=UTF-8"
+						},
+						"data": JSON.stringify($("#f1").data("grupo"))
+					}
+					$.ajax(settings).done(function(data) {
+						carrera = data.dto;
+						if(data.codigoRespuesta == '201'){
+							displayMessage("GRUPO BORRADO","S",$("#txtHeader").parent() )
+							setTimeout(function(){window.location.href='modificargrupo.html'},3000);
+							
+						}else{
+							displayMessage(data.mensajes[0] + ' - ' + data.codigoRespuesta,"E",$("#txtHeader").parent() )
+						}
+						
+					}).error(function(data){ 
+								displayMessage("NO SE PUEDE BORRAR","E",$("#txtHeader").parent()); 
+										});
+
+
+				});
 				$("#txtHeader").html("Modificar Grupo");
 				var settings = {
 					"async" : true,
@@ -170,6 +202,7 @@
 					carrera = data.dto;
 					if(data.codigoRespuesta == '200'){
 						mapToForm(carrera, $("#f1"));	
+						$("#f1").data("grupo",data.dto);
 					}else{
 						displayMessage(data.mensajes[0] + ' - ' + data.codigoRespuesta,"E",$("#txtHeader").parent() )
 					}
@@ -178,6 +211,7 @@
 
 			} else {
 				$("#txtHeader").html("Nuevo Grupo");
+				$("#btnBorrar").hide();
 			}
 			$("#btnGuardar").bind("click", guardarGrupo);
     	 

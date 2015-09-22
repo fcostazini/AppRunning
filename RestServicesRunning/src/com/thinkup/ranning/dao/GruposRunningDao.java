@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import com.thinkup.ranning.entities.Carrera;
 import com.thinkup.ranning.entities.GruposRunning;
 import com.thinkup.ranning.exceptions.PersistenciaException;
 
@@ -56,5 +57,16 @@ public class GruposRunningDao implements Serializable {
 		}
 
 	}
+
+	public void borrarGrupo(GruposRunning grupo) throws PersistenciaException{
+		try{
+			entityManager.remove(entityManager.find(GruposRunning.class,grupo.getId()));	
+		}catch (Exception  e){
+			throw new PersistenciaException("NO SE PUEDE BORRAR", e);
+		}
+		
+		
+	}
+
 
 }
