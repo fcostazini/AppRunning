@@ -15,6 +15,7 @@ import javax.persistence.TypedQuery;
 
 import com.thinkup.ranning.dtos.CarreraAmigoDTO;
 import com.thinkup.ranning.dtos.Filtro;
+import com.thinkup.ranning.dtos.UsuarioDTO;
 import com.thinkup.ranning.entities.UsuarioCarrera;
 import com.thinkup.ranning.exceptions.PersistenciaException;
 import com.thinkup.ranning.server.rest.exception.EntidadInexistenteException;

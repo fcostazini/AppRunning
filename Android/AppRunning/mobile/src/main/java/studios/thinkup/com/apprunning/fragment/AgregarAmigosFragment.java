@@ -151,6 +151,8 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Face
                 filtrado.add(s);
             }
         }
+
+
         if (filtrado.size() <= 0) {
             Toast.makeText(AgregarAmigosFragment.this.getActivity(), "No hay amigos a agregar", Toast.LENGTH_LONG).show();
         } else {

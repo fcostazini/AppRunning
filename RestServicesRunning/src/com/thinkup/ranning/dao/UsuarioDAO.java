@@ -143,7 +143,8 @@ public class UsuarioDAO {
 		try {
 			Usuario usuario = this.entityManager
 					.createNamedQuery(Usuario.QUERY_BY_SOCIAL_ID, Usuario.class)
-					.setParameter(Usuario.PARAM_SOCIALID, socialId).getSingleResult();
+					.setParameter(Usuario.PARAM_SOCIALID, socialId)
+					.getSingleResult();
 			return usuario;
 		} catch (NoResultException e) {
 			return null;
@@ -154,29 +155,35 @@ public class UsuarioDAO {
 		StringBuffer queryBf = new StringBuffer();
 		List<QueryParam> parametros = new Vector<>();
 		queryBf.append("Select u from Usuario u WHERE 1 = 1 ");
-		if(stringNotEmpty(usuarioForm.getNombre())){
+		if (stringNotEmpty(usuarioForm.getNombre())) {
 			queryBf.append(" AND upper(u.nombre) like :nombre");
-			parametros.add(new QueryParam("nombre", usuarioForm.getNombre().toUpperCase() + "%"));
+			parametros.add(new QueryParam("nombre", usuarioForm.getNombre()
+					.toUpperCase() + "%"));
 		}
-		if(stringNotEmpty(usuarioForm.getApellido())){
+		if (stringNotEmpty(usuarioForm.getApellido())) {
 			queryBf.append(" AND upper(u.apellido) like :apellido");
-			parametros.add(new QueryParam("apellido", usuarioForm.getApellido().toUpperCase() + "%"));
+			parametros.add(new QueryParam("apellido", usuarioForm.getApellido()
+					.toUpperCase() + "%"));
 		}
-		if(stringNotEmpty(usuarioForm.getEmail())){
+		if (stringNotEmpty(usuarioForm.getEmail())) {
 			queryBf.append(" AND upper(u.email) = :email");
-			parametros.add(new QueryParam("email", usuarioForm.getEmail().toUpperCase()));
+			parametros.add(new QueryParam("email", usuarioForm.getEmail()
+					.toUpperCase()));
 		}
-		if(stringNotEmpty(usuarioForm.getNickName())){
+		if (stringNotEmpty(usuarioForm.getNickName())) {
 			queryBf.append(" AND upper(u.nick) like :nick");
-			parametros.add(new QueryParam("nick", usuarioForm.getNickName().toUpperCase() + "%"));
+			parametros.add(new QueryParam("nick", usuarioForm.getNickName()
+					.toUpperCase() + "%"));
 		}
-		if(stringNotEmpty(usuarioForm.getGrupo())){
-					queryBf.append(" AND upper(u.grupo.nombre) like :grupo");
-			parametros.add(new QueryParam("grupo", usuarioForm.getGrupo().toUpperCase() + "%"));
-		
+		if (stringNotEmpty(usuarioForm.getGrupo())) {
+			queryBf.append(" AND upper(u.grupo.nombre) like :grupo");
+			parametros.add(new QueryParam("grupo", usuarioForm.getGrupo()
+					.toUpperCase() + "%"));
+
 		}
-		
-		TypedQuery<Usuario> q = entityManager.createQuery(queryBf.toString(),Usuario.class);
+
+		TypedQuery<Usuario> q = entityManager.createQuery(queryBf.toString(),
+				Usuario.class);
 		if (parametros.size() > 0) {
 			for (QueryParam queryParam : parametros) {
 				q.setParameter(queryParam.getNombre(), queryParam.getValor());
@@ -184,7 +191,7 @@ public class UsuarioDAO {
 			}
 		}
 		try {
-			
+
 			return q.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -195,7 +202,9 @@ public class UsuarioDAO {
 
 	private boolean stringNotEmpty(String nombre) {
 		// TODO Auto-generated method stub
-		return nombre!=null && !nombre.isEmpty();
+		return nombre != null && !nombre.isEmpty();
 	}
+
+
 
 }

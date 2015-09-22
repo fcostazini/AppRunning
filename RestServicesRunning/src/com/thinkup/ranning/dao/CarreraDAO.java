@@ -12,6 +12,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.hibernate.exception.ConstraintViolationException;
+
 import com.thinkup.ranning.dtos.CarreraCabeceraDTO;
 import com.thinkup.ranning.dtos.Filtro;
 import com.thinkup.ranning.entities.Carrera;
@@ -110,6 +112,16 @@ public class CarreraDAO {
 
 		}
 
+	}
+
+	public void borrarCarrera(Integer id) throws PersistenciaException{
+		try{
+			entityManager.remove(entityManager.find(Carrera.class,id));	
+		}catch (Exception  e){
+			throw new PersistenciaException("NO SE PUEDE BORRAR", e);
+		}
+		
+		
 	}
 
 }

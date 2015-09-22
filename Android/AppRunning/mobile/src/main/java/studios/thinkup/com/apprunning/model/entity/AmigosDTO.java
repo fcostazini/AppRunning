@@ -114,6 +114,7 @@ public class AmigosDTO implements Serializable {
             AmigosDTO a = (AmigosDTO) o;
            if(a.getSocialId()!=null){
                return a.getSocialId().equals(this.socialId);
+
            }
             return a.email.equals(this.email);
         } else {

@@ -237,18 +237,23 @@
 				</div>
 				<!-- /.row -->
 
-				<div class="row" style="margin-bottom: 20px;">
+				<div class="row pull-right" style="margin-bottom: 20px; margin-right:50%">
 					<!-- Boton guardar -->
-					<div class="col-xs-6">
-						<input class="btn" style="float: right; margin-right: 20px"
+					
+						<input class="btn btn-sm"
 							type="button" id="btnGuardar" value="Guardar">
-					</div>
+					
 
-					<div class="col-xs-4">
+					
 						<!-- Boton Cancelar -->
-						<input class="btn" style="margin-left: -7%;" type="button"
+						<input class="btn btn-sm"  type="button"
 							onClick="location.href='modificarcarrera.html'" value="Cancelar">
-					</div>
+					
+					
+						<!-- Boton BORRAR -->
+						<input id="btnBorrar" class="btn btn-sm btn-danger"  type="button"
+							value="Borrar">
+					
 				</div>
 			</div>
 			<!-- /.container-fluid -->
@@ -306,6 +311,30 @@
 
 							var codigo = getUrlParameter("codigo");
 							if (codigo) {
+								$("#btnBorrar").bind("click", function(){
+									var settings = {
+										"async" : true,
+										"crossDomain" : true,
+										"url" : "http://191.237.16.124/RestServicesRunning-0.0.1-SNAPSHOT/running/carreras/borrarCarrera/"
+												+ codigo,
+										"method" : "GET",
+										"headers" : {
+											"accept" : "application/json",
+											"content-type" : "application/json; charset=UTF-8"
+										}
+									}
+									$.ajax(settings).done(function(data) {
+										carrera = data.dto;
+										if(data.codigoRespuesta == '200'){
+											mapToForm(carrera, $("#f1"));	
+										}else{
+											displayMessage(data.mensajes[0] + ' - ' + data.codigoRespuesta,"E",$("#txtHeader").parent() )
+										}
+										
+									}).error(displayMessage("NO SE PUEDE BORRAR","E",$("#txtHeader").parent() ));
+
+
+								});
 								$("#txtHeader").html("Modificar Carrera");
 								var settings = {
 									"async" : true,
@@ -330,6 +359,7 @@
 
 							} else {
 								$("#txtHeader").html("Nueva Carrera");
+								$("#btnBorrar").hide();
 							}
 							$("#btnGuardar").bind("click", guardarCarrera);
 						})

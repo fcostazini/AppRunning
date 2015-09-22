@@ -20,6 +20,7 @@ import com.thinkup.ranning.dtos.AmigoRequest;
 import com.thinkup.ranning.dtos.AmigosDTO;
 import com.thinkup.ranning.dtos.CarreraAmigoDTO;
 import com.thinkup.ranning.dtos.Respuesta;
+import com.thinkup.ranning.dtos.UsuarioDTO;
 import com.thinkup.ranning.entities.Amigos;
 import com.thinkup.ranning.exceptions.PersistenciaException;
 
@@ -230,6 +231,8 @@ public class AmigosService {
 			return r;
 		}
 	}
+	
+	
 
 	private Amigos crearNuevoAmigo(AmigoRequest ar)
 			throws PersistenciaException {

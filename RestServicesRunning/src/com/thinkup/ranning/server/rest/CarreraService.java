@@ -144,4 +144,33 @@ public class CarreraService {
 		}
 	}
 
+	
+	/**
+	 * Este servicio permite crear una nueva carrera.
+	 * 
+	 * @param carrera
+	 * @return La respuesta del servicio contiene el codigo de respuesta y los
+	 *         mensajes asociados.
+	 */
+	@Path("/borrarCarrera/{id}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed("SUPER_USER")
+	public Respuesta<Carrera> borrarCarrera(@PathParam("id") Integer id) {
+		try {
+			service.borrarCarrera(id);
+			Respuesta<Carrera> r = new Respuesta<Carrera>();
+			r.addMensaje("La carrera se borró correctamente.");
+			r.setCodigoRespuesta(Respuesta.CODIGO_CREACION_MODIFICACION_OK);
+			return r;
+
+		} catch (PersistenciaException e) {
+			Respuesta<Carrera> r = new Respuesta<Carrera>();
+			r.addMensaje("No se pudo borrar la carrera");
+			r.setCodigoRespuesta(Respuesta.CODIGO_ERROR_INTERNO);
+			return r;
+		}
+	}
+
+	
 }
