@@ -293,6 +293,7 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
         for (GrupoRunning g : grupos) {
             gruposStr.add(g.getNombre());
         }
+        this.autoCompleteAdapter.clear();
         this.autoCompleteAdapter.addAll(gruposStr);
         this.autoCompleteAdapter.notifyDataSetChanged();
     }
