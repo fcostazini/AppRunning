@@ -103,6 +103,7 @@ public class StartUpActivity extends Activity {
                     if (isCancelled()) {
                         return 999;
                     }
+
                 } else {
                     cancel(true);
                     if (isCancelled()) {

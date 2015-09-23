@@ -220,7 +220,7 @@
             android:id="@+id/txt_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/danos_tu_opinion"
+            android:text="@string/contactanos"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="false"
