@@ -1,9 +1,11 @@
 package studios.thinkup.com.apprunning.fragment;
 
+import android.content.pm.PackageInstaller;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
+import com.facebook.Session;
 import com.github.gorbin.asne.core.SocialNetwork;
 import com.github.gorbin.asne.core.SocialNetworkManager;
 import com.github.gorbin.asne.core.listener.OnLoginCompleteListener;
@@ -177,10 +179,11 @@ public class FacebookService implements SocialNetworkManager.OnInitializationCom
     }
 
     public void post(final Bundle b) {
-
+        if(b.containsKey(SocialNetwork.BUNDLE_APP_NAME))
 
         if (mSocialNetworkManager.getSocialNetwork(FacebookSocialNetwork.ID).isConnected()) {
             try {
+
                 mSocialNetworkManager.getSocialNetwork(FacebookSocialNetwork.ID).requestPostDialog(b, new OnPostingCompleteListener() {
                     @Override
                     public void onPostSuccessfully(int i) {

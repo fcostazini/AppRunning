@@ -160,6 +160,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
                                 }
                             }
                         }, this).seleccionarCarrera();
+
                     } else {
                         marcarAnotada(Double.valueOf(this.carrera.getDistancias().replace("Km", "").trim()), menu, true);
 
@@ -215,16 +216,13 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
     }
 
     private void marcarAnotada(Double distanciaElegida, Menu menu, Boolean actualizar) {
-        menu.getItem(1).setIcon(R.drawable.ic_anotado);
+
         carrera.setAnotado(true);
         carrera.setDistancia(distanciaElegida);
+        menu.getItem(1).setIcon(R.drawable.ic_anotado);
         if (actualizar) {
 
             actualizarUsuarioCarrera(carrera, EstadoCarrera.ANOTADO);
-            Bundle b = new Bundle();
-            b.putString(SocialNetwork.BUNDLE_PICTURE, getUsuarioCarrera().getCarrera().getUrlImagen());
-            b.putString(SocialNetwork.BUNDLE_LINK, "https://play.google.com/store/apps/details?id=studios.thinkup.com.apprunning");
-
         }
     }
 

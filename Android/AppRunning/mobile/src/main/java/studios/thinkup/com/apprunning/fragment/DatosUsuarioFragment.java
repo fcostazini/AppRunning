@@ -204,7 +204,11 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
             txtNombre.setInputType(InputType.TYPE_NULL);
             txtNombre.setFocusable(false);
             TextView txtGrupo = (TextView) rootView.findViewById(R.id.txt_grupo);
-            txtGrupo.setText(ua.getGrupoId());
+            if(ua.getGrupoId().equals("")){
+                txtGrupo.setText("Ninguno");
+            }else{
+                txtGrupo.setText(ua.getGrupoId());
+            }
             txtGrupo.setVisibility(View.VISIBLE);
             actv.setInputType(InputType.TYPE_NULL);
             actv.setFocusable(false);
@@ -276,7 +280,12 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
 
             this.ua.setFechaNacimiento(txtFechaNac.getText().toString());
             AutoCompleteTextView grupo = (AutoCompleteTextView) getView().findViewById(R.id.txt_auto_grupo);
-            this.ua.setGrupoId(grupo.getText().toString());
+            if(grupo.getText().toString().equals("")){
+                this.ua.setGrupoId("Ninguno");
+                grupo.setText("Ninguno");
+            }else{
+                this.ua.setGrupoId(grupo.getText().toString());
+            }
             if (NetworkUtils.isConnected(this.getActivity())) {
                 UsuarioProviderTask usuarioProviderTask = new UsuarioProviderTask();
                 showProgress(this.getActivity(), this.getActivity().getString(R.string.guardando_usuario));

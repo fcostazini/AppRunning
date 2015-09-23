@@ -58,6 +58,7 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
 
     final TextWatcher textChecker = new TextWatcher() {
         public void afterTextChanged(Editable s) {
+
         }
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -69,6 +70,7 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
                 GrupoRunningService gp = new GrupoRunningService(NuevoUsuario.this, NuevoUsuario.this);
                 gp.execute(s.toString());
             }else{
+
                 autoCompleteAdapter.clear();
             }
 
@@ -283,7 +285,13 @@ public class NuevoUsuario extends Activity implements View.OnClickListener, Adap
         TextView txtFechaNac = (TextView) findViewById(R.id.txt_fecha_nac);
 
         AutoCompleteTextView grupo =(AutoCompleteTextView)findViewById(R.id.txt_auto_grupo);
-        this.ua.setGrupoId(grupo.getText().toString());
+        if(grupo.getText().toString().equals("")){
+            this.ua.setGrupoId("Ninguno");
+            grupo.setText("Ninguno");
+        }else{
+            this.ua.setGrupoId(grupo.getText().toString());
+        }
+
         if (nuevoUsuario) {
             TextView txtPass = (TextView) findViewById(R.id.txt_pass);
             this.ua.setPassword(PasswordEncoder.encodePass(txtPass.getText().toString()));
