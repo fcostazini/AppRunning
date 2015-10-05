@@ -27,12 +27,14 @@ import java.util.Date;
 import java.util.Locale;
 
 import studios.thinkup.com.apprunning.R;
+import studios.thinkup.com.apprunning.model.EstadoCarrera;
+import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 
 /**
  * Created by fcostazini on 21/05/2015.
  * Detalle de la carrera
  */
-public class DetalleCarreraFragment extends Fragment implements FacebookService.IPostHandler{
+public class DetalleCarreraFragment extends Fragment implements FacebookService.IPostHandler,IUsuarioCarreraObserver{
 
     private IUsuarioCarreraObservable usuarioObservable;
     private FacebookService fService;
@@ -42,27 +44,6 @@ public class DetalleCarreraFragment extends Fragment implements FacebookService.
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.mnu_me_gusta:
-                return true;
-            case R.id.mnu_corrida:
-                if(!usuarioObservable.getUsuarioCarrera().isCorrida()){
-                    publicar();
-
-                }
-                return true;
-            case R.id.mnu_inscripto:
-                if(!usuarioObservable.getUsuarioCarrera().isAnotado()){
-                    publicar();
-
-                }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
     private void publicar() {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -71,7 +52,7 @@ public class DetalleCarreraFragment extends Fragment implements FacebookService.
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
                         Bundle b = new Bundle();
-                        b.putString(SocialNetwork.BUNDLE_NAME,usuarioObservable.getUsuarioCarrera().getCarrera().getNombre());
+ //                       b.putString(SocialNetwork.BUNDLE_NAME,usuarioObservable.getUsuarioCarrera().getCarrera().getNombre());
                         b.putString(SocialNetwork.BUNDLE_PICTURE, usuarioObservable.getUsuarioCarrera().getCarrera().getUrlImagen());
                         b.putString(SocialNetwork.BUNDLE_LINK, "http://play.google.com/store/apps/details?id=studios.thinkup.com.apprunning");
                         fService.setPostHandler(DetalleCarreraFragment.this);
@@ -192,5 +173,18 @@ public class DetalleCarreraFragment extends Fragment implements FacebookService.
     @Override
     public void onError(int i, String s, String s1, Object o) {
 
+    }
+
+    /**
+     * Actualiza un usuario en base a un cambio de estado
+     *
+     * @param usuario .
+     * @param estado  .
+     */
+    @Override
+    public void actuliazarUsuarioCarrera(UsuarioCarrera usuario, EstadoCarrera estado) {
+        if(estado.equals(EstadoCarrera.ANOTADO)||estado.equals(EstadoCarrera.CORRIDA)){
+            publicar();
+        }
     }
 }

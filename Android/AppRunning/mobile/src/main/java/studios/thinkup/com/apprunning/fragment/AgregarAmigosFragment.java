@@ -129,6 +129,7 @@ public class AgregarAmigosFragment extends Fragment implements TextWatcher, Face
             if(NetworkUtils.isConnected(this.getActivity())){
                 this.fbService.obtenerAmigosFacebook();
             }else{
+                hideProgress();
                 Toast.makeText(this.getActivity(),"No se puede conectar a Facebook",Toast.LENGTH_LONG).show();
             }
             return true;

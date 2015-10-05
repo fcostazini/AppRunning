@@ -44,10 +44,15 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
     private Menu menu;
     private List<IUsuarioCarreraObserver> observadoresUsuario;
     private FacebookService fbService;
+    private PagerAdapter pAdapter;
 
     @Override
     protected PagerAdapter getAdapter() {
-        return new DetalleCarreraPagerAdapter(getSupportFragmentManager(), this);
+
+        if(this.pAdapter ==null){
+            this.pAdapter = new DetalleCarreraPagerAdapter(getSupportFragmentManager(), this);
+        }
+        return this.pAdapter;
     }
 
     @Override
@@ -224,6 +229,7 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
 
             actualizarUsuarioCarrera(carrera, EstadoCarrera.ANOTADO);
         }
+
     }
 
     @Override

@@ -179,8 +179,6 @@ public class FacebookService implements SocialNetworkManager.OnInitializationCom
     }
 
     public void post(final Bundle b) {
-        if(b.containsKey(SocialNetwork.BUNDLE_APP_NAME))
-
         if (mSocialNetworkManager.getSocialNetwork(FacebookSocialNetwork.ID).isConnected()) {
             try {
 

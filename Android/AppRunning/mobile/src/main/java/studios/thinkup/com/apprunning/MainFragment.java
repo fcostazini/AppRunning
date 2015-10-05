@@ -253,6 +253,15 @@ public class MainFragment extends Fragment implements OnRequestDetailedSocialPer
             IUsuarioProvider up = new UsuarioProviderRemote(MainFragment.this.getActivity());
             u = up.getUsuarioByEmail(params[0].email);
             if (u != null) {
+                if(u.getTipoCuenta().equals("4") &&
+                        (u.getSocialId()== null || u.getSocialId().equals("")|| u.getSocialId().equals("F" + params[0].id))){
+                    u.setSocialId("F" + params[0].id);
+                    try {
+                        up.update(u);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
                 return u;
             } else {
                 return this.getUsuarioApp(socialNetwork, params[0]);

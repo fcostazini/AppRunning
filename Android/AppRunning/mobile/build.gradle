@@ -9,13 +9,13 @@ android {
         debug {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
-            storeFile file('C:/Users/fcostazini/.android/debug.keystore')
+            storeFile file('C:/Users/Facundo/.android/debug.keystore')
             storePassword 'android'
         }
         release {
             keyAlias 'recorriendo'
             keyPassword 'R3C0Rr13nd011!'
-            storeFile file('C:/Users/fcostazini/totalitkeystore')
+            storeFile file('C:/Users/Facundo/totalitkeystore')
             storePassword 'R3C0Rr13nd011!'
 
         }
@@ -26,8 +26,8 @@ android {
         applicationId "studios.thinkup.com.apprunning"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 6
-        versionName "1.5"
+        versionCode 9
+        versionName "1.8"
     }
     buildTypes {
         release {

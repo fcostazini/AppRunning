@@ -32,6 +32,7 @@ public class DetalleCarreraPagerAdapter extends FragmentPagerAdapter implements 
         fragmentMap.put(0, df);
 
         if (observable != null) {
+            observable.registrarObservadorUsuario(df);
             df.setUsuarioObsercable(observable);
 
         }
