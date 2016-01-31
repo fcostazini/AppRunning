@@ -412,7 +412,7 @@ public class UsuarioService {
 
 	}
 
-	@Path("/login")
+	@Path("/gcmregister")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
