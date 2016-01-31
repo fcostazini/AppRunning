@@ -106,7 +106,7 @@ public class Usuario implements Serializable {
 	private Date fechaVigencia;
 	@Column(name="intentos_login")
 	private Integer intentos;
-	@Transient
+	@Column(name="gcm_token")
 	private String gsmToken;
 	
 	public Integer getId() {

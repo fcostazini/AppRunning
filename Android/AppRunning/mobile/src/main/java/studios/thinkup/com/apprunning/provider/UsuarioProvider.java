@@ -170,6 +170,11 @@ public class UsuarioProvider extends GenericProvider<UsuarioApp> implements IUsu
     }
 
     @Override
+    public Boolean registrarNotificaciones(Integer idUsuario, String token) throws EntidadNoGuardadaException {
+        throw new RuntimeException("No implementado");
+    }
+
+    @Override
     protected UsuarioApp toEntity(Cursor c) {
 
         if (c.getCount() <= 0) {

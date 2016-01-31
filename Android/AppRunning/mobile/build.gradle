@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
+
 android {
     packagingOptions {
         exclude("META-INF/notice.txt")
@@ -52,7 +52,6 @@ dependencies {
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    wearApp project(':wear')
     compile 'com.android.support:support-v4:22.2.1'
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
@@ -62,10 +61,10 @@ dependencies {
     compile 'com.google.guava:guava:18.0'
     compile 'com.loopj.android:android-async-http:1.4.8'
     compile 'com.edmodo:rangebar:1.0.0'
-    compile 'com.google.android.gms:play-services:8.3.0'
+    compile 'com.google.android.gms:play-services-gcm:8.4.0'
     compile 'com.google.code.gson:gson:2.3'
-    compile 'com.github.amlcurran.showcaseview:library:5.0.0'
 
     // guava 14.0.1
 }
 
+apply plugin: 'com.google.gms.google-services'

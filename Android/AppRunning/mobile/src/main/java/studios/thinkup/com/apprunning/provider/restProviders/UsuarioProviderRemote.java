@@ -69,7 +69,7 @@ public class UsuarioProviderRemote extends RemoteService implements IUsuarioProv
         }
     }
 
-    public boolean registrarNotificaciones(Integer idUsuario, String token) throws EntidadNoGuardadaException {
+    public Boolean registrarNotificaciones(Integer idUsuario, String token) throws EntidadNoGuardadaException {
         // the request
         try {
             GSMTokenUsuario tokenGsm = new GSMTokenUsuario();

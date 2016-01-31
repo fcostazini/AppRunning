@@ -72,7 +72,7 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
 
         }
     };
-
+    private UsuarioApp ua;
     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
@@ -101,7 +101,6 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
             }
         }
     };
-    private UsuarioApp ua;
 
     protected static void showProgress(Context context, String message) {
         pd = new ProgressDialog(context);
@@ -229,10 +228,10 @@ public class DatosUsuarioFragment extends Fragment implements View.OnClickListen
 
             if (!ua.getTipoCuenta().equals(String.valueOf(GooglePlusSocialNetwork.ID))) {
                 logout.setBackgroundColor(this.getActivity().getResources().getColor(R.color.com_facebook_blue));
-                logout.setTextColor(this.getActivity().getResources().getColor(R.color.common_signin_btn_text_dark));
+                logout.setTextColor(this.getActivity().getResources().getColor(R.color.common_google_signin_btn_text_dark));
             } else {
                 logout.setBackgroundColor(this.getActivity().getResources().getColor(R.color.rojo_google));
-                logout.setTextColor(this.getActivity().getResources().getColor(R.color.common_signin_btn_text_dark));
+                logout.setTextColor(this.getActivity().getResources().getColor(R.color.common_google_signin_btn_text_dark));
             }
             logout.setOnClickListener(new View.OnClickListener() {
                 @Override
