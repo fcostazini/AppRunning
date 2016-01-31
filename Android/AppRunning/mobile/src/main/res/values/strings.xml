@@ -60,6 +60,7 @@
     <string name="app_version">Versión 1.2.26</string>
     <string name="title_activity_nuevo_usuario">Nuevo Usuario</string>
     <string name="title_activity_datos_usuario">Mi Info</string>
+    <string name="gcm_sender_id">810708404056</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="corres_grupo">Corres con un grupo?</string>

@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
+import studios.thinkup.com.apprunning.model.GSMTokenUsuario;
 import studios.thinkup.com.apprunning.model.entity.CheckUsuarioPassDTO;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
@@ -33,6 +34,7 @@ public class UsuarioProviderRemote extends RemoteService implements IUsuarioProv
     private static final String GET_BY_ID = "/usuariosById/";
     private static final String SAVE_USUARIO = "/saveUsuario";
     private static final String UPDATE_USUARIO = "/updateUsuario";
+    private static final String REGISTER_NOTIFICATION = "/gcmregister";
     private static final String LOGGIN_USUARIO = "/login";
     private static final String RECUPERAR_PASS = "/recuperarPasswordRequest/";
 
@@ -65,6 +67,49 @@ public class UsuarioProviderRemote extends RemoteService implements IUsuarioProv
             e.printStackTrace();
             return null;
         }
+    }
+
+    public boolean registrarNotificaciones(Integer idUsuario, String token) throws EntidadNoGuardadaException {
+        // the request
+        try {
+            GSMTokenUsuario tokenGsm = new GSMTokenUsuario();
+            tokenGsm.setIdUsuario(idUsuario);
+            tokenGsm.setToken(token);
+            HttpURLConnection conn = getPostHttpURLConnection(tokenGsm, REGISTER_NOTIFICATION);
+            Gson g = new Gson();
+            Respuesta<String> r = g.fromJson(new BufferedReader(
+                    new InputStreamReader(conn.getInputStream())), new TypeToken<Respuesta<String>>() {
+            }.getType());
+
+            if (r.getCodigoRespuesta().equals(Respuesta.CODIGO_CREACION_MODIFICACION_OK) && r.getDto() != null) {
+                return true;
+            } else {
+                throw new EntidadNoGuardadaException(r.getMensajes().get(0));
+            }
+        } catch (IOException e) {
+            throw new EntidadNoGuardadaException("Error interno");
+        }
+    }
+
+    private HttpURLConnection getPostHttpURLConnection(GSMTokenUsuario entidad, String service) throws IOException {
+        URL url = new URL(this.getBaseURL() + service);
+        Gson g = new Gson();
+        String json = g.toJson(entidad);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setConnectTimeout(5000);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Accept", "application/json");
+        conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+        conn.connect();
+
+        OutputStream outputStream = conn.getOutputStream();
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+        writer.write(json);
+
+        writer.flush();
+        writer.close();
+        return conn;
     }
 
     @Override

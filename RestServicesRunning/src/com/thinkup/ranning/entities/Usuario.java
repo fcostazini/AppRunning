@@ -17,6 +17,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -105,6 +106,9 @@ public class Usuario implements Serializable {
 	private Date fechaVigencia;
 	@Column(name="intentos_login")
 	private Integer intentos;
+	@Transient
+	private String gsmToken;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -235,6 +239,14 @@ public class Usuario implements Serializable {
 
 	public void setSocialId(String socialId) {
 		this.socialId = socialId;
+	}
+
+	public String getGsmToken() {
+		return gsmToken;
+	}
+
+	public void setGsmToken(String gsmToken) {
+		this.gsmToken = gsmToken;
 	}
 	
 	

@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.google.gms.google-services'
 android {
     packagingOptions {
         exclude("META-INF/notice.txt")
@@ -48,6 +48,7 @@ repositories {
 }
 dependencies {
     compile 'org.springframework.android:spring-android-rest-template:2.0.0.M1'
+
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -61,6 +62,7 @@ dependencies {
     compile 'com.google.guava:guava:18.0'
     compile 'com.loopj.android:android-async-http:1.4.8'
     compile 'com.edmodo:rangebar:1.0.0'
+    compile 'com.google.android.gms:play-services:8.3.0'
     compile 'com.google.code.gson:gson:2.3'
     compile 'com.github.amlcurran.showcaseview:library:5.0.0'
 

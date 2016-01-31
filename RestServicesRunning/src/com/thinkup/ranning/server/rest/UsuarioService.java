@@ -23,6 +23,7 @@ import javax.ws.rs.core.Response.Status;
 
 import com.thinkup.ranning.dao.UsuarioDAO;
 import com.thinkup.ranning.dtos.CheckUsuarioPassDTO;
+import com.thinkup.ranning.dtos.GSMTokenUsuario;
 import com.thinkup.ranning.dtos.PasswordEncoder;
 import com.thinkup.ranning.dtos.PasswordWrapper;
 import com.thinkup.ranning.dtos.Respuesta;
@@ -80,14 +81,12 @@ public class UsuarioService {
 		return r;
 	}
 
-	
 	@Path("/buscarUsuarios")
-	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-
-	public Respuesta<List<UsuarioDTO>> buscarUsuarios(UsuarioBusquedaDto usuarioForm) {
+	public Respuesta<List<UsuarioDTO>> buscarUsuarios(
+			UsuarioBusquedaDto usuarioForm) {
 		List<UsuarioDTO> usuariosDto = new Vector<>();
 		List<Usuario> usuarios = service.getUsuariosByFilter(usuarioForm);
 		for (Usuario usuario : usuarios) {
@@ -105,9 +104,9 @@ public class UsuarioService {
 		r.setDto(usuariosDto);
 
 		return r;
-		
+
 	}
-	
+
 	/**
 	 * Este servicio permite obtener la lista de carreras que se encuentra en la
 	 * base de datos.
@@ -186,19 +185,21 @@ public class UsuarioService {
 	@GET()
 	@Produces(MediaType.APPLICATION_JSON)
 	@PermitAll
-	public Respuesta<UsuarioDTO> solicitarRecupero(@PathParam("email") String email) {
+	public Respuesta<UsuarioDTO> solicitarRecupero(
+			@PathParam("email") String email) {
 
 		UsuarioDTO usuarioDto = null;
 		Usuario usuario;
 		try {
 			usuario = this.service.getByEmail(email);
-		
-			if ( usuario== null) {
+
+			if (usuario == null) {
 				Respuesta<UsuarioDTO> r = new Respuesta<UsuarioDTO>();
 				r.addMensaje("Usuario No Existente");
 				r.setCodigoRespuesta(Respuesta.CODIGO_SOLICITUD_INCORRECTA);
 				return r;
-			}else if (usuario.getTipoCuenta().equals(TipoCuenta.PROPIA.getTipo())) {
+			} else if (usuario.getTipoCuenta().equals(
+					TipoCuenta.PROPIA.getTipo())) {
 
 				usuario.setVerificado(false);
 				String token = TokenGenerator.getInstance().nextTokenId();
@@ -209,12 +210,13 @@ public class UsuarioService {
 				usuario.setIntentos(5);
 				service.save(usuario);
 				UsuarioDTO uDto = new UsuarioDTO(usuario);
-				new EmailSenderTask(uDto, token,TipoEmail.RECUPERAR_PASS).start();
+				new EmailSenderTask(uDto, token, TipoEmail.RECUPERAR_PASS)
+						.start();
 				Respuesta<UsuarioDTO> r = new Respuesta<>();
 				r.setDto(uDto);
 				r.setCodigoRespuesta(Respuesta.CODIGO_OK);
 				return r;
-			}else{
+			} else {
 				Respuesta<UsuarioDTO> r = new Respuesta<UsuarioDTO>();
 				r.addMensaje("Sin resultado");
 				r.setCodigoRespuesta(Respuesta.CODIGO_SIN_RESULTADOS);
@@ -228,10 +230,9 @@ public class UsuarioService {
 			r.setDto(usuarioDto);
 			return r;
 		}
-		
 
 	}
-	
+
 	/**
 	 * Este servicio permite modificar un usuario.
 	 * 
@@ -279,13 +280,14 @@ public class UsuarioService {
 				r.setCodigoRespuesta(Respuesta.CODIGO_SOLICITUD_INCORRECTA);
 				return r;
 			}
-			
+
 			if (usuariosDTO.getTipoCuenta().equals(TipoCuenta.PROPIA.getTipo())) {
 
 				usuariosDTO.setVerificado(false);
 				String token = TokenGenerator.getInstance().nextTokenId();
 				service.saveUsuario(usuariosDTO, token);
-				new EmailSenderTask(usuariosDTO, token,TipoEmail.CONFIRMAR_USUARIO).start();
+				new EmailSenderTask(usuariosDTO, token,
+						TipoEmail.CONFIRMAR_USUARIO).start();
 
 			} else {
 				usuariosDTO.setVerificado(true);
@@ -414,6 +416,36 @@ public class UsuarioService {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	public Respuesta<String> registerNotificaciones(GSMTokenUsuario token) {
+		try {
+			Respuesta<String> r = new Respuesta<>();
+			Usuario u = service.getById(token.getIdUsuario());
+			if (u == null) {
+				r.setCodigoRespuesta(Respuesta.CREDENCIALES_ERRONEAS);
+				r.addMensaje("Credenciales Invalidas");
+				r.setDto(null);
+
+			} else {
+				u.setGsmToken(token.getToken());
+				this.service.save(u);
+				r.setCodigoRespuesta(Respuesta.CODIGO_OK);
+				r.setDto("Actualizado");
+
+			}
+			return r;
+		} catch (PersistenciaException e) {
+			Respuesta<String> r = new Respuesta<>();
+			r.addMensaje(e.getMessage());
+			r.setCodigoRespuesta(Respuesta.CODIGO_ERROR_INTERNO);
+			return r;
+		}
+
+	}
+
+	@Path("/login")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Respuesta<UsuarioDTO> loggin(CheckUsuarioPassDTO check) {
 		try {
 			Usuario u = service.getByEmail(check.getUsuario());
@@ -477,23 +509,26 @@ public class UsuarioService {
 						+ "/resources/views/no_confirmado.html?code=302");
 				return Response.status(Status.ACCEPTED).build();
 			}
-			if(pass.getPass().length()<8){
-				return Response.status(Status.BAD_REQUEST).entity("Longitud Minima 8 caracteres").build();
+			if (pass.getPass().length() < 8) {
+				return Response.status(Status.BAD_REQUEST)
+						.entity("Longitud Minima 8 caracteres").build();
 			}
 			if (usuario.getIntentos() == null || usuario.getIntentos() < 5) {
-				return Response.status(Status.BAD_REQUEST).entity("No se esperaba recuperar password. Usuario Invalido.").build();
+				return Response
+						.status(Status.BAD_REQUEST)
+						.entity("No se esperaba recuperar password. Usuario Invalido.")
+						.build();
 			}
 			usuario.setPassword(PasswordEncoder.encodePass(pass.getPass()));
 			usuario.setIntentos(0);
 			usuario.setToken("");
 			service.save(usuario);
 
-			return Response.ok().status(Status.ACCEPTED).entity("Password actualizada").build();
-
-			
+			return Response.ok().status(Status.ACCEPTED)
+					.entity("Password actualizada").build();
 
 		} catch (Exception e) {
-			
+
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 	}
@@ -503,7 +538,7 @@ public class UsuarioService {
 		private String token;
 		private TipoEmail tipo;
 
-		public EmailSenderTask(UsuarioDTO usuario, String token,TipoEmail tipo) {
+		public EmailSenderTask(UsuarioDTO usuario, String token, TipoEmail tipo) {
 			super();
 			this.usuario = usuario;
 			this.token = token;
@@ -513,7 +548,7 @@ public class UsuarioService {
 		@Override
 		public void run() {
 
-			emailService.sendConfirmacion(usuario, token,tipo);
+			emailService.sendConfirmacion(usuario, token, tipo);
 			// TODO Auto-generated method stub
 
 		}
