@@ -52,7 +52,7 @@
 
         <service
             android:name=".broadcast.handler.NotificationListener"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
@@ -237,6 +237,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="studios.thinkup.com.apprunning.MainActivity" />
         </activity>
+        <service android:name=".broadcast.handler.RegistrationIntentService"/>
     </application>
 
 </manifest>

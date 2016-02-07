@@ -1,6 +1,7 @@
 package studios.thinkup.com.apprunning;
 
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -40,9 +41,11 @@ import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaExcep
  */
 public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsuarioCarreraObservable {
 
+    public static final String ID_CARRERA = "idCarrera";
     private UsuarioCarrera carrera;
     private Menu menu;
     private List<IUsuarioCarreraObserver> observadoresUsuario;
+    private IUsuarioCarreraProvider upProvider;
     private FacebookService fbService;
     private PagerAdapter pAdapter;
 
@@ -83,6 +86,16 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
             if (savedInstanceState.containsKey("carrera")) {
                 this.carrera = (UsuarioCarrera) savedInstanceState.getSerializable("carrera");
             }
+        }
+        if(this.carrera == null && this.getIntent().getExtras().containsKey(ID_CARRERA)){
+            upProvider = new UsuarioCarreraProvider(this,this.getUsuario());
+            int idCarrera = this.getIntent().getExtras().getInt(ID_CARRERA);
+            this.carrera = upProvider.getByIdCarrera(idCarrera);
+
+            NotificationManager mNotificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.cancel(idCarrera * 1000);
+            this.getIntent().getExtras().remove(ID_CARRERA);
         }
         if (this.carrera == null && this.getIntent().getExtras().containsKey("carrera")) {
             this.carrera = (UsuarioCarrera) this.getIntent().getExtras().getSerializable("carrera");

@@ -68,7 +68,7 @@ public class RegistrationIntentService extends IntentService {
      */
     private void sendRegistrationToServer(Integer idUsuario, String token) throws EntidadNoGuardadaException {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (sharedPreferences.getBoolean(Constants.SENT_TOKEN_TO_SERVER, false)) {
+        if (!sharedPreferences.getBoolean(Constants.SENT_TOKEN_TO_SERVER, false)) {
             IUsuarioProvider provider = new UsuarioProviderRemote(this);
             if (provider.registrarNotificaciones(idUsuario, token)) {
                 sharedPreferences.edit().putBoolean(Constants.SENT_TOKEN_TO_SERVER, true).apply();

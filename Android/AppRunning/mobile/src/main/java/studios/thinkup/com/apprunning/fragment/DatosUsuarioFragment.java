@@ -23,7 +23,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.gorbin.asne.googleplus.GooglePlusSocialNetwork;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -44,6 +43,7 @@ import studios.thinkup.com.apprunning.provider.GrupoRunningService;
 import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioProvider;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
+import studios.thinkup.com.apprunning.provider.login.GooglePlusSocialNetwork;
 import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemote;
 
 /**

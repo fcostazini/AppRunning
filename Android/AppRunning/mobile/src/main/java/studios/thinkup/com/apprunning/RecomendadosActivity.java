@@ -10,10 +10,12 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 import studios.thinkup.com.apprunning.broadcast.handler.RegistrationIntentService;
 import studios.thinkup.com.apprunning.fragment.RecomendadosFragment;
+import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
+import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
 
 
 public class RecomendadosActivity extends ResultadosFiltrablesActivity {
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
     @Override
     protected Fragment getFragment() {
         return new RecomendadosFragment();
@@ -22,35 +24,18 @@ public class RecomendadosActivity extends ResultadosFiltrablesActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (checkPlayServices()) {
-            // Start IntentService to register this application with GCM.
-            Intent intent = new Intent(this, RegistrationIntentService.class);
-            Bundle b = new Bundle();
-            b.putInt(Constants.ID_USUARIO, this.getIdUsuario());
-            intent.putExtras(b);
-            startService(intent);
+
+        if(this.getIntent().getExtras()!=null &&this.getIntent().getExtras().containsKey(DetalleCarreraActivity.ID_CARRERA)){
+            Intent i = new Intent(this, DetalleCarreraActivity.class);
+            Bundle b1 = new Bundle();
+            b1.putInt(DetalleCarreraActivity.ID_CARRERA,this.getIntent().getExtras().getInt(DetalleCarreraActivity.ID_CARRERA));
+            i.putExtras(b1);
+            startActivity(i);
+
+
         }
 
     }
 
-    /**
-     * Check the device to make sure it has the Google Play Services APK. If
-     * it doesn't, display a dialog that allows users to download the APK from
-     * the Google Play Store or enable it in the device's system settings.
-     */
-    private boolean checkPlayServices() {
-        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (apiAvailability.isUserResolvableError(resultCode)) {
-                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
-                        .show();
-            } else {
-                Log.i("gcm", "This device is not supported.");
-                finish();
-            }
-            return false;
-        }
-        return true;
-    }
+
 }

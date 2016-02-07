@@ -4,13 +4,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+
 import java.util.List;
 
 import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
+import studios.thinkup.com.apprunning.broadcast.handler.RegistrationIntentService;
 import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.ProvinciaCiudadDTO;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
@@ -32,6 +37,7 @@ import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemo
  */
 public class StartUpActivity extends Activity {
     private UsuarioApp usuario;
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -223,9 +229,40 @@ public class StartUpActivity extends Activity {
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
             ((RunningApplication) StartUpActivity.this.getApplication()).setUsuario(StartUpActivity.this.usuario);
+            if (checkPlayServices()) {
+                // Start IntentService to register this application with GCM.
+                Intent intent = new Intent(StartUpActivity.this, RegistrationIntentService.class);
+                Bundle b = new Bundle();
+                b.putInt(Constants.ID_USUARIO, StartUpActivity.this.usuario.getId());
+                intent.putExtras(b);
+                startService(intent);
+            }
             Intent i = new Intent(StartUpActivity.this, RecomendadosActivity.class);
             startActivity(i);
 
+
+
+        }
+
+        /**
+         * Check the device to make sure it has the Google Play Services APK. If
+         * it doesn't, display a dialog that allows users to download the APK from
+         * the Google Play Store or enable it in the device's system settings.
+         */
+        private boolean checkPlayServices() {
+            GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+            int resultCode = apiAvailability.isGooglePlayServicesAvailable(StartUpActivity.this);
+            if (resultCode != ConnectionResult.SUCCESS) {
+                if (apiAvailability.isUserResolvableError(resultCode)) {
+                    apiAvailability.getErrorDialog(StartUpActivity.this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                            .show();
+                } else {
+                    Log.i("gcm", "This device is not supported.");
+                    finish();
+                }
+                return false;
+            }
+            return true;
         }
     }
 }

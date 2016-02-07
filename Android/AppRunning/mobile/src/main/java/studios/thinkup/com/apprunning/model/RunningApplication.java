@@ -2,6 +2,7 @@ package studios.thinkup.com.apprunning.model;
 
 import android.app.Application;
 import android.content.ContextWrapper;
+import android.support.annotation.CallSuper;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,13 +20,16 @@ public class RunningApplication extends Application {
     private UsuarioApp usuario;
 
 
+
     public RunningApplication() {
         super();
 
     }
 
     @Override
+
     public void onCreate() {
+        super.onCreate();
         init();
         FontsOverride.overrideFont(getApplicationContext(), "SERIF", TypefaceProvider.MAINFONT);
 

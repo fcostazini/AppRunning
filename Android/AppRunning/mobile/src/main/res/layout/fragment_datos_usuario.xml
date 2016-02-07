@@ -221,7 +221,7 @@
                 <studios.thinkup.com.apprunning.view.IconTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/link_text_material_light"
+                    android:textColor="@android:color/holo_blue_light"
                     android:text="@string/icon_plus_square"
                     android:textSize="22sp"
                     android:id="@+id/icon_ver"
@@ -248,7 +248,7 @@
                     android:layout_alignTop="@+id/acepto_terminos"
                     android:gravity="center_vertical"
                     android:layout_marginLeft="10dp"
-                    android:textColor="@color/link_text_material_light" />
+                    android:textColor="@android:color/holo_blue_light" />
             </RelativeLayout>
 
             <AutoCompleteTextView

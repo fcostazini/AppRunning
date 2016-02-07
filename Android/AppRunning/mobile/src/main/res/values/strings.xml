@@ -94,7 +94,7 @@
     <!--  <string name="host_url">http://192.168.151.81:8080/</string>
      <string name="base_service_url">RestServicesRunning/running</string>-->
 
-    <string name="host_url">http://localhost:8080/</string>
+    <string name="host_url">http://192.168.1.119:8080/</string>
     <string name="base_service_url">RestServicesRunning/running</string>
 
     <!--<string name="host_url">http://191.237.16.124/</string>

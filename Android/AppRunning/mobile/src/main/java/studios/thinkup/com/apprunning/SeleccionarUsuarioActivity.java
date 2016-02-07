@@ -1,7 +1,10 @@
 package studios.thinkup.com.apprunning;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+
+import studios.thinkup.com.apprunning.broadcast.handler.RegistrationIntentService;
 
 /**
  * Created by fcostazini on 07/08/2015.

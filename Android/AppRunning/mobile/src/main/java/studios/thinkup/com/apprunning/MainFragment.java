@@ -19,13 +19,10 @@ import com.github.gorbin.asne.core.listener.OnRequestDetailedSocialPersonComplet
 import com.github.gorbin.asne.core.persons.SocialPerson;
 import com.github.gorbin.asne.facebook.FacebookPerson;
 import com.github.gorbin.asne.facebook.FacebookSocialNetwork;
-import com.github.gorbin.asne.googleplus.GooglePlusPerson;
-import com.github.gorbin.asne.googleplus.GooglePlusSocialNetwork;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -35,7 +32,8 @@ import studios.thinkup.com.apprunning.model.RunningApplication;
 import studios.thinkup.com.apprunning.model.entity.UsuarioApp;
 import studios.thinkup.com.apprunning.provider.IUsuarioProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioProvider;
-import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
+import studios.thinkup.com.apprunning.provider.login.GooglePlusPerson;
+import studios.thinkup.com.apprunning.provider.login.GooglePlusSocialNetwork;
 import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemote;
 
 public class MainFragment extends Fragment implements OnRequestDetailedSocialPersonCompleteListener, SocialNetworkManager.OnInitializationCompleteListener, OnLoginCompleteListener {
