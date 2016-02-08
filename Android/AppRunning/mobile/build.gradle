@@ -29,6 +29,10 @@ android {
         versionCode 9
         versionName "1.8"
     }
+    dexOptions {
+        incremental true
+        jumboMode true
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -38,6 +42,7 @@ android {
         }
         debug {
             signingConfig signingConfigs.debug
+
         }
     }
 
