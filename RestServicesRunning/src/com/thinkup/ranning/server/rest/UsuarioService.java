@@ -428,7 +428,7 @@ public class UsuarioService {
 			} else {
 				u.setGsmToken(token.getToken());
 				this.service.save(u);
-				r.setCodigoRespuesta(Respuesta.CODIGO_OK);
+				r.setCodigoRespuesta(Respuesta.CODIGO_CREACION_MODIFICACION_OK);
 				r.setDto("Actualizado");
 
 			}

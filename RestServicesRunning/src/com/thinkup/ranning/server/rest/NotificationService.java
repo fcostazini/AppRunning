@@ -1,0 +1,102 @@
+package com.thinkup.ranning.server.rest;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.List;
+
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.net.ssl.HttpsURLConnection;
+
+import org.codehaus.jackson.map.ObjectMapper;
+
+import com.google.gson.Gson;
+import com.thinkup.ranning.dao.CarreraDAO;
+import com.thinkup.ranning.dao.UsuarioCarreraDAO;
+import com.thinkup.ranning.dtos.MessageContent;
+import com.thinkup.ranning.entities.UsuarioCarrera;
+import com.thinkup.ranning.exceptions.PersistenciaException;
+
+@Stateless
+public class NotificationService {
+	@Inject
+	private CarreraDAO carreraDao;
+	@Inject
+	private UsuarioCarreraDAO usuarioCarreraDao;
+	private static final String API_KEY = "AIzaSyBmSxpiySLAri_GS6UPYZrDGJdRgylOPAI"; 
+
+	public void notificarSuscriptos(Integer idCarrera) {
+		List<UsuarioCarrera> usuarios = usuarioCarreraDao
+				.getUsuariosByIdCarrera(idCarrera);
+		
+		MessageContent content = new MessageContent();
+		try {
+			content.setTitle(carreraDao.getById(idCarrera).getNombre());
+			content.setBody("Se actualiz\u00F3 la carrera!");
+			content.addData("idCarrera",idCarrera.toString());
+			for (UsuarioCarrera uc : usuarios) {
+				if (uc.getUsuario().getGsmToken() != null) {
+					content.addDestinatario(uc.getUsuario().getGsmToken());
+				}
+			}
+			this.sendPost(content);
+		} catch (PersistenciaException e) {
+			e.printStackTrace();
+		}
+	
+	}
+
+	public void sendPost(MessageContent content){
+		try {
+			String url = "https://gcm-http.googleapis.com/gcm/send";
+			URL obj = new URL(url);
+			HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+
+			// add reuqest header
+			con.setRequestMethod("POST");
+
+						// Send post request
+			con.setDoOutput(true);
+			con.setRequestProperty("Content-Type", "application/json");
+	        con.setRequestProperty("Authorization", "key="+API_KEY);
+	        
+	        // 5. Add JSON data into POST request body 
+	        
+            //`5.1 Use Jackson object mapper to convert Contnet object into JSON
+            Gson mapper = new Gson();
+ 
+            // 5.2 Get connection output stream
+            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+ 
+            // 5.3 Copy Content "JSON" into 
+            wr.write(mapper.toJson(content).getBytes());
+ 
+            // 5.4 Send the request
+            wr.flush();
+ 
+            // 5.5 close
+            wr.close();
+			int responseCode = con.getResponseCode();
+			System.out.println("\nSending 'POST' request to URL : " + url);
+			System.out.println("Response Code : " + responseCode);
+
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					con.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
+
+			// print result
+			System.out.println(response.toString());
+		} catch (Exception e) {
+				e.printStackTrace();
+		}
+	}
+
+}

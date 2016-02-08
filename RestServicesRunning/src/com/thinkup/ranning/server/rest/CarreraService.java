@@ -31,6 +31,7 @@ public class CarreraService {
 
 	@Inject
 	CarreraDAO service;
+	@Inject NotificationService notificaciones;
 
 	/**
 	 * Este servicio permite obtener la lista de carreras que se encuentra en la
@@ -131,6 +132,7 @@ public class CarreraService {
 	public Respuesta<Carrera> createCarrera(Carrera carrera) {
 		try {
 			service.saveCarrera(carrera);
+			this.notificaciones.notificarSuscriptos(carrera.getIdCarrera());
 			Respuesta<Carrera> r = new Respuesta<Carrera>();
 			r.addMensaje("La carrera se guardó correctamente.");
 			r.setCodigoRespuesta(Respuesta.CODIGO_CREACION_MODIFICACION_OK);

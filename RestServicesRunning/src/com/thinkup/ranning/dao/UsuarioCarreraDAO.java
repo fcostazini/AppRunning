@@ -123,6 +123,24 @@ public class UsuarioCarreraDAO {
 
 	}
 
+	public List<UsuarioCarrera> getUsuariosByIdCarrera(Integer id) {
+		List<UsuarioCarrera> uc = null;
+		try {
+			uc = this.entityManager
+					.createNamedQuery(UsuarioCarrera.GET_BY_ID_CARRERA,
+							UsuarioCarrera.class)
+					.setParameter(UsuarioCarrera.PARAM_ID_CARRERA, id)
+					.getResultList();
+			return uc;
+		} catch (NoResultException e) {
+			return new Vector<UsuarioCarrera>();
+			
+
+		}
+
+	}
+	
+	
 	@SuppressWarnings("unchecked")
 	public List<UsuarioCarrera> getByFiltro(Filtro filtro)
 			throws PersistenciaException {

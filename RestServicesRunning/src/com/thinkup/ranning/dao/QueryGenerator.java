@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import com.thinkup.ranning.dtos.CamposOrdenEnum;
 import com.thinkup.ranning.dtos.Filtro;
