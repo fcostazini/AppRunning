@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.net.ssl.HttpsURLConnection;
+import javax.servlet.http.HttpUtils;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -16,6 +17,7 @@ import com.google.gson.Gson;
 import com.thinkup.ranning.dao.CarreraDAO;
 import com.thinkup.ranning.dao.UsuarioCarreraDAO;
 import com.thinkup.ranning.dtos.MessageContent;
+import com.thinkup.ranning.entities.Carrera;
 import com.thinkup.ranning.entities.UsuarioCarrera;
 import com.thinkup.ranning.exceptions.PersistenciaException;
 
@@ -33,9 +35,11 @@ public class NotificationService {
 		
 		MessageContent content = new MessageContent();
 		try {
-			content.setTitle(carreraDao.getById(idCarrera).getNombre());
-			content.setBody("Se actualiz\u00F3 la carrera!");
+			Carrera c = carreraDao.getById(idCarrera);
+			content.setTitle(c.getNombre());
+			content.setBody("Se actualizó la carrera!");
 			content.addData("idCarrera",idCarrera.toString());
+			content.addData("urlImagen",c.getUrlImagen());
 			for (UsuarioCarrera uc : usuarios) {
 				if (uc.getUsuario().getGsmToken() != null) {
 					content.addDestinatario(uc.getUsuario().getGsmToken());
