@@ -1,10 +1,14 @@
 package com.thinkup.ranning.dtos;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+
+import org.apache.http.client.utils.URLEncodedUtils;
 
 
 
@@ -45,7 +49,11 @@ public class MessageContent implements Serializable {
 	}
 	
 	public void setBody(String body){
-		this.notification.put("body", body);
+		try {
+			this.notification.put("body", URLEncoder.encode(body, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			this.notification.put("body",body);
+		}
 	}
 
 	public void addData(String key, String idCarrera) {

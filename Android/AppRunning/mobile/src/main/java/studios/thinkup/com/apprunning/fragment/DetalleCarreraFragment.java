@@ -79,11 +79,17 @@ public class DetalleCarreraFragment extends Fragment implements FacebookService.
         if (this.usuarioObservable == null) {
             this.usuarioObservable = (IUsuarioCarreraObservable) this.getActivity();
         }
+        updateView(rootView);
+        return rootView;
+
+    }
+
+    private boolean updateView(View rootView) {
         TextView txtNombre = (TextView) rootView.findViewById(R.id.txt_nombre_usuario);
         if (this.usuarioObservable.getUsuarioCarrera() == null) {
             //Sin RESULTADO
             txtNombre.setText(this.getActivity().getResources().getString(R.string.sin_resultados));
-            return rootView;
+            return true;
         }
 
         //SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -154,7 +160,7 @@ public class DetalleCarreraFragment extends Fragment implements FacebookService.
             txtInscripto.setText("");
         }
         fService = new FacebookService(this);
-        return rootView;
+        return false;
     }
 
 
@@ -183,7 +189,10 @@ public class DetalleCarreraFragment extends Fragment implements FacebookService.
      */
     @Override
     public void actuliazarUsuarioCarrera(UsuarioCarrera usuario, EstadoCarrera estado) {
-        if(estado.equals(EstadoCarrera.ANOTADO)||estado.equals(EstadoCarrera.CORRIDA)){
+        if(estado == null){
+            if(this.getView()!=null)
+                this.updateView(this.getView());
+        }else if(estado.equals(EstadoCarrera.ANOTADO)||estado.equals(EstadoCarrera.CORRIDA)){
             publicar();
         }
     }

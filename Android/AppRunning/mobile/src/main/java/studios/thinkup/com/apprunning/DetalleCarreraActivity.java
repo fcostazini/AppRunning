@@ -2,10 +2,12 @@ package studios.thinkup.com.apprunning;
 
 import android.app.AlertDialog;
 import android.app.NotificationManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -34,20 +36,40 @@ import studios.thinkup.com.apprunning.model.entity.UsuarioCarrera;
 import studios.thinkup.com.apprunning.provider.IUsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.UsuarioCarreraProvider;
 import studios.thinkup.com.apprunning.provider.exceptions.EntidadNoGuardadaException;
+import studios.thinkup.com.apprunning.provider.restProviders.OnSingleResultHandler;
+import studios.thinkup.com.apprunning.provider.restProviders.UsuarioCarreraService;
 
 /**
  * Created by fcostazini on 21/05/2015.
  * Detalle de Carrera
  */
-public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsuarioCarreraObservable {
+public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsuarioCarreraObservable, OnSingleResultHandler<UsuarioCarrera> {
 
     public static final String ID_CARRERA = "idCarrera";
+    public static final java.lang.String URL_IMAGEN = "urlImagen";
     private UsuarioCarrera carrera;
     private Menu menu;
     private List<IUsuarioCarreraObserver> observadoresUsuario;
     private IUsuarioCarreraProvider upProvider;
     private FacebookService fbService;
     private PagerAdapter pAdapter;
+
+    private static ProgressDialog pd;
+    protected static void showProgress(Context context, String message) {
+        pd = new ProgressDialog(context);
+        pd.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+        pd.setMessage(message);
+        pd.setCancelable(false);
+        pd.setCanceledOnTouchOutside(false);
+        pd.show();
+    }
+
+    protected static void hideProgress() {
+        if (pd != null) {
+            pd.dismiss();
+        }
+    }
+
 
     @Override
     protected PagerAdapter getAdapter() {
@@ -91,7 +113,9 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
             upProvider = new UsuarioCarreraProvider(this,this.getUsuario());
             int idCarrera = this.getIntent().getExtras().getInt(ID_CARRERA);
             this.carrera = upProvider.getByIdCarrera(idCarrera);
-
+            DetalleCarreraActivity.showProgress(this,"Actualizando");
+            UsuarioCarreraService us = new UsuarioCarreraService(this,this,this.getUsuario());
+            us.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,idCarrera);
             NotificationManager mNotificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.cancel(idCarrera * 1000);
@@ -346,6 +370,15 @@ public class DetalleCarreraActivity extends DrawerPagerActivity implements IUsua
         if (this.getUsuarioCarrera() != null) {
             outState.putSerializable("carrera", this.carrera);
         }
+    }
+
+    @Override
+    public void actualizarResultado(UsuarioCarrera resultado) {
+        this.carrera = resultado;
+        this.updateUsuarioCarrera();
+        DetalleCarreraActivity.hideProgress();
+        this.actualizarUsuarioCarrera(this.carrera,null);
+
     }
 
     public interface ISeleccionHandler {
