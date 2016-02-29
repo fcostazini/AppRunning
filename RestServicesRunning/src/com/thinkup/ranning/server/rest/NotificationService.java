@@ -6,22 +6,32 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpUtils;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
 import com.google.gson.Gson;
 import com.thinkup.ranning.dao.CarreraDAO;
 import com.thinkup.ranning.dao.UsuarioCarreraDAO;
+import com.thinkup.ranning.dtos.Content;
 import com.thinkup.ranning.dtos.MessageContent;
+import com.thinkup.ranning.dtos.TopicContent;
 import com.thinkup.ranning.entities.Carrera;
 import com.thinkup.ranning.entities.UsuarioCarrera;
 import com.thinkup.ranning.exceptions.PersistenciaException;
 
 @Stateless
+@Path("/notificaciones")
 public class NotificationService {
 	@Inject
 	private CarreraDAO carreraDao;
@@ -29,6 +39,7 @@ public class NotificationService {
 	private UsuarioCarreraDAO usuarioCarreraDao;
 	private static final String API_KEY = "AIzaSyBmSxpiySLAri_GS6UPYZrDGJdRgylOPAI"; 
 
+	
 	public void notificarSuscriptos(Integer idCarrera) {
 		List<UsuarioCarrera> usuarios = usuarioCarreraDao
 				.getUsuariosByIdCarrera(idCarrera);
@@ -51,8 +62,22 @@ public class NotificationService {
 		}
 	
 	}
+	@Path("/{title}/{message}")
+	@GET()
+	@Produces(MediaType.APPLICATION_JSON)
+	public void notificarNoticias(@PathParam("title") String titulo, @PathParam("message") String mensaje) {
+				
+		TopicContent content = new TopicContent();
+		
+			content.setTitle(titulo);
+			content.setMessage(mensaje);
+			content.setTopic("/topics/noticias");
+			this.sendPost(content);
+		
+	
+	}
 
-	public void sendPost(MessageContent content){
+	public void sendPost(Content content){
 		try {
 			String url = "https://gcm-http.googleapis.com/gcm/send";
 			URL obj = new URL(url);

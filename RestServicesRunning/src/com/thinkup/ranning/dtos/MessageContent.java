@@ -9,10 +9,11 @@ import java.util.Map;
 import java.util.Vector;
 
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 
 
-public class MessageContent implements Serializable {
+public class MessageContent extends Content{
 	 /**
 	 * 
 	 */
@@ -20,6 +21,7 @@ public class MessageContent implements Serializable {
 	private List<String> registration_ids = new Vector<>();
 	 private Map<String,String> data = new HashMap<>();
 	 private Map<String,String> notification = new HashMap<>();
+
 	 
 	 public MessageContent() {
 		super();
@@ -42,7 +44,8 @@ public class MessageContent implements Serializable {
 	public void putData(String key, String value) {
 		data.put(key, value);
 	}
-	
+
+
 	public void setTitle(String title){
 		this.notification.put("title", title);
 		
