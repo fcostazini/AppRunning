@@ -27,8 +27,8 @@ android {
         applicationId "studios.thinkup.com.apprunning"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 10
-        versionName "1.9"
+        versionCode 13
+        versionName "1.13"
     }
     dexOptions {
         incremental true
