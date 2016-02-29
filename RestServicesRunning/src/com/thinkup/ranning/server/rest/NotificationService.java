@@ -63,6 +63,7 @@ public class NotificationService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Respuesta<String> notificarNoticias(@PathParam("title") String titulo, @PathParam("message") String mensaje) {
 		Respuesta<String> r = new Respuesta<String>();
+		
 		TopicContent content = new TopicContent();
 		
 			content.setTitle(titulo);
