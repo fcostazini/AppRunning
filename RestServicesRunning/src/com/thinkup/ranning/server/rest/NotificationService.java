@@ -20,6 +20,7 @@ import com.thinkup.ranning.dao.CarreraDAO;
 import com.thinkup.ranning.dao.UsuarioCarreraDAO;
 import com.thinkup.ranning.dtos.Content;
 import com.thinkup.ranning.dtos.MessageContent;
+import com.thinkup.ranning.dtos.Respuesta;
 import com.thinkup.ranning.dtos.TopicContent;
 import com.thinkup.ranning.entities.Carrera;
 import com.thinkup.ranning.entities.UsuarioCarrera;
@@ -61,13 +62,15 @@ public class NotificationService {
 	@GET()
 	@Produces(MediaType.APPLICATION_JSON)
 	public void notificarNoticias(@PathParam("title") String titulo, @PathParam("message") String mensaje) {
-				
+		Respuesta<String> r = new Respuesta<String>();
 		TopicContent content = new TopicContent();
 		
 			content.setTitle(titulo);
 			content.setMessage(mensaje);
 			content.setTopic("/topics/noticias");
 			this.sendPost(content);
+			r.addMensaje("Operacion ejecutada con éxito.");
+			r.setCodigoRespuesta(Respuesta.CODIGO_OK);
 		
 	
 	}
