@@ -13,7 +13,6 @@
 			<url-pattern>/resources/js</url-pattern>
 			<url-pattern>/resources/mentisMenu</url-pattern>
 			<url-pattern>/resources/views/index.html</url-pattern>
-			<url-pattern>/resources/views/enviarNoticias.html</url-pattern>
 		</web-resource-collection>
 	</security-constraint>
 	<security-constraint>
@@ -33,7 +32,7 @@
 			<url-pattern>/running/carreras/borrarCarrera</url-pattern>
 			<url-pattern>/running/usuarios/buscarUsuarios</url-pattern>
 			<url-pattern>/running/grupos/borrarGrupo</url-pattern>
-			<url-pattern>/running/notificaciones/*</url-pattern>
+			<url-pattern>/running/notificaciones</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>SUPER_USER</role-name>
