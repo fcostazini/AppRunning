@@ -55,7 +55,7 @@
 								<li><a href="usuarios.html">Usuarios</a></li>
 
 							</ul></li>
-						<li><a class="active" href="enviarNotificaciones.html"><i
+						<li><a class="active" href="enviarNoticias.html"><i
 								class="fa fa-envelope"></i> Notificaciones </a></li>
 					</ul>
 				</div>
@@ -131,7 +131,6 @@
 			}
 		
 				$.ajax(settings).done(function(data) {
-					carrera = data.dto;
 					if(data.codigoRespuesta == '200'){
 						displayMessage("Notificacion enviada","S",$("#txtHeader").parent() )
 					}else{
