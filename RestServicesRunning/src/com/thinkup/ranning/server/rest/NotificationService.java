@@ -6,19 +6,14 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
 
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.net.ssl.HttpsURLConnection;
-import javax.servlet.http.HttpUtils;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.codehaus.jackson.map.ObjectMapper;
 
 import com.google.gson.Gson;
 import com.thinkup.ranning.dao.CarreraDAO;
