@@ -18,6 +18,9 @@
     <string name="title_activity_carreras">Carreras</string>
     <string name="title_activity_buscar">Buscar Carrera</string>
 
+    <string name="banner_ad_unit_id">ca-app-pub-8024927753633475/9059897347</string>
+
+
     <string name="title_activity_detalle_carrera">Detalle</string>
     <string name="title_activity_mis_datos">Mis Carreras</string>
     <string name="title_activity_mis_tiempos">Mis Tiempos</string>
@@ -98,13 +101,13 @@
     <string name="base_service_url">RestServicesRunning/running</string>-->
 
     <string name="host_url">http://191.237.16.124/</string>
-          <string name="base_service_url">RestServicesRunning-0.0.1-SNAPSHOT/running</string>
+    <string name="base_service_url">RestServicesRunning-0.0.1-SNAPSHOT/running</string>
 
-     <string name="siguiente" >Siguiente</string>
-     <string name="anterior" >Anterior</string>
-     <string name="tutorial">Tutorial</string>
-     <string name="nav_menu_ayuda">Ayuda</string>
-     <string name="background">background</string>
+    <string name="siguiente">Siguiente</string>
+    <string name="anterior">Anterior</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="nav_menu_ayuda">Ayuda</string>
+    <string name="background">background</string>
     <string name="title_amigos">Amigos</string>
     <string name="sin_conexion">Sin conexión a internet</string>
     <string name="cargando_carrera">Cargando Carrera…</string>
@@ -116,15 +119,15 @@
     <string name="bloquear_amigo">Bloquear Amigo</string>
     <string name="desbloquear_amigo">Desbloquear Amigo</string>
     <string name="pendiente_confirmacion">Tu usuario se encuentra pendiente de confirmación. Verificá tu cuenta de email.</string>
-     <string name="lbl_inscript_en">Inscripto en:</string>
-     <string name="mnu_me_gusta">Me Gusta</string>
-     <string name="mnu_inscripto">Agregar a Mis Carreras</string>
-     <string name="mnu_corrida">Corrida</string>
-     <string name="title_activity_login_sin_red_social">ReCorriendo</string>
-     <string name="loggin">Entrar</string>
-     <string name="entrando">Entrando…</string>
-     <string name="usuario_invalido">Usuario Invalido</string>
-     <string name="email_contact">info@recorriendo.com.ar</string>
-     <string name="amigos_en_facebook">Amigos en Facebook</string>
+    <string name="lbl_inscript_en">Inscripto en:</string>
+    <string name="mnu_me_gusta">Me Gusta</string>
+    <string name="mnu_inscripto">Agregar a Mis Carreras</string>
+    <string name="mnu_corrida">Corrida</string>
+    <string name="title_activity_login_sin_red_social">ReCorriendo</string>
+    <string name="loggin">Entrar</string>
+    <string name="entrando">Entrando…</string>
+    <string name="usuario_invalido">Usuario Invalido</string>
+    <string name="email_contact">info@recorriendo.com.ar</string>
+    <string name="amigos_en_facebook">Amigos en Facebook</string>
     <string name="contactanos">Contactanos</string>
 </resources>

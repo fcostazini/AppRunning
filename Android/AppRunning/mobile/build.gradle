@@ -10,13 +10,13 @@ android {
         debug {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
-            storeFile file('C:/Users/Facundo/.android/debug.keystore')
+            storeFile file('C:/Users/fcostazini/.android/debug.keystore')
             storePassword 'android'
         }
         release {
             keyAlias 'recorriendo'
             keyPassword 'R3C0Rr13nd011!'
-            storeFile file('C:/Users/Facundo/totalitkeystore')
+            storeFile file('C:/Users/fcostazini/totalitkeystore')
             storePassword 'R3C0Rr13nd011!'
 
         }
@@ -68,6 +68,7 @@ dependencies {
     compile 'com.edmodo:rangebar:1.0.0'
     compile 'com.google.code.gson:gson:2.4'
     compile 'org.springframework.android:spring-android-rest-template:2.0.0.M1'
+    compile 'com.google.android.gms:play-services-ads:8.4.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -22,6 +22,7 @@ import java.net.URL;
 import studios.thinkup.com.apprunning.DetalleCarreraActivity;
 import studios.thinkup.com.apprunning.MisCarrerasActivity;
 import studios.thinkup.com.apprunning.R;
+import studios.thinkup.com.apprunning.RecomendadosActivity;
 import studios.thinkup.com.apprunning.model.entity.Carrera;
 import studios.thinkup.com.apprunning.provider.CarreraLocalProvider;
 
@@ -33,11 +34,47 @@ public class NotificationListener extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
         super.onMessageReceived(from, data);
-        int idCarrera = Integer.valueOf(data.getString(DetalleCarreraActivity.ID_CARRERA));
-        String urlImagen = data.getString(DetalleCarreraActivity.URL_IMAGEN);
-         new NotificationBuilderURL(from, data, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, urlImagen);
+        String message = data.getString("message");
+        if (from.startsWith("/topics/noticias")) {
+            this.notificarNoticia(from,data);
+        } else {
+            int idCarrera = Integer.valueOf(data.getString(DetalleCarreraActivity.ID_CARRERA));
+            String urlImagen = data.getString(DetalleCarreraActivity.URL_IMAGEN);
+            new NotificationBuilderURL(from, data, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, urlImagen);
+        }
 
 
+
+
+    }
+
+    private void notificarNoticia(String from,Bundle data) {
+
+        String p = from;
+        android.support.v4.app.NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_notificacion)
+                        .setContentTitle(data.getString("title"))
+                        .setContentText(data.getString("message"))
+                        .setAutoCancel(true)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+        Intent resultIntent = new Intent(this, RecomendadosActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+// Adds the back stack for the Intent (but not the Intent itself)
+        stackBuilder.addParentStack(MisCarrerasActivity.class);
+// Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0, NotificationCompat.FLAG_SHOW_LIGHTS |
+                                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        mNotificationManager.notify(data.getString("title").hashCode(), mBuilder.build());
     }
 
     private class NotificationBuilderURL extends AsyncTask<String, Integer, Bitmap> {

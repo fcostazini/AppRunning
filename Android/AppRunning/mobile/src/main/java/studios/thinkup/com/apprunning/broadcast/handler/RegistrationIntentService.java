@@ -24,7 +24,7 @@ import studios.thinkup.com.apprunning.provider.restProviders.UsuarioProviderRemo
  */
 public class RegistrationIntentService extends IntentService {
     private static final String TAG = "RegIntentService";
-    private static final String[] TOPICS = {"global", "updateCarrera"};
+    private static final String[] TOPICS = {"global", "updateCarrera","noticias"};
 
     private Integer idUsuario;
 

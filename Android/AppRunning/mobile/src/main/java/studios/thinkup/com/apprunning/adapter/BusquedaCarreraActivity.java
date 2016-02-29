@@ -2,6 +2,9 @@ package studios.thinkup.com.apprunning.adapter;
 
 import android.os.Bundle;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import studios.thinkup.com.apprunning.MainNavigationActivity;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.model.TutorialesPaginaEnum;

@@ -10,10 +10,14 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.List;
 import java.util.Vector;
 
 import studios.thinkup.com.apprunning.DetalleCarreraActivity;
+import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.adapter.CarreraListAdapter;
 import studios.thinkup.com.apprunning.broadcast.handler.NetworkUtils;
 import studios.thinkup.com.apprunning.model.entity.Carrera;
@@ -54,6 +58,7 @@ public class RecomendadosFragment extends FilteredFragment implements CarreraCab
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getFiltro().setRecomendadas(true);
+
 
     }
 
