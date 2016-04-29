@@ -1,11 +1,9 @@
 package studios.thinkup.com.apprunning.fragment;
 
-import android.content.pm.PackageInstaller;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
-import com.facebook.Session;
 import com.github.gorbin.asne.core.SocialNetwork;
 import com.github.gorbin.asne.core.SocialNetworkManager;
 import com.github.gorbin.asne.core.listener.OnLoginCompleteListener;
@@ -111,15 +109,15 @@ public class FacebookService implements SocialNetworkManager.OnInitializationCom
             try {
                 mSocialNetworkManager.getSocialNetwork(FacebookSocialNetwork.ID).requestGetFriends(new OnRequestGetFriendsCompleteListener() {
                     @Override
-                    public void OnGetFriendsIdComplete(int i, String[] strings) {
+                    public void onGetFriendsIdComplete(int i, String[] strings) {
 
                     }
 
                     @Override
-                    public void OnGetFriendsComplete(int i, ArrayList<SocialPerson> arrayList) {
+                    public void onGetFriendsComplete(int socialNetworkID, List<SocialPerson> socialFriends) {
 
                         if (frindHandler != null) {
-                            frindHandler.onSuccess(arrayList);
+                            frindHandler.onSuccess(socialFriends);
                         }
 
 

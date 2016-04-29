@@ -60,7 +60,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.github.asne:asne-facebook:0.3.3'
+    compile 'com.github.asne:asne-facebook:0.3.3.3'
     compile 'com.google.android.gms:play-services-gcm:8.4.0'
     compile 'com.google.android.gms:play-services-plus:8.4.0'
     compile 'com.google.guava:guava:18.0'
