@@ -23,6 +23,7 @@ import studios.thinkup.com.apprunning.DetalleCarreraActivity;
 import studios.thinkup.com.apprunning.MisCarrerasActivity;
 import studios.thinkup.com.apprunning.R;
 import studios.thinkup.com.apprunning.RecomendadosActivity;
+import studios.thinkup.com.apprunning.SeleccionarUsuarioActivity;
 import studios.thinkup.com.apprunning.model.entity.Carrera;
 import studios.thinkup.com.apprunning.provider.CarreraLocalProvider;
 
@@ -58,7 +59,7 @@ public class NotificationListener extends GcmListenerService {
                         .setContentText(data.getString("message"))
                         .setAutoCancel(true)
                         .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
-        Intent resultIntent = new Intent(this, RecomendadosActivity.class);
+        Intent resultIntent = new Intent(this, SeleccionarUsuarioActivity.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 // Adds the back stack for the Intent (but not the Intent itself)
         stackBuilder.addParentStack(MisCarrerasActivity.class);

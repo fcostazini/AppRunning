@@ -10,13 +10,13 @@ android {
         debug {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
-            storeFile file('C:/Users/fcostazini/.android/debug.keystore')
+            storeFile file('C:/Users/Facundo/.android/debug.keystore')
             storePassword 'android'
         }
         release {
             keyAlias 'recorriendo'
             keyPassword 'R3C0Rr13nd011!'
-            storeFile file('C:/Users/fcostazini/totalitkeystore')
+            storeFile file('C:/Users/Facundo/totalitkeystore')
             storePassword 'R3C0Rr13nd011!'
 
         }
@@ -27,8 +27,8 @@ android {
         applicationId "studios.thinkup.com.apprunning"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 13
-        versionName "1.13"
+        versionCode 14
+        versionName "1.14"
     }
     dexOptions {
         incremental true
@@ -56,8 +56,8 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     //compile 'com.github.asne:asne-googleplus:0.3.3'
-    compile 'com.android.support:support-v4:23.1.1'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:support-v4:23.2.0'
+    compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.asne:asne-facebook:0.3.3.3'
