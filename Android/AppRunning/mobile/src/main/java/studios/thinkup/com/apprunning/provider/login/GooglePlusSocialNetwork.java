@@ -496,9 +496,9 @@ public class GooglePlusSocialNetwork extends SocialNetwork implements GoogleApiC
                         } else {
                             if (mLocalListeners.get(REQUEST_GET_FRIENDS) != null) {
                                 ((OnRequestGetFriendsCompleteListener) mLocalListeners.get(REQUEST_GET_FRIENDS))
-                                        .OnGetFriendsIdComplete(getID(), ids.toArray(new String[ids.size()]));
+                                        .onGetFriendsIdComplete(getID(), ids.toArray(new String[ids.size()]));
                                 ((OnRequestGetFriendsCompleteListener) mLocalListeners.get(REQUEST_GET_FRIENDS))
-                                        .OnGetFriendsComplete(getID(), socialPersons);
+                                        .onGetFriendsComplete(getID(), socialPersons);
                                 mLocalListeners.remove(REQUEST_GET_FRIENDS);
                             }
                         }
